@@ -70,11 +70,18 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DteEventSubscriberTests.cs" />
+    <Compile Include="DteEventsServicesFactoryTests.cs" />
+    <Compile Include="DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkingFilesList\WorkingFilesList.csproj">
+      <Project>{a2b18aff-9ae2-43a1-85f0-c77d912b5e2e}</Project>
+      <Name>WorkingFilesList</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

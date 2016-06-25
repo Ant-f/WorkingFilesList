@@ -52,9 +52,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Factory\DteEventsServicesFactory.cs" />
+    <Compile Include="Interface\IDteEventsServicesFactory.cs" />
     <Compile Include="Service\DocumentMetadataService.cs" />
     <Compile Include="Model\DteEventsServices.cs" />
-    <Compile Include="DteEventsSubscriber.cs" />
+    <Compile Include="Service\DteEventsSubscriber.cs" />
     <Compile Include="Interface\IDocumentMetadataService.cs" />
     <Compile Include="Interface\IDteEventsServices.cs" />
     <Compile Include="Interface\IDteEventsSubscriber.cs" />

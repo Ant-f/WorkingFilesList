@@ -17,33 +17,19 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using WorkingFilesList.Interface;
+using WorkingFilesList.Service;
 
 namespace WorkingFilesList.Model
 {
     public class DteEventsServices : IDteEventsServices
     {
-        public IWindowEventsService WindowEventsService
+        public IProjectItemsEventsService ProjectItemsEventsService { get; set; }
+        public IWindowEventsService WindowEventsService { get; set; }
+
+        public DteEventsServices()
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        public IProjectItemsEventsService ProjectItemsEventsService
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
+            ProjectItemsEventsService = new ProjectItemsEventsService();
+            WindowEventsService = new WindowEventsService();
         }
     }
 }

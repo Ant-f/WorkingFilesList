@@ -18,9 +18,8 @@
 
 namespace WorkingFilesList.Interface
 {
-    public interface IDteEventsServices
+    public interface IDteEventsServicesFactory
     {
-        IProjectItemsEventsService ProjectItemsEventsService { get; set; }
-        IWindowEventsService WindowEventsService { get; set; }
+        IDteEventsServices CreateDteEventsServices();
     }
 }

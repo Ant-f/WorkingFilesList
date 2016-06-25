@@ -16,11 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-namespace WorkingFilesList.Interface
+using EnvDTE80;
+using WorkingFilesList.Interface;
+
+namespace WorkingFilesList.Service
 {
-    public interface IDteEventsServices
+    public class DteEventsSubscriber : IDteEventsSubscriber
     {
-        IProjectItemsEventsService ProjectItemsEventsService { get; set; }
-        IWindowEventsService WindowEventsService { get; set; }
+        private readonly IDteEventsServicesFactory _dteEventsServicesFactory;
+
+        public DteEventsSubscriber(IDteEventsServicesFactory dteEventsServicesFactory)
+        {
+            _dteEventsServicesFactory = dteEventsServicesFactory;
+        }
+
+        public IDteEventsServices SubscribeTo(Events2 dteEvents)
+        {
+            var services = _dteEventsServicesFactory.CreateDteEventsServices();
+            return services;
+        }
     }
 }

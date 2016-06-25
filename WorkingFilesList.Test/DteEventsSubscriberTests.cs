@@ -16,19 +16,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
+using WorkingFilesList.Interface;
+using WorkingFilesList.Model;
+using WorkingFilesList.Service;
 
 namespace WorkingFilesList.Test
 {
     [TestFixture]
-    public class DteEventSubscriberTests
+    public class DteEventsSubscriberTests
     {
         [Test]
-        public void TestMethod1()
+        public void SubscribeToReturnsServicesObject()
         {
+            // Arrange
+
+            var eventsMock = new Mock<Events2>();
+
+            var servicesToReturn = new DteEventsServices();
+
+            var factoryMock = new Mock<IDteEventsServicesFactory>();
+            factoryMock
+                .Setup(f => f.CreateDteEventsServices())
+                .Returns(servicesToReturn);
+
+            var subscriber = new DteEventsSubscriber(factoryMock.Object);
+
+            // Act
+
+            var returnedServices = subscriber.SubscribeTo(eventsMock.Object);
+
+            // Assert
+
+            factoryMock.VerifyAll();
+
+            Assert.That(returnedServices, Is.EqualTo(servicesToReturn));
         }
     }
 }

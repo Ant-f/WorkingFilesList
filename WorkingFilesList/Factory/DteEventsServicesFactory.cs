@@ -17,15 +17,16 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using WorkingFilesList.Interface;
+using WorkingFilesList.Model;
 
-namespace WorkingFilesList
+namespace WorkingFilesList.Factory
 {
-    public class DteEventsSubscriber : IDteEventsSubscriber
+    public class DteEventsServicesFactory : IDteEventsServicesFactory
     {
-
-        public IDteEventsServices SubscribeTo()
+        public IDteEventsServices CreateDteEventsServices()
         {
-            throw new System.NotImplementedException();
+            var services = new DteEventsServices();
+            return services;
         }
     }
 }

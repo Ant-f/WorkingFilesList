@@ -16,10 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE80;
+
 namespace WorkingFilesList.Interface
 {
     public interface IDteEventsSubscriber
     {
-        IDteEventsServices SubscribeTo();
+        IDteEventsServices SubscribeTo(Events2 dteEvents);
     }
 }
