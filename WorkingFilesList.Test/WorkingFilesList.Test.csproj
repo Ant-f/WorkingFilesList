@@ -73,6 +73,7 @@
     <Compile Include="Factory\DteEventsServicesFactoryTests.cs" />
     <Compile Include="Service\DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\DocumentMetadataServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -16,11 +16,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.ObjectModel;
+using System.Linq;
 using WorkingFilesList.Interface;
+using WorkingFilesList.Model;
 
 namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
+        public ObservableCollection<DocumentMetadata> ActiveDocumentMetadata { get; }
+
+        public DocumentMetadataService()
+        {
+            ActiveDocumentMetadata = new ObservableCollection<DocumentMetadata>();
+        }
+
+        public void Upsert(string fullName)
+        {
+            var metadataExists = ActiveDocumentMetadata
+                .Any(m => m.FullName == fullName);
+
+            if (!metadataExists)
+            {
+                var metadata = new DocumentMetadata
+                {
+                    FullName = fullName
+                };
+
+                ActiveDocumentMetadata.Add(metadata);
+            }
+        }
     }
 }

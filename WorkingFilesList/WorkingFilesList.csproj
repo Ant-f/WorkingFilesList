@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Factory\DteEventsServicesFactory.cs" />
     <Compile Include="Interface\IDteEventsServicesFactory.cs" />
+    <Compile Include="Model\DocumentMetadata.cs" />
     <Compile Include="Service\DocumentMetadataService.cs" />
     <Compile Include="Model\DteEventsServices.cs" />
     <Compile Include="Service\DteEventsSubscriber.cs" />
