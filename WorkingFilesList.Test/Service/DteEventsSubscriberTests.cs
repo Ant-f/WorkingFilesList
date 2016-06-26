@@ -24,7 +24,7 @@ using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 using WorkingFilesList.Service;
 
-namespace WorkingFilesList.Test
+namespace WorkingFilesList.Test.Service
 {
     [TestFixture]
     public class DteEventsSubscriberTests

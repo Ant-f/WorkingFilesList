@@ -19,7 +19,7 @@
 using NUnit.Framework;
 using WorkingFilesList.Factory;
 
-namespace WorkingFilesList.Test
+namespace WorkingFilesList.Test.Factory
 {
     [TestFixture]
     public class DteEventsServicesFactoryTests

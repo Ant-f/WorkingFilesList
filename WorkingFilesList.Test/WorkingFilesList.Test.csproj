@@ -70,8 +70,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DteEventsServicesFactoryTests.cs" />
-    <Compile Include="DteEventsSubscriberTests.cs" />
+    <Compile Include="Factory\DteEventsServicesFactoryTests.cs" />
+    <Compile Include="Service\DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
