@@ -16,11 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
 using WorkingFilesList.Interface;
 
 namespace WorkingFilesList.Service
 {
     public class WindowEventsService : IWindowEventsService
     {
+        public void WindowActivated(Window gotFocus, Window lostFocus)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

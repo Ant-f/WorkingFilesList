@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
@@ -33,7 +34,8 @@ namespace WorkingFilesList.Test
         {
             // Arrange
 
-            var eventsMock = new Mock<Events2>();
+            var events2Mock = Mock.Of<Events2>(e =>
+                e.get_WindowEvents(It.IsAny<Window>()) == Mock.Of<WindowEvents>());
 
             var servicesToReturn = new DteEventsServices();
 
@@ -46,13 +48,52 @@ namespace WorkingFilesList.Test
 
             // Act
 
-            var returnedServices = subscriber.SubscribeTo(eventsMock.Object);
+            var returnedServices = subscriber.SubscribeTo(events2Mock);
 
             // Assert
 
             factoryMock.VerifyAll();
 
             Assert.That(returnedServices, Is.EqualTo(servicesToReturn));
+        }
+
+        [Test]
+        public void SubscribesToWindowActivated()
+        {
+            // Arrange
+
+            var windowEventsMock = new Mock<WindowEvents>();
+
+            var events2Mock = new Mock<Events2>();
+            events2Mock
+                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
+                .Returns(windowEventsMock.Object);
+
+            var factoryMock = new Mock<IDteEventsServicesFactory>();
+            factoryMock.Setup(f => f
+                .CreateDteEventsServices()
+                .WindowEventsService
+                .WindowActivated(
+                    It.IsAny<Window>(),
+                    It.IsAny<Window>()));
+
+            var subscriber = new DteEventsSubscriber(factoryMock.Object);
+            subscriber.SubscribeTo(events2Mock.Object);
+
+            // Act
+
+            windowEventsMock.Raise(w =>
+                w.WindowActivated += null,
+                null, null);
+
+            // Assert
+
+            factoryMock.Verify(f => f
+                .CreateDteEventsServices()
+                .WindowEventsService
+                .WindowActivated(
+                    It.IsAny<Window>(),
+                    It.IsAny<Window>()));
         }
     }
 }

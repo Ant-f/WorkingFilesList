@@ -25,6 +25,8 @@ namespace WorkingFilesList.Service
     {
         private readonly IDteEventsServicesFactory _dteEventsServicesFactory;
 
+        private IDteEventsServices _services;
+
         public DteEventsSubscriber(IDteEventsServicesFactory dteEventsServicesFactory)
         {
             _dteEventsServicesFactory = dteEventsServicesFactory;
@@ -32,8 +34,18 @@ namespace WorkingFilesList.Service
 
         public IDteEventsServices SubscribeTo(Events2 dteEvents)
         {
-            var services = _dteEventsServicesFactory.CreateDteEventsServices();
-            return services;
+            _services = _dteEventsServicesFactory.CreateDteEventsServices();
+
+            dteEvents.WindowEvents.WindowActivated += WindowEventsWindowActivated;
+
+            return _services;
+        }
+
+        private void WindowEventsWindowActivated(
+            EnvDTE.Window gotFocus,
+            EnvDTE.Window lostFocus)
+        {
+            _services.WindowEventsService.WindowActivated(gotFocus, lostFocus);
         }
     }
 }
