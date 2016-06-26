@@ -23,5 +23,7 @@ namespace WorkingFilesList.Interface
     public interface IWindowEventsService
     {
         void WindowActivated(Window gotFocus, Window lostFocus);
+        void WindowClosing(Window window);
+        void WindowCreated(Window window);
     }
 }

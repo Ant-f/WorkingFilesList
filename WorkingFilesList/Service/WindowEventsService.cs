@@ -27,5 +27,15 @@ namespace WorkingFilesList.Service
         {
             throw new System.NotImplementedException();
         }
+
+        public void WindowClosing(Window window)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void WindowCreated(Window window)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
