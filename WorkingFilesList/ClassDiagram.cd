@@ -4,43 +4,31 @@
     <Position X="0.792" Y="5.927" Height="2.74" Width="4.221" />
   </Comment>
   <Class Name="WorkingFilesList.Service.DteEventsSubscriber">
-    <Position X="11.5" Y="4.75" Width="2.25" />
+    <Position X="5.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAICAAIAAAAAAACAAAAAAAAAAACAAAAAAAAgA=</HashCode>
       <FileName>Service\DteEventsSubscriber.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Model.DteEventsServices">
-    <Position X="8.75" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\DteEventsServices.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ProjectItemsEventsService" />
-      <Property Name="WindowEventsService" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="WorkingFilesList.Service.WindowEventsService">
-    <Position X="8.75" Y="7.5" Width="2.25" />
+    <Position X="3" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAIAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\WindowEventsService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.Service.ProjectItemsEventsService">
-    <Position X="8.75" Y="6.25" Width="2.25" />
+    <Position X="0.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\ProjectItemsEventsService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.Service.StoredSettingsService">
-    <Position X="11.5" Y="7" Width="2.25" />
+    <Position X="10.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\StoredSettingsService.cs</FileName>
@@ -48,72 +36,46 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.Service.DocumentMetadataService">
-    <Position X="11.5" Y="8.25" Width="2.25" />
+    <Position X="8" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\DocumentMetadataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Factory.DteEventsServicesFactory">
-    <Position X="8.75" Y="4.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>Factory\DteEventsServicesFactory.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Interface Name="WorkingFilesList.Interface.IDteEventsSubscriber">
-    <Position X="11.5" Y="1.25" Width="2.25" />
+    <Position X="5.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IDteEventsSubscriber.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.Interface.IStoredSettingsService">
-    <Position X="11.5" Y="2.5" Width="2.25" />
+    <Position X="10.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IStoredSettingsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.Interface.IDocumentMetadataService">
-    <Position X="11.5" Y="3.5" Width="2.25" />
+    <Position X="8" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IDocumentMetadataService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.IDteEventsServices">
-    <Position X="0.5" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Interface\IDteEventsServices.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ProjectItemsEventsService" />
-      <Property Name="WindowEventsService" />
-    </ShowAsAssociation>
-  </Interface>
   <Interface Name="WorkingFilesList.Interface.IWindowEventsService">
-    <Position X="4.5" Y="1.5" Width="2.25" />
+    <Position X="3" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAIAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IWindowEventsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.Interface.IProjectItemsEventsService">
-    <Position X="4.5" Y="0.5" Width="2.25" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IProjectItemsEventsService.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="WorkingFilesList.Interface.IDteEventsServicesFactory">
-    <Position X="8.75" Y="3.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>Interface\IDteEventsServicesFactory.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

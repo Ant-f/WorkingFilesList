@@ -22,6 +22,6 @@ namespace WorkingFilesList.Interface
 {
     public interface IDteEventsSubscriber
     {
-        IDteEventsServices SubscribeTo(Events2 dteEvents);
+        void SubscribeTo(Events2 dteEvents);
     }
 }

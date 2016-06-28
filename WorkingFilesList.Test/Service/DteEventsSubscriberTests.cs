@@ -20,48 +20,76 @@ using EnvDTE;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
-using WorkingFilesList.Interface;
-using WorkingFilesList.Model;
-using WorkingFilesList.Service;
+using WorkingFilesList.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Service
 {
     [TestFixture]
     public class DteEventsSubscriberTests
     {
-        [Test]
-        public void SubscribeToReturnsServicesObject()
+        private class TestingMocks
         {
-            // Arrange
+            public Mock<Events2> Events2Mock { get; set; }
+            public Mock<ProjectItemsEvents> ProjectItemsEventsMock { get; set; }
+            public Mock<WindowEvents> WindowEventsMock { get; set; }
+        }
 
-            var events2Mock = new Mock<Events2>();
+        private static Mock<WindowEvents> CreateWindowEventsMock()
+        {
+            var windowEventsMock = new Mock<WindowEvents>();
 
-            events2Mock
+            // Exception will be thrown when subscribing to events if they are
+            // not raised at least once; do so here as part of setup
+
+            windowEventsMock.Raise(w =>
+                w.WindowActivated += null,
+                Mock.Of<Window>(),
+                Mock.Of<Window>());
+
+            windowEventsMock.Raise(w =>
+                w.WindowClosing += null,
+                Mock.Of<Window>());
+
+            windowEventsMock.Raise(w =>
+                w.WindowCreated += null,
+                Mock.Of<Window>());
+
+            return windowEventsMock;
+        }
+
+        private static Mock<ProjectItemsEvents> CreateProjectItemsEventsMock()
+        {
+            var projectItemsEventsMock = new Mock<ProjectItemsEvents>();
+
+            // Exception will be thrown when subscribing to events if they are
+            // not raised at least once; do so here as part of setup
+
+            projectItemsEventsMock.Raise(w =>
+                w.ItemRenamed += null,
+                Mock.Of<ProjectItem>(),
+                string.Empty);
+
+            return projectItemsEventsMock;
+        }
+
+        private static TestingMocks CreateTestingMocks()
+        {
+            var mocks = new TestingMocks
+            {
+                Events2Mock = new Mock<Events2>(),
+                ProjectItemsEventsMock = CreateProjectItemsEventsMock(),
+                WindowEventsMock = CreateWindowEventsMock()
+            };
+
+            mocks.Events2Mock
                 .Setup(e => e.ProjectItemsEvents)
-                .Returns(Mock.Of<ProjectItemsEvents>());
+                .Returns(mocks.ProjectItemsEventsMock.Object);
 
-            events2Mock
+            mocks.Events2Mock
                 .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(Mock.Of<WindowEvents>());
+                .Returns(mocks.WindowEventsMock.Object);
 
-            var servicesToReturn = new DteEventsServices();
-
-            var factoryMock = new Mock<IDteEventsServicesFactory>();
-            factoryMock
-                .Setup(f => f.CreateDteEventsServices())
-                .Returns(servicesToReturn);
-
-            var subscriber = new DteEventsSubscriber(factoryMock.Object);
-
-            // Act
-
-            var returnedServices = subscriber.SubscribeTo(events2Mock.Object);
-
-            // Assert
-
-            factoryMock.VerifyAll();
-
-            Assert.That(returnedServices, Is.EqualTo(servicesToReturn));
+            return mocks;
         }
 
         [Test]
@@ -69,40 +97,21 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var windowEventsMock = new Mock<WindowEvents>();
+            var mocks = CreateTestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
 
-            var events2Mock = new Mock<Events2>();
-
-            events2Mock
-                .Setup(e => e.ProjectItemsEvents)
-                .Returns(Mock.Of<ProjectItemsEvents>());
-
-            events2Mock
-                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(windowEventsMock.Object);
-
-            var factoryMock = new Mock<IDteEventsServicesFactory>();
-            factoryMock.Setup(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
-                .WindowActivated(
-                    It.IsAny<Window>(),
-                    It.IsAny<Window>()));
-
-            var subscriber = new DteEventsSubscriber(factoryMock.Object);
-            subscriber.SubscribeTo(events2Mock.Object);
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
 
             // Act
 
-            windowEventsMock.Raise(w =>
+            mocks.WindowEventsMock.Raise(w =>
                 w.WindowActivated += null,
                 null, null);
 
             // Assert
 
-            factoryMock.Verify(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
+            builder.WindowEventsServiceMock.Verify(w => w
                 .WindowActivated(
                     It.IsAny<Window>(),
                     It.IsAny<Window>()));
@@ -113,38 +122,21 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var windowEventsMock = new Mock<WindowEvents>();
+            var mocks = CreateTestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
 
-            var events2Mock = new Mock<Events2>();
-
-            events2Mock
-                .Setup(e => e.ProjectItemsEvents)
-                .Returns(Mock.Of<ProjectItemsEvents>());
-
-            events2Mock
-                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(windowEventsMock.Object);
-
-            var factoryMock = new Mock<IDteEventsServicesFactory>();
-            factoryMock.Setup(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
-                .WindowCreated(It.IsAny<Window>()));
-
-            var subscriber = new DteEventsSubscriber(factoryMock.Object);
-            subscriber.SubscribeTo(events2Mock.Object);
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
 
             // Act
 
-            windowEventsMock.Raise(w =>
+            mocks.WindowEventsMock.Raise(w =>
                 w.WindowCreated += null,
                 Mock.Of<Window>());
 
             // Assert
 
-            factoryMock.Verify(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
+            builder.WindowEventsServiceMock.Verify(f => f
                 .WindowCreated(It.IsAny<Window>()));
         }
 
@@ -153,38 +145,21 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var windowEventsMock = new Mock<WindowEvents>();
+            var mocks = CreateTestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
 
-            var events2Mock = new Mock<Events2>();
-
-            events2Mock
-                .Setup(e => e.ProjectItemsEvents)
-                .Returns(Mock.Of<ProjectItemsEvents>());
-
-            events2Mock
-                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(windowEventsMock.Object);
-
-            var factoryMock = new Mock<IDteEventsServicesFactory>();
-            factoryMock.Setup(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
-                .WindowClosing(It.IsAny<Window>()));
-
-            var subscriber = new DteEventsSubscriber(factoryMock.Object);
-            subscriber.SubscribeTo(events2Mock.Object);
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
 
             // Act
 
-            windowEventsMock.Raise(w =>
+            mocks.WindowEventsMock.Raise(w =>
                 w.WindowClosing += null,
                 Mock.Of<Window>());
 
             // Assert
 
-            factoryMock.Verify(f => f
-                .CreateDteEventsServices()
-                .WindowEventsService
+            builder.WindowEventsServiceMock.Verify(f => f
                 .WindowClosing(It.IsAny<Window>()));
         }
 
@@ -193,40 +168,21 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var projectItemsEventsMock = new Mock<ProjectItemsEvents>();
+            var mocks = CreateTestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
 
-            var events2Mock = new Mock<Events2>();
-
-            events2Mock
-                .Setup(e => e.ProjectItemsEvents)
-                .Returns(projectItemsEventsMock.Object);
-
-            events2Mock
-                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(Mock.Of<WindowEvents>());
-
-            var factoryMock = new Mock<IDteEventsServicesFactory>();
-            factoryMock.Setup(f => f
-                .CreateDteEventsServices()
-                .ProjectItemsEventsService
-                .ItemRenamed(
-                    It.IsAny<ProjectItem>(),
-                    It.IsAny<string>()));
-
-            var subscriber = new DteEventsSubscriber(factoryMock.Object);
-            subscriber.SubscribeTo(events2Mock.Object);
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
 
             // Act
 
-            projectItemsEventsMock.Raise(w =>
+            mocks.ProjectItemsEventsMock.Raise(w =>
                 w.ItemRenamed += null,
                 Mock.Of<ProjectItem>(), string.Empty);
 
             // Assert
 
-            factoryMock.Verify(f => f
-                .CreateDteEventsServices()
-                .ProjectItemsEventsService
+            builder.ProjectItemsEventsServiceMock.Verify(f => f
                 .ItemRenamed(
                     It.IsAny<ProjectItem>(),
                     It.IsAny<string>()));

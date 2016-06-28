@@ -16,17 +16,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using WorkingFilesList.Interface;
-using WorkingFilesList.Model;
+using Ninject;
 
-namespace WorkingFilesList.Factory
+namespace WorkingFilesList.Ioc
 {
-    public class DteEventsServicesFactory : IDteEventsServicesFactory
+    public static class NinjectContainer
     {
-        public IDteEventsServices CreateDteEventsServices()
+        public static IKernel Kernel { get; } = CreateKernel();
+
+        private static IKernel CreateKernel()
         {
-            var services = new DteEventsServices();
-            return services;
+            var kernel = new StandardKernel(
+                new ServiceModule());
+            
+            return kernel;
         }
     }
 }

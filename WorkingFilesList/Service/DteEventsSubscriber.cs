@@ -24,17 +24,20 @@ namespace WorkingFilesList.Service
 {
     /// <summary>
     /// Subscribes to <see cref="DTE2"/> (Development Tools Environment) events,
-    /// returning services that act on them
+    /// calling the appropriate methods on the injected services when events are
+    /// raised
     /// </summary>
     public class DteEventsSubscriber : IDteEventsSubscriber
     {
-        private readonly IDteEventsServicesFactory _dteEventsServicesFactory;
+        private readonly IProjectItemsEventsService _projectItemsEventsService;
+        private readonly IWindowEventsService _windowEventsService;
 
-        private IDteEventsServices _services;
-
-        public DteEventsSubscriber(IDteEventsServicesFactory dteEventsServicesFactory)
+        public DteEventsSubscriber(
+            IProjectItemsEventsService projectItemsEventsService,
+            IWindowEventsService windowEventsService)
         {
-            _dteEventsServicesFactory = dteEventsServicesFactory;
+            _projectItemsEventsService = projectItemsEventsService;
+            _windowEventsService = windowEventsService;
         }
 
         /// <summary>
@@ -42,41 +45,33 @@ namespace WorkingFilesList.Service
         /// Visual Studio extension
         /// </summary>
         /// <param name="dteEvents"><see cref="DTE2.Events"/> property</param>
-        /// <returns>
-        /// An object containing the services that are used as part of handling
-        /// events from <see cref="DTE2"/>
-        /// </returns>
-        public IDteEventsServices SubscribeTo(Events2 dteEvents)
+        public void SubscribeTo(Events2 dteEvents)
         {
-            _services = _dteEventsServicesFactory.CreateDteEventsServices();
-
             dteEvents.WindowEvents.WindowActivated += WindowEventsWindowActivated;
             dteEvents.WindowEvents.WindowClosing += WindowEventsWindowClosing;
             dteEvents.WindowEvents.WindowCreated += WindowEventsWindowCreated;
 
             dteEvents.ProjectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
-
-            return _services;
         }
 
         private void WindowEventsWindowActivated(Window gotFocus, Window lostFocus)
         {
-            _services.WindowEventsService.WindowActivated(gotFocus, lostFocus);
+            _windowEventsService.WindowActivated(gotFocus, lostFocus);
         }
 
         private void WindowEventsWindowClosing(Window window)
         {
-            _services.WindowEventsService.WindowClosing(window);
+            _windowEventsService.WindowClosing(window);
         }
 
         private void WindowEventsWindowCreated(Window window)
         {
-            _services.WindowEventsService.WindowCreated(window);
+            _windowEventsService.WindowCreated(window);
         }
 
         private void ProjectItemsEventsItemRenamed(ProjectItem projectItem, string oldName)
         {
-            _services.ProjectItemsEventsService.ItemRenamed(projectItem, oldName);
+            _projectItemsEventsService.ItemRenamed(projectItem, oldName);
         }
     }
 }

@@ -16,11 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-namespace WorkingFilesList.Interface
+using Ninject.Modules;
+using WorkingFilesList.Interface;
+using WorkingFilesList.Service;
+
+namespace WorkingFilesList.Ioc
 {
-    public interface IDteEventsServices
+    internal class ServiceModule : NinjectModule
     {
-        IProjectItemsEventsService ProjectItemsEventsService { get; set; }
-        IWindowEventsService WindowEventsService { get; set; }
+        public override void Load()
+        {
+            Kernel.Bind<IDocumentMetadataService>().To<DocumentMetadataService>().InSingletonScope();
+            Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
+            Kernel.Bind<IStoredSettingsService>().To<StoredSettingsService>().InSingletonScope();
+            Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
+            Kernel.Bind<IWindowEventsService>().To<WindowEventsService>().InSingletonScope();
+        }
     }
 }
