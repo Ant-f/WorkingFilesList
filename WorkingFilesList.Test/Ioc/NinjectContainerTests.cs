@@ -16,14 +16,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Windows.Data;
+using Ninject;
+using NUnit.Framework;
+using System.Linq;
+using System.Reflection;
+using WorkingFilesList.Ioc;
 
-namespace WorkingFilesList.Interface
+namespace WorkingFilesList.Test.Ioc
 {
-    public interface IDocumentMetadataService
+    [TestFixture]
+    public class NinjectContainerTests
     {
-        ListCollectionView ActiveDocumentMetadata { get; }
+        [Test]
+        public void InterfaceBindingResolution()
+        {
+            var assembly = Assembly.GetAssembly(typeof(NinjectContainer));
+            var assemblyInterfaces = assembly.GetTypes().Where(t => t.IsInterface);
 
-        void Upsert(string fullName);
+            foreach (var interfaceType in assemblyInterfaces)
+            {
+                var objects = NinjectContainer.Kernel.GetAll(interfaceType);
+                Assert.IsNotEmpty(objects, $"Unable to resolve instance(s) of {interfaceType.Name}");
+            }
+        }
     }
 }

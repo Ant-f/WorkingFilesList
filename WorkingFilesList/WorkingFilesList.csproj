@@ -65,10 +65,11 @@
     <Compile Include="Service\ProjectItemsEventsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\StoredSettingsService.cs" />
+    <Compile Include="Service\ViewModelService.cs" />
     <Compile Include="Service\WindowEventsService.cs" />
     <Compile Include="WorkingFilesWindow.cs" />
     <Compile Include="WorkingFilesWindowCommand.cs" />
-    <Compile Include="WorkingFilesWindowControl.xaml.cs">
+    <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkingFilesWindowPackage.cs" />
@@ -81,7 +82,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="WorkingFilesWindowControl.xaml">
+    <Page Include="View\WorkingFilesWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

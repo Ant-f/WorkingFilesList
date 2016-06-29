@@ -20,6 +20,9 @@ namespace WorkingFilesList.Model
 {
     public class DocumentMetadata
     {
+        /// <summary>
+        /// Full path and name of document file
+        /// </summary>
         public string FullName { get; set; }
     }
 }

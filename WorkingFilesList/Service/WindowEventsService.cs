@@ -23,9 +23,16 @@ namespace WorkingFilesList.Service
 {
     public class WindowEventsService : IWindowEventsService
     {
+        private readonly IDocumentMetadataService _documentMetadataService;
+
+        public WindowEventsService(IDocumentMetadataService documentMetadataService)
+        {
+            _documentMetadataService = documentMetadataService;
+        }
+
         public void WindowActivated(Window gotFocus, Window lostFocus)
         {
-            throw new System.NotImplementedException();
+            WindowCreated(gotFocus);
         }
 
         public void WindowClosing(Window window)
@@ -35,7 +42,11 @@ namespace WorkingFilesList.Service
 
         public void WindowCreated(Window window)
         {
-            throw new System.NotImplementedException();
+            if (window.Type == vsWindowType.vsWindowTypeDocument &&
+                window.Document.ActiveWindow != null)
+            {
+                _documentMetadataService.Upsert(window.Document.FullName);
+            }
         }
     }
 }

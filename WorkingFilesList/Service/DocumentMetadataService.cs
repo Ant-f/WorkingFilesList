@@ -18,6 +18,7 @@
 
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 
@@ -25,16 +26,19 @@ namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
-        public ObservableCollection<DocumentMetadata> ActiveDocumentMetadata { get; }
+        private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
+
+        public ListCollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataService()
         {
-            ActiveDocumentMetadata = new ObservableCollection<DocumentMetadata>();
+            _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
+            ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
         }
 
         public void Upsert(string fullName)
         {
-            var metadataExists = ActiveDocumentMetadata
+            var metadataExists = _activeDocumentMetadata
                 .Any(m => m.FullName == fullName);
 
             if (!metadataExists)
@@ -44,7 +48,7 @@ namespace WorkingFilesList.Service
                     FullName = fullName
                 };
 
-                ActiveDocumentMetadata.Add(metadata);
+                _activeDocumentMetadata.Add(metadata);
             }
         }
     }

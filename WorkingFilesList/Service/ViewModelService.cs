@@ -16,14 +16,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Windows.Data;
+using Ninject;
+using WorkingFilesList.Interface;
+using WorkingFilesList.Ioc;
 
-namespace WorkingFilesList.Interface
+namespace WorkingFilesList.Service
 {
-    public interface IDocumentMetadataService
+    /// <summary>
+    /// Service locator for view model related objects, for use when references
+    /// are required within XAML
+    /// </summary>
+    public class ViewModelService
     {
-        ListCollectionView ActiveDocumentMetadata { get; }
+        private static IDocumentMetadataService _documentMetadataService;
 
-        void Upsert(string fullName);
+        public static IDocumentMetadataService DocumentMetadataService =>
+            _documentMetadataService ??
+            (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
     }
 }

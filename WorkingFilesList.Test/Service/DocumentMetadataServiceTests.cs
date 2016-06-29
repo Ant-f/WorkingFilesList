@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
+using WorkingFilesList.Model;
 using WorkingFilesList.Service;
 
 namespace WorkingFilesList.Test.Service
@@ -40,7 +41,9 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(1));
-            Assert.That(service.ActiveDocumentMetadata[0].FullName, Is.EqualTo(documentName));
+            Assert.That(
+                ((DocumentMetadata) service.ActiveDocumentMetadata.GetItemAt(0)).FullName,
+                Is.EqualTo(documentName));
         }
 
         [Test]
@@ -60,7 +63,9 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(1));
-            Assert.That(service.ActiveDocumentMetadata[0].FullName, Is.EqualTo(documentName));
+            Assert.That(
+                ((DocumentMetadata) service.ActiveDocumentMetadata.GetItemAt(0)).FullName,
+                Is.EqualTo(documentName));
         }
     }
 }

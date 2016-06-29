@@ -20,6 +20,11 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using EnvDTE;
+using EnvDTE80;
+using Ninject;
+using WorkingFilesList.Interface;
+using WorkingFilesList.Ioc;
 
 namespace WorkingFilesList
 {
@@ -74,6 +79,11 @@ namespace WorkingFilesList
         {
             WorkingFilesWindowCommand.Initialize(this);
             base.Initialize();
+
+            var dte2 = (DTE2) GetService(typeof(DTE));
+            var events2 = (Events2) dte2.Events;
+            var subscriber = NinjectContainer.Kernel.Get<IDteEventsSubscriber>();
+            subscriber.SubscribeTo(events2);
         }
 
         #endregion
