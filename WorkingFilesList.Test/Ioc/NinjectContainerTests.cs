@@ -20,6 +20,8 @@ using Ninject;
 using NUnit.Framework;
 using System.Linq;
 using System.Reflection;
+using EnvDTE80;
+using Moq;
 using WorkingFilesList.Ioc;
 
 namespace WorkingFilesList.Test.Ioc
@@ -30,6 +32,8 @@ namespace WorkingFilesList.Test.Ioc
         [Test]
         public void InterfaceBindingResolution()
         {
+            NinjectContainer.InitializeKernel(Mock.Of<DTE2>());
+
             var assembly = Assembly.GetAssembly(typeof(NinjectContainer));
             var assemblyInterfaces = assembly.GetTypes().Where(t => t.IsInterface);
 

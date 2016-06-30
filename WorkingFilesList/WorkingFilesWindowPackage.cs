@@ -16,13 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
+using Ninject;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using EnvDTE;
-using EnvDTE80;
-using Ninject;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
 
@@ -81,6 +81,8 @@ namespace WorkingFilesList
             base.Initialize();
 
             var dte2 = (DTE2) GetService(typeof(DTE));
+            NinjectContainer.InitializeKernel(dte2);
+
             var events2 = (Events2) dte2.Events;
             var subscriber = NinjectContainer.Kernel.Get<IDteEventsSubscriber>();
             subscriber.SubscribeTo(events2);

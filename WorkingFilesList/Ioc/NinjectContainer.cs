@@ -16,20 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE80;
 using Ninject;
 
 namespace WorkingFilesList.Ioc
 {
     public static class NinjectContainer
     {
-        public static IKernel Kernel { get; } = CreateKernel();
+        public static IKernel Kernel { get; private set; }
 
-        private static IKernel CreateKernel()
+        public static void InitializeKernel(DTE2 dte2)
         {
-            var kernel = new StandardKernel(
+            Kernel = new StandardKernel(
                 new ServiceModule());
-            
-            return kernel;
+
+            Kernel.Bind<DTE2>().ToConstant(dte2);
         }
     }
 }
