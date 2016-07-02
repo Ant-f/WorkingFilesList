@@ -114,9 +114,9 @@ namespace WorkingFilesList.Test.Service
                 CreateDocument(document2Name)
             };
 
+            var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
             var service = builder.CreateDocumentMetadataService();
-            var documents = CreateDocuments(documentMockList);
 
             // Act
 
@@ -150,9 +150,9 @@ namespace WorkingFilesList.Test.Service
                 CreateDocument(documentToRetain)
             };
 
+            var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
             var service = builder.CreateDocumentMetadataService();
-            var documents = CreateDocuments(documentMockList);
 
             // Synchronize to set two items in the document metadata service
             // metadata list
@@ -242,6 +242,72 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             Assert.That(service.ActiveDocumentMetadata.IsEmpty);
+        }
+
+        [Test]
+        public void UpdateActivatedTimeUpdatesOnlyMetadataWithMatchingPath()
+        {
+            // Arrange
+
+            const string document1Name = "Document1Name";
+            const string document2Name = "Document2Name";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(document1Name),
+                CreateDocument(document2Name)
+            };
+            
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            builder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            service.Synchronize(documents);
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            var document2 = collection.Single(m => m.FullName == document2Name);
+
+            var document1InitialActivationTime = document1.ActivatedAt;
+            var document2InitialActivationTime = document2.ActivatedAt;
+
+            // Act
+
+            service.UpdateActivatedTime(document1Name);
+
+            // Assert
+
+            // Three times: twice during setup, once on update
+            builder.TimeProviderMock.Verify(t => t.UtcNow, Times.Exactly(3));
+
+            Assert.That(
+                document1.ActivatedAt,
+                Is.GreaterThan(document1InitialActivationTime));
+
+            Assert.That(
+                document2.ActivatedAt,
+                Is.EqualTo(document2InitialActivationTime));
+        }
+
+        [Test]
+        public void UpdateActivatedTimeDoesNotThrowExceptionIfFullNameDoesNotExist()
+        {
+            // Arrange
+            
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            builder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            // Assert
+
+            Assert.DoesNotThrow(() => service.UpdateActivatedTime("Document"));
         }
     }
 }

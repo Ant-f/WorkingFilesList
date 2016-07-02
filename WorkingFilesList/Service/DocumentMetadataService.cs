@@ -71,9 +71,26 @@ namespace WorkingFilesList.Service
         /// <param name="fullName">Full path and name of document file</param>
         public void UpdateActivatedTime(string fullName)
         {
-            throw new NotImplementedException();
+            var metadata = _activeDocumentMetadata.SingleOrDefault(m =>
+                string.CompareOrdinal(m.FullName, fullName) == 0);
+
+            if (metadata != null)
+            {
+                var utcNow = _timeProvider.UtcNow;
+                metadata.ActivatedAt = utcNow;
+            }
         }
 
+        /// <summary>
+        /// Updates <see cref="ActiveDocumentMetadata"/> to reflect the documents
+        /// in the method argument. Does not update the value of
+        /// <see cref="DocumentMetadata.ActivatedAt"/> for existing metadata; sets
+        /// as the current time in UTC for new metadata.
+        /// </summary>
+        /// <param name="documents">
+        /// <see cref="Documents"/> that <see cref="ActiveDocumentMetadata"/>
+        /// should reflect
+        /// </param>
         public void Synchronize(Documents documents)
         {
             var documentNameSet = new HashSet<string>();
