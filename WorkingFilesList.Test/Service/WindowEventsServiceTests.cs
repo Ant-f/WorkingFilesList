@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using EnvDTE;
+using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Interface;
@@ -28,7 +29,7 @@ namespace WorkingFilesList.Test.Service
     public class WindowEventsServiceTests
     {
         [Test]
-        public void DocumentFromActivatedDocumentWindowIsUpsertedInMetadataService()
+        public void ActivatedTimeForActivatedDocumentIsUpdated()
         {
             // Arrange
 
@@ -51,11 +52,11 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Upsert(documentName));
+            metadataServiceMock.Verify(m => m.UpdateActivatedTime(documentName));
         }
 
         [Test]
-        public void DocumentFromCreatedDocumentWindowIsUpsertedInMetadataService()
+        public void DocumentFromCreatedDocumentWindowIsAddedInMetadataService()
         {
             // Arrange
 
@@ -78,7 +79,33 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Upsert(documentName));
+            metadataServiceMock.Verify(m => m.Add(documentName));
+        }
+
+        [Test]
+        public void ClosingDocumentWindowSynchronizesDocumentMetadata()
+        {
+            // Arrange
+
+            var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            var service = new WindowEventsService(metadataServiceMock.Object);
+
+            var documents = Mock.Of<Documents>();
+
+            var dte2Mock = new Mock<DTE>();
+            dte2Mock.Setup(d => d.Documents).Returns(documents);
+
+            var created = new Mock<Window>();
+            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
+            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+
+            // Act
+
+            service.WindowClosing(created.Object);
+
+            // Assert
+
+            metadataServiceMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
         }
 
         // Test cases should not include vsWindowType.vsWindowTypeDocument
@@ -105,7 +132,8 @@ namespace WorkingFilesList.Test.Service
         [TestCase(vsWindowType.vsWindowTypeToolbox)]
         [TestCase(vsWindowType.vsWindowTypeToolWindow)]
         [TestCase(vsWindowType.vsWindowTypeWatch)]
-        public void NonDocumentWindowActivatedDoesNotUpsertDocument(vsWindowType windowType)
+        public void NonDocumentWindowActivatedDoesNotUpdateActivatedTime(
+            vsWindowType windowType)
         {
             // Arrange
 
@@ -122,8 +150,14 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             gotFocus.Verify(w => w.Document, Times.Never);
-            metadataServiceMock.Verify(m => m.Upsert(null), Times.Never);
-            metadataServiceMock.Verify(m => m.Upsert(It.IsAny<string>()), Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.UpdateActivatedTime(null),
+                Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.UpdateActivatedTime(It.IsAny<string>()),
+                Times.Never);
         }
 
         // Test cases should not include vsWindowType.vsWindowTypeDocument
@@ -150,7 +184,8 @@ namespace WorkingFilesList.Test.Service
         [TestCase(vsWindowType.vsWindowTypeToolbox)]
         [TestCase(vsWindowType.vsWindowTypeToolWindow)]
         [TestCase(vsWindowType.vsWindowTypeWatch)]
-        public void NonDocumentWindowCreatedDoesNotUpsertDocument(vsWindowType windowType)
+        public void NonDocumentWindowCreatedDoesNotAddDocument(
+            vsWindowType windowType)
         {
             // Arrange
 
@@ -167,8 +202,66 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             created.Verify(w => w.Document, Times.Never);
-            metadataServiceMock.Verify(m => m.Upsert(null), Times.Never);
-            metadataServiceMock.Verify(m => m.Upsert(It.IsAny<string>()), Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.Add(null),
+                Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.Add(It.IsAny<string>()),
+                Times.Never);
+        }
+
+        // Test cases should not include vsWindowType.vsWindowTypeDocument
+        [TestCase(vsWindowType.vsWindowTypeAutos)]
+        [TestCase(vsWindowType.vsWindowTypeBrowser)]
+        [TestCase(vsWindowType.vsWindowTypeCallStack)]
+        [TestCase(vsWindowType.vsWindowTypeCodeWindow)]
+        [TestCase(vsWindowType.vsWindowTypeColorPalette)]
+        [TestCase(vsWindowType.vsWindowTypeDesigner)]
+        [TestCase(vsWindowType.vsWindowTypeDocumentOutline)]
+        [TestCase(vsWindowType.vsWindowTypeFind)]
+        [TestCase(vsWindowType.vsWindowTypeFindReplace)]
+        [TestCase(vsWindowType.vsWindowTypeImmediate)]
+        [TestCase(vsWindowType.vsWindowTypeLinkedWindowFrame)]
+        [TestCase(vsWindowType.vsWindowTypeLocals)]
+        [TestCase(vsWindowType.vsWindowTypeMainWindow)]
+        [TestCase(vsWindowType.vsWindowTypeOutput)]
+        [TestCase(vsWindowType.vsWindowTypePreview)]
+        [TestCase(vsWindowType.vsWindowTypeProperties)]
+        [TestCase(vsWindowType.vsWindowTypeRunningDocuments)]
+        [TestCase(vsWindowType.vsWindowTypeSolutionExplorer)]
+        [TestCase(vsWindowType.vsWindowTypeTaskList)]
+        [TestCase(vsWindowType.vsWindowTypeThreads)]
+        [TestCase(vsWindowType.vsWindowTypeToolbox)]
+        [TestCase(vsWindowType.vsWindowTypeToolWindow)]
+        [TestCase(vsWindowType.vsWindowTypeWatch)]
+        public void ClosingNonDocumentWindowDoesNotSynchronizesDocumentMetadata(
+            vsWindowType windowType)
+        {
+            // Arrange
+
+            var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            var service = new WindowEventsService(metadataServiceMock.Object);
+
+            var created = new Mock<Window>();
+            created.Setup(w => w.Type).Returns(windowType);
+
+            // Act
+
+            service.WindowClosing(created.Object);
+
+            // Assert
+
+            created.Verify(w => w.DTE, Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.Synchronize(null),
+                Times.Never);
+
+            metadataServiceMock
+                .Verify(m => m.Synchronize(It.IsAny<Documents>()),
+                Times.Never);
         }
     }
 }

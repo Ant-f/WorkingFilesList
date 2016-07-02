@@ -32,12 +32,20 @@ namespace WorkingFilesList.Service
 
         public void WindowActivated(Window gotFocus, Window lostFocus)
         {
-            WindowCreated(gotFocus);
+            if (gotFocus.Type == vsWindowType.vsWindowTypeDocument &&
+                gotFocus.Document.ActiveWindow != null)
+            {
+                _documentMetadataService.UpdateActivatedTime(
+                    gotFocus.Document.FullName);
+            }
         }
 
         public void WindowClosing(Window window)
         {
-            throw new System.NotImplementedException();
+            if (window.Type == vsWindowType.vsWindowTypeDocument)
+            {
+                _documentMetadataService.Synchronize(window.DTE.Documents);
+            }
         }
 
         public void WindowCreated(Window window)
@@ -45,7 +53,7 @@ namespace WorkingFilesList.Service
             if (window.Type == vsWindowType.vsWindowTypeDocument &&
                 window.Document.ActiveWindow != null)
             {
-                _documentMetadataService.Upsert(window.Document.FullName);
+                _documentMetadataService.Add(window.Document.FullName);
             }
         }
     }

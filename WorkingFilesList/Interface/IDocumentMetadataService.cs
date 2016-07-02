@@ -25,7 +25,8 @@ namespace WorkingFilesList.Interface
     {
         ListCollectionView ActiveDocumentMetadata { get; }
 
-        void Upsert(string fullName);
+        void Add(string fullName);
+        void UpdateActivatedTime(string fullName);
         void Synchronize(Documents documents);
     }
 }

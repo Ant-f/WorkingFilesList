@@ -42,7 +42,12 @@ namespace WorkingFilesList.Service
             _timeProvider = timeProvider;
         }
 
-        public void Upsert(string fullName)
+        /// <summary>
+        /// Adds the provided name to <see cref="ActiveDocumentMetadata"/> if
+        /// not already present. Does nothing otherwise.
+        /// </summary>
+        /// <param name="fullName">Full path and name of document file</param>
+        public void Add(string fullName)
         {
             var metadataExists = _activeDocumentMetadata
                 .Any(m => m.FullName == fullName);
@@ -58,13 +63,32 @@ namespace WorkingFilesList.Service
             }
         }
 
+        /// <summary>
+        /// Sets <see cref="DocumentMetadata.ActivatedAt"/> of the active
+        /// document metadata list entry matching the provided file name to the
+        /// current time in UTC
+        /// </summary>
+        /// <param name="fullName">Full path and name of document file</param>
+        public void UpdateActivatedTime(string fullName)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Synchronize(Documents documents)
         {
             var documentNameSet = new HashSet<string>();
 
+            // Add documents unique to method parameter collection
+
             foreach (var obj in documents)
             {
                 var document = (Document) obj;
+
+                if (document.ActiveWindow == null)
+                {
+                    continue;
+                }
+
                 documentNameSet.Add(document.FullName);
 
                 var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
@@ -84,6 +108,8 @@ namespace WorkingFilesList.Service
                     _activeDocumentMetadata.Add(newMetadata);
                 }
             }
+
+            // Remove documents not in method parameter collection
 
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {

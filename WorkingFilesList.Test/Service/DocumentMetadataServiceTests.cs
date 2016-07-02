@@ -30,10 +30,18 @@ namespace WorkingFilesList.Test.Service
     [TestFixture]
     public class DocumentMetadataServiceTests
     {
-        private static Document CreateDocument(string fullName)
+        private static Document CreateDocument(
+            string fullName,
+            bool nullActiveWindow = false)
         {
             var documentMock = new Mock<Document>();
             documentMock.Setup(d => d.FullName).Returns(fullName);
+
+            if (!nullActiveWindow)
+            {
+                documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
+            }
+
             return documentMock.Object;
         }
 
@@ -48,7 +56,7 @@ namespace WorkingFilesList.Test.Service
         }
 
         [Test]
-        public void UpsertAddsDocumentMetadataToListIfFullPathDoesNotExist()
+        public void AddAppendsDocumentMetadataToListIfFullPathDoesNotExist()
         {
             // Arrange
 
@@ -59,7 +67,7 @@ namespace WorkingFilesList.Test.Service
 
             // Act
 
-            service.Upsert(documentName);
+            service.Add(documentName);
 
             // Assert
 
@@ -70,7 +78,7 @@ namespace WorkingFilesList.Test.Service
         }
 
         [Test]
-        public void UpsertDoesNotAddDocumentMetadataToListIfFullPathAlreadyExist()
+        public void AddDoesNotAppendDocumentMetadataToListIfFullPathAlreadyExist()
         {
             // Arrange
 
@@ -81,8 +89,8 @@ namespace WorkingFilesList.Test.Service
 
             // Act
 
-            service.Upsert(documentName);
-            service.Upsert(documentName);
+            service.Add(documentName);
+            service.Add(documentName);
 
             // Assert
 
@@ -209,6 +217,31 @@ namespace WorkingFilesList.Test.Service
             var document = collection.Single();
 
             Assert.That(document.ActivatedAt, Is.EqualTo(activatedAt));
+        }
+
+        [Test]
+        public void SynchronizeDoesNotAddDocumentIfActiveWindowIsNull()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(documentName, true)
+            };
+
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+            var documents = CreateDocuments(documentMockList);
+
+            // Act
+
+            service.Synchronize(documents);
+
+            // Assert
+
+            Assert.That(service.ActiveDocumentMetadata.IsEmpty);
         }
     }
 }
