@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
@@ -26,14 +29,17 @@ namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
+        private readonly ITimeProvider _timeProvider;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
         public ListCollectionView ActiveDocumentMetadata { get; }
 
-        public DocumentMetadataService()
+        public DocumentMetadataService(ITimeProvider timeProvider)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
             ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
+
+            _timeProvider = timeProvider;
         }
 
         public void Upsert(string fullName)
@@ -49,6 +55,46 @@ namespace WorkingFilesList.Service
                 };
 
                 _activeDocumentMetadata.Add(metadata);
+            }
+        }
+
+        public void Synchronize(Documents documents)
+        {
+            var documentNameSet = new HashSet<string>();
+
+            foreach (var obj in documents)
+            {
+                var document = (Document) obj;
+                documentNameSet.Add(document.FullName);
+
+                var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
+                    string.Compare(
+                        m.FullName,
+                        document.FullName,
+                        StringComparison.OrdinalIgnoreCase) == 0);
+
+                if (existingMetadata == null)
+                {
+                    var newMetadata = new DocumentMetadata
+                    {
+                        ActivatedAt = _timeProvider.UtcNow,
+                        FullName = document.FullName
+                    };
+
+                    _activeDocumentMetadata.Add(newMetadata);
+                }
+            }
+
+            for (int i = 0; i < _activeDocumentMetadata.Count; i++)
+            {
+                var removeMetadata = !documentNameSet
+                    .Contains(_activeDocumentMetadata[i].FullName);
+
+                if (removeMetadata)
+                {
+                    _activeDocumentMetadata.RemoveAt(i);
+                    i--;
+                }
             }
         }
     }

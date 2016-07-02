@@ -16,21 +16,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System;
+using Moq;
+using WorkingFilesList.Interface;
+using WorkingFilesList.Service;
 
-namespace WorkingFilesList.Model
+namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    public class DocumentMetadata
+    internal class DocumentMetadataServiceBuilder
     {
-        /// <summary>
-        /// Full path and name of document file
-        /// </summary>
-        public string FullName { get; set; }
+        public Mock<ITimeProvider> TimeProviderMock { get; }
+            = new Mock<ITimeProvider>();
 
         /// <summary>
-        /// Time when the document this metadata corresponds to was activated,
-        /// i.e. the time that the document window received focus
+        /// Create and return a new <see cref="DocumentMetadataService"/>,
+        /// configured with the properties available in this builder instance
         /// </summary>
-        public DateTime ActivatedAt { get; set; }
+        /// <returns>
+        /// A new <see cref="DocumentMetadataService"/> for use in unit tests
+        /// </returns>
+        public DocumentMetadataService CreateDocumentMetadataService()
+        {
+            var service = new DocumentMetadataService(TimeProviderMock.Object);
+            return service;
+        }
     }
 }

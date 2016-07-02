@@ -81,6 +81,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DocumentMetadataServiceTests.cs" />
     <Compile Include="Service\WindowEventsServiceTests.cs" />
+    <Compile Include="TestingInfrastructure\DocumentMetadataServiceBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

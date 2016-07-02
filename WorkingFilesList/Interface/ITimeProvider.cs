@@ -18,19 +18,10 @@
 
 using System;
 
-namespace WorkingFilesList.Model
+namespace WorkingFilesList.Interface
 {
-    public class DocumentMetadata
+    public interface ITimeProvider
     {
-        /// <summary>
-        /// Full path and name of document file
-        /// </summary>
-        public string FullName { get; set; }
-
-        /// <summary>
-        /// Time when the document this metadata corresponds to was activated,
-        /// i.e. the time that the document window received focus
-        /// </summary>
-        public DateTime ActivatedAt { get; set; }
+        DateTime UtcNow { get; }
     }
 }

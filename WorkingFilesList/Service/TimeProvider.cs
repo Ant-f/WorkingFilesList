@@ -17,20 +17,18 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System;
+using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Model
+namespace WorkingFilesList.Service
 {
-    public class DocumentMetadata
+    /// <summary>
+    /// Provides the time in UTC; facilitate testing.
+    /// </summary>
+    public class TimeProvider : ITimeProvider
     {
         /// <summary>
-        /// Full path and name of document file
+        /// The current time in UTC
         /// </summary>
-        public string FullName { get; set; }
-
-        /// <summary>
-        /// Time when the document this metadata corresponds to was activated,
-        /// i.e. the time that the document window received focus
-        /// </summary>
-        public DateTime ActivatedAt { get; set; }
+        public DateTime UtcNow => DateTime.UtcNow;
     }
 }

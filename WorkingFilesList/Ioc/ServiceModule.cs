@@ -30,6 +30,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
             Kernel.Bind<IStoredSettingsService>().To<StoredSettingsService>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
+            Kernel.Bind<ITimeProvider>().To<TimeProvider>().InSingletonScope();
             Kernel.Bind<IWindowEventsService>().To<WindowEventsService>().InSingletonScope();
         }
     }

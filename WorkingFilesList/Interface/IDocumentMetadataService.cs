@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
 using System.Windows.Data;
 
 namespace WorkingFilesList.Interface
@@ -25,5 +26,6 @@ namespace WorkingFilesList.Interface
         ListCollectionView ActiveDocumentMetadata { get; }
 
         void Upsert(string fullName);
+        void Synchronize(Documents documents);
     }
 }
