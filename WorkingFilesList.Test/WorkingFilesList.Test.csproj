@@ -82,8 +82,10 @@
     <Compile Include="Service\DocumentMetadataServiceTests.cs" />
     <Compile Include="Service\ProjectItemsEventsServiceTests.cs" />
     <Compile Include="Service\WindowEventsServiceTests.cs" />
+    <Compile Include="TestingInfrastructure\CommonMethods.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataServiceBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
+    <Compile Include="ViewModel\Command\ActivateWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

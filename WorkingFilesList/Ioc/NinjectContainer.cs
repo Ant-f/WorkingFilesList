@@ -28,6 +28,7 @@ namespace WorkingFilesList.Ioc
         public static void InitializeKernel(DTE2 dte2)
         {
             Kernel = new StandardKernel(
+                new CommandModule(),
                 new ServiceModule());
 
             Kernel.Bind<DTE2>().ToConstant(dte2);

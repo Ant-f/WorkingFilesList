@@ -16,27 +16,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using Ninject;
-using WorkingFilesList.Interface;
-using WorkingFilesList.Ioc;
+using EnvDTE;
+using Moq;
+using System.Collections.Generic;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    /// <summary>
-    /// Service locator for view model related objects, for use when references
-    /// are required within XAML
-    /// </summary>
-    public class ViewModelService
+    internal class CommonMethods
     {
-        private static ICommands _commands;
-        private static IDocumentMetadataService _documentMetadataService;
+        public static Documents CreateDocuments(IList<Document> documentsToReturn)
+        {
+            var documentsMock = new Mock<Documents>();
 
-        public static ICommands Commands =>
-            _commands ??
-            (_commands = NinjectContainer.Kernel.Get<ICommands>());
+            documentsMock.Setup(d => d.GetEnumerator())
+                .Returns(documentsToReturn.GetEnumerator());
 
-        public static IDocumentMetadataService DocumentMetadataService =>
-            _documentMetadataService ??
-            (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
+            return documentsMock.Object;
+        }
     }
 }

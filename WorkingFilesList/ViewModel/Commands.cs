@@ -16,27 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using Ninject;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
+using WorkingFilesList.ViewModel.Command;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Ioc;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.ViewModel
 {
-    /// <summary>
-    /// Service locator for view model related objects, for use when references
-    /// are required within XAML
-    /// </summary>
-    public class ViewModelService
+    public class Commands : ICommands
     {
-        private static ICommands _commands;
-        private static IDocumentMetadataService _documentMetadataService;
+        public ICommand ActivateWindow { get; }
 
-        public static ICommands Commands =>
-            _commands ??
-            (_commands = NinjectContainer.Kernel.Get<ICommands>());
-
-        public static IDocumentMetadataService DocumentMetadataService =>
-            _documentMetadataService ??
-            (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
+        public Commands(IList<ICommand> commandCollection)
+        {
+            ActivateWindow = commandCollection.OfType<ActivateWindow>().Single();
+        }
     }
 }

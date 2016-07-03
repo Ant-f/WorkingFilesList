@@ -25,6 +25,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.Model;
 using WorkingFilesList.Test.TestingInfrastructure;
+using static WorkingFilesList.Test.TestingInfrastructure.CommonMethods;
 
 namespace WorkingFilesList.Test.Service
 {
@@ -44,16 +45,6 @@ namespace WorkingFilesList.Test.Service
             }
 
             return documentMock.Object;
-        }
-
-        private static Documents CreateDocuments(List<Document> documentsToReturn)
-        {
-            var documentsMock = new Mock<Documents>();
-
-            documentsMock.Setup(d => d.GetEnumerator())
-                .Returns(documentsToReturn.GetEnumerator());
-
-            return documentsMock.Object;
         }
 
         [Test]

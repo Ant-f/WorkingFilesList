@@ -52,6 +52,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Interface\ICommands.cs" />
+    <Compile Include="Ioc\CommandModule.cs" />
+    <Compile Include="ViewModel\Commands.cs" />
+    <Compile Include="ViewModel\Command\ActivateWindow.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
     <Compile Include="Ioc\NinjectContainer.cs" />
     <Compile Include="Ioc\ServiceModule.cs" />

@@ -35,7 +35,12 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding FullName}" />
+                        <Button>
+                            <Button.InputBindings>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding Commands.ActivateWindow, Source={StaticResource ViewModel}}" CommandParameter="{Binding .}" />
+                            </Button.InputBindings>
+                            <TextBlock Text="{Binding FullName}" />
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

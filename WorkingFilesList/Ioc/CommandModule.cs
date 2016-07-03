@@ -16,27 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using Ninject;
+using Ninject.Modules;
+using System.Windows.Input;
+using WorkingFilesList.ViewModel.Command;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Ioc;
+using WorkingFilesList.ViewModel;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Ioc
 {
     /// <summary>
-    /// Service locator for view model related objects, for use when references
-    /// are required within XAML
+    /// Ninject module that creates bindings for the commands used within the
+    /// extension. Buttons within the application UI are bound to these commands.
     /// </summary>
-    public class ViewModelService
+    internal class CommandModule : NinjectModule
     {
-        private static ICommands _commands;
-        private static IDocumentMetadataService _documentMetadataService;
-
-        public static ICommands Commands =>
-            _commands ??
-            (_commands = NinjectContainer.Kernel.Get<ICommands>());
-
-        public static IDocumentMetadataService DocumentMetadataService =>
-            _documentMetadataService ??
-            (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
+        public override void Load()
+        {
+            Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
+            Kernel.Bind<ICommands>().To<Commands>().InSingletonScope();
+        }
     }
 }
