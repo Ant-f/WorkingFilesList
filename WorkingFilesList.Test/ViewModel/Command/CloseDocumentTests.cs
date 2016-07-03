@@ -28,14 +28,14 @@ using static WorkingFilesList.Test.TestingInfrastructure.CommonMethods;
 namespace WorkingFilesList.Test.ViewModel.Command
 {
     [TestFixture]
-    public class ActivateWindowTests
+    public class CloseDocumentTests
     {
         [Test]
         public void CanExecuteReturnsTrue()
         {
             // Arrange
 
-            var command = new ActivateWindow(Mock.Of<DTE2>());
+            var command = new CloseDocument(Mock.Of<DTE2>());
 
             // Act
 
@@ -47,23 +47,14 @@ namespace WorkingFilesList.Test.ViewModel.Command
         }
 
         [Test]
-        public void ExecuteActivatesFirstDocumentWindow()
+        public void ExecuteClosesDocument()
         {
             // Arrange
 
             const string documentName = "DocumentName";
 
-            var windowMock = new Mock<Window>();
-            var windowList = new List<Window>
-            {
-                windowMock.Object
-            };
-
-            var windowsMock = CreateWindows(windowList);
-
             var documentMock = new Mock<Document>();
             documentMock.Setup(d => d.FullName).Returns(documentName);
-            documentMock.Setup(d => d.Windows).Returns(windowsMock);
 
             var documentMockList = new List<Document>
             {
@@ -75,7 +66,7 @@ namespace WorkingFilesList.Test.ViewModel.Command
             var dte2Mock = new Mock<DTE2>();
             dte2Mock.Setup(d => d.Documents).Returns(documents);
 
-            var command = new ActivateWindow(dte2Mock.Object);
+            var command = new CloseDocument(dte2Mock.Object);
             var metadata = new DocumentMetadata
             {
                 FullName = documentName
@@ -87,7 +78,7 @@ namespace WorkingFilesList.Test.ViewModel.Command
 
             // Assert
 
-            windowMock.Verify(w => w.Activate());
+            documentMock.Verify(d => d.Close(It.IsAny<vsSaveChanges>()));
         }
 
         [Test]
@@ -98,7 +89,7 @@ namespace WorkingFilesList.Test.ViewModel.Command
             var dteMock = new Mock<DTE2>();
             dteMock.Setup(d => d.Documents).Returns<Documents>(null);
 
-            var command = new ActivateWindow(dteMock.Object);
+            var command = new CloseDocument(dteMock.Object);
 
             // Act
 

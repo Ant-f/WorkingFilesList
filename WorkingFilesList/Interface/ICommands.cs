@@ -23,5 +23,6 @@ namespace WorkingFilesList.Interface
     public interface ICommands
     {
         ICommand ActivateWindow { get; }
+        ICommand CloseDocument { get; }
     }
 }

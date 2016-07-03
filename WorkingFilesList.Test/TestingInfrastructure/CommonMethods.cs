@@ -33,5 +33,15 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 
             return documentsMock.Object;
         }
+
+        public static EnvDTE.Windows CreateWindows(IList<Window> windowsToReturn)
+        {
+            var windowsMock = new Mock<EnvDTE.Windows>();
+
+            windowsMock.Setup(d => d.GetEnumerator())
+                .Returns(windowsToReturn.GetEnumerator());
+
+            return windowsMock.Object;
+        }
     }
 }

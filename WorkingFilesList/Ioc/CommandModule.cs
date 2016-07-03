@@ -33,6 +33,7 @@ namespace WorkingFilesList.Ioc
         public override void Load()
         {
             Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
             Kernel.Bind<ICommands>().To<Commands>().InSingletonScope();
         }
     }

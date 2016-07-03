@@ -85,6 +85,7 @@
     <Compile Include="TestingInfrastructure\CommonMethods.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataServiceBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
+    <Compile Include="ViewModel\Command\CloseDocumentTests.cs" />
     <Compile Include="ViewModel\Command\ActivateWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,10 +27,12 @@ namespace WorkingFilesList.ViewModel
     public class Commands : ICommands
     {
         public ICommand ActivateWindow { get; }
+        public ICommand CloseDocument { get; }
 
         public Commands(IList<ICommand> commandCollection)
         {
             ActivateWindow = commandCollection.OfType<ActivateWindow>().Single();
+            CloseDocument = commandCollection.OfType<CloseDocument>().Single();
         }
     }
 }

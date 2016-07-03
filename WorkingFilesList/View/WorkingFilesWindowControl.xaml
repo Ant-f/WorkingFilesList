@@ -38,6 +38,7 @@
                         <Button>
                             <Button.InputBindings>
                                 <MouseBinding Gesture="LeftClick" Command="{Binding Commands.ActivateWindow, Source={StaticResource ViewModel}}" CommandParameter="{Binding .}" />
+                                <MouseBinding Gesture="MiddleClick" Command="{Binding Commands.CloseDocument, Source={StaticResource ViewModel}}" CommandParameter="{Binding .}" />
                             </Button.InputBindings>
                             <TextBlock Text="{Binding FullName}" />
                         </Button>
