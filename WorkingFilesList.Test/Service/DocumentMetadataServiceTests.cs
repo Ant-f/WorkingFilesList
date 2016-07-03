@@ -22,6 +22,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using WorkingFilesList.Model;
 using WorkingFilesList.Test.TestingInfrastructure;
 
@@ -410,6 +411,27 @@ namespace WorkingFilesList.Test.Service
             Assert.DoesNotThrow(() => service.UpdateFullName(
                 "NewDocumentName",
                 "OldDocumentName"));
+        }
+
+        [Test]
+        public void SynchronizeHandlesComException()
+        {
+            // Arrange
+
+            var documentsMock = new Mock<Documents>();
+
+            // COMException is thrown in Synchronize when a project is closed
+            // in Visual Studio
+
+            documentsMock.Setup(d => d.GetEnumerator())
+                .Callback(() => { throw new COMException(); });
+
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            // Assert
+
+            Assert.DoesNotThrow(() => service.Synchronize(documentsMock.Object));
         }
     }
 }

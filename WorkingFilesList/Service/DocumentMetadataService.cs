@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Data;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
@@ -121,33 +122,43 @@ namespace WorkingFilesList.Service
 
             // Add documents unique to method parameter collection
 
-            foreach (var obj in documents)
+            try
             {
-                var document = (Document) obj;
-
-                if (document.ActiveWindow == null)
+                foreach (var obj in documents)
                 {
-                    continue;
-                }
+                    var document = (Document)obj;
 
-                documentNameSet.Add(document.FullName);
-
-                var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
-                    string.Compare(
-                        m.FullName,
-                        document.FullName,
-                        StringComparison.OrdinalIgnoreCase) == 0);
-
-                if (existingMetadata == null)
-                {
-                    var newMetadata = new DocumentMetadata
+                    if (document.ActiveWindow == null)
                     {
-                        ActivatedAt = _timeProvider.UtcNow,
-                        FullName = document.FullName
-                    };
+                        continue;
+                    }
 
-                    _activeDocumentMetadata.Add(newMetadata);
+                    documentNameSet.Add(document.FullName);
+
+                    var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
+                        string.Compare(
+                            m.FullName,
+                            document.FullName,
+                            StringComparison.OrdinalIgnoreCase) == 0);
+
+                    if (existingMetadata == null)
+                    {
+                        var newMetadata = new DocumentMetadata
+                        {
+                            ActivatedAt = _timeProvider.UtcNow,
+                            FullName = document.FullName
+                        };
+
+                        _activeDocumentMetadata.Add(newMetadata);
+                    }
                 }
+            }
+            catch (COMException)
+            {
+                // COMException is thrown during enumeration of 'documents'
+                // when a project is closed in Visual Studio. Do nothing: this
+                // will result in the active documents metadata collection
+                // being emptied, which is appropriate
             }
 
             // Remove documents not in method parameter collection
