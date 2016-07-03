@@ -23,9 +23,21 @@ namespace WorkingFilesList.Service
 {
     public class ProjectItemsEventsService : IProjectItemsEventsService
     {
+        private readonly IDocumentMetadataService _documentMetadataService;
+
+        public ProjectItemsEventsService(IDocumentMetadataService documentMetadataService)
+        {
+            _documentMetadataService = documentMetadataService;
+        }
+
         public void ItemRenamed(ProjectItem projectItem, string oldName)
         {
-            throw new System.NotImplementedException();
+            if (projectItem?.Document != null)
+            {
+                _documentMetadataService.UpdateFullName(
+                    projectItem.Document.FullName,
+                    oldName);
+            }
         }
     }
 }

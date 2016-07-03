@@ -65,7 +65,7 @@ namespace WorkingFilesList.Service
 
         /// <summary>
         /// Sets <see cref="DocumentMetadata.ActivatedAt"/> of the active
-        /// document metadata list entry matching the provided file name to the
+        /// document metadata item matching the provided file name to the
         /// current time in UTC
         /// </summary>
         /// <param name="fullName">Full path and name of document file</param>
@@ -78,6 +78,30 @@ namespace WorkingFilesList.Service
             {
                 var utcNow = _timeProvider.UtcNow;
                 metadata.ActivatedAt = utcNow;
+            }
+        }
+
+        /// <summary>
+        /// Updates <see cref="DocumentMetadata.FullName"/> of the specified
+        /// active doucment metadata item. Does not alter the value of
+        /// <see cref="DocumentMetadata.ActivatedAt"/>
+        /// </summary>
+        /// <param name="newName">
+        /// The new full path and name of the document file
+        /// </param>
+        /// <param name="oldName">
+        /// Full path and name of the document file that was renamed
+        /// </param>
+        public void UpdateFullName(string newName, string oldName)
+        {
+            var metadata = _activeDocumentMetadata.SingleOrDefault(m =>
+                string.CompareOrdinal(
+                    m.FullName,
+                    oldName) == 0);
+
+            if (metadata != null)
+            {
+                metadata.FullName = newName;
             }
         }
 

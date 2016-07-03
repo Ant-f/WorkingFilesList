@@ -86,7 +86,7 @@
       <FileName>Interface\IProjectItemsEventsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.ITimeProvider" Collapsed="true">
+  <Interface Name="WorkingFilesList.Interface.ITimeProvider">
     <Position X="10.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>

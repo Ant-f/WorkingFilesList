@@ -309,5 +309,107 @@ namespace WorkingFilesList.Test.Service
 
             Assert.DoesNotThrow(() => service.UpdateActivatedTime("Document"));
         }
+
+        [Test]
+        public void UpdateFullNameDoesNotAlterActivatedAtTime()
+        {
+            // Arrange
+
+            const string document1OldName = "Document1OldName";
+            const string document1NewName = "Document1NewName";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(document1OldName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            builder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            service.Synchronize(documents);
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            var document1 = collection.Single(m => m.FullName == document1OldName);
+            var document1InitialActivationTime = document1.ActivatedAt;
+
+            // Act
+
+            service.UpdateFullName(document1NewName, document1OldName);
+
+            // Assert
+
+            // Time provider called once: during setup
+            builder.TimeProviderMock.Verify(t => t.UtcNow, Times.Exactly(1));
+
+            Assert.That(
+                document1.ActivatedAt,
+                Is.EqualTo(document1InitialActivationTime));
+        }
+
+        [Test]
+        public void UpdateFullNameUpdatesSpecifiedDocumentOnly()
+        {
+            // Arrange
+
+            const string document1OldName = "Document1OldName";
+            const string document1NewName = "Document1NewName";
+            const string document2Name = "Document2Name";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(document1OldName),
+                CreateDocument(document2Name)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            builder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            service.Synchronize(documents);
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            var document1 = collection.Single(m => m.FullName == document1OldName);
+            var document2 = collection.Single(m => m.FullName == document2Name);
+
+            // Act
+
+            service.UpdateFullName(document1NewName, document1OldName);
+
+            // Assert
+
+            Assert.That(
+                document1.FullName,
+                Is.EqualTo(document1NewName));
+
+            Assert.That(
+                document2.FullName,
+                Is.EqualTo(document2Name));
+        }
+
+        [Test]
+        public void UpdateFullNameDoesNotThrowExceptionIfOldNameDoesNotExist()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService();
+
+            // Assert
+
+            Assert.DoesNotThrow(() => service.UpdateFullName(
+                "NewDocumentName",
+                "OldDocumentName"));
+        }
     }
 }

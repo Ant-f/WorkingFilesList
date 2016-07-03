@@ -27,6 +27,7 @@ namespace WorkingFilesList.Interface
 
         void Add(string fullName);
         void UpdateActivatedTime(string fullName);
+        void UpdateFullName(string newName, string oldName);
         void Synchronize(Documents documents);
     }
 }

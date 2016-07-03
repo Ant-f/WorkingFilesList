@@ -77,7 +77,8 @@
     <Compile Include="WorkingFilesWindowPackage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram\Models.cd" />
+    <None Include="ClassDiagram\Services.cd" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
