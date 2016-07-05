@@ -17,13 +17,13 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using EnvDTE;
-using System.Windows.Data;
+using System.ComponentModel;
 
 namespace WorkingFilesList.Interface
 {
     public interface IDocumentMetadataService
     {
-        ListCollectionView ActiveDocumentMetadata { get; }
+        ICollectionView ActiveDocumentMetadata { get; }
 
         void Add(string fullName);
         void UpdateActivatedTime(string fullName);

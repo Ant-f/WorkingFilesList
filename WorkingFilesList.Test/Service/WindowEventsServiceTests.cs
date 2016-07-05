@@ -17,9 +17,9 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using EnvDTE;
-using EnvDTE80;
 using Moq;
 using NUnit.Framework;
+using System;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Service;
 
@@ -56,13 +56,123 @@ namespace WorkingFilesList.Test.Service
         }
 
         [Test]
-        public void DocumentFromCreatedDocumentWindowIsAddedInMetadataService()
+        public void CreatingDocumentWindowWithEmptyMetadataCollectionSynchronizesDocuments()
+        {
+            // Arrange
+
+            var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+
+            var service = new WindowEventsService(metadataServiceMock.Object);
+
+            var documents = Mock.Of<Documents>();
+
+            var dte2Mock = new Mock<DTE>();
+            dte2Mock.Setup(d => d.Documents).Returns(documents);
+
+            var documentMock = new Mock<Document>();
+            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
+
+            var created = new Mock<Window>();
+            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
+            created.Setup(w => w.Document).Returns(documentMock.Object);
+            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+
+            // Act
+
+            service.WindowCreated(created.Object);
+
+            // Assert
+
+            metadataServiceMock.Verify(m => m.Synchronize(documents));
+        }
+
+        [Test]
+        public void CreatingDocumentWindowWithEmptyMetadataCollectionUpdatesWindowDocumentActivatedTime()
         {
             // Arrange
 
             const string documentName = "DocumentName";
 
             var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+
+            var service = new WindowEventsService(metadataServiceMock.Object);
+
+            var dte2Mock = new Mock<DTE>();
+            dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
+
+            var documentMock = new Mock<Document>();
+            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
+            documentMock.Setup(d => d.FullName).Returns(documentName);
+
+            var created = new Mock<Window>();
+            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
+            created.Setup(w => w.Document).Returns(documentMock.Object);
+            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+
+            // Act
+
+            service.WindowCreated(created.Object);
+
+            // Assert
+
+            metadataServiceMock.Verify(m => m.UpdateActivatedTime(documentName));
+        }
+
+        [Test]
+        public void ActivatedTimeUpdateOccursAfterSynchronizationWhenWindowIsCreated()
+        {
+            // Arrange
+
+            var activatedTimeUpdateTime = new DateTime();
+            var synchronizeTime = new DateTime();
+
+            var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+
+            metadataServiceMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
+                .Callback(() => synchronizeTime = DateTime.UtcNow);
+
+            metadataServiceMock.Setup(m => m.UpdateActivatedTime(It.IsAny<string>()))
+                .Callback(() => activatedTimeUpdateTime = DateTime.UtcNow);
+
+            var service = new WindowEventsService(metadataServiceMock.Object);
+
+            var dte2Mock = new Mock<DTE>();
+            dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
+
+            var documentMock = new Mock<Document>();
+            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
+            documentMock.Setup(d => d.FullName).Returns("DocumentName");
+
+            var created = new Mock<Window>();
+            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
+            created.Setup(w => w.Document).Returns(documentMock.Object);
+            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+
+            // Act
+
+            service.WindowCreated(created.Object);
+
+            // Assert
+
+            metadataServiceMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
+            metadataServiceMock.Verify(m => m.UpdateActivatedTime(It.IsAny<string>()));
+
+            Assert.That(activatedTimeUpdateTime, Is.GreaterThan(synchronizeTime));
+        }
+
+        [Test]
+        public void CreatingDocumentWindowWithNonEmptyMetadataCollectionAddsDocument()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+
+            var metadataServiceMock = new Mock<IDocumentMetadataService>();
+            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(false);
+
             var service = new WindowEventsService(metadataServiceMock.Object);
 
             var documentMock = new Mock<Document>();

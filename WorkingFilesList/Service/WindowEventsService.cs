@@ -53,7 +53,17 @@ namespace WorkingFilesList.Service
             if (window.Type == vsWindowType.vsWindowTypeDocument &&
                 window.Document.ActiveWindow != null)
             {
-                _documentMetadataService.Add(window.Document.FullName);
+                if (_documentMetadataService.ActiveDocumentMetadata.IsEmpty)
+                {
+                    _documentMetadataService.Synchronize(window.DTE.Documents);
+
+                    _documentMetadataService.UpdateActivatedTime(
+                        window.Document.FullName);
+                }
+                else
+                {
+                    _documentMetadataService.Add(window.Document.FullName);
+                }
             }
         }
     }

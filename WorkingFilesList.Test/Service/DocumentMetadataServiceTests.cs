@@ -63,10 +63,11 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(1));
-            Assert.That(
-                ((DocumentMetadata) service.ActiveDocumentMetadata.GetItemAt(0)).FullName,
-                Is.EqualTo(documentName));
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(documentName));
         }
 
         [Test]
@@ -86,10 +87,11 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(1));
-            Assert.That(
-                ((DocumentMetadata) service.ActiveDocumentMetadata.GetItemAt(0)).FullName,
-                Is.EqualTo(documentName));
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(documentName));
         }
 
         [Test]
@@ -116,10 +118,10 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(2));
-
             var collection =
-                (IList<DocumentMetadata>) service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(2));
 
             var document1 = collection.SingleOrDefault(m => m.FullName == document1Name);
             var document2 = collection.SingleOrDefault(m => m.FullName == document2Name);
@@ -166,10 +168,10 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            Assert.That(service.ActiveDocumentMetadata.Count, Is.EqualTo(1));
-
             var collection =
                 (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
 
             var remove = collection.SingleOrDefault(m => m.FullName == documentToRemove);
             var retain = collection.SingleOrDefault(m => m.FullName == documentToRetain);

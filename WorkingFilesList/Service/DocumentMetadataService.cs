@@ -20,6 +20,7 @@ using EnvDTE;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
@@ -33,7 +34,7 @@ namespace WorkingFilesList.Service
         private readonly ITimeProvider _timeProvider;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
-        public ListCollectionView ActiveDocumentMetadata { get; }
+        public ICollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataService(ITimeProvider timeProvider)
         {
