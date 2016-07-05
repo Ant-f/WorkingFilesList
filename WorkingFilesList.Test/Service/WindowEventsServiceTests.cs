@@ -125,17 +125,20 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var activatedTimeUpdateTime = new DateTime();
-            var synchronizeTime = new DateTime();
+            var synchronized = false;
+            var synchronizedWhenUpdatingActivatedTime = false;
 
             var metadataServiceMock = new Mock<IDocumentMetadataService>();
             metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
 
             metadataServiceMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
-                .Callback(() => synchronizeTime = DateTime.UtcNow);
+                .Callback(() => synchronized = true);
 
+            // Check that UpdateActivatedTime is called after Synchronize: the value
+            // of synchronizedWhenUpdatingActivatedTime will be true only if
+            // UpdateActivatedTime is called after Synchronize
             metadataServiceMock.Setup(m => m.UpdateActivatedTime(It.IsAny<string>()))
-                .Callback(() => activatedTimeUpdateTime = DateTime.UtcNow);
+                .Callback(() => synchronizedWhenUpdatingActivatedTime = synchronized);
 
             var service = new WindowEventsService(metadataServiceMock.Object);
 
@@ -160,7 +163,7 @@ namespace WorkingFilesList.Test.Service
             metadataServiceMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
             metadataServiceMock.Verify(m => m.UpdateActivatedTime(It.IsAny<string>()));
 
-            Assert.That(activatedTimeUpdateTime, Is.GreaterThan(synchronizeTime));
+            Assert.IsTrue(synchronizedWhenUpdatingActivatedTime);
         }
 
         [Test]
