@@ -53,6 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Interface\ICommands.cs" />
+    <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Ioc\CommandModule.cs" />
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="ViewModel\Commands.cs" />

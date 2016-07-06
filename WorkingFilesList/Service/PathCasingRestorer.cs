@@ -18,6 +18,7 @@
 
 using EnvDTE;
 using System.IO;
+using WorkingFilesList.Interface;
 
 namespace WorkingFilesList.Service
 {
@@ -27,7 +28,7 @@ namespace WorkingFilesList.Service
     /// logic to return the path to a file with the same casing as written on
     /// the file system
     /// </summary>
-    public class PathCasingRestorer
+    public class PathCasingRestorer : IPathCasingRestorer
     {
         /// <summary>
         /// Corrects the casing of file and directory names
@@ -57,7 +58,7 @@ namespace WorkingFilesList.Service
                 if (grandParentDirInfo == null)
                 {
                     returnValue = Path.Combine(
-                        parentDirInfo.Name.ToUpper(),
+                        parentDirInfo.Name.ToUpperInvariant(),
                         returnValue);
                 }
                 else

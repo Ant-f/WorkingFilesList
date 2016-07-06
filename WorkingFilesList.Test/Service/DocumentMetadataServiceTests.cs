@@ -55,7 +55,7 @@ namespace WorkingFilesList.Test.Service
             const string documentName = "DocumentName";
 
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Act
 
@@ -78,7 +78,7 @@ namespace WorkingFilesList.Test.Service
             const string documentName = "DocumentName";
 
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Act
 
@@ -110,7 +110,7 @@ namespace WorkingFilesList.Test.Service
 
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Act
 
@@ -146,7 +146,7 @@ namespace WorkingFilesList.Test.Service
 
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Synchronize to set two items in the document metadata service
             // metadata list
@@ -196,7 +196,7 @@ namespace WorkingFilesList.Test.Service
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(activatedAt);
 
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
             var documents = CreateDocuments(documentMockList);
 
             // Act
@@ -226,7 +226,7 @@ namespace WorkingFilesList.Test.Service
             };
 
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
             var documents = CreateDocuments(documentMockList);
 
             // Act
@@ -254,7 +254,7 @@ namespace WorkingFilesList.Test.Service
             
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
@@ -294,7 +294,7 @@ namespace WorkingFilesList.Test.Service
             // Arrange
             
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
@@ -319,7 +319,7 @@ namespace WorkingFilesList.Test.Service
 
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
@@ -363,7 +363,7 @@ namespace WorkingFilesList.Test.Service
 
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
@@ -397,7 +397,7 @@ namespace WorkingFilesList.Test.Service
             // Arrange
 
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Assert
 
@@ -420,11 +420,119 @@ namespace WorkingFilesList.Test.Service
                 .Callback(() => { throw new COMException(); });
 
             var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var service = builder.CreateDocumentMetadataService(true);
 
             // Assert
 
             Assert.DoesNotThrow(() => service.Synchronize(documentsMock.Object));
+        }
+
+        [Test]
+        public void AddUsesPathCasingRestorer()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService(true);
+
+            // Act
+
+            service.Add(documentName);
+
+            // Assert
+
+            builder.PathCasingRestorerMock.Verify(p => p.RestoreCasing(documentName));
+        }
+
+        [Test]
+        public void SynchronizeUsesPathCasingRestorer()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(documentName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataServiceBuilder();
+            var service = builder.CreateDocumentMetadataService(true);
+
+            // Act
+
+            service.Synchronize(documents);
+
+            // Assert
+
+            builder.PathCasingRestorerMock.Verify(p => p.RestoreCasing(documentName));
+        }
+
+        [Test]
+        public void PathCasingRestorerOutputIsUsedWhenAddingMetadata()
+        {
+            // Arrange
+
+            const string correctedCasing = "DocumentName";
+            const string lowerCase = "documentname";
+
+            var builder = new DocumentMetadataServiceBuilder();
+
+            builder.PathCasingRestorerMock
+                .Setup(p => p.RestoreCasing(lowerCase))
+                .Returns(correctedCasing);
+
+            var service = builder.CreateDocumentMetadataService(false);
+
+            // Act
+
+            service.Add(lowerCase);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(correctedCasing));
+        }
+
+        [Test]
+        public void PathCasingRestorerOutputIsUsedWhenSynchronizingMetadata()
+        {
+            // Arrange
+
+            const string correctedCasing = "DocumentName";
+            const string lowerCase = "documentname";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(lowerCase)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataServiceBuilder();
+
+            builder.PathCasingRestorerMock
+                .Setup(p => p.RestoreCasing(lowerCase))
+                .Returns(correctedCasing);
+
+            var service = builder.CreateDocumentMetadataService(false);
+
+            // Act
+
+            service.Synchronize(documents);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(correctedCasing));
         }
     }
 }

@@ -24,6 +24,9 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 {
     internal class DocumentMetadataServiceBuilder
     {
+        public Mock<IPathCasingRestorer> PathCasingRestorerMock { get; }
+            = new Mock<IPathCasingRestorer>();
+
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
 
@@ -31,12 +34,28 @@ namespace WorkingFilesList.Test.TestingInfrastructure
         /// Create and return a new <see cref="DocumentMetadataService"/>,
         /// configured with the properties available in this builder instance
         /// </summary>
+        /// <param name="pathCasingRestorerReturnsInput">
+        /// Adds a setup to <see cref="PathCasingRestorerMock"/> so that
+        /// <see cref="PathCasingRestorer.RestoreCasing"/> returns its input
+        /// parameter
+        /// </param>
         /// <returns>
         /// A new <see cref="DocumentMetadataService"/> for use in unit tests
         /// </returns>
-        public DocumentMetadataService CreateDocumentMetadataService()
+        public DocumentMetadataService CreateDocumentMetadataService(
+            bool pathCasingRestorerReturnsInput)
         {
-            var service = new DocumentMetadataService(TimeProviderMock.Object);
+            if (pathCasingRestorerReturnsInput)
+            {
+                PathCasingRestorerMock
+                    .Setup(p => p.RestoreCasing(It.IsAny<string>()))
+                    .Returns<string>(str => str);
+            }
+
+            var service = new DocumentMetadataService(
+                PathCasingRestorerMock.Object,
+                TimeProviderMock.Object);
+
             return service;
         }
     }

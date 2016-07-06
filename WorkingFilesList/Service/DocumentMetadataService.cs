@@ -31,16 +31,20 @@ namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
+        private readonly IPathCasingRestorer _pathCasingRestorer;
         private readonly ITimeProvider _timeProvider;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
         public ICollectionView ActiveDocumentMetadata { get; }
 
-        public DocumentMetadataService(ITimeProvider timeProvider)
+        public DocumentMetadataService(
+            IPathCasingRestorer pathCasingRestorer,
+            ITimeProvider timeProvider)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
             ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
 
+            _pathCasingRestorer = pathCasingRestorer;
             _timeProvider = timeProvider;
         }
 
@@ -56,9 +60,11 @@ namespace WorkingFilesList.Service
 
             if (!metadataExists)
             {
+                var correctedCasing = _pathCasingRestorer.RestoreCasing(fullName);
+
                 var metadata = new DocumentMetadata
                 {
-                    FullName = fullName
+                    FullName = correctedCasing
                 };
 
                 _activeDocumentMetadata.Add(metadata);
@@ -134,12 +140,15 @@ namespace WorkingFilesList.Service
                         continue;
                     }
 
-                    documentNameSet.Add(document.FullName);
+                    var correctedCasing = _pathCasingRestorer
+                        .RestoreCasing(document.FullName);
+
+                    documentNameSet.Add(correctedCasing);
 
                     var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
                         string.Compare(
                             m.FullName,
-                            document.FullName,
+                            correctedCasing,
                             StringComparison.OrdinalIgnoreCase) == 0);
 
                     if (existingMetadata == null)
@@ -147,7 +156,7 @@ namespace WorkingFilesList.Service
                         var newMetadata = new DocumentMetadata
                         {
                             ActivatedAt = _timeProvider.UtcNow,
-                            FullName = document.FullName
+                            FullName = correctedCasing
                         };
 
                         _activeDocumentMetadata.Add(newMetadata);

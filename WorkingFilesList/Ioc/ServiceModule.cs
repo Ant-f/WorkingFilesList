@@ -28,9 +28,10 @@ namespace WorkingFilesList.Ioc
         {
             Kernel.Bind<IDocumentMetadataService>().To<DocumentMetadataService>().InSingletonScope();
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
-            Kernel.Bind<IStoredSettingsService>().To<StoredSettingsService>().InSingletonScope();
+            Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
             Kernel.Bind<ITimeProvider>().To<TimeProvider>().InSingletonScope();
+            Kernel.Bind<IStoredSettingsService>().To<StoredSettingsService>().InSingletonScope();
             Kernel.Bind<IWindowEventsService>().To<WindowEventsService>().InSingletonScope();
         }
     }
