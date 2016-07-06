@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Interface\ICommands.cs" />
     <Compile Include="Ioc\CommandModule.cs" />
+    <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="ViewModel\Commands.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />
     <Compile Include="ViewModel\Command\ActivateWindow.cs" />

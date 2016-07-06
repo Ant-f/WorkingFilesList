@@ -80,6 +80,7 @@
     <Compile Include="Service\DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DocumentMetadataServiceTests.cs" />
+    <Compile Include="Service\PathCasingRestorerTests.cs" />
     <Compile Include="Service\ProjectItemsEventsServiceTests.cs" />
     <Compile Include="Service\WindowEventsServiceTests.cs" />
     <Compile Include="TestingInfrastructure\CommonMethods.cs" />
@@ -96,6 +97,11 @@
       <Project>{a2b18aff-9ae2-43a1-85f0-c77d912b5e2e}</Project>
       <Name>WorkingFilesList</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestingData\PathCasingRestorerTestFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
