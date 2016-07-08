@@ -16,23 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
+using System;
+using WorkingFilesList.Model;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Interface
 {
-    public static class NinjectContainer
+    public interface IDocumentMetadataFactory
     {
-        public static IKernel Kernel { get; private set; }
-
-        public static void InitializeKernel(DTE2 dte2)
-        {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule());
-
-            Kernel.Bind<DTE2>().ToConstant(dte2);
-        }
+        DocumentMetadata Create(string fullName);
+        DocumentMetadata Create(string fullName, DateTime activatedAt);
     }
 }

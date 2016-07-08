@@ -16,12 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using WorkingFilesList.Model;
+using WorkingFilesList.Test.TestingInfrastructure;
 using WorkingFilesList.ViewModel.Command;
 using static WorkingFilesList.Test.TestingInfrastructure.CommonMethods;
 
@@ -66,11 +67,11 @@ namespace WorkingFilesList.Test.ViewModel.Command
             var dte2Mock = new Mock<DTE2>();
             dte2Mock.Setup(d => d.Documents).Returns(documents);
 
+            var builder = new DocumentMetadataFactoryBuilder();
+            var factory = builder.CreateDocumentMetadataFactory(true);
+            var metadata = factory.Create(documentName);
+
             var command = new CloseDocument(dte2Mock.Object);
-            var metadata = new DocumentMetadata
-            {
-                FullName = documentName
-            };
 
             // Act
 

@@ -17,15 +17,21 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Moq;
+using WorkingFilesList.Factory;
 using WorkingFilesList.Interface;
+using WorkingFilesList.Model;
 using WorkingFilesList.Service;
 
 namespace WorkingFilesList.Test.TestingInfrastructure
 {
     internal class DocumentMetadataServiceBuilder
     {
-        public Mock<IPathCasingRestorer> PathCasingRestorerMock { get; }
-            = new Mock<IPathCasingRestorer>();
+        /// <summary>
+        /// Factory to pass as constructor parameter when creating new
+        /// <see cref="DocumentMetadataService"/> instances. A mock factory that
+        /// outputs its input parameter is created if this property is left null.
+        /// </summary>
+        public IDocumentMetadataFactory DocumentMetadataFactory { get; set; }
 
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
@@ -34,26 +40,19 @@ namespace WorkingFilesList.Test.TestingInfrastructure
         /// Create and return a new <see cref="DocumentMetadataService"/>,
         /// configured with the properties available in this builder instance
         /// </summary>
-        /// <param name="pathCasingRestorerReturnsInput">
-        /// Adds a setup to <see cref="PathCasingRestorerMock"/> so that
-        /// <see cref="PathCasingRestorer.RestoreCasing"/> returns its input
-        /// parameter
-        /// </param>
         /// <returns>
         /// A new <see cref="DocumentMetadataService"/> for use in unit tests
         /// </returns>
-        public DocumentMetadataService CreateDocumentMetadataService(
-            bool pathCasingRestorerReturnsInput)
+        public DocumentMetadataService CreateDocumentMetadataService()
         {
-            if (pathCasingRestorerReturnsInput)
+            if (DocumentMetadataFactory == null)
             {
-                PathCasingRestorerMock
-                    .Setup(p => p.RestoreCasing(It.IsAny<string>()))
-                    .Returns<string>(str => str);
+                var builder = new DocumentMetadataFactoryBuilder(TimeProviderMock);
+                DocumentMetadataFactory = builder.CreateDocumentMetadataFactory(true);
             }
 
             var service = new DocumentMetadataService(
-                PathCasingRestorerMock.Object,
+                DocumentMetadataFactory,
                 TimeProviderMock.Object);
 
             return service;

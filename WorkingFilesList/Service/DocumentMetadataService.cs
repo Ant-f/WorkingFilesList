@@ -31,20 +31,20 @@ namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
-        private readonly IPathCasingRestorer _pathCasingRestorer;
+        private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly ITimeProvider _timeProvider;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
         public ICollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataService(
-            IPathCasingRestorer pathCasingRestorer,
+            IDocumentMetadataFactory documentMetadataFactory,
             ITimeProvider timeProvider)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
             ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
 
-            _pathCasingRestorer = pathCasingRestorer;
+            _documentMetadataFactory = documentMetadataFactory;
             _timeProvider = timeProvider;
         }
 
@@ -60,13 +60,7 @@ namespace WorkingFilesList.Service
 
             if (!metadataExists)
             {
-                var correctedCasing = _pathCasingRestorer.RestoreCasing(fullName);
-
-                var metadata = new DocumentMetadata
-                {
-                    FullName = correctedCasing
-                };
-
+                var metadata = _documentMetadataFactory.Create(fullName);
                 _activeDocumentMetadata.Add(metadata);
             }
         }
@@ -90,8 +84,8 @@ namespace WorkingFilesList.Service
         }
 
         /// <summary>
-        /// Updates <see cref="DocumentMetadata.FullName"/> of the specified
-        /// active doucment metadata item. Does not alter the value of
+        /// Replaces the specified doucment metadata item with another that
+        /// reflects the updated full name. Does not alter the value of
         /// <see cref="DocumentMetadata.ActivatedAt"/>
         /// </summary>
         /// <param name="newName">
@@ -102,14 +96,20 @@ namespace WorkingFilesList.Service
         /// </param>
         public void UpdateFullName(string newName, string oldName)
         {
-            var metadata = _activeDocumentMetadata.SingleOrDefault(m =>
-                string.CompareOrdinal(
-                    m.FullName,
-                    oldName) == 0);
-
-            if (metadata != null)
+            for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
-                metadata.FullName = newName;
+                var existingMetadata = _activeDocumentMetadata[i];
+                var match = string.CompareOrdinal(existingMetadata.FullName, oldName) == 0;
+                if (match)
+                {
+                    var newMetadata = _documentMetadataFactory.Create(
+                        newName,
+                        _activeDocumentMetadata[i].ActivatedAt);
+
+                    _activeDocumentMetadata[i] = newMetadata;
+
+                    break;
+                }
             }
         }
 
@@ -140,27 +140,8 @@ namespace WorkingFilesList.Service
                         continue;
                     }
 
-                    var correctedCasing = _pathCasingRestorer
-                        .RestoreCasing(document.FullName);
-
-                    documentNameSet.Add(correctedCasing);
-
-                    var existingMetadata = _activeDocumentMetadata.SingleOrDefault(m =>
-                        string.Compare(
-                            m.FullName,
-                            correctedCasing,
-                            StringComparison.OrdinalIgnoreCase) == 0);
-
-                    if (existingMetadata == null)
-                    {
-                        var newMetadata = new DocumentMetadata
-                        {
-                            ActivatedAt = _timeProvider.UtcNow,
-                            FullName = correctedCasing
-                        };
-
-                        _activeDocumentMetadata.Add(newMetadata);
-                    }
+                    documentNameSet.Add(document.FullName);
+                    Add(document.FullName);
                 }
             }
             catch (COMException)

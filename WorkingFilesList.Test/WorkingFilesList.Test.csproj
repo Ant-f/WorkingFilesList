@@ -76,6 +76,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
     <Compile Include="Ioc\NinjectContainerTests.cs" />
     <Compile Include="Service\DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Service\ProjectItemsEventsServiceTests.cs" />
     <Compile Include="Service\WindowEventsServiceTests.cs" />
     <Compile Include="TestingInfrastructure\CommonMethods.cs" />
+    <Compile Include="TestingInfrastructure\DocumentMetadataFactoryBuilder.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataServiceBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
     <Compile Include="ViewModel\Command\CloseDocumentTests.cs" />

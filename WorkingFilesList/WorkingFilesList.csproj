@@ -52,9 +52,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\ICommands.cs" />
+    <Compile Include="Interface\IDocumentMetadataFactory.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Ioc\CommandModule.cs" />
+    <Compile Include="Ioc\FactoryModule.cs" />
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="ViewModel\Commands.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />

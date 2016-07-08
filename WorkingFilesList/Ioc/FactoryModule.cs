@@ -16,33 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE;
-using System;
+using Ninject.Modules;
+using WorkingFilesList.Factory;
+using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Model
+namespace WorkingFilesList.Ioc
 {
-    public class DocumentMetadata
+    internal class FactoryModule : NinjectModule
     {
-        /// <summary>
-        /// Full path and name of document file, used for display purposes
-        /// </summary>
-        public string CorrectedFullName { get; }
-
-        /// <summary>
-        /// Full path and name of document file, as reported by the <see cref="DTE"/>
-        /// </summary>
-        public string FullName { get; }
-
-        /// <summary>
-        /// Time when the document this metadata corresponds to was activated,
-        /// i.e. the time that the document window received focus
-        /// </summary>
-        public DateTime ActivatedAt { get; set; }
-
-        public DocumentMetadata(string correctedFullName, string fullName)
+        public override void Load()
         {
-            CorrectedFullName = correctedFullName;
-            FullName = fullName;
+            Kernel.Bind<IDocumentMetadataFactory>().To<DocumentMetadataFactory>().InSingletonScope();
         }
     }
 }
