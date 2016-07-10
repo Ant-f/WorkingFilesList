@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\ICommands.cs" />

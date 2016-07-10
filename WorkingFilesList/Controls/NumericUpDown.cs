@@ -18,25 +18,46 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using WorkingFilesList.Controls.Command;
+using WorkingFilesList.View;
 
 namespace WorkingFilesList.Controls
 {
     /// <summary>
-    /// Control for displaying/editing int values
+    /// Control for displaying/editing int values. Style and template is located
+    /// in XAML of <see cref="WorkingFilesWindowControl"/>, where this control
+    /// is used; it doesn't seem possible to use extenal resource dictionary
+    /// files with Visual Studio extension tool windows.
     /// </summary>
     public class NumericUpDown : Control
     {
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register(
+                "Minimum",
+                typeof(int),
+                typeof(NumericUpDown));
+
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(
                 "Value",
                 typeof(int),
                 typeof(NumericUpDown));
 
+        public int Minimum
+        {
+            get { return (int)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
+        }
+
         public int Value
         {
             get { return (int)GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
+
+        public ICommand IncrementValue { get; }
+            = new IncrementNumericUpDownValue();
 
         public NumericUpDown()
         {
