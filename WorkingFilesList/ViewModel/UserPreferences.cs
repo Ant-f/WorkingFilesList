@@ -16,24 +16,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
+using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.ViewModel
 {
-    public static class NinjectContainer
+    public class UserPreferences : PropertyChangedNotifier, IUserPreferences
     {
-        public static IKernel Kernel { get; private set; }
+        private int _pathSegmentCount;
 
-        public static void InitializeKernel(DTE2 dte2)
+        /// <summary>
+        /// The number of path segments to display, a path segment being either
+        /// a single file or directory name that makes up the full name of a file
+        /// </summary>
+        public int PathSegmentCount
         {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule(),
-                new ViewModelModule());
+            get
+            {
+                return _pathSegmentCount;
+            }
 
-            Kernel.Bind<DTE2>().ToConstant(dte2);
+            set
+            {
+                if (_pathSegmentCount != value)
+                {
+                    _pathSegmentCount = value;
+                    OnPropertyChanged();
+                }
+            }
         }
     }
 }

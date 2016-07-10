@@ -16,24 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Controls
 {
-    public static class NinjectContainer
+    /// <summary>
+    /// Control for displaying/editing int values
+    /// </summary>
+    public class NumericUpDown : Control
     {
-        public static IKernel Kernel { get; private set; }
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(
+                "Value",
+                typeof(int),
+                typeof(NumericUpDown));
 
-        public static void InitializeKernel(DTE2 dte2)
+        public int Value
         {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule(),
-                new ViewModelModule());
+            get { return (int)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
 
-            Kernel.Bind<DTE2>().ToConstant(dte2);
+        public NumericUpDown()
+        {
+            DefaultStyleKey = typeof(NumericUpDown);
         }
     }
 }

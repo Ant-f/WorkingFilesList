@@ -16,24 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
+using Ninject.Modules;
+using WorkingFilesList.Interface;
+using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Ioc
 {
-    public static class NinjectContainer
+    internal class ViewModelModule : NinjectModule
     {
-        public static IKernel Kernel { get; private set; }
-
-        public static void InitializeKernel(DTE2 dte2)
+        public override void Load()
         {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule(),
-                new ViewModelModule());
-
-            Kernel.Bind<DTE2>().ToConstant(dte2);
+            Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();
         }
     }
 }

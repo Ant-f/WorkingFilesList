@@ -16,24 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
-
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Interface
 {
-    public static class NinjectContainer
+    public interface IUserPreferences
     {
-        public static IKernel Kernel { get; private set; }
-
-        public static void InitializeKernel(DTE2 dte2)
-        {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule(),
-                new ViewModelModule());
-
-            Kernel.Bind<DTE2>().ToConstant(dte2);
-        }
+        int PathSegmentCount { get; set; }
     }
 }

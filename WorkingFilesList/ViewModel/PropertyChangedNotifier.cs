@@ -16,24 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using EnvDTE80;
-using Ninject;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.ViewModel
 {
-    public static class NinjectContainer
+    /// <summary>
+    /// Classes that need to implement <see cref="INotifyPropertyChanged"/> can
+    /// do so by subclassing this class
+    /// </summary>
+    public class PropertyChangedNotifier : INotifyPropertyChanged
     {
-        public static IKernel Kernel { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public static void InitializeKernel(DTE2 dte2)
+        protected virtual void OnPropertyChanged(
+            [CallerMemberName] string propertyName = null)
         {
-            Kernel = new StandardKernel(
-                new CommandModule(),
-                new FactoryModule(),
-                new ServiceModule(),
-                new ViewModelModule());
-
-            Kernel.Bind<DTE2>().ToConstant(dte2);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
