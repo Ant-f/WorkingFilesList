@@ -65,6 +65,9 @@ namespace WorkingFilesList.Controls
             set { SetValue(ValueProperty, value); }
         }
 
+        public ICommand DecrementValue { get; }
+            = new DecrementNumericUpDownValue();
+
         public ICommand IncrementValue { get; }
             = new IncrementNumericUpDownValue();
 

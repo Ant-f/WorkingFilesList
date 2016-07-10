@@ -35,7 +35,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:NumericUpDown}">
-                        <Grid>
+                        <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                             <Grid.Resources>
                                 <Style TargetType="Path">
                                     <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
@@ -44,6 +44,7 @@
                                 </Style>
                                 
                                 <Style TargetType="RepeatButton">
+                                    <Setter Property="CommandParameter" Value="{Binding}" />
                                     <Setter Property="IsTabStop" Value="False" />
                                 </Style>
                             </Grid.Resources>
@@ -60,18 +61,19 @@
 
                             <TextBox Grid.Column="0"
                                      Grid.RowSpan="2"
-                                     Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                      VerticalContentAlignment="Center">
                             </TextBox>
 
-                            <RepeatButton Command="{Binding IncrementValue, RelativeSource={RelativeSource TemplatedParent}}"
-                                          CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                            <RepeatButton Command="{Binding IncrementValue}"
                                           Grid.Column="1"
                                           Grid.Row="0">
                                 <Path Data="M 0,1 L 2,1 L 1,0 Z" />
                             </RepeatButton>
 
-                            <RepeatButton Grid.Column="1" Grid.Row="1">
+                            <RepeatButton Command="{Binding DecrementValue}"
+                                          Grid.Column="1"
+                                          Grid.Row="1">
                                 <Path Data="M 0,0 L 2,0 L 1,1 Z" />
                             </RepeatButton>
                         </Grid>

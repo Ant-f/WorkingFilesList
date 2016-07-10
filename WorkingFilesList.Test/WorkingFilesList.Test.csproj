@@ -78,6 +78,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="Controls\Command\IncrementNumericUpDownValueTests.cs" />
     <Compile Include="Controls\NumericUpDownTests.cs" />
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />

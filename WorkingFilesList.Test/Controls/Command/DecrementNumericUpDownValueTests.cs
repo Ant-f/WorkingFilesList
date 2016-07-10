@@ -25,14 +25,14 @@ namespace WorkingFilesList.Test.Controls.Command
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]
-    public class IncrementNumericUpDownValueTests
+    public class DecrementNumericUpDownValueTests
     {
         [Test]
         public void CanExecuteReturnsTrue()
         {
             // Arrange
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Act
 
@@ -44,16 +44,17 @@ namespace WorkingFilesList.Test.Controls.Command
         }
 
         [Test]
-        public void CommandIncrementsNumericUpDownValue()
+        public void CommandDecrementsNumericUpDownValue()
         {
             // Arrange
 
             var upDown = new NumericUpDown
             {
-                Value = 0
+                Minimum = 0,
+                Value = 5
             };
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Act
 
@@ -61,7 +62,7 @@ namespace WorkingFilesList.Test.Controls.Command
 
             // Assert
 
-            Assert.That(upDown.Value, Is.EqualTo(1));
+            Assert.That(upDown.Value, Is.EqualTo(4));
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace WorkingFilesList.Test.Controls.Command
         {
             // Arrange
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Assert
 
