@@ -79,6 +79,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Controls\Command\IncrementNumericUpDownValueTests.cs" />
+    <Compile Include="Controls\NumericUpDownTests.cs" />
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
     <Compile Include="Ioc\NinjectContainerTests.cs" />
     <Compile Include="Service\DteEventsSubscriberTests.cs" />
