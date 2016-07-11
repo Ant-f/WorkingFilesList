@@ -21,6 +21,7 @@ using WorkingFilesList.Factory;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 using WorkingFilesList.Service;
+using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Test.TestingInfrastructure
 {
@@ -35,6 +36,9 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
+
+        public IUserPreferences UserPreferences { get; set; }
+            = new UserPreferences();
 
         /// <summary>
         /// Create and return a new <see cref="DocumentMetadataService"/>,
@@ -53,7 +57,8 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 
             var service = new DocumentMetadataService(
                 DocumentMetadataFactory,
-                TimeProviderMock.Object);
+                TimeProviderMock.Object,
+                UserPreferences);
 
             return service;
         }

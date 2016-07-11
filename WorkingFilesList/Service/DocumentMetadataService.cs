@@ -21,31 +21,44 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
+using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Service
 {
     public class DocumentMetadataService : IDocumentMetadataService
     {
+        private readonly char[] _pathSeparators =
+        {
+            Path.AltDirectorySeparatorChar,
+            Path.DirectorySeparatorChar
+        };
+
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly ITimeProvider _timeProvider;
+        private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
         public ICollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataService(
             IDocumentMetadataFactory documentMetadataFactory,
-            ITimeProvider timeProvider)
+            ITimeProvider timeProvider,
+            IUserPreferences userPreferences)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
             ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
 
             _documentMetadataFactory = documentMetadataFactory;
             _timeProvider = timeProvider;
+            _userPreferences = userPreferences;
+
+            _userPreferences.PropertyChanged += UserPreferencesPropertyChanged;
         }
 
         /// <summary>
@@ -61,6 +74,7 @@ namespace WorkingFilesList.Service
             if (!metadataExists)
             {
                 var metadata = _documentMetadataFactory.Create(fullName);
+                metadata.DisplayName = EvaluateDisplayName(metadata);
                 _activeDocumentMetadata.Add(metadata);
             }
         }
@@ -165,6 +179,61 @@ namespace WorkingFilesList.Service
                     i--;
                 }
             }
+        }
+
+        private void UserPreferencesPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(UserPreferences.PathSegmentCount):
+                {
+                    foreach (var metadata in _activeDocumentMetadata)
+                    {
+                        metadata.DisplayName = EvaluateDisplayName(metadata);
+                    }
+                    break;
+                }
+            }
+        }
+
+        private string EvaluateDisplayName(DocumentMetadata metadata)
+        {
+            var maxIndex = metadata.CorrectedFullName.Length - 1;
+
+            // Start search at the last position of the string
+            var startIndex = maxIndex;
+
+            for (int i = 0;
+                i < _userPreferences.PathSegmentCount && startIndex > 0;
+                i++)
+            {
+                var index = metadata.CorrectedFullName.LastIndexOfAny(
+                    _pathSeparators,
+                    startIndex);
+
+                // Decrement index: subsequent calls to LastIndexOfAny will
+                // return the same index otherwise
+
+                startIndex = index - 1;
+            }
+
+            int substringStartIndex;
+            if (startIndex < 0 || startIndex == maxIndex)
+            {
+                substringStartIndex = 0;
+            }
+            else
+            {
+                // startIndex points to a character before a directory separator.
+                // Increment startIndex by two:
+                // - one to point at a directory separator, which we don't want
+                // - one to point at the first character after the directory separator
+
+                substringStartIndex = startIndex + 2;
+            }
+
+            var displayName = metadata.CorrectedFullName.Substring(substringStartIndex);
+            return displayName;
         }
     }
 }

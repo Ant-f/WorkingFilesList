@@ -98,7 +98,8 @@
                        VerticalAlignment="Center">
             </TextBlock>
 
-            <controls:NumericUpDown Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <controls:NumericUpDown Minimum="1"
+                                    Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="40">
             </controls:NumericUpDown>
             
@@ -111,7 +112,7 @@
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid Background="Transparent">
-                                    <TextBlock Text="{Binding CorrectedFullName}" />
+                                    <TextBlock Text="{Binding DisplayName}" />
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>

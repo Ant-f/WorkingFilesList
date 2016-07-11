@@ -21,11 +21,13 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 using WorkingFilesList.Test.TestingInfrastructure;
+using WorkingFilesList.ViewModel;
 using static WorkingFilesList.Test.TestingInfrastructure.CommonMethods;
 
 namespace WorkingFilesList.Test.Service
@@ -448,6 +450,11 @@ namespace WorkingFilesList.Test.Service
             const string documentName = "DocumentName";
 
             var factoryMock = new Mock<IDocumentMetadataFactory>();
+
+            factoryMock
+                .Setup(f => f.Create(documentName))
+                .Returns(new DocumentMetadata(documentName, documentName));
+
             var builder = new DocumentMetadataServiceBuilder
             {
                 DocumentMetadataFactory = factoryMock.Object
@@ -497,6 +504,72 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             factoryMock.Verify(p => p.Create(documentName));
+        }
+
+        [Test]
+        public void PathSegmentCountInAddedDocumentMatchesUserPreferences()
+        {
+            // Arrange
+
+            const string one = "One";
+            const string two = "Two";
+            const string three = "Three";
+
+            var documentName = Path.Combine(three, two, one);
+            var expectedDocumentName = Path.Combine(two, one);
+
+            var builder = new DocumentMetadataServiceBuilder
+            {
+                UserPreferences = new UserPreferences
+                {
+                    PathSegmentCount = 2
+                }
+            };
+
+            var service = builder.CreateDocumentMetadataService();
+
+            // Act
+
+            service.Add(documentName);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].DisplayName, Is.EqualTo(expectedDocumentName));
+        }
+
+        [Test]
+        public void UpdatingPathSegmentCountUpdatesDisplayName()
+        {
+            // Arrange
+
+            const string documentName = @"C:\Folder\Document.txt";
+
+            var builder = new DocumentMetadataServiceBuilder
+            {
+                UserPreferences = new UserPreferences
+                {
+                    PathSegmentCount = 1
+                }
+            };
+
+            var service = builder.CreateDocumentMetadataService();
+            service.Add(documentName);
+
+            // Act
+
+            builder.UserPreferences.PathSegmentCount = 3;
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].DisplayName, Is.EqualTo(documentName));
         }
     }
 }

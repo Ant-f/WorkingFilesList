@@ -18,15 +18,38 @@
 
 using EnvDTE;
 using System;
+using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Model
 {
-    public class DocumentMetadata
+    public class DocumentMetadata : PropertyChangedNotifier
     {
+        private string _displayName;
+
         /// <summary>
         /// Full path and name of document file, used for display purposes
         /// </summary>
         public string CorrectedFullName { get; }
+
+        /// <summary>
+        /// Substring of <see cref="CorrectedFullName"/> that is actually displayed
+        /// </summary>
+        public string DisplayName
+        {
+            get
+            {
+                return _displayName;
+            }
+
+            set
+            {
+                if (_displayName != value)
+                {
+                    _displayName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Full path and name of document file, as reported by the <see cref="DTE"/>
