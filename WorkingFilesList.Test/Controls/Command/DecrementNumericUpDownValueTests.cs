@@ -17,9 +17,11 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.Threading;
+using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Controls;
 using WorkingFilesList.Controls.Command;
+using WorkingFilesList.Interface;
 
 namespace WorkingFilesList.Test.Controls.Command
 {
@@ -75,6 +77,25 @@ namespace WorkingFilesList.Test.Controls.Command
             // Assert
 
             Assert.DoesNotThrow(() => command.Execute(new object()));
+        }
+
+        [Test]
+        public void NumericUpDownValueIsNotDecrementedBeyondMinimum()
+        {
+            // Arrange
+
+            var controlMock = new Mock<IIntValueControl>();
+            controlMock.Setup(c => c.Minimum).Returns(1);
+
+            var command = new DecrementNumericUpDownValue();
+
+            // Act
+
+            command.Execute(controlMock.Object);
+
+            // Assert
+
+            controlMock.VerifySet(c => c.Value--, Times.Never);
         }
     }
 }

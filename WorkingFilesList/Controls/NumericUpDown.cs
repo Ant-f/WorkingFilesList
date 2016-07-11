@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WorkingFilesList.Controls.Command;
+using WorkingFilesList.Interface;
 using WorkingFilesList.View;
 
 namespace WorkingFilesList.Controls
@@ -31,7 +32,7 @@ namespace WorkingFilesList.Controls
     /// is used; it doesn't seem possible to use extenal resource dictionary
     /// files with Visual Studio extension tool windows.
     /// </summary>
-    public class NumericUpDown : Control
+    public class NumericUpDown : Control, IIntValueControl
     {
         public static readonly DependencyProperty MinimumProperty =
             DependencyProperty.Register(

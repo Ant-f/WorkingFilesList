@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
+using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
 
 namespace WorkingFilesList.Test.Ioc
@@ -42,8 +43,16 @@ namespace WorkingFilesList.Test.Ioc
                 typeof(ICommand)
             };
 
+            var excludedTypes = new List<Type>
+            {
+                typeof(IIntValueControl)
+            };
+
             var assembly = Assembly.GetAssembly(typeof(NinjectContainer));
-            var assemblyInterfaces = assembly.GetTypes().Where(t => t.IsInterface);
+            var assemblyInterfaces = assembly
+                .GetTypes()
+                .Where(t => t.IsInterface)
+                .Except(excludedTypes);
 
             typesToResolve.AddRange(assemblyInterfaces);
 

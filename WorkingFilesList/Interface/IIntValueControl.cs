@@ -16,35 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System;
-using System.Windows.Input;
-using WorkingFilesList.Interface;
-
-namespace WorkingFilesList.Controls.Command
+namespace WorkingFilesList.Interface
 {
     /// <summary>
-    /// <see cref="ICommand"/> that increments the <see cref="IIntValueControl.Value"/>
-    /// property of the <see cref="IIntValueControl"/> passed in as a parameter. This
-    /// class should be bound to the appropriate button in a
-    /// <see cref="NumericUpDown"/> control template
+    /// Represents a control that has an <see cref="int"/> Value property
     /// </summary>
-    public class IncrementNumericUpDownValue : ICommand
+    public interface IIntValueControl
     {
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            var control = parameter as IIntValueControl;
-
-            if (control != null)
-            {
-                control.Value++;
-            }
-        }
+        int Minimum { get; set; }
+        int Value { get; set; }
     }
 }

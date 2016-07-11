@@ -58,6 +58,7 @@
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\ICommands.cs" />
     <Compile Include="Interface\IDocumentMetadataFactory.cs" />
+    <Compile Include="Interface\IIntValueControl.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />
     <Compile Include="Ioc\CommandModule.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="WorkingFilesWindowPackage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram\Controls.cd" />
     <None Include="ClassDiagram\Models.cd" />
     <None Include="ClassDiagram\Services.cd" />
     <None Include="packages.config" />
