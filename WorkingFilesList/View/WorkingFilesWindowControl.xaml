@@ -42,18 +42,18 @@
                                     <Setter Property="Stretch" Value="UniformToFill" />
                                     <Setter Property="Width" Value="6" />
                                 </Style>
-                                
+
                                 <Style TargetType="RepeatButton">
                                     <Setter Property="CommandParameter" Value="{Binding}" />
                                     <Setter Property="IsTabStop" Value="False" />
                                 </Style>
                             </Grid.Resources>
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="16" />
                             </Grid.ColumnDefinitions>
-                            
+
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -90,22 +90,30 @@
         </Grid.RowDefinitions>
 
         <!--User Preferences-->
-        <StackPanel DataContext="{Binding UserPreferences}" Orientation="Horizontal">
+        <Border BorderThickness="0,0,0,1"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                Padding="0,2">
+            <StackPanel DataContext="{Binding UserPreferences}" Orientation="Horizontal">
 
-            <!--Path Segment Count-->
-            <TextBlock Margin="5,0"
-                       Text="Path Segments"
-                       VerticalAlignment="Center">
-            </TextBlock>
+                <!--Path Segment Count-->
+                <TextBlock Margin="0,0,5,0"
+                           Text="Path Segments"
+                           VerticalAlignment="Center">
+                </TextBlock>
 
-            <controls:NumericUpDown Minimum="1"
-                                    Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="40">
-            </controls:NumericUpDown>
-            
-        </StackPanel>
+                <controls:NumericUpDown Minimum="1"
+                                        Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="40">
+                </controls:NumericUpDown>
 
-        <ItemsControl DataContext="{Binding DocumentMetadataService.ActiveDocumentMetadata}" Grid.Row="1" ItemsSource="{Binding Mode=OneWay}">
+            </StackPanel>
+        </Border>
+
+        <ItemsControl DataContext="{Binding DocumentMetadataService.ActiveDocumentMetadata}"
+                      d:DataContext="{d:DesignData Source=/DesignData/DesignDocumentMetadata.xaml}"
+                      Grid.Row="1"
+                      IsTabStop="False"
+                      ItemsSource="{Binding Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button>
@@ -116,7 +124,7 @@
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
-                        
+
                         <Button.InputBindings>
                             <MouseBinding Command="{Binding Commands.ActivateWindow, Source={StaticResource ViewModel}}"
                                           CommandParameter="{Binding .}"

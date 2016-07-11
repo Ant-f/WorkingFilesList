@@ -226,6 +226,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <DesignData Include="DesignData\DesignDocumentMetadata.xaml">
+      <SubType>Designer</SubType>
+    </DesignData>
     <Content Include="Resources\WorkingFilesWindowCommand.png" />
     <Content Include="Resources\WorkingFilesWindowPackage.ico" />
     <VSCTCompile Include="WorkingFilesWindowPackage.vsct">
