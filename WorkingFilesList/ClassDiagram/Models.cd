@@ -1,25 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="WorkingFilesList&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files&#xD;&#xA;that are open in the editor&#xD;&#xA;Copyright(C) 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;This program is free software: you can redistribute it and/or modify&#xD;&#xA;it under the terms of the GNU General Public License as published by&#xD;&#xA;the Free Software Foundation, either version 3 of the License, or&#xD;&#xA;(at your option) any later version.&#xD;&#xA;&#xD;&#xA;This program is distributed in the hope that it will be useful,&#xD;&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xD;&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the&#xD;&#xA;GNU General Public License for more details.&#xD;&#xA;&#xD;&#xA;You should have received a copy of the GNU General Public License&#xD;&#xA;along with this program. If not, see&lt;http://www.gnu.org/licenses/&gt;.">
-    <Position X="0.5" Y="4.448" Height="2.74" Width="4.221" />
+    <Position X="6.552" Y="0.5" Height="2.74" Width="4.221" />
   </Comment>
   <Class Name="WorkingFilesList.Model.DocumentMetadata">
-    <Position X="0.5" Y="0.5" Width="2.25" />
+    <Position X="0.5" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAIAgAAAAAAQAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Model\DocumentMetadata.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WorkingFilesList.Factory.DocumentMetadataFactory">
-    <Position X="3" Y="0.5" Width="2.25" />
+    <Position X="0.5" Y="2" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAA=</HashCode>
       <FileName>Factory\DocumentMetadataFactory.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="WorkingFilesList.Factory.SortOptionsFactory">
+    <Position X="3.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Factory\SortOptionsFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkingFilesList.Model.SortOption">
+    <Position X="3.75" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAEAAAAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Model\SortOption.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="WorkingFilesList.Interface.IDocumentMetadataFactory">
-    <Position X="3" Y="2.75" Width="2.25" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IDocumentMetadataFactory.cs</FileName>

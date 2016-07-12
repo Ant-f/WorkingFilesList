@@ -16,14 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 
-namespace WorkingFilesList.Interface
+namespace WorkingFilesList.ViewModel
 {
-    public interface IUserPreferences : INotifyPropertyChanged
+    /// <summary>
+    /// Contains lists that UI controls can bind their
+    /// <see cref="ItemsControl.ItemsSource"/> property to
+    /// </summary>
+    public class OptionsLists : IOptionsLists
     {
-        int PathSegmentCount { get; set; }
-        SortOption SelectedSortOption { get; set; }
+        public IList<SortOption> SortOptions { get; }
+
+        public OptionsLists(IList<SortOption> sortOptions)
+        {
+            SortOptions = sortOptions;
+        }
     }
 }

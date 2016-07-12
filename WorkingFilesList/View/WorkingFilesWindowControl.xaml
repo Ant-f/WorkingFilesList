@@ -95,8 +95,15 @@
                 Padding="0,2">
             <StackPanel DataContext="{Binding UserPreferences}" Orientation="Horizontal">
 
+                <ComboBox DisplayMemberPath="DisplayName"
+                          ItemsSource="{Binding OptionsLists.SortOptions, Source={StaticResource ViewModel}}"
+                          SelectedItem="{Binding SelectedSortOption}"
+                          Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                          Width="60">
+                </ComboBox>
+                
                 <!--Path Segment Count-->
-                <TextBlock Margin="0,0,5,0"
+                <TextBlock Margin="5,0"
                            Text="Path Segments"
                            VerticalAlignment="Center">
                 </TextBlock>

@@ -56,14 +56,17 @@
     <Compile Include="Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Factory\SortOptionsFactory.cs" />
     <Compile Include="Interface\ICommands.cs" />
     <Compile Include="Interface\IDocumentMetadataFactory.cs" />
     <Compile Include="Interface\IIntValueControl.cs" />
+    <Compile Include="Interface\IOptionsLists.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />
     <Compile Include="Ioc\CommandModule.cs" />
     <Compile Include="Ioc\FactoryModule.cs" />
     <Compile Include="Ioc\ViewModelModule.cs" />
+    <Compile Include="Model\SortOption.cs" />
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="ViewModel\Commands.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Service\TimeProvider.cs" />
     <Compile Include="Service\ViewModelService.cs" />
     <Compile Include="Service\WindowEventsService.cs" />
+    <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreferences.cs" />
     <Compile Include="WorkingFilesWindow.cs" />

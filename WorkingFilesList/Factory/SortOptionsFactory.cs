@@ -16,14 +16,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.Model;
 
-namespace WorkingFilesList.Interface
+namespace WorkingFilesList.Factory
 {
-    public interface IUserPreferences : INotifyPropertyChanged
+    public class SortOptionsFactory
     {
-        int PathSegmentCount { get; set; }
-        SortOption SelectedSortOption { get; set; }
+        public List<SortOption> GetSortOptions()
+        {
+            var options = new List<SortOption>
+            {
+                new SortOption(
+                    "A-Z",
+                    nameof(DocumentMetadata.DisplayName),
+                    ListSortDirection.Ascending),
+
+                new SortOption(
+                    "Z-A",
+                    nameof(DocumentMetadata.DisplayName),
+                    ListSortDirection.Descending),
+
+                new SortOption(
+                    "Recent",
+                    nameof(DocumentMetadata.ActivatedAt),
+                    ListSortDirection.Ascending)
+            };
+
+            return options;
+        }
     }
 }

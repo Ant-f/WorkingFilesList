@@ -17,7 +17,6 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using EnvDTE;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

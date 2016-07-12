@@ -30,6 +30,7 @@ namespace WorkingFilesList.Service
     {
         private static ICommands _commands;
         private static IDocumentMetadataService _documentMetadataService;
+        private static IOptionsLists _optionsLists;
         private static IUserPreferences _userPreferences;
 
         public static ICommands Commands =>
@@ -39,6 +40,10 @@ namespace WorkingFilesList.Service
         public static IDocumentMetadataService DocumentMetadataService =>
             _documentMetadataService ??
             (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
+
+        public static IOptionsLists OptionsLists =>
+            _optionsLists ??
+            (_optionsLists = NinjectContainer.Kernel.Get<IOptionsLists>());
 
         public static IUserPreferences UserPreferences =>
             _userPreferences ??

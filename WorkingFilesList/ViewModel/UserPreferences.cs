@@ -17,12 +17,14 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using WorkingFilesList.Interface;
+using WorkingFilesList.Model;
 
 namespace WorkingFilesList.ViewModel
 {
     public class UserPreferences : PropertyChangedNotifier, IUserPreferences
     {
         private int _pathSegmentCount;
+        private SortOption _selectedSortOptions;
 
         /// <summary>
         /// The number of path segments to display, a path segment being either
@@ -40,6 +42,23 @@ namespace WorkingFilesList.ViewModel
                 if (_pathSegmentCount != value)
                 {
                     _pathSegmentCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public SortOption SelectedSortOption
+        {
+            get
+            {
+                return _selectedSortOptions;
+            }
+
+            set
+            {
+                if (_selectedSortOptions != value)
+                {
+                    _selectedSortOptions = value;
                     OnPropertyChanged();
                 }
             }

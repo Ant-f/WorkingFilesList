@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Ninject.Modules;
+using WorkingFilesList.Factory;
 using WorkingFilesList.Interface;
 using WorkingFilesList.ViewModel;
 
@@ -26,6 +27,14 @@ namespace WorkingFilesList.Ioc
     {
         public override void Load()
         {
+            var sortOptionsFactory = new SortOptionsFactory();
+            var sortOptions = sortOptionsFactory.GetSortOptions();
+
+            Kernel.Bind<IOptionsLists>()
+                .To<OptionsLists>()
+                .InSingletonScope()
+                .WithConstructorArgument("sortOptions", sortOptions);
+
             Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();
         }
     }

@@ -16,14 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
+using System.Collections.Generic;
 using WorkingFilesList.Model;
 
 namespace WorkingFilesList.Interface
 {
-    public interface IUserPreferences : INotifyPropertyChanged
+    public interface IOptionsLists
     {
-        int PathSegmentCount { get; set; }
-        SortOption SelectedSortOption { get; set; }
+        IList<SortOption> SortOptions { get; }
     }
 }
