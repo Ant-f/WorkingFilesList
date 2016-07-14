@@ -17,12 +17,11 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using WorkingFilesList.Model;
 
 namespace WorkingFilesList.Interface
 {
     public interface IOptionsLists
     {
-        IList<SortOption> SortOptions { get; }
+        IList<ISortOption> SortOptions { get; }
     }
 }

@@ -16,23 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Windows.Controls;
-using WorkingFilesList.Interface;
+using System.ComponentModel;
 
-namespace WorkingFilesList.ViewModel
+namespace WorkingFilesList.Model.SortOption
 {
-    /// <summary>
-    /// Contains lists that UI controls can bind their
-    /// <see cref="ItemsControl.ItemsSource"/> property to
-    /// </summary>
-    public class OptionsLists : IOptionsLists
+    public sealed class ReverseAlphabeticalSort : SortOptionBase
     {
-        public IList<ISortOption> SortOptions { get; }
-
-        public OptionsLists(IList<ISortOption> sortOptions)
+        public ReverseAlphabeticalSort() : base(
+            "Z-A",
+            nameof(DocumentMetadata.DisplayName),
+            ListSortDirection.Descending)
         {
-            SortOptions = sortOptions;
         }
     }
 }

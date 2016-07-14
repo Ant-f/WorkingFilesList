@@ -17,14 +17,15 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Model
+namespace WorkingFilesList.Model.SortOption
 {
     /// <summary>
     /// Represents an option for criteria on sorting the displayed document
     /// metadata
     /// </summary>
-    public class SortOption
+    public abstract class SortOptionBase : ISortOption
     {
         private readonly string _propertyName;
         private readonly ListSortDirection _sortDirection;
@@ -34,7 +35,7 @@ namespace WorkingFilesList.Model
         /// </summary>
         public string DisplayName { get; }
 
-        public SortOption(
+        protected SortOptionBase(
             string displayName,
             string propertyName,
             ListSortDirection sortDirection)
@@ -51,7 +52,7 @@ namespace WorkingFilesList.Model
         /// </summary>
         /// <returns>
         /// A <see cref="SortDescription"/> that describes the sorting criteria
-        /// represented by this <see cref="SortOption"/> instance
+        /// represented by this <see cref="ISortOption"/> instance
         /// </returns>
         public SortDescription GetSortDescription()
         {

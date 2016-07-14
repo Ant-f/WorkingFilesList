@@ -17,13 +17,12 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
-using WorkingFilesList.Model;
 
 namespace WorkingFilesList.Interface
 {
     public interface IUserPreferences : INotifyPropertyChanged
     {
         int PathSegmentCount { get; set; }
-        SortOption SelectedSortOption { get; set; }
+        ISortOption SelectedSortOption { get; set; }
     }
 }

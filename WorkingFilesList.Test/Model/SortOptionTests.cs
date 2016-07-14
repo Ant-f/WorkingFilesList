@@ -16,15 +16,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
 using NUnit.Framework;
-using WorkingFilesList.Model;
+using System.ComponentModel;
+using WorkingFilesList.Model.SortOption;
 
 namespace WorkingFilesList.Test.Model
 {
     [TestFixture]
     public class SortOptionTests
     {
+        private class TestingSortOption : SortOptionBase
+        {
+            public TestingSortOption(
+                string displayName,
+                string propertyName,
+                ListSortDirection sortDirection) : base(
+                    displayName,
+                    propertyName,
+                    sortDirection)
+            {
+            }
+        }
+
         [Test]
         public void SortDescriptionDisplayNameMatchesConstructorParameter()
         {
@@ -32,7 +45,7 @@ namespace WorkingFilesList.Test.Model
 
             const string propertyName = "PropertyName";
 
-            var option = new SortOption(
+            var option = new TestingSortOption(
                 "DisplayName",
                 propertyName,
                 ListSortDirection.Ascending);
@@ -53,7 +66,7 @@ namespace WorkingFilesList.Test.Model
 
             const ListSortDirection sortDirection = ListSortDirection.Descending;
 
-            var option = new SortOption(
+            var option = new TestingSortOption(
                 "DisplayName",
                 "PropertyName",
                 sortDirection);
