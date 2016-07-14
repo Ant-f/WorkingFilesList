@@ -90,10 +90,10 @@
         </Grid.RowDefinitions>
 
         <!--User Preferences-->
-        <Border BorderThickness="0,0,0,1"
-                BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+        <Border Background="{DynamicResource VsBrush.CommandBarGradient}"
                 Padding="0,2">
-            <StackPanel DataContext="{Binding UserPreferences}" Orientation="Horizontal">
+            <StackPanel DataContext="{Binding UserPreferences}"
+                        Orientation="Horizontal">
 
                 <ComboBox DisplayMemberPath="DisplayName"
                           ItemsSource="{Binding OptionsLists.SortOptions, Source={StaticResource ViewModel}}"
@@ -101,7 +101,7 @@
                           Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                           Width="60">
                 </ComboBox>
-                
+
                 <!--Path Segment Count-->
                 <TextBlock Margin="5,0"
                            Text="Path Segments"
@@ -112,15 +112,26 @@
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
-
             </StackPanel>
         </Border>
 
+        <!--Active Documents-->
         <ItemsControl DataContext="{Binding DocumentMetadataService.ActiveDocumentMetadata}"
                       d:DataContext="{d:DesignData Source=/DesignData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
                       IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
+            
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <Border Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                        <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button>
