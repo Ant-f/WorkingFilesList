@@ -17,15 +17,20 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using WorkingFilesList.Model.SortOption;
 
-namespace WorkingFilesList.Interface
+namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    public interface ISortOption
+    internal class TestingSortOption : SortOptionBase
     {
-        string DisplayName { get; }
-        string PropertyName { get; }
-        ListSortDirection SortDirection { get; }
-
-        SortDescription GetSortDescription();
+        public TestingSortOption(
+                string displayName,
+                string propertyName,
+                ListSortDirection sortDirection) : base(
+                    displayName,
+                    propertyName,
+                    sortDirection)
+        {
+        }
     }
 }

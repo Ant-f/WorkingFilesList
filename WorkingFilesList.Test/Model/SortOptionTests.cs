@@ -18,26 +18,13 @@
 
 using NUnit.Framework;
 using System.ComponentModel;
-using WorkingFilesList.Model.SortOption;
+using WorkingFilesList.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Model
 {
     [TestFixture]
     public class SortOptionTests
     {
-        private class TestingSortOption : SortOptionBase
-        {
-            public TestingSortOption(
-                string displayName,
-                string propertyName,
-                ListSortDirection sortDirection) : base(
-                    displayName,
-                    propertyName,
-                    sortDirection)
-            {
-            }
-        }
-
         [Test]
         public void SortDescriptionDisplayNameMatchesConstructorParameter()
         {

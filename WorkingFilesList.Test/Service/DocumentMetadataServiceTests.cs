@@ -21,6 +21,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -570,6 +571,74 @@ namespace WorkingFilesList.Test.Service
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].DisplayName, Is.EqualTo(documentName));
+        }
+
+        [Test]
+        public void UpdatingSelectedSortAddsToDocumentMetadataSortDescriptions()
+        {
+            // Arrange
+
+            const string propertyName = "PropertyName";
+            const ListSortDirection sortDirection = ListSortDirection.Descending;
+
+            var builder = new DocumentMetadataServiceBuilder
+            {
+                UserPreferences = new UserPreferences
+                {
+                    SelectedSortOption = null
+                }
+            };
+
+            var service = builder.CreateDocumentMetadataService();
+
+            // Act
+
+            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+                "Display Name",
+                propertyName,
+                sortDirection);
+
+            // Assert
+
+            var addedSortOption = service.ActiveDocumentMetadata.SortDescriptions
+                .Single(s =>
+                    s.PropertyName == propertyName &&
+                    s.Direction == sortDirection);
+
+            Assert.That(addedSortOption, Is.Not.Null);
+        }
+
+        [Test]
+        public void UpdatingSelectedSortOptionTwiceOnlyAddsDescriptionOnce()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataServiceBuilder
+            {
+                UserPreferences = new UserPreferences
+                {
+                    SelectedSortOption = null
+                }
+            };
+
+            var service = builder.CreateDocumentMetadataService();
+
+            // Act
+
+            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+                "Display Name",
+                "PropertyName",
+                ListSortDirection.Descending);
+
+            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+                "Display Name 2",
+                "PropertyName",
+                ListSortDirection.Descending);
+
+            // Assert
+
+            var sortOptionCount = service.ActiveDocumentMetadata.SortDescriptions.Count;
+            Assert.That(sortOptionCount, Is.EqualTo(1));
         }
     }
 }

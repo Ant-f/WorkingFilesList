@@ -27,23 +27,29 @@ namespace WorkingFilesList.Model.SortOption
     /// </summary>
     public abstract class SortOptionBase : ISortOption
     {
-        private readonly string _propertyName;
-        private readonly ListSortDirection _sortDirection;
-
         /// <summary>
         /// Name that this set of sorting criteria will be displayed as
         /// </summary>
         public string DisplayName { get; }
+
+        /// <summary>
+        /// Name of the property used as sorting criteria
+        /// </summary>
+        public string PropertyName { get; }
+
+        /// <summary>
+        /// Direction that sorting should occur
+        /// </summary>
+        public ListSortDirection SortDirection { get; }
 
         protected SortOptionBase(
             string displayName,
             string propertyName,
             ListSortDirection sortDirection)
         {
-            _propertyName = propertyName;
-            _sortDirection = sortDirection;
-
             DisplayName = displayName;
+            PropertyName = propertyName;
+            SortDirection = sortDirection;
         }
 
         /// <summary>
@@ -57,8 +63,8 @@ namespace WorkingFilesList.Model.SortOption
         public SortDescription GetSortDescription()
         {
             var sortDescription = new SortDescription(
-                _propertyName,
-                _sortDirection);
+                PropertyName,
+                SortDirection);
 
             return sortDescription;
         }

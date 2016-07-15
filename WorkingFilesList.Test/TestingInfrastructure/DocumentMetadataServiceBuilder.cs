@@ -37,6 +37,9 @@ namespace WorkingFilesList.Test.TestingInfrastructure
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
 
+        public ISortOptionsService SortOptionsService { get; set; }
+            = new SortOptionsService();
+
         public IUserPreferences UserPreferences { get; set; }
             = new UserPreferences();
 
@@ -57,6 +60,7 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 
             var service = new DocumentMetadataService(
                 DocumentMetadataFactory,
+                SortOptionsService,
                 TimeProviderMock.Object,
                 UserPreferences);
 

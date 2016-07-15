@@ -20,12 +20,8 @@ using System.ComponentModel;
 
 namespace WorkingFilesList.Interface
 {
-    public interface ISortOption
+    public interface ISortOptionsService
     {
-        string DisplayName { get; }
-        string PropertyName { get; }
-        ListSortDirection SortDirection { get; }
-
-        SortDescription GetSortDescription();
+        SortDescription[] EvaluateAppliedSortDescriptions(IUserPreferences userPreferences);
     }
 }

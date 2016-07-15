@@ -26,7 +26,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Data;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
-using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Service
 {
@@ -39,6 +38,7 @@ namespace WorkingFilesList.Service
         };
 
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
+        private readonly ISortOptionsService _sortOptionsService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
@@ -47,6 +47,7 @@ namespace WorkingFilesList.Service
 
         public DocumentMetadataService(
             IDocumentMetadataFactory documentMetadataFactory,
+            ISortOptionsService sortOptionsService,
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
@@ -54,6 +55,7 @@ namespace WorkingFilesList.Service
             ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
 
             _documentMetadataFactory = documentMetadataFactory;
+            _sortOptionsService = sortOptionsService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
@@ -184,7 +186,22 @@ namespace WorkingFilesList.Service
         {
             switch (e.PropertyName)
             {
-                case nameof(UserPreferences.PathSegmentCount):
+                case nameof(IUserPreferences.SelectedSortOption):
+                {
+                    ActiveDocumentMetadata.SortDescriptions.Clear();
+
+                    var sortDescriptions =
+                        _sortOptionsService.EvaluateAppliedSortDescriptions(_userPreferences);
+
+                    foreach (var sortDescription in sortDescriptions)
+                    {
+                        ActiveDocumentMetadata.SortDescriptions.Add(sortDescription);
+                    }
+
+                    break;
+                }
+
+                case nameof(IUserPreferences.PathSegmentCount):
                 {
                     foreach (var metadata in _activeDocumentMetadata)
                     {
