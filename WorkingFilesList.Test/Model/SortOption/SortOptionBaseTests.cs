@@ -20,10 +20,10 @@ using NUnit.Framework;
 using System.ComponentModel;
 using WorkingFilesList.Test.TestingInfrastructure;
 
-namespace WorkingFilesList.Test.Model
+namespace WorkingFilesList.Test.Model.SortOption
 {
     [TestFixture]
-    public class SortOptionTests
+    public class SortOptionBaseTests
     {
         [Test]
         public void SortDescriptionDisplayNameMatchesConstructorParameter()

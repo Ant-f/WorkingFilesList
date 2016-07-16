@@ -83,7 +83,7 @@
     <Compile Include="Controls\NumericUpDownTests.cs" />
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
     <Compile Include="Ioc\NinjectContainerTests.cs" />
-    <Compile Include="Model\SortOptionTests.cs" />
+    <Compile Include="Model\SortOption\SortOptionBaseTests.cs" />
     <Compile Include="Service\DteEventsSubscriberTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DocumentMetadataServiceTests.cs" />
