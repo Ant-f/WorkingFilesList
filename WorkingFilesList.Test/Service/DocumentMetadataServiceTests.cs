@@ -20,6 +20,7 @@ using EnvDTE;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -639,6 +640,43 @@ namespace WorkingFilesList.Test.Service
 
             var sortOptionCount = service.ActiveDocumentMetadata.SortDescriptions.Count;
             Assert.That(sortOptionCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void UpdateActivatedTimeRefreshesDocumentMetadataView()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(documentName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var collectionViewMock = new Mock<ICollectionView>();
+            var generatorMock = new Mock<ICollectionViewGenerator>();
+
+            generatorMock
+                .Setup(c => c.CreateView(It.IsAny<IList>()))
+                .Returns(collectionViewMock.Object);
+
+            var builder = new DocumentMetadataServiceBuilder
+            {
+                CollectionViewGenerator = generatorMock.Object
+            };
+
+            var service = builder.CreateDocumentMetadataService();
+            service.Synchronize(documents);
+
+            // Act
+
+            service.UpdateActivatedTime(documentName);
+
+            // Assert
+
+            collectionViewMock.Verify(c => c.Refresh());
         }
     }
 }

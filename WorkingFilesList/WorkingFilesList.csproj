@@ -56,6 +56,7 @@
     <Compile Include="Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Interface\ICollectionViewGenerator.cs" />
     <Compile Include="Interface\ICommands.cs" />
     <Compile Include="Interface\IDocumentMetadataFactory.cs" />
     <Compile Include="Interface\IIntValueControl.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\SortOptionBase.cs" />
+    <Compile Include="Service\CollectionViewGenerator.cs" />
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="Service\SortOptionsService.cs" />
     <Compile Include="ViewModel\Commands.cs" />

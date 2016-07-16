@@ -46,13 +46,16 @@ namespace WorkingFilesList.Service
         public ICollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataService(
+            ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
             ISortOptionsService sortOptionsService,
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
-            ActiveDocumentMetadata = new ListCollectionView(_activeDocumentMetadata);
+
+            ActiveDocumentMetadata = collectionViewGenerator.CreateView(
+                _activeDocumentMetadata);
 
             _documentMetadataFactory = documentMetadataFactory;
             _sortOptionsService = sortOptionsService;
@@ -95,6 +98,7 @@ namespace WorkingFilesList.Service
             {
                 var utcNow = _timeProvider.UtcNow;
                 metadata.ActivatedAt = utcNow;
+                ActiveDocumentMetadata.Refresh();
             }
         }
 

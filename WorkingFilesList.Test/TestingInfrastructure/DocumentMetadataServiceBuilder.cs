@@ -28,6 +28,14 @@ namespace WorkingFilesList.Test.TestingInfrastructure
     internal class DocumentMetadataServiceBuilder
     {
         /// <summary>
+        /// Generator to pass as constructor parameter when creating new
+        /// <see cref="DocumentMetadataService"/> instances. A
+        /// <see cref="WorkingFilesList.Service.CollectionViewGenerator"/>
+        /// instance will be created if this property is left null.
+        /// </summary>
+        public ICollectionViewGenerator CollectionViewGenerator { get; set; }
+
+        /// <summary>
         /// Factory to pass as constructor parameter when creating new
         /// <see cref="DocumentMetadataService"/> instances. A mock factory that
         /// outputs its input parameter is created if this property is left null.
@@ -59,6 +67,7 @@ namespace WorkingFilesList.Test.TestingInfrastructure
             }
 
             var service = new DocumentMetadataService(
+                CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
                 SortOptionsService,
                 TimeProviderMock.Object,
