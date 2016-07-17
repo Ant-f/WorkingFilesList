@@ -32,6 +32,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ChronologicalSort>().InSingletonScope();
 
+            Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();
             Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();
         }

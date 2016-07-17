@@ -32,10 +32,10 @@ using WorkingFilesList.Test.TestingInfrastructure;
 using WorkingFilesList.ViewModel;
 using static WorkingFilesList.Test.TestingInfrastructure.CommonMethods;
 
-namespace WorkingFilesList.Test.Service
+namespace WorkingFilesList.Test.ViewModel
 {
     [TestFixture]
-    public class DocumentMetadataServiceTests
+    public class DocumentMetadataManagerTests
     {
         private static Document CreateDocument(
             string fullName,
@@ -59,17 +59,17 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = "DocumentName";
 
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Add(documentName);
+            manager.Add(documentName);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].FullName, Is.EqualTo(documentName));
@@ -82,18 +82,18 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = "DocumentName";
 
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Add(documentName);
-            service.Add(documentName);
+            manager.Add(documentName);
+            manager.Add(documentName);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].FullName, Is.EqualTo(documentName));
@@ -114,17 +114,17 @@ namespace WorkingFilesList.Test.Service
             };
 
             var documents = CreateDocuments(documentMockList);
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(2));
 
@@ -150,13 +150,13 @@ namespace WorkingFilesList.Test.Service
             };
 
             var documents = CreateDocuments(documentMockList);
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Synchronize to set two items in the document metadata service
             // metadata list
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             var updatedDocumentMockList = new List<Document>
             {
@@ -169,12 +169,12 @@ namespace WorkingFilesList.Test.Service
 
             // Act
 
-            service.Synchronize(updatedDocuments);
+            manager.Synchronize(updatedDocuments);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
 
@@ -197,21 +197,21 @@ namespace WorkingFilesList.Test.Service
                 CreateDocument(string.Empty)
             };
             
-            var builder = new DocumentMetadataServiceBuilder();
+            var builder = new DocumentMetadataManagerBuilder();
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(activatedAt);
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
             var documents = CreateDocuments(documentMockList);
 
             // Act
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document = collection.Single();
 
@@ -230,17 +230,17 @@ namespace WorkingFilesList.Test.Service
                 CreateDocument(documentName, true)
             };
 
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
             var documents = CreateDocuments(documentMockList);
 
             // Act
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             // Assert
 
-            Assert.That(service.ActiveDocumentMetadata.IsEmpty);
+            Assert.That(manager.ActiveDocumentMetadata.IsEmpty);
         }
 
         [Test]
@@ -258,16 +258,16 @@ namespace WorkingFilesList.Test.Service
             };
             
             var documents = CreateDocuments(documentMockList);
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document1 = collection.Single(m => m.FullName == document1Name);
             var document2 = collection.Single(m => m.FullName == document2Name);
@@ -277,7 +277,7 @@ namespace WorkingFilesList.Test.Service
 
             // Act
 
-            service.UpdateActivatedTime(document1Name);
+            manager.UpdateActivatedTime(document1Name);
 
             // Assert
 
@@ -298,15 +298,15 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
             
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
 
             // Assert
 
-            Assert.DoesNotThrow(() => service.UpdateActivatedTime("Document"));
+            Assert.DoesNotThrow(() => manager.UpdateActivatedTime("Document"));
         }
 
         [Test]
@@ -324,8 +324,8 @@ namespace WorkingFilesList.Test.Service
             };
 
             var documents = CreateDocuments(documentMockList);
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() =>
@@ -335,17 +335,17 @@ namespace WorkingFilesList.Test.Service
                     return simulatedTime;
                 });
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document = collection.Single(m => m.FullName == documentOldName);
             var document1InitialActivationTime = document.ActivatedAt;
 
             // Act
 
-            service.UpdateFullName(documentNewName, documentOldName);
+            manager.UpdateFullName(documentNewName, documentOldName);
 
             // Assert
 
@@ -372,22 +372,22 @@ namespace WorkingFilesList.Test.Service
             };
 
             var documents = CreateDocuments(documentMockList);
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document2 = collection.Single(m => m.FullName == document2Name);
 
             // Act
 
-            service.UpdateFullName(document1NewName, document1OldName);
+            manager.UpdateFullName(document1NewName, document1OldName);
 
             // Assert
 
@@ -413,12 +413,12 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Assert
 
-            Assert.DoesNotThrow(() => service.UpdateFullName(
+            Assert.DoesNotThrow(() => manager.UpdateFullName(
                 "NewDocumentName",
                 "OldDocumentName"));
         }
@@ -436,12 +436,12 @@ namespace WorkingFilesList.Test.Service
             documentsMock.Setup(d => d.GetEnumerator())
                 .Callback(() => { throw new COMException(); });
 
-            var builder = new DocumentMetadataServiceBuilder();
-            var service = builder.CreateDocumentMetadataService();
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Assert
 
-            Assert.DoesNotThrow(() => service.Synchronize(documentsMock.Object));
+            Assert.DoesNotThrow(() => manager.Synchronize(documentsMock.Object));
         }
 
         [Test]
@@ -457,16 +457,16 @@ namespace WorkingFilesList.Test.Service
                 .Setup(f => f.Create(documentName))
                 .Returns(new DocumentMetadata(documentName, documentName));
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 DocumentMetadataFactory = factoryMock.Object
             };
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Add(documentName);
+            manager.Add(documentName);
 
             // Assert
             
@@ -492,16 +492,16 @@ namespace WorkingFilesList.Test.Service
                 .Setup(f => f.Create(It.IsAny<string>()))
                 .Returns<string>(str => new DocumentMetadata(str, str));
             
-                var builder = new DocumentMetadataServiceBuilder
+                var builder = new DocumentMetadataManagerBuilder
             {
                 DocumentMetadataFactory = factoryMock.Object
             };
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Synchronize(documents);
+            manager.Synchronize(documents);
 
             // Assert
 
@@ -520,7 +520,7 @@ namespace WorkingFilesList.Test.Service
             var documentName = Path.Combine(three, two, one);
             var expectedDocumentName = Path.Combine(two, one);
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 UserPreferences = new UserPreferences
                 {
@@ -528,16 +528,16 @@ namespace WorkingFilesList.Test.Service
                 }
             };
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            service.Add(documentName);
+            manager.Add(documentName);
 
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].DisplayName, Is.EqualTo(expectedDocumentName));
@@ -550,7 +550,7 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = @"C:\Folder\Document.txt";
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 UserPreferences = new UserPreferences
                 {
@@ -558,8 +558,8 @@ namespace WorkingFilesList.Test.Service
                 }
             };
 
-            var service = builder.CreateDocumentMetadataService();
-            service.Add(documentName);
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(documentName);
 
             // Act
 
@@ -568,7 +568,7 @@ namespace WorkingFilesList.Test.Service
             // Assert
 
             var collection =
-                (IList<DocumentMetadata>)service.ActiveDocumentMetadata.SourceCollection;
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].DisplayName, Is.EqualTo(documentName));
@@ -582,7 +582,7 @@ namespace WorkingFilesList.Test.Service
             const string propertyName = "PropertyName";
             const ListSortDirection sortDirection = ListSortDirection.Descending;
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 UserPreferences = new UserPreferences
                 {
@@ -590,7 +590,7 @@ namespace WorkingFilesList.Test.Service
                 }
             };
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
@@ -601,7 +601,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            var addedSortOption = service.ActiveDocumentMetadata.SortDescriptions
+            var addedSortOption = manager.ActiveDocumentMetadata.SortDescriptions
                 .Single(s =>
                     s.PropertyName == propertyName &&
                     s.Direction == sortDirection);
@@ -614,7 +614,7 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 UserPreferences = new UserPreferences
                 {
@@ -622,7 +622,7 @@ namespace WorkingFilesList.Test.Service
                 }
             };
 
-            var service = builder.CreateDocumentMetadataService();
+            var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
@@ -638,7 +638,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            var sortOptionCount = service.ActiveDocumentMetadata.SortDescriptions.Count;
+            var sortOptionCount = manager.ActiveDocumentMetadata.SortDescriptions.Count;
             Assert.That(sortOptionCount, Is.EqualTo(1));
         }
 
@@ -662,17 +662,17 @@ namespace WorkingFilesList.Test.Service
                 .Setup(c => c.CreateView(It.IsAny<IList>()))
                 .Returns(collectionViewMock.Object);
 
-            var builder = new DocumentMetadataServiceBuilder
+            var builder = new DocumentMetadataManagerBuilder
             {
                 CollectionViewGenerator = generatorMock.Object
             };
 
-            var service = builder.CreateDocumentMetadataService();
-            service.Synchronize(documents);
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Synchronize(documents);
 
             // Act
 
-            service.UpdateActivatedTime(documentName);
+            manager.UpdateActivatedTime(documentName);
 
             // Assert
 

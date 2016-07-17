@@ -21,15 +21,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:service="clr-namespace:WorkingFilesList.Service"
-             xmlns:controls="clr-namespace:WorkingFilesList.Controls"
+             xmlns:locator="clr-namespace:WorkingFilesList.Service.Locator"
+             xmlns:controls="clr-namespace:WorkingFilesList.View.Controls"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="300"
              Name="MyToolWindow">
     <UserControl.Resources>
-        <service:ViewModelService x:Key="ViewModel" />
+        <locator:ViewModelService x:Key="ViewModel" />
 
         <Style TargetType="{x:Type controls:NumericUpDown}">
             <Setter Property="Template">
@@ -116,8 +116,8 @@
         </Border>
 
         <!--Active Documents-->
-        <ItemsControl DataContext="{Binding DocumentMetadataService.ActiveDocumentMetadata}"
-                      d:DataContext="{d:DesignData Source=/DesignData/DesignDocumentMetadata.xaml}"
+        <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
+                      d:DataContext="{d:DesignData Source=/Design/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
                       IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">

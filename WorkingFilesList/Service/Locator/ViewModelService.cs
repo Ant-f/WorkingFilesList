@@ -20,7 +20,7 @@ using Ninject;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Service.Locator
 {
     /// <summary>
     /// Service locator for view model related objects, for use when references
@@ -29,7 +29,7 @@ namespace WorkingFilesList.Service
     public class ViewModelService
     {
         private static ICommands _commands;
-        private static IDocumentMetadataService _documentMetadataService;
+        private static IDocumentMetadataManager _documentMetadataManager;
         private static IOptionsLists _optionsLists;
         private static IUserPreferences _userPreferences;
 
@@ -37,9 +37,9 @@ namespace WorkingFilesList.Service
             _commands ??
             (_commands = NinjectContainer.Kernel.Get<ICommands>());
 
-        public static IDocumentMetadataService DocumentMetadataService =>
-            _documentMetadataService ??
-            (_documentMetadataService = NinjectContainer.Kernel.Get<IDocumentMetadataService>());
+        public static IDocumentMetadataManager DocumentMetadataManager =>
+            _documentMetadataManager ??
+            (_documentMetadataManager = NinjectContainer.Kernel.Get<IDocumentMetadataManager>());
 
         public static IOptionsLists OptionsLists =>
             _optionsLists ??

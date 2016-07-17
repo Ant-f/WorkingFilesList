@@ -25,11 +25,11 @@ using WorkingFilesList.ViewModel;
 
 namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    internal class DocumentMetadataServiceBuilder
+    internal class DocumentMetadataManagerBuilder
     {
         /// <summary>
         /// Generator to pass as constructor parameter when creating new
-        /// <see cref="DocumentMetadataService"/> instances. A
+        /// <see cref="DocumentMetadataManager"/> instances. A
         /// <see cref="WorkingFilesList.Service.CollectionViewGenerator"/>
         /// instance will be created if this property is left null.
         /// </summary>
@@ -37,7 +37,7 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 
         /// <summary>
         /// Factory to pass as constructor parameter when creating new
-        /// <see cref="DocumentMetadataService"/> instances. A mock factory that
+        /// <see cref="DocumentMetadataManager"/> instances. A mock factory that
         /// outputs its input parameter is created if this property is left null.
         /// </summary>
         public IDocumentMetadataFactory DocumentMetadataFactory { get; set; }
@@ -52,13 +52,13 @@ namespace WorkingFilesList.Test.TestingInfrastructure
             = new UserPreferences();
 
         /// <summary>
-        /// Create and return a new <see cref="DocumentMetadataService"/>,
+        /// Create and return a new <see cref="DocumentMetadataManager"/>,
         /// configured with the properties available in this builder instance
         /// </summary>
         /// <returns>
-        /// A new <see cref="DocumentMetadataService"/> for use in unit tests
+        /// A new <see cref="DocumentMetadataManager"/> for use in unit tests
         /// </returns>
-        public DocumentMetadataService CreateDocumentMetadataService()
+        public DocumentMetadataManager CreateDocumentMetadataManager()
         {
             if (DocumentMetadataFactory == null)
             {
@@ -66,7 +66,7 @@ namespace WorkingFilesList.Test.TestingInfrastructure
                 DocumentMetadataFactory = builder.CreateDocumentMetadataFactory(true);
             }
 
-            var service = new DocumentMetadataService(
+            var service = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
                 SortOptionsService,

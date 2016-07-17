@@ -23,13 +23,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Data;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Model;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.ViewModel
 {
-    public class DocumentMetadataService : IDocumentMetadataService
+    public class DocumentMetadataManager : IDocumentMetadataManager
     {
         private readonly char[] _pathSeparators =
         {
@@ -45,7 +44,7 @@ namespace WorkingFilesList.Service
 
         public ICollectionView ActiveDocumentMetadata { get; }
 
-        public DocumentMetadataService(
+        public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
             ISortOptionsService sortOptionsService,

@@ -20,7 +20,7 @@ using EnvDTE;
 using EnvDTE80;
 using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Service.EventRelay
 {
     /// <summary>
     /// Subscribes to <see cref="DTE2"/> (Development Tools Environment) events,

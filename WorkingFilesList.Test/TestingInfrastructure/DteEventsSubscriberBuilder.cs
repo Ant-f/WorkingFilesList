@@ -19,7 +19,7 @@
 using EnvDTE;
 using Moq;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Service;
+using WorkingFilesList.Service.EventRelay;
 
 namespace WorkingFilesList.Test.TestingInfrastructure
 {

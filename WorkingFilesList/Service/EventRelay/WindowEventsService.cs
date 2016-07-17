@@ -19,15 +19,15 @@
 using EnvDTE;
 using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Service.EventRelay
 {
     public class WindowEventsService : IWindowEventsService
     {
-        private readonly IDocumentMetadataService _documentMetadataService;
+        private readonly IDocumentMetadataManager _documentMetadataManager;
 
-        public WindowEventsService(IDocumentMetadataService documentMetadataService)
+        public WindowEventsService(IDocumentMetadataManager documentMetadataManager)
         {
-            _documentMetadataService = documentMetadataService;
+            _documentMetadataManager = documentMetadataManager;
         }
 
         public void WindowActivated(Window gotFocus, Window lostFocus)
@@ -35,7 +35,7 @@ namespace WorkingFilesList.Service
             if (gotFocus.Type == vsWindowType.vsWindowTypeDocument &&
                 gotFocus.Document.ActiveWindow != null)
             {
-                _documentMetadataService.UpdateActivatedTime(
+                _documentMetadataManager.UpdateActivatedTime(
                     gotFocus.Document.FullName);
             }
         }
@@ -44,7 +44,7 @@ namespace WorkingFilesList.Service
         {
             if (window.Type == vsWindowType.vsWindowTypeDocument)
             {
-                _documentMetadataService.Synchronize(window.DTE.Documents);
+                _documentMetadataManager.Synchronize(window.DTE.Documents);
             }
         }
 
@@ -53,16 +53,16 @@ namespace WorkingFilesList.Service
             if (window.Type == vsWindowType.vsWindowTypeDocument &&
                 window.Document.ActiveWindow != null)
             {
-                if (_documentMetadataService.ActiveDocumentMetadata.IsEmpty)
+                if (_documentMetadataManager.ActiveDocumentMetadata.IsEmpty)
                 {
-                    _documentMetadataService.Synchronize(window.DTE.Documents);
+                    _documentMetadataManager.Synchronize(window.DTE.Documents);
 
-                    _documentMetadataService.UpdateActivatedTime(
+                    _documentMetadataManager.UpdateActivatedTime(
                         window.Document.FullName);
                 }
                 else
                 {
-                    _documentMetadataService.Add(window.Document.FullName);
+                    _documentMetadataManager.Add(window.Document.FullName);
                 }
             }
         }

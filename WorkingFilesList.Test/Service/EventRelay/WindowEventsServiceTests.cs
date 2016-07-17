@@ -19,11 +19,10 @@
 using EnvDTE;
 using Moq;
 using NUnit.Framework;
-using System;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Service;
+using WorkingFilesList.Service.EventRelay;
 
-namespace WorkingFilesList.Test.Service
+namespace WorkingFilesList.Test.Service.EventRelay
 {
     [TestFixture]
     public class WindowEventsServiceTests
@@ -35,8 +34,8 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = "DocumentName";
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var documentMock = new Mock<Document>();
             documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
@@ -52,7 +51,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.UpdateActivatedTime(documentName));
+            metadataManagerMock.Verify(m => m.UpdateActivatedTime(documentName));
         }
 
         [Test]
@@ -60,10 +59,10 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
 
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var documents = Mock.Of<Documents>();
 
@@ -84,7 +83,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Synchronize(documents));
+            metadataManagerMock.Verify(m => m.Synchronize(documents));
         }
 
         [Test]
@@ -94,10 +93,10 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = "DocumentName";
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
 
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var dte2Mock = new Mock<DTE>();
             dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
@@ -117,7 +116,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.UpdateActivatedTime(documentName));
+            metadataManagerMock.Verify(m => m.UpdateActivatedTime(documentName));
         }
 
         [Test]
@@ -128,19 +127,19 @@ namespace WorkingFilesList.Test.Service
             var synchronized = false;
             var synchronizedWhenUpdatingActivatedTime = false;
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
 
-            metadataServiceMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
+            metadataManagerMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
                 .Callback(() => synchronized = true);
 
             // Check that UpdateActivatedTime is called after Synchronize: the value
             // of synchronizedWhenUpdatingActivatedTime will be true only if
             // UpdateActivatedTime is called after Synchronize
-            metadataServiceMock.Setup(m => m.UpdateActivatedTime(It.IsAny<string>()))
+            metadataManagerMock.Setup(m => m.UpdateActivatedTime(It.IsAny<string>()))
                 .Callback(() => synchronizedWhenUpdatingActivatedTime = synchronized);
 
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var dte2Mock = new Mock<DTE>();
             dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
@@ -160,8 +159,8 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
-            metadataServiceMock.Verify(m => m.UpdateActivatedTime(It.IsAny<string>()));
+            metadataManagerMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
+            metadataManagerMock.Verify(m => m.UpdateActivatedTime(It.IsAny<string>()));
 
             Assert.IsTrue(synchronizedWhenUpdatingActivatedTime);
         }
@@ -173,10 +172,10 @@ namespace WorkingFilesList.Test.Service
 
             const string documentName = "DocumentName";
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            metadataServiceMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(false);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(false);
 
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var documentMock = new Mock<Document>();
             documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
@@ -192,7 +191,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Add(documentName));
+            metadataManagerMock.Verify(m => m.Add(documentName));
         }
 
         [Test]
@@ -200,8 +199,8 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var documents = Mock.Of<Documents>();
 
@@ -218,7 +217,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
+            metadataManagerMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
         }
 
         // Test cases should not include vsWindowType.vsWindowTypeDocument
@@ -250,8 +249,8 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var gotFocus = new Mock<Window>();
             gotFocus.Setup(w => w.Type).Returns(windowType);
@@ -264,11 +263,11 @@ namespace WorkingFilesList.Test.Service
 
             gotFocus.Verify(w => w.Document, Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.UpdateActivatedTime(null),
                 Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.UpdateActivatedTime(It.IsAny<string>()),
                 Times.Never);
         }
@@ -302,8 +301,8 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var created = new Mock<Window>();
             created.Setup(w => w.Type).Returns(windowType);
@@ -316,11 +315,11 @@ namespace WorkingFilesList.Test.Service
 
             created.Verify(w => w.Document, Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.Add(null),
                 Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.Add(It.IsAny<string>()),
                 Times.Never);
         }
@@ -354,8 +353,8 @@ namespace WorkingFilesList.Test.Service
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new WindowEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
 
             var created = new Mock<Window>();
             created.Setup(w => w.Type).Returns(windowType);
@@ -368,11 +367,11 @@ namespace WorkingFilesList.Test.Service
 
             created.Verify(w => w.DTE, Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.Synchronize(null),
                 Times.Never);
 
-            metadataServiceMock
+            metadataManagerMock
                 .Verify(m => m.Synchronize(It.IsAny<Documents>()),
                 Times.Never);
         }

@@ -17,27 +17,17 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using EnvDTE;
-using WorkingFilesList.Interface;
+using System.ComponentModel;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Interface
 {
-    public class ProjectItemsEventsService : IProjectItemsEventsService
+    public interface IDocumentMetadataManager
     {
-        private readonly IDocumentMetadataService _documentMetadataService;
+        ICollectionView ActiveDocumentMetadata { get; }
 
-        public ProjectItemsEventsService(IDocumentMetadataService documentMetadataService)
-        {
-            _documentMetadataService = documentMetadataService;
-        }
-
-        public void ItemRenamed(ProjectItem projectItem, string oldName)
-        {
-            if (projectItem?.Document != null)
-            {
-                _documentMetadataService.UpdateFullName(
-                    projectItem.Document.FullName,
-                    oldName);
-            }
-        }
+        void Add(string fullName);
+        void UpdateActivatedTime(string fullName);
+        void UpdateFullName(string newName, string oldName);
+        void Synchronize(Documents documents);
     }
 }

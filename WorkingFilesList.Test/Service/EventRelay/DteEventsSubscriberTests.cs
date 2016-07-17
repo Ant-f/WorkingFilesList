@@ -22,7 +22,7 @@ using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Test.TestingInfrastructure;
 
-namespace WorkingFilesList.Test.Service
+namespace WorkingFilesList.Test.Service.EventRelay
 {
     [TestFixture]
     public class DteEventsSubscriberTests

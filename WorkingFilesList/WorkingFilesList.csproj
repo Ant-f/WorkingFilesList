@@ -52,9 +52,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controls\Command\DecrementNumericUpDownValue.cs" />
-    <Compile Include="Controls\Command\IncrementNumericUpDownValue.cs" />
-    <Compile Include="Controls\NumericUpDown.cs" />
+    <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
+    <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
+    <Compile Include="View\Controls\NumericUpDown.cs" />
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
     <Compile Include="Interface\ICommands.cs" />
@@ -82,19 +82,19 @@
     <Compile Include="Ioc\NinjectContainer.cs" />
     <Compile Include="Ioc\ServiceModule.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
-    <Compile Include="Service\DocumentMetadataService.cs" />
-    <Compile Include="Service\DteEventsSubscriber.cs" />
-    <Compile Include="Interface\IDocumentMetadataService.cs" />
+    <Compile Include="ViewModel\DocumentMetadataManager.cs" />
+    <Compile Include="Service\EventRelay\DteEventsSubscriber.cs" />
+    <Compile Include="Interface\IDocumentMetadataManager.cs" />
     <Compile Include="Interface\IDteEventsSubscriber.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
     <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
-    <Compile Include="Service\ProjectItemsEventsService.cs" />
+    <Compile Include="Service\EventRelay\ProjectItemsEventsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\StoredSettingsService.cs" />
     <Compile Include="Service\TimeProvider.cs" />
-    <Compile Include="Service\ViewModelService.cs" />
-    <Compile Include="Service\WindowEventsService.cs" />
+    <Compile Include="Service\Locator\ViewModelService.cs" />
+    <Compile Include="Service\EventRelay\WindowEventsService.cs" />
     <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreferences.cs" />
@@ -106,9 +106,11 @@
     <Compile Include="WorkingFilesWindowPackage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram\Controls.cd" />
-    <None Include="ClassDiagram\Models.cd" />
-    <None Include="ClassDiagram\Services.cd" />
+    <None Include="Design\ClassDiagram\NumericUpDown.cd" />
+    <None Include="Design\ClassDiagram\EventRelayServices.cd" />
+    <None Include="Design\ClassDiagram\Models.cd" />
+    <None Include="Design\ClassDiagram\Services.cd" />
+    <None Include="Design\ClassDiagram\ViewModel.cd" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -237,7 +239,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <DesignData Include="DesignData\DesignDocumentMetadata.xaml">
+    <DesignData Include="Design\DesignTimeData\DesignDocumentMetadata.xaml">
       <SubType>Designer</SubType>
     </DesignData>
     <Content Include="Resources\WorkingFilesWindowCommand.png" />

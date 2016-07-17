@@ -20,15 +20,15 @@ using System;
 using System.Windows.Input;
 using WorkingFilesList.Interface;
 
-namespace WorkingFilesList.Controls.Command
+namespace WorkingFilesList.View.Controls.Command
 {
     /// <summary>
-    /// <see cref="ICommand"/> that decrements the <see cref="IIntValueControl.Value"/>
+    /// <see cref="ICommand"/> that increments the <see cref="IIntValueControl.Value"/>
     /// property of the <see cref="IIntValueControl"/> passed in as a parameter. This
     /// class should be bound to the appropriate button in a
-    /// <see cref="NumericUpDown"/> control template.
+    /// <see cref="NumericUpDown"/> control template
     /// </summary>
-    public class DecrementNumericUpDownValue : ICommand
+    public class IncrementNumericUpDownValue : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -41,15 +41,9 @@ namespace WorkingFilesList.Controls.Command
         {
             var control = parameter as IIntValueControl;
 
-            if (control != null &&
-                control.Value > control.Minimum)
+            if (control != null)
             {
-                // The minimum value should be checked before decrementing
-                // Value: otherwise Value is updated by data binding before it
-                // can be corrected (if necessary) by the value coercion
-                // callback in NumericUpDown
-
-                control.Value--;
+                control.Value++;
             }
         }
     }

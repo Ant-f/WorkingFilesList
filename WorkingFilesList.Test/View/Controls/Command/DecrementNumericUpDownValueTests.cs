@@ -16,23 +16,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Threading;
+using Moq;
 using NUnit.Framework;
-using WorkingFilesList.Controls;
-using WorkingFilesList.Controls.Command;
+using System.Threading;
+using WorkingFilesList.Interface;
+using WorkingFilesList.View.Controls;
+using WorkingFilesList.View.Controls.Command;
 
-namespace WorkingFilesList.Test.Controls.Command
+namespace WorkingFilesList.Test.View.Controls.Command
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]
-    public class IncrementNumericUpDownValueTests
+    public class DecrementNumericUpDownValueTests
     {
         [Test]
         public void CanExecuteReturnsTrue()
         {
             // Arrange
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Act
 
@@ -44,16 +46,17 @@ namespace WorkingFilesList.Test.Controls.Command
         }
 
         [Test]
-        public void CommandIncrementsNumericUpDownValue()
+        public void CommandDecrementsNumericUpDownValue()
         {
             // Arrange
 
             var upDown = new NumericUpDown
             {
-                Value = 0
+                Minimum = 0,
+                Value = 5
             };
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Act
 
@@ -61,7 +64,7 @@ namespace WorkingFilesList.Test.Controls.Command
 
             // Assert
 
-            Assert.That(upDown.Value, Is.EqualTo(1));
+            Assert.That(upDown.Value, Is.EqualTo(4));
         }
 
         [Test]
@@ -69,11 +72,30 @@ namespace WorkingFilesList.Test.Controls.Command
         {
             // Arrange
 
-            var command = new IncrementNumericUpDownValue();
+            var command = new DecrementNumericUpDownValue();
 
             // Assert
 
             Assert.DoesNotThrow(() => command.Execute(new object()));
+        }
+
+        [Test]
+        public void NumericUpDownValueIsNotDecrementedBeyondMinimum()
+        {
+            // Arrange
+
+            var controlMock = new Mock<IIntValueControl>();
+            controlMock.Setup(c => c.Minimum).Returns(1);
+
+            var command = new DecrementNumericUpDownValue();
+
+            // Act
+
+            command.Execute(controlMock.Object);
+
+            // Assert
+
+            controlMock.VerifySet(c => c.Value--, Times.Never);
         }
     }
 }

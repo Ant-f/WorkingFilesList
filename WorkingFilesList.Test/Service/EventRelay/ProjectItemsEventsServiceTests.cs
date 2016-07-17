@@ -20,23 +20,23 @@ using EnvDTE;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Service;
+using WorkingFilesList.Service.EventRelay;
 
-namespace WorkingFilesList.Test.Service
+namespace WorkingFilesList.Test.Service.EventRelay
 {
     [TestFixture]
     public class ProjectItemsEventsServiceTests
     {
         [Test]
-        public void RenamingDocumentCallsDocumentMetadataService()
+        public void RenamingDocumentCallsDocumentMetadataManager()
         {
             // Arrange
 
             const string oldName = "OldName";
             const string newName = "NewName";
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new ProjectItemsEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
 
             var documentMock = new Mock<Document>();
             documentMock.Setup(d => d.FullName).Returns(newName);
@@ -50,16 +50,16 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.UpdateFullName(newName, oldName));
+            metadataManagerMock.Verify(m => m.UpdateFullName(newName, oldName));
         }
 
         [Test]
-        public void RenamingNullDocumentProjectItemDoesNotCallDocumentMetadataService()
+        public void RenamingNullDocumentProjectItemDoesNotCallDocumentMetadataManager()
         {
             // Arrange
 
-            var metadataServiceMock = new Mock<IDocumentMetadataService>();
-            var service = new ProjectItemsEventsService(metadataServiceMock.Object);
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
 
             var projectItemMock = new Mock<ProjectItem>();
 
@@ -69,7 +69,7 @@ namespace WorkingFilesList.Test.Service
 
             // Assert
 
-            metadataServiceMock.Verify(m => m.UpdateFullName(
+            metadataManagerMock.Verify(m => m.UpdateFullName(
                 It.IsAny<string>(),
                 It.IsAny<string>()),
                 Times.Never);

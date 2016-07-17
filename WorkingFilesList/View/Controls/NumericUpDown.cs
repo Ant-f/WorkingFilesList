@@ -16,15 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WorkingFilesList.Controls.Command;
 using WorkingFilesList.Interface;
-using WorkingFilesList.View;
+using WorkingFilesList.View.Controls.Command;
 
-namespace WorkingFilesList.Controls
+namespace WorkingFilesList.View.Controls
 {
     /// <summary>
     /// Control for displaying/editing int values. Style and template is located
