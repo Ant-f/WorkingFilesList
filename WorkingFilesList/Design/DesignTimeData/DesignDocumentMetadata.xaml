@@ -15,7 +15,10 @@
       
       You should have received a copy of the GNU General Public License
       along with this program. If not, see<http://www.gnu.org/licenses/>.  -->
-    
+
+<!--  This file is used as a design-time resource to allow data to be shown in
+      the Visual Studio XAML designer  -->
+
 <collections:ArrayList xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
                        xmlns:model="clr-namespace:WorkingFilesList.Model">
     <model:DocumentMetadata DisplayName="Document1.txt" />
