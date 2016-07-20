@@ -16,11 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Ninject.Modules;
 using WorkingFilesList.Interface;
+using WorkingFilesList.Repository;
 
-namespace WorkingFilesList.Service
+namespace WorkingFilesList.Ioc
 {
-    public class StoredSettingsService : IStoredSettingsService
+    public class RepositoryModule : NinjectModule
     {
+        public override void Load()
+        {
+            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope();
+        }
     }
 }

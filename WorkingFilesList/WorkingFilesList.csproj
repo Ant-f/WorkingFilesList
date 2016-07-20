@@ -52,6 +52,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Ioc\RepositoryModule.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />
@@ -91,7 +97,7 @@
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Service\EventRelay\ProjectItemsEventsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\StoredSettingsService.cs" />
+    <Compile Include="Repository\StoredSettingsRepository.cs" />
     <Compile Include="Service\TimeProvider.cs" />
     <Compile Include="Service\Locator\ViewModelService.cs" />
     <Compile Include="Service\EventRelay\WindowEventsService.cs" />
@@ -106,12 +112,17 @@
     <Compile Include="WorkingFilesWindowPackage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Design\ClassDiagram\NumericUpDown.cd" />
     <None Include="Design\ClassDiagram\EventRelayServices.cd" />
     <None Include="Design\ClassDiagram\Models.cd" />
     <None Include="Design\ClassDiagram\Services.cd" />
     <None Include="Design\ClassDiagram\ViewModel.cd" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

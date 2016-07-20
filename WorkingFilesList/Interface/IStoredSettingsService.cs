@@ -18,7 +18,14 @@
 
 namespace WorkingFilesList.Interface
 {
-    public interface IStoredSettingsService
+    public interface IStoredSettingsRepository
     {
+        int GetPathSegmentCount();
+        void SetPathSegmentCount(int count);
+
+        string GetSelectedSortOptionName();
+        void SetSelectedSortOptionName(string name);
+
+        void Reset();
     }
 }

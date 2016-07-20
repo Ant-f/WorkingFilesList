@@ -28,7 +28,8 @@ namespace WorkingFilesList.Model.SortOption
     public abstract class SortOptionBase : ISortOption
     {
         /// <summary>
-        /// Name that this set of sorting criteria will be displayed as
+        /// Name that this set of sorting criteria will be displayed as. Should
+        /// be unique.
         /// </summary>
         public string DisplayName { get; }
 

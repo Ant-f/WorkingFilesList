@@ -30,6 +30,7 @@ namespace WorkingFilesList.Ioc
             Kernel = new StandardKernel(
                 new CommandModule(),
                 new FactoryModule(),
+                new RepositoryModule(),
                 new ServiceModule(),
                 new ViewModelModule());
 

@@ -78,6 +78,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\NumericUpDownTests.cs" />
