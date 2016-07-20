@@ -78,6 +78,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Model\SortOption\ChronologicalSortTests.cs" />
+    <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />
+    <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
     <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />

@@ -62,5 +62,20 @@ namespace WorkingFilesList.Test.Ioc
                 Assert.IsNotEmpty(objects, $"Unable to resolve instance(s) of {interfaceType.Name}");
             }
         }
+
+        [Test]
+        public void SortOptionInstancesHaveUniqueDisplayNames()
+        {
+            NinjectContainer.InitializeKernel(Mock.Of<DTE2>());
+            var sortOptions = NinjectContainer.Kernel.GetAll<ISortOption>();
+            var displayNameGroups = sortOptions.GroupBy(s => s.DisplayName);
+
+            foreach (var group in displayNameGroups)
+            {
+                var groupMembers = group.ToArray();
+                Assert.That(groupMembers.Length, Is.EqualTo(1),
+                    $"More than one sort option exists with the display name '{group.Key}'");
+            }
+        }
     }
 }

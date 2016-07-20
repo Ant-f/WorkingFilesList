@@ -25,7 +25,7 @@ namespace WorkingFilesList.Model.SortOption
         public ChronologicalSort() : base(
             "Recent",
             nameof(DocumentMetadata.ActivatedAt),
-            ListSortDirection.Ascending)
+            ListSortDirection.Descending)
         {
         }
     }

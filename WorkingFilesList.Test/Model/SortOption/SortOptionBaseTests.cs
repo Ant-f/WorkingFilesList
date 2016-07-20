@@ -26,7 +26,7 @@ namespace WorkingFilesList.Test.Model.SortOption
     public class SortOptionBaseTests
     {
         [Test]
-        public void SortDescriptionDisplayNameMatchesConstructorParameter()
+        public void SortDescriptionPropertyNameMatchesConstructorParameter()
         {
             // Arrange
 
