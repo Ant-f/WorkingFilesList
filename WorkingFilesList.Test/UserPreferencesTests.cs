@@ -17,46 +17,53 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
+using WorkingFilesList.Interface;
 using WorkingFilesList.Model.SortOption;
-using WorkingFilesList.Service;
 using WorkingFilesList.Test.TestingInfrastructure;
 
-namespace WorkingFilesList.Test.Service
+namespace WorkingFilesList.Test
 {
     [TestFixture]
-    public class SortOptionsServiceTests
+    public class UserPreferencesTests
     {
         [Test]
-        public void SortDescriptionIsReturnedForSelectedSortOption()
+        public void SettingPathSegmentCountStoresNewValueInRepository()
         {
             // Arrange
 
-            var alphabeticalSort = new AlphabeticalSort();
+            const int value = 5;
 
-            var builder = new UserPreferencesBuilder
-            {
-                SelectedSortOption = alphabeticalSort
-            };
-
+            var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
-            var service = new SortOptionsService();
 
             // Act
 
-            var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
-                preferences);
+            preferences.PathSegmentCount = value;
 
-            // Assert
+            // Verify
 
-            Assert.That(appliedSortOptions.Length, Is.EqualTo(1));
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetPathSegmentCount(value));
+        }
 
-            Assert.That(
-                appliedSortOptions[0].Direction,
-                Is.EqualTo(alphabeticalSort.SortDirection));
+        [Test]
+        public void SettingSelectedSortOptionStoresNewValueDisplayNameInRepository()
+        {
+            // Arrange
 
-            Assert.That(
-                appliedSortOptions[0].PropertyName,
-                Is.EqualTo(alphabeticalSort.PropertyName));
+            var option = new ChronologicalSort();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.SelectedSortOption = option;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetSelectedSortOptionName(option.DisplayName));
         }
     }
 }

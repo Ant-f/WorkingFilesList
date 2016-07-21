@@ -520,13 +520,8 @@ namespace WorkingFilesList.Test.ViewModel
             var documentName = Path.Combine(three, two, one);
             var expectedDocumentName = Path.Combine(two, one);
 
-            var builder = new DocumentMetadataManagerBuilder
-            {
-                UserPreferences = new UserPreferences
-                {
-                    PathSegmentCount = 2
-                }
-            };
+            var builder = new DocumentMetadataManagerBuilder();
+            builder.UserPreferencesBuilder.PathSegmentCount = 2;
 
             var manager = builder.CreateDocumentMetadataManager();
 
@@ -550,13 +545,8 @@ namespace WorkingFilesList.Test.ViewModel
 
             const string documentName = @"C:\Folder\Document.txt";
 
-            var builder = new DocumentMetadataManagerBuilder
-            {
-                UserPreferences = new UserPreferences
-                {
-                    PathSegmentCount = 1
-                }
-            };
+            var builder = new DocumentMetadataManagerBuilder();
+            builder.UserPreferencesBuilder.PathSegmentCount = 1;
 
             var manager = builder.CreateDocumentMetadataManager();
             manager.Add(documentName);
@@ -582,13 +572,8 @@ namespace WorkingFilesList.Test.ViewModel
             const string propertyName = "PropertyName";
             const ListSortDirection sortDirection = ListSortDirection.Descending;
 
-            var builder = new DocumentMetadataManagerBuilder
-            {
-                UserPreferences = new UserPreferences
-                {
-                    SelectedSortOption = null
-                }
-            };
+            var builder = new DocumentMetadataManagerBuilder();
+            builder.UserPreferencesBuilder.SelectedSortOption = null;
 
             var manager = builder.CreateDocumentMetadataManager();
 
@@ -614,13 +599,8 @@ namespace WorkingFilesList.Test.ViewModel
         {
             // Arrange
 
-            var builder = new DocumentMetadataManagerBuilder
-            {
-                UserPreferences = new UserPreferences
-                {
-                    SelectedSortOption = null
-                }
-            };
+            var builder = new DocumentMetadataManagerBuilder();
+            builder.UserPreferencesBuilder.SelectedSortOption = null;
 
             var manager = builder.CreateDocumentMetadataManager();
 

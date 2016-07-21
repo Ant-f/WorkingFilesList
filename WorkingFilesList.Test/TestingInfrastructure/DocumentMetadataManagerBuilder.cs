@@ -17,9 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Moq;
-using WorkingFilesList.Factory;
 using WorkingFilesList.Interface;
-using WorkingFilesList.Model;
 using WorkingFilesList.Service;
 using WorkingFilesList.ViewModel;
 
@@ -49,7 +47,13 @@ namespace WorkingFilesList.Test.TestingInfrastructure
             = new SortOptionsService();
 
         public IUserPreferences UserPreferences { get; set; }
-            = new UserPreferences();
+
+        /// <summary>
+        /// Creates a new <see cref="WorkingFilesList.ViewModel.UserPreferences"/>
+        /// instance when <see cref="UserPreferences"/> is null.
+        /// </summary>
+        public UserPreferencesBuilder UserPreferencesBuilder { get; }
+            = new UserPreferencesBuilder();
 
         /// <summary>
         /// Create and return a new <see cref="DocumentMetadataManager"/>,
@@ -64,6 +68,11 @@ namespace WorkingFilesList.Test.TestingInfrastructure
             {
                 var builder = new DocumentMetadataFactoryBuilder(TimeProviderMock);
                 DocumentMetadataFactory = builder.CreateDocumentMetadataFactory(true);
+            }
+
+            if (UserPreferences == null)
+            {
+                UserPreferences = UserPreferencesBuilder.CreateUserPreferences();
             }
 
             var service = new DocumentMetadataManager(

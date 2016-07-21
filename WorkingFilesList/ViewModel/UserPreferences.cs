@@ -22,8 +22,15 @@ namespace WorkingFilesList.ViewModel
 {
     public class UserPreferences : PropertyChangedNotifier, IUserPreferences
     {
+        private readonly IStoredSettingsRepository _storedSettingsRepository;
+
         private int _pathSegmentCount;
         private ISortOption _selectedSortOptions;
+
+        public UserPreferences(IStoredSettingsRepository storedSettingsRepository)
+        {
+            _storedSettingsRepository = storedSettingsRepository;
+        }
 
         /// <summary>
         /// The number of path segments to display, a path segment being either
@@ -42,6 +49,9 @@ namespace WorkingFilesList.ViewModel
                 {
                     _pathSegmentCount = value;
                     OnPropertyChanged();
+
+                    _storedSettingsRepository.SetPathSegmentCount(
+                        _pathSegmentCount);
                 }
             }
         }
@@ -59,6 +69,9 @@ namespace WorkingFilesList.ViewModel
                 {
                     _selectedSortOptions = value;
                     OnPropertyChanged();
+
+                    _storedSettingsRepository.SetSelectedSortOptionName(
+                        _selectedSortOptions.DisplayName);
                 }
             }
         }

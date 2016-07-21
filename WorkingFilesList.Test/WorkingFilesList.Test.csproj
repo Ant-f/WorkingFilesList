@@ -82,6 +82,8 @@
     <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
     <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
+    <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />
+    <Compile Include="UserPreferencesTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\NumericUpDownTests.cs" />
