@@ -19,10 +19,11 @@
 using EnvDTE;
 using Moq;
 using System.Collections.Generic;
+using WorkingFilesList.Repository;
 
 namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    internal class CommonMethods
+    internal static class CommonMethods
     {
         public static Documents CreateDocuments(IList<Document> documentsToReturn)
         {
@@ -42,6 +43,16 @@ namespace WorkingFilesList.Test.TestingInfrastructure
                 .Returns(windowsToReturn.GetEnumerator());
 
             return windowsMock.Object;
+        }
+
+        /// <summary>
+        /// Implementation-specific method of resetting data previously stored
+        /// by a <see cref="StoredSettingsRepository"/>. For use in setup/tear
+        /// down methods for tests that rely on a default state for stored data.
+        /// </summary>
+        public static void ResetStoredRepositoryData()
+        {
+            WorkingFilesList.Properties.Settings.Default.Reset();
         }
     }
 }

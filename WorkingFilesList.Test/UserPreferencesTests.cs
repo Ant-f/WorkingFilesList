@@ -17,7 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
-using WorkingFilesList.Interface;
+using System.ComponentModel;
 using WorkingFilesList.Model.SortOption;
 using WorkingFilesList.Test.TestingInfrastructure;
 
@@ -64,6 +64,66 @@ namespace WorkingFilesList.Test
 
             builder.StoredSettingsRepositoryMock
                 .Verify(r => r.SetSelectedSortOptionName(option.DisplayName));
+        }
+
+        [Test]
+        public void PathSegmentCountValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const int value = 47;
+
+            var builder = new UserPreferencesBuilder();
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetPathSegmentCount())
+                .Returns(value);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetPathSegmentCount());
+
+            Assert.That(preferences.PathSegmentCount, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void SelectedSortOptionDisplayNameIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const string displayName = "DisplayName";
+
+            var builder = new UserPreferencesBuilder
+            {
+                SortOptions = new[]
+                {
+                    new TestingSortOption(
+                        displayName,
+                        null,
+                        ListSortDirection.Ascending)
+                }
+            };
+
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetSelectedSortOptionName())
+                .Returns(displayName);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetSelectedSortOptionName());
+
+            Assert.That(
+                preferences.SelectedSortOption.DisplayName,
+                Is.EqualTo(displayName));
         }
     }
 }

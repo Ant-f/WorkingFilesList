@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+using System.Linq;
 using WorkingFilesList.Interface;
 
 namespace WorkingFilesList.ViewModel
@@ -27,9 +29,18 @@ namespace WorkingFilesList.ViewModel
         private int _pathSegmentCount;
         private ISortOption _selectedSortOptions;
 
-        public UserPreferences(IStoredSettingsRepository storedSettingsRepository)
+        public UserPreferences(
+            IStoredSettingsRepository storedSettingsRepository,
+            IEnumerable<ISortOption> sortOptions)
         {
             _storedSettingsRepository = storedSettingsRepository;
+
+            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+
+            var sortOptionName = _storedSettingsRepository.GetSelectedSortOptionName();
+
+            _selectedSortOptions = sortOptions
+                .Single(s => s.DisplayName == sortOptionName);
         }
 
         /// <summary>
@@ -71,7 +82,7 @@ namespace WorkingFilesList.ViewModel
                     OnPropertyChanged();
 
                     _storedSettingsRepository.SetSelectedSortOptionName(
-                        _selectedSortOptions.DisplayName);
+                        _selectedSortOptions?.DisplayName);
                 }
             }
         }

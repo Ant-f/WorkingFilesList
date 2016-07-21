@@ -27,15 +27,26 @@ using System.Reflection;
 using System.Windows.Input;
 using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
+using WorkingFilesList.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Ioc
 {
     [TestFixture]
     public class NinjectContainerTests
     {
+        /// <summary>
+        /// Stored data should be reset by calling
+        /// <see cref="CommonMethods.ResetStoredRepositoryData"/> before
+        /// attempting to resolve an <see cref="IUserPreferences"/> instance. As
+        /// the constructor attempts to identify an <see cref="ISortOption"/> by
+        /// <see cref="ISortOption.DisplayName"/> from stored data, the test may
+        /// erroneously fail otherwise.
+        /// </summary>
         [Test]
         public void InterfaceBindingResolution()
         {
+            CommonMethods.ResetStoredRepositoryData();
+
             NinjectContainer.InitializeKernel(Mock.Of<DTE2>());
 
             var typesToResolve = new List<Type>

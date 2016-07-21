@@ -35,8 +35,12 @@ namespace WorkingFilesList.Test.Service
 
             var builder = new UserPreferencesBuilder
             {
-                SelectedSortOption = alphabeticalSort
+                SortOptions = new[] {alphabeticalSort}
             };
+
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetSelectedSortOptionName())
+                .Returns(alphabeticalSort.DisplayName);
 
             var preferences = builder.CreateUserPreferences();
             var service = new SortOptionsService();

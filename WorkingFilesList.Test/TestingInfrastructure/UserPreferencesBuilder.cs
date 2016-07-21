@@ -17,6 +17,8 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Moq;
+using System.Collections.Generic;
+using System.ComponentModel;
 using WorkingFilesList.Interface;
 using WorkingFilesList.ViewModel;
 
@@ -24,19 +26,7 @@ namespace WorkingFilesList.Test.TestingInfrastructure
 {
     internal class UserPreferencesBuilder
     {
-        /// <summary>
-        /// The created <see cref="UserPreferences"/> instance will have its
-        /// <see cref="IUserPreferences.PathSegmentCount"/> property value
-        /// set to the value of this property
-        /// </summary>
-        public int PathSegmentCount { get; set; }
-
-        /// <summary>
-        /// The created <see cref="UserPreferences"/> instance will have its
-        /// <see cref="IUserPreferences.SelectedSortOption"/> property value
-        /// set to the value of this property
-        /// </summary>
-        public ISortOption SelectedSortOption { get; set; }
+        public IEnumerable<ISortOption> SortOptions { get; set; }
 
         public Mock<IStoredSettingsRepository> StoredSettingsRepositoryMock { get; }
             = new Mock<IStoredSettingsRepository>();
@@ -50,12 +40,20 @@ namespace WorkingFilesList.Test.TestingInfrastructure
         /// </returns>
         public UserPreferences CreateUserPreferences()
         {
-            var preferences = new UserPreferences(
-                StoredSettingsRepositoryMock.Object)
+            if (SortOptions == null)
             {
-                PathSegmentCount = PathSegmentCount,
-                SelectedSortOption = SelectedSortOption
-            };
+                SortOptions = new List<ISortOption>
+                {
+                    new TestingSortOption(
+                        null,
+                        null,
+                        ListSortDirection.Ascending)
+                };
+            }
+
+            var preferences = new UserPreferences(
+                StoredSettingsRepositoryMock.Object,
+                SortOptions);
 
             return preferences;
         }

@@ -18,6 +18,7 @@
 
 using NUnit.Framework;
 using WorkingFilesList.Repository;
+using WorkingFilesList.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Repository
 {
@@ -34,10 +35,10 @@ namespace WorkingFilesList.Test.Repository
             WorkingFilesList.Properties.Settings.Default.Reload();
         }
 
-        [SetUp]
+        [SetUp, OneTimeTearDown]
         public void ResetStoredData()
         {
-            WorkingFilesList.Properties.Settings.Default.Reset();
+            CommonMethods.ResetStoredRepositoryData();
         }
 
         [Test]

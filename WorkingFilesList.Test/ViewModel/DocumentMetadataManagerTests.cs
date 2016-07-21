@@ -250,6 +250,7 @@ namespace WorkingFilesList.Test.ViewModel
 
             const string document1Name = "Document1Name";
             const string document2Name = "Document2Name";
+            var utcNow = DateTime.UtcNow;
 
             var documentMockList = new List<Document>
             {
@@ -262,7 +263,12 @@ namespace WorkingFilesList.Test.ViewModel
             var manager = builder.CreateDocumentMetadataManager();
 
             builder.TimeProviderMock.Setup(t => t.UtcNow)
-                .Returns(() => DateTime.UtcNow);
+                .Returns(() =>
+                {
+                    // Simulate time passing
+                    utcNow = utcNow + TimeSpan.FromSeconds(1);
+                    return utcNow;
+                });
 
             manager.Synchronize(documents);
 
@@ -521,7 +527,9 @@ namespace WorkingFilesList.Test.ViewModel
             var expectedDocumentName = Path.Combine(two, one);
 
             var builder = new DocumentMetadataManagerBuilder();
-            builder.UserPreferencesBuilder.PathSegmentCount = 2;
+            builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetPathSegmentCount())
+                .Returns(2);
 
             var manager = builder.CreateDocumentMetadataManager();
 
@@ -546,7 +554,9 @@ namespace WorkingFilesList.Test.ViewModel
             const string documentName = @"C:\Folder\Document.txt";
 
             var builder = new DocumentMetadataManagerBuilder();
-            builder.UserPreferencesBuilder.PathSegmentCount = 1;
+            builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetPathSegmentCount())
+                .Returns(1);
 
             var manager = builder.CreateDocumentMetadataManager();
             manager.Add(documentName);
@@ -573,8 +583,6 @@ namespace WorkingFilesList.Test.ViewModel
             const ListSortDirection sortDirection = ListSortDirection.Descending;
 
             var builder = new DocumentMetadataManagerBuilder();
-            builder.UserPreferencesBuilder.SelectedSortOption = null;
-
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
@@ -600,8 +608,6 @@ namespace WorkingFilesList.Test.ViewModel
             // Arrange
 
             var builder = new DocumentMetadataManagerBuilder();
-            builder.UserPreferencesBuilder.SelectedSortOption = null;
-
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
