@@ -16,12 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Model;
+using System.Collections.Generic;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;

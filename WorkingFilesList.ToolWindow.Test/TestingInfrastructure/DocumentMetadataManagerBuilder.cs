@@ -28,7 +28,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         /// <summary>
         /// Generator to pass as constructor parameter when creating new
         /// <see cref="DocumentMetadataManager"/> instances. A
-        /// <see cref="WorkingFilesList.Service.CollectionViewGenerator"/>
+        /// <see cref="ToolWindow.Service.CollectionViewGenerator"/>
         /// instance will be created if this property is left null.
         /// </summary>
         public ICollectionViewGenerator CollectionViewGenerator { get; set; }

@@ -19,7 +19,6 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {

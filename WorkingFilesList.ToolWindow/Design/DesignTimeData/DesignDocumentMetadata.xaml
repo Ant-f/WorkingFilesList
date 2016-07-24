@@ -20,7 +20,7 @@
       the Visual Studio XAML designer  -->
 
 <collections:ArrayList xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
-                       xmlns:model="clr-namespace:WorkingFilesList.Model">
+                       xmlns:model="clr-namespace:WorkingFilesList.ToolWindow.Model">
     <model:DocumentMetadata DisplayName="Document1.txt" />
     <model:DocumentMetadata DisplayName="Document2.txt" />
     <model:DocumentMetadata DisplayName="Document3.txt" />
