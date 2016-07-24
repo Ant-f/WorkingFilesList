@@ -17,9 +17,9 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Ninject.Modules;
-using WorkingFilesList.Interface;
-using WorkingFilesList.Model.SortOption;
-using WorkingFilesList.ViewModel;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.Ioc
 {

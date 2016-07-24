@@ -17,8 +17,8 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using Ninject.Modules;
-using WorkingFilesList.Interface;
-using WorkingFilesList.Repository;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.Ioc
 {

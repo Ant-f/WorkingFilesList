@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WorkingFilesList")]
-[assembly: AssemblyDescription("Visual Studio extension tool window that shows a selectable list of files that are open in the editor")]
+[assembly: AssemblyDescription("Visual Studio extension that hosts tool window showing a selectable list of files that are open in the editor")]
 [assembly: AssemblyProduct("WorkingFilesList")]
 [assembly: AssemblyCopyright("Copyright © 2016 Anthony Fung")]
 
@@ -47,3 +47,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("WorkingFilesList.Test")]
+[assembly: InternalsVisibleTo("WorkingFilesList.ToolWindow.Test")]

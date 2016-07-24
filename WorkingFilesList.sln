@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList", "Working
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.Test", "WorkingFilesList.Test\WorkingFilesList.Test.csproj", "{4CC7DF71-4061-4E2B-9FCD-1A6A4337FDA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.ToolWindow", "WorkingFilesList.ToolWindow\WorkingFilesList.ToolWindow.csproj", "{29EBF580-9E29-46D4-BD18-11DB06FE1861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.ToolWindow.Test", "WorkingFilesList.ToolWindow.Test\WorkingFilesList.ToolWindow.Test.csproj", "{18F82948-FEDB-44FC-9E5A-6F2A32540A85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{4CC7DF71-4061-4E2B-9FCD-1A6A4337FDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CC7DF71-4061-4E2B-9FCD-1A6A4337FDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CC7DF71-4061-4E2B-9FCD-1A6A4337FDA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29EBF580-9E29-46D4-BD18-11DB06FE1861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29EBF580-9E29-46D4-BD18-11DB06FE1861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29EBF580-9E29-46D4-BD18-11DB06FE1861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29EBF580-9E29-46D4-BD18-11DB06FE1861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,8 +23,9 @@ using Ninject;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Service.Locator;
 
 namespace WorkingFilesList
 {
@@ -86,6 +87,9 @@ namespace WorkingFilesList
             var events2 = (Events2) dte2.Events;
             var subscriber = NinjectContainer.Kernel.Get<IDteEventsSubscriber>();
             subscriber.SubscribeTo(events2);
+
+            // Inject properties by resolving a ViewModelService instance
+            NinjectContainer.Kernel.Get<ViewModelService>();
         }
 
         #endregion
