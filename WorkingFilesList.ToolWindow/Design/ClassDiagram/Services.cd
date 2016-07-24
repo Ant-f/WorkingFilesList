@@ -3,7 +3,7 @@
   <Comment CommentText="WorkingFilesList&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright(C) 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&#xD;&#xA;&#xD;&#xA;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&#xD;&#xA;&#xD;&#xA;You should have received a copy of the GNU General Public License along with this program. If not, see&lt;http://www.gnu.org/licenses/&gt;.">
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
-  <Class Name="WorkingFilesList.Service.TimeProvider">
+  <Class Name="WorkingFilesList.ToolWindow.Service.TimeProvider">
     <Position X="11.75" Y="2" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -11,7 +11,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Service.PathCasingRestorer">
+  <Class Name="WorkingFilesList.ToolWindow.Service.PathCasingRestorer">
     <Position X="6.5" Y="2" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -19,7 +19,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Service.SortOptionsService">
+  <Class Name="WorkingFilesList.ToolWindow.Service.SortOptionsService">
     <Position X="9" Y="2" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
@@ -27,7 +27,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Service.CollectionViewGenerator">
+  <Class Name="WorkingFilesList.ToolWindow.Service.CollectionViewGenerator">
     <Position X="4" Y="2" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -35,28 +35,28 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="WorkingFilesList.Interface.ITimeProvider">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.ITimeProvider">
     <Position X="11.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\ITimeProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.IPathCasingRestorer">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IPathCasingRestorer">
     <Position X="6.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IPathCasingRestorer.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.ISortOptionsService">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.ISortOptionsService">
     <Position X="9" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Interface\ISortOptionsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.ICollectionViewGenerator">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.ICollectionViewGenerator">
     <Position X="4" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>

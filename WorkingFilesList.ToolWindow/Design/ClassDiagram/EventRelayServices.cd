@@ -6,7 +6,7 @@
   <Comment CommentText="These services act as intermediaries between the Visual Studio DTE, and the Document Metadata Manager">
     <Position X="0.5" Y="4.25" Height="0.719" Width="3.065" />
   </Comment>
-  <Class Name="WorkingFilesList.Service.EventRelay.DteEventsSubscriber">
+  <Class Name="WorkingFilesList.ToolWindow.Service.EventRelay.DteEventsSubscriber">
     <Position X="4" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAICAAIAAAAAAACAAAAAAAAAAACAAAAAAAAgA=</HashCode>
@@ -14,7 +14,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Service.EventRelay.ProjectItemsEventsService">
+  <Class Name="WorkingFilesList.ToolWindow.Service.EventRelay.ProjectItemsEventsService">
     <Position X="6.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -22,7 +22,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.Service.EventRelay.WindowEventsService">
+  <Class Name="WorkingFilesList.ToolWindow.Service.EventRelay.WindowEventsService">
     <Position X="9" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAIAAAIAAAAAAAAAAAAA=</HashCode>
@@ -30,21 +30,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="WorkingFilesList.Interface.IDteEventsSubscriber">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IDteEventsSubscriber">
     <Position X="4" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IDteEventsSubscriber.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.IProjectItemsEventsService">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectItemsEventsService">
     <Position X="6.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IProjectItemsEventsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="WorkingFilesList.Interface.IWindowEventsService">
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IWindowEventsService">
     <Position X="9" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAIAAAIAAAAAAAAAAAAA=</HashCode>
