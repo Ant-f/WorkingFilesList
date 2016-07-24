@@ -30,7 +30,10 @@ namespace WorkingFilesList.ToolWindow.View.Controls.Command
     /// </summary>
     public class DecrementNumericUpDownValue : ICommand
     {
+        #pragma warning disable 67
+        // ICommand interface member is only used by XAML
         public event EventHandler CanExecuteChanged;
+        #pragma warning restore 67
 
         public bool CanExecute(object parameter)
         {

@@ -28,7 +28,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
     {
         private readonly DTE2 _dte2;
 
+        #pragma warning disable 67
+        // ICommand interface member is only used by XAML
         public event EventHandler CanExecuteChanged;
+        #pragma warning restore 67
 
         public CloseDocument(DTE2 dte2)
         {
