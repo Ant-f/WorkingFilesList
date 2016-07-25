@@ -59,7 +59,7 @@ namespace WorkingFilesList.Test.Ioc
                 typeof(IIntValueControl)
             };
 
-            var assembly = Assembly.GetAssembly(typeof(NinjectContainer));
+            var assembly = Assembly.GetAssembly(typeof(IDteEventsSubscriber));
             var assemblyInterfaces = assembly
                 .GetTypes()
                 .Where(t => t.IsInterface)
