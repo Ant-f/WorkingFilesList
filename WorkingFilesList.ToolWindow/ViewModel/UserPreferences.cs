@@ -27,7 +27,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
         private int _pathSegmentCount;
-        private ISortOption _selectedSortOptions;
+        private ISortOption _selectedSortOption;
 
         public UserPreferences(
             IStoredSettingsRepository storedSettingsRepository,
@@ -39,7 +39,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             var sortOptionName = _storedSettingsRepository.GetSelectedSortOptionName();
 
-            _selectedSortOptions = sortOptions
+            _selectedSortOption = sortOptions
                 .Single(s => s.DisplayName == sortOptionName);
         }
 
@@ -71,18 +71,18 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         {
             get
             {
-                return _selectedSortOptions;
+                return _selectedSortOption;
             }
 
             set
             {
-                if (_selectedSortOptions != value)
+                if (_selectedSortOption != value)
                 {
-                    _selectedSortOptions = value;
+                    _selectedSortOption = value;
                     OnPropertyChanged();
 
                     _storedSettingsRepository.SetSelectedSortOptionName(
-                        _selectedSortOptions?.DisplayName);
+                        _selectedSortOption?.DisplayName);
                 }
             }
         }

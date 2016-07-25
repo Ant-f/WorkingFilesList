@@ -20,7 +20,6 @@ using EnvDTE;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.ToolWindow.Interface;
@@ -30,14 +29,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 {
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
-        private readonly char[] _pathSeparators =
-        {
-            Path.AltDirectorySeparatorChar,
-            Path.DirectorySeparatorChar
-        };
-
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
-        private readonly ISortOptionsService _sortOptionsService;
+        private readonly IDocumentMetadataService _documentMetadataService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
@@ -46,8 +39,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
+            IDocumentMetadataService documentMetadataService,
             IDocumentMetadataFactory documentMetadataFactory,
-            ISortOptionsService sortOptionsService,
+            IEnumerable<IUpdateReaction> updateReactions,
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
@@ -57,11 +51,15 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 _activeDocumentMetadata);
 
             _documentMetadataFactory = documentMetadataFactory;
-            _sortOptionsService = sortOptionsService;
+            _documentMetadataService = documentMetadataService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
-            _userPreferences.PropertyChanged += UserPreferencesPropertyChanged;
+            foreach (var reaction in updateReactions)
+            {
+                reaction.Initialize(ActiveDocumentMetadata);
+                reaction.UpdateCollection();
+            }
         }
 
         /// <summary>
@@ -77,7 +75,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             if (!metadataExists)
             {
                 var metadata = _documentMetadataFactory.Create(fullName);
-                metadata.DisplayName = EvaluateDisplayName(metadata);
+
+                metadata.DisplayName = _documentMetadataService.EvaluateDisplayName(
+                    metadata,
+                    _userPreferences.PathSegmentCount);
+
                 _activeDocumentMetadata.Add(metadata);
             }
         }
@@ -183,76 +185,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     i--;
                 }
             }
-        }
-
-        private void UserPreferencesPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(IUserPreferences.SelectedSortOption):
-                {
-                    ActiveDocumentMetadata.SortDescriptions.Clear();
-
-                    var sortDescriptions =
-                        _sortOptionsService.EvaluateAppliedSortDescriptions(_userPreferences);
-
-                    foreach (var sortDescription in sortDescriptions)
-                    {
-                        ActiveDocumentMetadata.SortDescriptions.Add(sortDescription);
-                    }
-
-                    break;
-                }
-
-                case nameof(IUserPreferences.PathSegmentCount):
-                {
-                    foreach (var metadata in _activeDocumentMetadata)
-                    {
-                        metadata.DisplayName = EvaluateDisplayName(metadata);
-                    }
-                    break;
-                }
-            }
-        }
-
-        private string EvaluateDisplayName(DocumentMetadata metadata)
-        {
-            var maxIndex = metadata.CorrectedFullName.Length - 1;
-
-            // Start search at the last position of the string
-            var startIndex = maxIndex;
-
-            for (int i = 0;
-                i < _userPreferences.PathSegmentCount && startIndex > 0;
-                i++)
-            {
-                var index = metadata.CorrectedFullName.LastIndexOfAny(
-                    _pathSeparators,
-                    startIndex);
-
-                // Decrement index: subsequent calls to LastIndexOfAny will
-                // return the same index otherwise
-
-                startIndex = index - 1;
-            }
-
-            int substringStartIndex;
-            if (startIndex < 0 || startIndex == maxIndex)
-            {
-                substringStartIndex = 0;
-            }
-            else
-            {
-                // startIndex points to a character before a directory separator.
-                // Increment startIndex by two:
-                // - one to point at a directory separator, which we don't want
-                // - one to point at the first character after the directory separator
-
-                substringStartIndex = startIndex + 2;
-            }
-
-            var displayName = metadata.CorrectedFullName.Substring(substringStartIndex);
-            return displayName;
         }
     }
 }

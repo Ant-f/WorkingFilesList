@@ -640,7 +640,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             var documents = CreateDocuments(documentMockList);
-            var collectionViewMock = new Mock<ICollectionView>();
+
+            var collectionViewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
             var generatorMock = new Mock<ICollectionViewGenerator>();
 
             generatorMock
@@ -662,6 +667,38 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             collectionViewMock.Verify(c => c.Refresh());
+        }
+
+        [Test]
+        public void SortDescriptionsAreSetOnManagerInitialization()
+        {
+            // Arrange
+
+            const string propertyName = "PropertyName";
+            const ListSortDirection sortDirection = ListSortDirection.Descending;
+
+            var builder = new DocumentMetadataManagerBuilder();
+
+            var sortOptionsServiceMock = new Mock<ISortOptionsService>();
+
+            sortOptionsServiceMock
+                .Setup(s => s.EvaluateAppliedSortDescriptions(It.IsAny<IUserPreferences>()))
+                .Returns(new[] {new SortDescription(propertyName, sortDirection)});
+
+            builder.SortOptionsService = sortOptionsServiceMock.Object;
+
+            // Act
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Assert
+
+            var addedSortOption = manager.ActiveDocumentMetadata.SortDescriptions
+                .Single(s =>
+                    s.PropertyName == propertyName &&
+                    s.Direction == sortDirection);
+
+            Assert.That(addedSortOption, Is.Not.Null);
         }
     }
 }

@@ -20,6 +20,7 @@ using Moq;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.ViewModel;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
@@ -49,7 +50,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public IUserPreferences UserPreferences { get; set; }
 
         /// <summary>
-        /// Creates a new <see cref="WorkingFilesList.ViewModel.UserPreferences"/>
+        /// Creates a new <see cref="ToolWindow.ViewModel.UserPreferences"/>
         /// instance when <see cref="UserPreferences"/> is null.
         /// </summary>
         public UserPreferencesBuilder UserPreferencesBuilder { get; }
@@ -75,10 +76,24 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 UserPreferences = UserPreferencesBuilder.CreateUserPreferences();
             }
 
+            var documentMetadataService = new DocumentMetadataService();
+
+            var updateReactions = new IUpdateReaction[]
+            {
+                new PathSegmentCountUpdateReaction(
+                    documentMetadataService,
+                    UserPreferences),
+
+                new SelectedSortOptionUpdateReaction(
+                    SortOptionsService,
+                    UserPreferences)
+            };
+
             var service = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
+                documentMetadataService,
                 DocumentMetadataFactory,
-                SortOptionsService,
+                updateReactions,
                 TimeProviderMock.Object,
                 UserPreferences);
 
