@@ -60,21 +60,24 @@ namespace WorkingFilesList
         public const string PackageGuidString = "26bf5782-13d2-4168-b979-bfcde9bd63dd";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WorkingFilesWindow"/> class.
+        /// Initializes a new instance of the <see cref="WorkingFilesWindow"/>
+        /// class.
         /// </summary>
         public WorkingFilesWindowPackage()
         {
-            // Inside this method you can place any initialization code that does not require
-            // any Visual Studio service because at this point the package object is created but
-            // not sited yet inside Visual Studio environment. The place to do all the other
-            // initialization is the Initialize method.
+            // Inside this method you can place any initialization code that
+            // does not require any Visual Studio service because at this point
+            // the package object is created but not sited yet inside Visual
+            // Studio environment. The place to do all the other initialization
+            // is the Initialize method.
         }
 
         #region Package Members
 
         /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initialization code that rely on services provided by VisualStudio.
+        /// Initialization of the package; this method is called right after the
+        /// package is sited, so this is the place where you can put all the
+        /// initialization code that rely on services provided by VisualStudio.
         /// </summary>
         protected override void Initialize()
         {
