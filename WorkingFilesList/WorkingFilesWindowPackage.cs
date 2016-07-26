@@ -87,14 +87,32 @@ namespace WorkingFilesList
             var dte2 = (DTE2) GetService(typeof(DTE));
             NinjectContainer.InitializeKernel(dte2);
 
-            var events2 = (Events2) dte2.Events;
-            var subscriber = NinjectContainer.Kernel.Get<IDteEventsSubscriber>();
-            subscriber.SubscribeTo(events2);
-
-            // Inject properties by resolving a ViewModelService instance
-            NinjectContainer.Kernel.Get<ViewModelService>();
+            InitializeServices(NinjectContainer.Kernel);
         }
 
         #endregion
+
+        /// <summary>
+        /// Initialize <see cref="WorkingFilesList.ToolWindow"/> services and
+        /// view model objects
+        /// </summary>
+        public void InitializeServices(IKernel kernel)
+        {
+            var dte2 = kernel.Get<DTE2>();
+
+            var events2 = (Events2)dte2.Events;
+            var subscriber = kernel.Get<IDteEventsSubscriber>();
+            subscriber.SubscribeTo(events2);
+
+            // Inject properties by resolving a ViewModelService instance
+
+            kernel.Get<ViewModelService>();
+
+            // Synchronize to make sure already open documents are listed in
+            // the tool window
+
+            var metadataManager = kernel.Get<IDocumentMetadataManager>();
+            metadataManager.Synchronize(dte2.Documents);
+        }
     }
 }
