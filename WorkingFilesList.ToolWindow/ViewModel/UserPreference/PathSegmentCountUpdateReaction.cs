@@ -24,25 +24,25 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
     public class PathSegmentCountUpdateReaction : UpdateReactionBase
     {
-        private readonly IDocumentMetadataService _documentMetadataService;
+        private readonly IFilePathService _filePathService;
 
         protected override string PropertyName { get; }
             = nameof(IUserPreferences.PathSegmentCount);
 
         public PathSegmentCountUpdateReaction(
-            IDocumentMetadataService documentMetadataService,
+            IFilePathService filePathService,
             IUserPreferences userPreferences)
             : base(userPreferences)
         {
-            _documentMetadataService = documentMetadataService;
+            _filePathService = filePathService;
         }
         
         public override void UpdateCollection()
         {
             foreach (var metadata in CollectionView.Cast<DocumentMetadata>())
             {
-                metadata.DisplayName = _documentMetadataService.EvaluateDisplayName(
-                    metadata,
+                metadata.DisplayName = _filePathService.ReducePath(
+                    metadata.CorrectedFullName,
                     UserPreferences.PathSegmentCount);
             }
         }

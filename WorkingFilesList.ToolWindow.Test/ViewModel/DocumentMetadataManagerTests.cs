@@ -479,6 +479,45 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void AddUsesFilePathService()
+        {
+            // Arrange
+
+            const int pathSegmentCount = 7;
+            const string correctedName = "CorrectedName";
+
+            var factoryMock = new Mock<IDocumentMetadataFactory>();
+
+            factoryMock
+                .Setup(f => f.Create(It.IsAny<string>()))
+                .Returns(new DocumentMetadata(correctedName, string.Empty));
+
+            var filePathServiceMock = new Mock<IFilePathService>();
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factoryMock.Object,
+                FilePathService = filePathServiceMock.Object
+            };
+
+            builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetPathSegmentCount())
+                .Returns(pathSegmentCount);
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.Add(string.Empty);
+
+            // Assert
+
+            filePathServiceMock.Verify(f => f.ReducePath(
+                correctedName,
+                pathSegmentCount));
+        }
+
+        [Test]
         public void SynchronizeUsesDocumentMetadataFactory()
         {
             // Arrange

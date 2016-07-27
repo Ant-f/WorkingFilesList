@@ -41,6 +41,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         /// </summary>
         public IDocumentMetadataFactory DocumentMetadataFactory { get; set; }
 
+        public IFilePathService FilePathService { get; set; }
+
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
 
@@ -76,12 +78,15 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 UserPreferences = UserPreferencesBuilder.CreateUserPreferences();
             }
 
-            var documentMetadataService = new DocumentMetadataService();
+            if (FilePathService == null)
+            {
+                FilePathService = new FilePathService();
+            }
 
             var updateReactions = new IUpdateReaction[]
             {
                 new PathSegmentCountUpdateReaction(
-                    documentMetadataService,
+                    FilePathService,
                     UserPreferences),
 
                 new SelectedSortOptionUpdateReaction(
@@ -89,15 +94,15 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                     UserPreferences)
             };
 
-            var service = new DocumentMetadataManager(
+            var manager = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
-                documentMetadataService,
                 DocumentMetadataFactory,
                 updateReactions,
+                FilePathService,
                 TimeProviderMock.Object,
                 UserPreferences);
 
-            return service;
+            return manager;
         }
     }
 }

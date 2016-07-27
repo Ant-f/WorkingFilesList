@@ -16,12 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using WorkingFilesList.ToolWindow.Model;
-
 namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDocumentMetadataService
+    public interface IFilePathService
     {
-        string EvaluateDisplayName(DocumentMetadata metadata, int pathSegmentCount);
+        string ReducePath(string fullName, int pathSegmentCount);
     }
 }

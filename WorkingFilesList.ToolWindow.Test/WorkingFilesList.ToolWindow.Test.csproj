@@ -83,6 +83,7 @@
     <Compile Include="Service\EventRelay\DteEventsSubscriberTests.cs" />
     <Compile Include="Service\EventRelay\ProjectItemsEventsServiceTests.cs" />
     <Compile Include="Service\EventRelay\WindowEventsServiceTests.cs" />
+    <Compile Include="Service\FilePathServiceTests.cs" />
     <Compile Include="Service\PathCasingRestorerTests.cs" />
     <Compile Include="Service\SortOptionsServiceTests.cs" />
     <Compile Include="TestingInfrastructure\CommonMethods.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="ViewModel\Command\CloseDocumentTests.cs" />
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
+    <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionBaseTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />

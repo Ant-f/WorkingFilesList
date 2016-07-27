@@ -18,11 +18,10 @@
 
 using System.IO;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
-    public class DocumentMetadataService : IDocumentMetadataService
+    public class FilePathService : IFilePathService
     {
         private readonly char[] _pathSeparators =
         {
@@ -30,11 +29,24 @@ namespace WorkingFilesList.ToolWindow.Service
             Path.DirectorySeparatorChar
         };
 
-        public string EvaluateDisplayName(
-            DocumentMetadata metadata,
-            int pathSegmentCount)
+        /// <summary>
+        /// Returns a version of <see cref="fullName"/> containing the specified
+        /// number of path segments, i.e. file/directory names. The returned
+        /// path always includes the file name; the number of its parent
+        /// directories depends on <see cref="pathSegmentCount"/>
+        /// </summary>
+        /// <param name="fullName">Full path and name of a file</param>
+        /// <param name="pathSegmentCount">
+        /// The combined number of file/directory names to include
+        /// </param>
+        /// <returns>
+        /// A substring of <see cref="fullName"/> if <see cref="pathSegmentCount"/>
+        /// is less than the number of file/directory names in <see cref="fullName"/>;
+        /// <see cref="fullName"/> otherwise
+        /// </returns>
+        public string ReducePath(string fullName, int pathSegmentCount)
         {
-            var maxIndex = metadata.CorrectedFullName.Length - 1;
+            var maxIndex = fullName.Length - 1;
 
             // Start search at the last position of the string
             var startIndex = maxIndex;
@@ -43,7 +55,7 @@ namespace WorkingFilesList.ToolWindow.Service
                 i < pathSegmentCount && startIndex > 0;
                 i++)
             {
-                var index = metadata.CorrectedFullName.LastIndexOfAny(
+                var index = fullName.LastIndexOfAny(
                     _pathSeparators,
                     startIndex);
 
@@ -68,7 +80,7 @@ namespace WorkingFilesList.ToolWindow.Service
                 substringStartIndex = startIndex + 2;
             }
 
-            var displayName = metadata.CorrectedFullName.Substring(substringStartIndex);
+            var displayName = fullName.Substring(substringStartIndex);
             return displayName;
         }
     }
