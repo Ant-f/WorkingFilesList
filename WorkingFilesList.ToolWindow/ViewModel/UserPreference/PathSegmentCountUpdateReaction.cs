@@ -45,6 +45,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                     metadata.CorrectedFullName,
                     UserPreferences.PathSegmentCount);
             }
+
+            // Collection may need to be sorted: changing the number of path
+            // segments could make the displayed item order no longer agree with
+            // the selected sorting option, e.g. if an alphabetical sort is
+            // applied.
+
+            CollectionView.Refresh();
         }
     }
 }

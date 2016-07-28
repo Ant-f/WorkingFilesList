@@ -16,10 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Windows.Data;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Data;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
@@ -27,7 +28,7 @@ using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
 {
     [TestFixture]
-    class PathSegmentCountUpdateReactionTests
+    public class PathSegmentCountUpdateReactionTests
     {
         [Test]
         public void CollectionUpdateUsesFilePathService()
@@ -63,6 +64,31 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             filePathServiceMock.Verify(f => f.ReducePath(
                 correctedName,
                 pathSegmentCount));
+        }
+
+        [Test]
+        public void CollectionUpdateRefreshesCollectionView()
+        {
+            // Arrange
+
+            var updateReaction = new PathSegmentCountUpdateReaction(
+                Mock.Of<IFilePathService>(),
+                Mock.Of<IUserPreferences>());
+
+            var collectionViewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            updateReaction.Initialize(collectionViewMock.Object);
+
+            // Act
+
+            updateReaction.UpdateCollection();
+
+            // Assert
+
+            collectionViewMock.Verify(c => c.Refresh());
         }
     }
 }
