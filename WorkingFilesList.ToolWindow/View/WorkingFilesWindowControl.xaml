@@ -23,6 +23,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:locator="clr-namespace:WorkingFilesList.ToolWindow.Service.Locator"
              xmlns:controls="clr-namespace:WorkingFilesList.ToolWindow.View.Controls"
+             xmlns:converter="clr-namespace:WorkingFilesList.ToolWindow.View.Converter"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -30,6 +31,7 @@
              Name="MyToolWindow">
     <UserControl.Resources>
         <locator:ViewModelService x:Key="ViewModel" />
+        <converter:BoolToFontWeight x:Key="BoolToFontWeight" />
 
         <Style TargetType="{x:Type controls:NumericUpDown}">
             <Setter Property="Template">
@@ -141,6 +143,7 @@
                             <ControlTemplate>
                                 <Grid Background="Transparent">
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
+                                               FontWeight="{Binding IsActive, Converter={StaticResource BoolToFontWeight}}"
                                                Text="{Binding DisplayName}" />
                                 </Grid>
                             </ControlTemplate>

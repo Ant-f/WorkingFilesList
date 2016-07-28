@@ -103,6 +103,7 @@
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\NumericUpDownTests.cs" />
+    <Compile Include="View\Converter\BoolToFontWeightTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestingData\PathCasingRestorerTestFile.txt">
