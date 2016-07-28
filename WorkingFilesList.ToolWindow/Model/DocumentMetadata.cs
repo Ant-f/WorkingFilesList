@@ -24,6 +24,7 @@ namespace WorkingFilesList.ToolWindow.Model
 {
     public class DocumentMetadata : PropertyChangedNotifier
     {
+        private bool _isActive;
         private string _displayName;
 
         /// <summary>
@@ -55,6 +56,26 @@ namespace WorkingFilesList.ToolWindow.Model
         /// Full path and name of document file, as reported by the <see cref="DTE"/>
         /// </summary>
         public string FullName { get; }
+
+        /// <summary>
+        /// Indicates whether this document is active/has focus
+        /// </summary>
+        public bool IsActive
+        {
+            get
+            {
+                return _isActive;
+            }
+
+            set
+            {
+                if (_isActive != value)
+                {
+                    _isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Time when the document this metadata corresponds to was activated,

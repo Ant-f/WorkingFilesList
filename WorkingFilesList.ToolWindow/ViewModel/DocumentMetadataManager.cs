@@ -85,20 +85,30 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
-        /// Sets <see cref="DocumentMetadata.ActivatedAt"/> of the active
-        /// document metadata item matching the provided file name to the
-        /// current time in UTC
+        /// Sets <see cref="DocumentMetadata.IsActive"/> to true and
+        /// <see cref="DocumentMetadata.ActivatedAt"/> to the current time in UTC
+        /// for the specified file. Sets <see cref="DocumentMetadata.IsActive"/>
+        /// to false for all other files
         /// </summary>
         /// <param name="fullName">Full path and name of document file</param>
-        public void UpdateActivatedTime(string fullName)
+        public void Activate(string fullName)
         {
-            var metadata = _activeDocumentMetadata.SingleOrDefault(m =>
-                string.CompareOrdinal(m.FullName, fullName) == 0);
+            var refreshView = false;
 
-            if (metadata != null)
+            foreach (var metadata in _activeDocumentMetadata)
             {
-                var utcNow = _timeProvider.UtcNow;
-                metadata.ActivatedAt = utcNow;
+                metadata.IsActive = string.CompareOrdinal(metadata.FullName, fullName) == 0;
+
+                if (metadata.IsActive)
+                {
+                    var utcNow = _timeProvider.UtcNow;
+                    metadata.ActivatedAt = utcNow;
+                    refreshView = true;
+                }
+            }
+
+            if (refreshView)
+            {
                 ActiveDocumentMetadata.Refresh();
             }
         }

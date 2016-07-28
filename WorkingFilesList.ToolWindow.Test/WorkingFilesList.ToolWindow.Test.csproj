@@ -73,6 +73,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
+    <Compile Include="Model\DocumentMetadataTests.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
     <Compile Include="Model\SortOption\ChronologicalSortTests.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />

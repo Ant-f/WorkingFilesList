@@ -243,7 +243,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void UpdateActivatedTimeUpdatesOnlyMetadataWithMatchingPath()
+        public void ActivateOnlySetsActivatedTimeForMetadataWithMatchingPath()
         {
             // Arrange
 
@@ -282,7 +282,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.UpdateActivatedTime(document1Name);
+            manager.Activate(document1Name);
 
             // Assert
 
@@ -299,7 +299,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void UpdateActivatedTimeDoesNotThrowExceptionIfFullNameDoesNotExist()
+        public void ActivateDoesNotThrowExceptionIfFullNameDoesNotExist()
         {
             // Arrange
             
@@ -311,7 +311,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            Assert.DoesNotThrow(() => manager.UpdateActivatedTime("Document"));
+            Assert.DoesNotThrow(() => manager.Activate("Document"));
         }
 
         [Test]
@@ -667,7 +667,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void UpdateActivatedTimeRefreshesDocumentMetadataView()
+        public void ActivateRefreshesDocumentMetadataView()
         {
             // Arrange
 
@@ -701,7 +701,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.UpdateActivatedTime(documentName);
+            manager.Activate(documentName);
 
             // Assert
 
@@ -738,6 +738,49 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     s.Direction == sortDirection);
 
             Assert.That(addedSortOption, Is.Not.Null);
+        }
+
+        [Test]
+        public void ActivateSetsSpecifiedDocumentExclusivelyActive()
+        {
+            // Arrange
+
+            const string document1Name = "Document1";
+            const string document2Name = "Document2";
+            const string document3Name = "Document3";
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(document1Name),
+                CreateDocument(document2Name),
+                CreateDocument(document3Name)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            manager.Synchronize(documents);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            document1.IsActive = true;
+
+            // Act
+
+            manager.Activate(document3Name);
+
+            // Assert
+
+            Assert.IsFalse(document1.IsActive);
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsFalse(document2.IsActive);
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsTrue(document3.IsActive);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
     public class WindowEventsServiceTests
     {
         [Test]
-        public void ActivatedTimeForActivatedDocumentIsUpdated()
+        public void ActivatedDocumentIsActivated()
         {
             // Arrange
 
@@ -51,7 +51,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.UpdateActivatedTime(documentName));
+            metadataManagerMock.Verify(m => m.Activate(documentName));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
-        public void CreatingDocumentWindowWithEmptyMetadataCollectionUpdatesWindowDocumentActivatedTime()
+        public void CreatingDocumentWindowWithEmptyMetadataCollectionActivatesActivatedDocument()
         {
             // Arrange
 
@@ -116,11 +116,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.UpdateActivatedTime(documentName));
+            metadataManagerMock.Verify(m => m.Activate(documentName));
         }
 
         [Test]
-        public void ActivatedTimeUpdateOccursAfterSynchronizationWhenWindowIsCreated()
+        public void ActivateOccursAfterSynchronizationWhenWindowIsCreated()
         {
             // Arrange
 
@@ -133,10 +133,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             metadataManagerMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
                 .Callback(() => synchronized = true);
 
-            // Check that UpdateActivatedTime is called after Synchronize: the value
-            // of synchronizedWhenUpdatingActivatedTime will be true only if
-            // UpdateActivatedTime is called after Synchronize
-            metadataManagerMock.Setup(m => m.UpdateActivatedTime(It.IsAny<string>()))
+            // Check that Activate is called after Synchronize: the value of
+            // synchronizedWhenUpdatingActivatedTime will be true only if
+            // Activate is called after Synchronize
+            metadataManagerMock.Setup(m => m.Activate(It.IsAny<string>()))
                 .Callback(() => synchronizedWhenUpdatingActivatedTime = synchronized);
 
             var service = new WindowEventsService(metadataManagerMock.Object);
@@ -160,7 +160,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             metadataManagerMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
-            metadataManagerMock.Verify(m => m.UpdateActivatedTime(It.IsAny<string>()));
+            metadataManagerMock.Verify(m => m.Activate(It.IsAny<string>()));
 
             Assert.IsTrue(synchronizedWhenUpdatingActivatedTime);
         }
@@ -244,7 +244,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         [TestCase(vsWindowType.vsWindowTypeToolbox)]
         [TestCase(vsWindowType.vsWindowTypeToolWindow)]
         [TestCase(vsWindowType.vsWindowTypeWatch)]
-        public void NonDocumentWindowActivatedDoesNotUpdateActivatedTime(
+        public void NonDocumentWindowActivationDoesNotActivateDocumentMetadata(
             vsWindowType windowType)
         {
             // Arrange
@@ -264,11 +264,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             gotFocus.Verify(w => w.Document, Times.Never);
 
             metadataManagerMock
-                .Verify(m => m.UpdateActivatedTime(null),
+                .Verify(m => m.Activate(null),
                 Times.Never);
 
             metadataManagerMock
-                .Verify(m => m.UpdateActivatedTime(It.IsAny<string>()),
+                .Verify(m => m.Activate(It.IsAny<string>()),
                 Times.Never);
         }
 

@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             if (gotFocus.Type == vsWindowType.vsWindowTypeDocument &&
                 gotFocus.Document.ActiveWindow != null)
             {
-                _documentMetadataManager.UpdateActivatedTime(
+                _documentMetadataManager.Activate(
                     gotFocus.Document.FullName);
             }
         }
@@ -57,7 +57,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                 {
                     _documentMetadataManager.Synchronize(window.DTE.Documents);
 
-                    _documentMetadataManager.UpdateActivatedTime(
+                    _documentMetadataManager.Activate(
                         window.Document.FullName);
                 }
                 else

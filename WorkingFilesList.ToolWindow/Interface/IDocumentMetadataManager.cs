@@ -25,8 +25,8 @@ namespace WorkingFilesList.ToolWindow.Interface
     {
         ICollectionView ActiveDocumentMetadata { get; }
 
+        void Activate(string fullName);
         void Add(string fullName);
-        void UpdateActivatedTime(string fullName);
         void UpdateFullName(string newName, string oldName);
         void Synchronize(Documents documents);
     }
