@@ -19,12 +19,28 @@
 using EnvDTE;
 using Moq;
 using System.Collections.Generic;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
     internal static class CommonMethods
     {
+        public static Document CreateDocumentWithInfo(
+            DocumentMetadataInfo info,
+            bool nullActiveWindow = false)
+        {
+            var activeWindow = nullActiveWindow ? null : Mock.Of<Window>();
+
+            var documentMock = Mock.Of<Document>(d =>
+                d.ActiveWindow == activeWindow &&
+                d.FullName == info.FullName &&
+                d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
+                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
+
+            return documentMock;
+        }
+
         public static Documents CreateDocuments(IList<Document> documentsToReturn)
         {
             var documentsMock = new Mock<Documents>();

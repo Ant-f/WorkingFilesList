@@ -22,6 +22,7 @@ using NUnit.Framework;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
+using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
 
 namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 {
@@ -182,20 +183,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(false);
 
             var service = new WindowEventsService(metadataManagerMock.Object);
+            var document = CreateDocumentWithInfo(info);
 
-            var document = Mock.Of<Document>(d =>
-                d.ActiveWindow == Mock.Of<Window>() &&
-                d.FullName == info.FullName &&
-                d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
-                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
-
-            var created = new Mock<Window>();
-            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
-            created.Setup(w => w.Document).Returns(document);
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument &&
+                w.Document == document);
 
             // Act
 
-            service.WindowCreated(created.Object);
+            service.WindowCreated(created);
 
             // Assert
 

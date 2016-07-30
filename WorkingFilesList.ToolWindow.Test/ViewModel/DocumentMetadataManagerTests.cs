@@ -47,23 +47,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 ProjectUniqueName = string.Empty
             };
 
-            var document = CreateDocument(info, nullActiveWindow);
+            var document = CreateDocumentWithInfo(info, nullActiveWindow);
             return document;
-        }
-
-        private static Document CreateDocument(
-            DocumentMetadataInfo info,
-            bool nullActiveWindow = false)
-        {
-            var activeWindow = nullActiveWindow ? null : Mock.Of<Window>();
-
-            var documentMock = Mock.Of<Document>(d =>
-                d.ActiveWindow == activeWindow &&
-                d.FullName == info.FullName &&
-                d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
-                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
-
-            return documentMock;
         }
 
         [Test]
@@ -556,7 +541,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             var documentMockList = new List<Document>
             {
-                CreateDocument(info)
+                CreateDocumentWithInfo(info)
             };
 
             var documents = CreateDocuments(documentMockList);
