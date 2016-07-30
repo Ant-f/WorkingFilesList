@@ -22,6 +22,11 @@ using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {
+    /// <summary>
+    /// Contains methods for processing event handler parameters for relevant
+    /// <see cref="WindowEvents"/> events, and invoking appropriate methods on
+    /// other services to respond to such events
+    /// </summary>
     public class WindowEventsService : IWindowEventsService
     {
         private readonly IDocumentMetadataManager _documentMetadataManager;
