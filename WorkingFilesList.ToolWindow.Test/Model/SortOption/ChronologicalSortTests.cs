@@ -30,7 +30,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
     {
         private static DocumentMetadata CreateDocumentMetadata(DateTime activatedAt)
         {
-            var metadata = new DocumentMetadata(string.Empty, string.Empty)
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
             {
                 ActivatedAt = activatedAt
             };

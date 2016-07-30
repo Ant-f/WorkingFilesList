@@ -16,14 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System;
-using WorkingFilesList.ToolWindow.Model;
-
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Model
 {
-    public interface IDocumentMetadataFactory
+    public struct DocumentMetadataInfo
     {
-        DocumentMetadata Create(DocumentMetadataInfo info);
-        DocumentMetadata Create(DocumentMetadataInfo info, DateTime activatedAt);
+        /// <summary>
+        /// Full path and name of document file
+        /// </summary>
+        public string FullName { get; set; }
+
+        /// <summary>
+        /// Display name of the document's containing project
+        /// </summary>
+        public string ProjectDisplayName { get; set; }
+
+        /// <summary>
+        /// Unique name of the document's containing project
+        /// </summary>
+        public string ProjectUniqueName { get; set; }
     }
 }

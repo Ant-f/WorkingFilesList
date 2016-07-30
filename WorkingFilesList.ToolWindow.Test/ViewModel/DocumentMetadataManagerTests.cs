@@ -40,15 +40,30 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             string fullName,
             bool nullActiveWindow = false)
         {
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.FullName).Returns(fullName);
-
-            if (!nullActiveWindow)
+            var info = new DocumentMetadataInfo
             {
-                documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
-            }
+                FullName = fullName,
+                ProjectDisplayName = string.Empty,
+                ProjectUniqueName = string.Empty
+            };
 
-            return documentMock.Object;
+            var document = CreateDocument(info, nullActiveWindow);
+            return document;
+        }
+
+        private static Document CreateDocument(
+            DocumentMetadataInfo info,
+            bool nullActiveWindow = false)
+        {
+            var activeWindow = nullActiveWindow ? null : Mock.Of<Window>();
+
+            var documentMock = Mock.Of<Document>(d =>
+                d.ActiveWindow == activeWindow &&
+                d.FullName == info.FullName &&
+                d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
+                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
+
+            return documentMock;
         }
 
         [Test]
@@ -56,14 +71,17 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
 
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            manager.Add(documentName);
+            manager.Add(info);
 
             // Assert
 
@@ -71,7 +89,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
-            Assert.That(collection[0].FullName, Is.EqualTo(documentName));
+            Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
         }
 
         [Test]
@@ -79,15 +97,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
 
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            manager.Add(documentName);
-            manager.Add(documentName);
+            manager.Add(info);
+            manager.Add(info);
 
             // Assert
 
@@ -95,7 +116,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
-            Assert.That(collection[0].FullName, Is.EqualTo(documentName));
+            Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
         }
 
         [Test]
@@ -195,7 +216,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 CreateDocument(string.Empty)
             };
-            
+
             var builder = new DocumentMetadataManagerBuilder();
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(activatedAt);
@@ -256,7 +277,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 CreateDocument(document1Name),
                 CreateDocument(document2Name)
             };
-            
+
             var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
@@ -302,7 +323,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         public void ActivateDoesNotThrowExceptionIfFullNameDoesNotExist()
         {
             // Arrange
-            
+
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
@@ -454,13 +475,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName",
+                ProjectDisplayName = "ProjectDisplayName",
+                ProjectUniqueName = "ProjectUniqueName"
+            };
 
             var factoryMock = new Mock<IDocumentMetadataFactory>();
 
             factoryMock
-                .Setup(f => f.Create(documentName))
-                .Returns(new DocumentMetadata(documentName, documentName));
+                .Setup(f => f.Create(info))
+                .Returns(new DocumentMetadata(info, string.Empty));
 
             var builder = new DocumentMetadataManagerBuilder
             {
@@ -471,11 +497,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Add(documentName);
+            manager.Add(info);
 
             // Assert
-            
-            factoryMock.Verify(p => p.Create(documentName));
+
+            factoryMock.Verify(p => p.Create(info));
         }
 
         [Test]
@@ -486,17 +512,16 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const int pathSegmentCount = 7;
             const string correctedName = "CorrectedName";
 
-            var factoryMock = new Mock<IDocumentMetadataFactory>();
-
-            factoryMock
-                .Setup(f => f.Create(It.IsAny<string>()))
-                .Returns(new DocumentMetadata(correctedName, string.Empty));
+            var factory = Mock.Of<IDocumentMetadataFactory>(f =>
+                f.Create(It.IsAny<DocumentMetadataInfo>()) == new DocumentMetadata(
+                    new DocumentMetadataInfo(),
+                    correctedName));
 
             var filePathServiceMock = new Mock<IFilePathService>();
 
             var builder = new DocumentMetadataManagerBuilder
             {
-                DocumentMetadataFactory = factoryMock.Object,
+                DocumentMetadataFactory = factory,
                 FilePathService = filePathServiceMock.Object
             };
 
@@ -508,7 +533,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Add(string.Empty);
+            manager.Add(new DocumentMetadataInfo());
 
             // Assert
 
@@ -522,21 +547,28 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName",
+                ProjectDisplayName = "ProjectDisplayName",
+                ProjectUniqueName = "ProjectUniqueName"
+            };
 
             var documentMockList = new List<Document>
             {
-                CreateDocument(documentName)
+                CreateDocument(info)
             };
 
             var documents = CreateDocuments(documentMockList);
             var factoryMock = new Mock<IDocumentMetadataFactory>();
 
             factoryMock
-                .Setup(f => f.Create(It.IsAny<string>()))
-                .Returns<string>(str => new DocumentMetadata(str, str));
-            
-                var builder = new DocumentMetadataManagerBuilder
+                .Setup(f => f.Create(It.IsAny<DocumentMetadataInfo>()))
+                .Returns(new DocumentMetadata(
+                    info,
+                    "CorrectedFullName"));
+
+            var builder = new DocumentMetadataManagerBuilder
             {
                 DocumentMetadataFactory = factoryMock.Object
             };
@@ -549,7 +581,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            factoryMock.Verify(p => p.Create(documentName));
+            factoryMock.Verify(p => p.Create(info));
         }
 
         [Test]
@@ -561,19 +593,23 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const string two = "Two";
             const string three = "Three";
 
-            var documentName = Path.Combine(three, two, one);
+            var info = new DocumentMetadataInfo
+            {
+                FullName = Path.Combine(three, two, one)
+            };
+
             var expectedDocumentName = Path.Combine(two, one);
 
             var builder = new DocumentMetadataManagerBuilder();
             builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
                 .Setup(s => s.GetPathSegmentCount())
-                .Returns(2);
+                .Returns(2); // expectedDocumentName is built with two strings
 
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            manager.Add(documentName);
+            manager.Add(info);
 
             // Assert
 
@@ -589,15 +625,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            const string documentName = @"C:\Folder\Document.txt";
-
+            var info = new DocumentMetadataInfo
+            {
+                FullName = @"C:\Folder\Document.txt"
+            };
+            
             var builder = new DocumentMetadataManagerBuilder();
             builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
                 .Setup(s => s.GetPathSegmentCount())
                 .Returns(1);
 
             var manager = builder.CreateDocumentMetadataManager();
-            manager.Add(documentName);
+            manager.Add(info);
 
             // Act
 
@@ -609,7 +648,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(collection.Count, Is.EqualTo(1));
-            Assert.That(collection[0].DisplayName, Is.EqualTo(documentName));
+            Assert.That(collection[0].DisplayName, Is.EqualTo(info.FullName));
         }
 
         [Test]
@@ -722,7 +761,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             sortOptionsServiceMock
                 .Setup(s => s.EvaluateAppliedSortDescriptions(It.IsAny<IUserPreferences>()))
-                .Returns(new[] {new SortDescription(propertyName, sortDirection)});
+                .Returns(new[] { new SortDescription(propertyName, sortDirection) });
 
             builder.SortOptionsService = sortOptionsServiceMock.Object;
 

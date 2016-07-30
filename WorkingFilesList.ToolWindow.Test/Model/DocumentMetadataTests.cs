@@ -33,11 +33,12 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             const string displayName = "DisplayName";
             var propertyChangedRaised = false;
 
-            var metadata = new DocumentMetadata(string.Empty, string.Empty)
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
             {
                 DisplayName = displayName
             };
-            
+
             var handler = new PropertyChangedEventHandler((s, e) =>
             {
                 propertyChangedRaised = true;
@@ -62,7 +63,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             var propertyChangedRaised = false;
 
-            var metadata = new DocumentMetadata(string.Empty, string.Empty)
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
             {
                 DisplayName = "DisplayName"
             };
@@ -92,7 +94,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             const bool isActive = true;
             var propertyChangedRaised = false;
 
-            var metadata = new DocumentMetadata(string.Empty, string.Empty)
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
             {
                 IsActive = isActive
             };
@@ -121,7 +124,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             var propertyChangedRaised = false;
 
-            var metadata = new DocumentMetadata(string.Empty, string.Empty)
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
             {
                 IsActive = true
             };

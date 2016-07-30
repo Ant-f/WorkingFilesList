@@ -28,6 +28,12 @@ namespace WorkingFilesList.ToolWindow.Model
         private string _displayName;
 
         /// <summary>
+        /// Time when the document this metadata corresponds to was activated,
+        /// i.e. the time that the document window received focus
+        /// </summary>
+        public DateTime ActivatedAt { get; set; }
+
+        /// <summary>
         /// Full path and name of document file, used for display purposes
         /// </summary>
         public string CorrectedFullName { get; }
@@ -78,15 +84,21 @@ namespace WorkingFilesList.ToolWindow.Model
         }
 
         /// <summary>
-        /// Time when the document this metadata corresponds to was activated,
-        /// i.e. the time that the document window received focus
+        /// Display name of the document's containing project
         /// </summary>
-        public DateTime ActivatedAt { get; set; }
+        public string ProjectDisplayName { get; }
 
-        public DocumentMetadata(string correctedFullName, string fullName)
+        /// <summary>
+        /// Unique name of the document's containing project
+        /// </summary>
+        public string ProjectUniqueName { get; }
+
+        public DocumentMetadata(DocumentMetadataInfo info, string correctedFullName)
         {
             CorrectedFullName = correctedFullName;
-            FullName = fullName;
+            FullName = info.FullName;
+            ProjectDisplayName = info.ProjectDisplayName;
+            ProjectUniqueName = info.ProjectUniqueName;
         }
     }
 }

@@ -74,6 +74,7 @@
     <Compile Include="Interface\IUserPreferences.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
+    <Compile Include="Model\DocumentMetadataInfo.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />

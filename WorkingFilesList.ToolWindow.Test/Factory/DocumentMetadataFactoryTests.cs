@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Factory
@@ -29,14 +30,13 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         {
             // Arrange
 
-            const string fullName = "FullName";
-
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
+            var info = new DocumentMetadataInfo();
 
             // Act
 
-            var metadata = factory.Create(fullName);
+            var metadata = factory.Create(info);
 
             // Assert
 
@@ -44,22 +44,73 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         }
 
         [Test]
-        public void FullNameEqualsParameterValue()
+        public void FullNameEqualsMetadataInfoValue()
         {
             // Arrange
 
-            const string fullName = "FullName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
 
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
 
             // Act
 
-            var metadata = factory.Create(fullName);
+            var metadata = factory.Create(info);
 
             // Assert
 
-            Assert.That(metadata.FullName, Is.EqualTo(fullName));
+            Assert.That(metadata.FullName, Is.EqualTo(info.FullName));
+        }
+
+        [Test]
+        public void ProjectDisplayNameEqualsMetadataInfoValue()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                ProjectDisplayName = "ProjectDisplayName"
+            };
+
+            var builder = new DocumentMetadataFactoryBuilder();
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(
+                metadata.ProjectDisplayName,
+                Is.EqualTo(info.ProjectDisplayName));
+        }
+
+        [Test]
+        public void ProjectUniqueNameEqualsMetadataInfoValue()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                ProjectUniqueName = "ProjectUniqueName"
+            };
+
+            var builder = new DocumentMetadataFactoryBuilder();
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(
+                metadata.ProjectUniqueName,
+                Is.EqualTo(info.ProjectUniqueName));
         }
 
         [Test]
@@ -78,9 +129,14 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             var factory = builder.CreateDocumentMetadataFactory(false);
 
+            var info = new DocumentMetadataInfo
+            {
+                FullName = lowerCase
+            };
+
             // Act
 
-            var metadata = factory.Create(lowerCase);
+            var metadata = factory.Create(info);
 
             // Assert
 

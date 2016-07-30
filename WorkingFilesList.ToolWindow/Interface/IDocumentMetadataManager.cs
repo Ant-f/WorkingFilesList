@@ -18,6 +18,7 @@
 
 using EnvDTE;
 using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Interface
 {
@@ -26,7 +27,7 @@ namespace WorkingFilesList.ToolWindow.Interface
         ICollectionView ActiveDocumentMetadata { get; }
 
         void Activate(string fullName);
-        void Add(string fullName);
+        void Add(DocumentMetadataInfo info);
         void UpdateFullName(string newName, string oldName);
         void Synchronize(Documents documents);
     }

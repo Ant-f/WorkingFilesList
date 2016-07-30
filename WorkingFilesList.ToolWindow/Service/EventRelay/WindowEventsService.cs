@@ -18,6 +18,7 @@
 
 using EnvDTE;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {
@@ -62,7 +63,18 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                 }
                 else
                 {
-                    _documentMetadataManager.Add(window.Document.FullName);
+                    var info = new DocumentMetadataInfo
+                    {
+                        FullName = window.Document.FullName,
+
+                        ProjectDisplayName =
+                            window.Document.ProjectItem.ContainingProject.Name,
+
+                        ProjectUniqueName =
+                            window.Document.ProjectItem.ContainingProject.UniqueName
+                    };
+
+                    _documentMetadataManager.Add(info);
                 }
             }
         }

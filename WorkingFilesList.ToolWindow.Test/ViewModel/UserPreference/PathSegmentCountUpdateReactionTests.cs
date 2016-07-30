@@ -47,9 +47,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
                 filePathServiceMock.Object,
                 preferences);
 
+            var info = new DocumentMetadataInfo();
             var metadataList = new List<DocumentMetadata>
             {
-                new DocumentMetadata(correctedName, string.Empty)
+                new DocumentMetadata(info, correctedName)
             };
 
             var view = new ListCollectionView(metadataList);

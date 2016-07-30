@@ -66,15 +66,17 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// Adds the provided name to <see cref="ActiveDocumentMetadata"/> if
         /// not already present. Does nothing otherwise.
         /// </summary>
-        /// <param name="fullName">Full path and name of document file</param>
-        public void Add(string fullName)
+        /// <param name="info">
+        /// Information about the document's full name and containing project
+        /// </param>
+        public void Add(DocumentMetadataInfo info)
         {
             var metadataExists = _activeDocumentMetadata
-                .Any(m => m.FullName == fullName);
+                .Any(m => m.FullName == info.FullName);
 
             if (!metadataExists)
             {
-                var metadata = _documentMetadataFactory.Create(fullName);
+                var metadata = _documentMetadataFactory.Create(info);
 
                 metadata.DisplayName = _filePathService.ReducePath(
                     metadata.CorrectedFullName,
@@ -132,8 +134,15 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 var match = string.CompareOrdinal(existingMetadata.FullName, oldName) == 0;
                 if (match)
                 {
+                    var info = new DocumentMetadataInfo
+                    {
+                        FullName = newName,
+                        ProjectDisplayName = _activeDocumentMetadata[i].ProjectDisplayName,
+                        ProjectUniqueName = _activeDocumentMetadata[i].ProjectUniqueName
+                    };
+
                     var newMetadata = _documentMetadataFactory.Create(
-                        newName,
+                        info,
                         _activeDocumentMetadata[i].ActivatedAt);
 
                     _activeDocumentMetadata[i] = newMetadata;
@@ -171,7 +180,15 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     }
 
                     documentNameSet.Add(document.FullName);
-                    Add(document.FullName);
+
+                    var info = new DocumentMetadataInfo
+                    {
+                        FullName = document.FullName,
+                        ProjectDisplayName = document.ProjectItem.ContainingProject.Name,
+                        ProjectUniqueName = document.ProjectItem.ContainingProject.UniqueName
+                    };
+
+                    Add(info);
                 }
             }
             catch (COMException)

@@ -20,6 +20,7 @@ using EnvDTE;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
 namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
@@ -170,20 +171,27 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "DocumentName",
+                ProjectDisplayName = "ProjectDisplayName",
+                ProjectUniqueName = "ProjectUniqueName"
+            };
 
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(false);
 
             var service = new WindowEventsService(metadataManagerMock.Object);
 
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
-            documentMock.Setup(d => d.FullName).Returns(documentName);
+            var document = Mock.Of<Document>(d =>
+                d.ActiveWindow == Mock.Of<Window>() &&
+                d.FullName == info.FullName &&
+                d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
+                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
 
             var created = new Mock<Window>();
             created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
-            created.Setup(w => w.Document).Returns(documentMock.Object);
+            created.Setup(w => w.Document).Returns(document);
 
             // Act
 
@@ -191,7 +199,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.Add(documentName));
+            metadataManagerMock.Verify(m => m.Add(info));
         }
 
         [Test]
@@ -316,11 +324,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             created.Verify(w => w.Document, Times.Never);
 
             metadataManagerMock
-                .Verify(m => m.Add(null),
-                Times.Never);
-
-            metadataManagerMock
-                .Verify(m => m.Add(It.IsAny<string>()),
+                .Verify(m => m.Add(It.IsAny<DocumentMetadataInfo>()),
                 Times.Never);
         }
 

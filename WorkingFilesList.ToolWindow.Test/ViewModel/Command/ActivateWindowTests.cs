@@ -21,6 +21,7 @@ using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
@@ -51,7 +52,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "DocumentName"
+            };
 
             var windowMock = new Mock<Window>();
             var windowList = new List<Window>
@@ -60,26 +64,21 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
             };
 
             var windowsMock = CreateWindows(windowList);
-
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.FullName).Returns(documentName);
-            documentMock.Setup(d => d.Windows).Returns(windowsMock);
-
             var documentMockList = new List<Document>
             {
-                documentMock.Object
+                Mock.Of<Document>(d =>
+                    d.FullName == info.FullName &&
+                    d.Windows == windowsMock)
             };
 
             var documents = CreateDocuments(documentMockList);
-
-            var dte2Mock = new Mock<DTE2>();
-            dte2Mock.Setup(d => d.Documents).Returns(documents);
+            var dte2 = Mock.Of<DTE2>(d => d.Documents == documents);
 
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
-            var metadata = factory.Create(documentName);
+            var metadata = factory.Create(info);
 
-            var command = new ActivateWindow(dte2Mock.Object);
+            var command = new ActivateWindow(dte2);
 
             // Act
 

@@ -21,6 +21,7 @@ using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
@@ -51,10 +52,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
         {
             // Arrange
 
-            const string documentName = "DocumentName";
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
 
             var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.FullName).Returns(documentName);
+            documentMock.Setup(d => d.FullName).Returns(info.FullName);
 
             var documentMockList = new List<Document>
             {
@@ -68,7 +72,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
 
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
-            var metadata = factory.Create(documentName);
+            var metadata = factory.Create(info);
 
             var command = new CloseDocument(dte2Mock.Object);
 

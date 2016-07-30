@@ -44,12 +44,14 @@ namespace WorkingFilesList.ToolWindow.Factory
         /// Creates a new <see cref="DocumentMetadata"/>, setting
         /// <see cref="DocumentMetadata.ActivatedAt"/> at the current time in UTC
         /// </summary>
-        /// <param name="fullName">Full path and name of document file</param>
+        /// <param name="info">
+        /// Information about the document's full name and containing project
+        /// </param>
         /// <returns>A new <see cref="DocumentMetadata"/> instance</returns>
-        public DocumentMetadata Create(string fullName)
+        public DocumentMetadata Create(DocumentMetadataInfo info)
         {
             var utcNow = _timeProvider.UtcNow;
-            var metadata = Create(fullName, utcNow);
+            var metadata = Create(info, utcNow);
             return metadata;
         }
 
@@ -57,15 +59,17 @@ namespace WorkingFilesList.ToolWindow.Factory
         /// Creates a new <see cref="DocumentMetadata"/>, setting
         /// <see cref="DocumentMetadata.ActivatedAt"/> at the specified time
         /// </summary>
-        /// <param name="fullName">Full path and name of document file</param>
+        /// <param name="info">
+        /// Information about the document's full name and containing project
+        /// </param>
         /// <param name="activatedAt">
         /// Value to set <see cref="DocumentMetadata.ActivatedAt"/> as
         /// </param>
         /// <returns>A new <see cref="DocumentMetadata"/> instance</returns>
-        public DocumentMetadata Create(string fullName, DateTime activatedAt)
+        public DocumentMetadata Create(DocumentMetadataInfo info, DateTime activatedAt)
         {
-            var correctedCasing = _pathCasingRestorer.RestoreCasing(fullName);
-            var metadata = new DocumentMetadata(correctedCasing, fullName)
+            var correctedCasing = _pathCasingRestorer.RestoreCasing(info.FullName);
+            var metadata = new DocumentMetadata(info, correctedCasing)
             {
                 ActivatedAt = activatedAt
             };
