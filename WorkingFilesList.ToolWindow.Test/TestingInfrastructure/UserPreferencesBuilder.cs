@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
@@ -48,7 +49,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                     new TestingSortOption(
                         null,
                         nameof(DocumentMetadata.DisplayName),
-                        ListSortDirection.Ascending)
+                        ListSortDirection.Ascending,
+                        ProjectItemType.Document | ProjectItemType.Project)
                 };
             }
 

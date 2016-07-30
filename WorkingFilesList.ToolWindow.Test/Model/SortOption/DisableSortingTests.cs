@@ -48,5 +48,22 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 
             Assert.IsFalse(sortOption.HasSortDescription);
         }
+
+        [TestCase(ProjectItemType.Document, false)]
+        [TestCase(ProjectItemType.Project, true)]
+        public void ApplicableTypesAreCorrect(ProjectItemType type, bool isApplicable)
+        {
+            // Arrange
+
+            var sortOption = new DisableSorting();
+
+            // Act
+
+            var hasFlag = sortOption.ApplicableTypes.HasFlag(type);
+
+            // Assert
+
+            Assert.That(hasFlag, Is.EqualTo(isApplicable));
+        }
     }
 }

@@ -28,6 +28,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
 
@@ -652,7 +653,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name",
                 propertyName,
-                sortDirection);
+                sortDirection,
+                ProjectItemType.Document);
 
             // Assert
 
@@ -677,12 +679,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name",
                 "PropertyName",
-                ListSortDirection.Descending);
+                ListSortDirection.Descending,
+                ProjectItemType.Document);
 
             builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name 2",
                 "PropertyName",
-                ListSortDirection.Descending);
+                ListSortDirection.Descending,
+                ProjectItemType.Document);
 
             // Assert
 

@@ -104,7 +104,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     new TestingSortOption(
                         displayName,
                         null,
-                        ListSortDirection.Ascending)
+                        ListSortDirection.Ascending,
+                        ProjectItemType.Document)
                 }
             };
 

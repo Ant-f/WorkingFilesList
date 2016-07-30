@@ -24,12 +24,14 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
     internal class TestingSortOption : SortOptionBase
     {
         public TestingSortOption(
-                string displayName,
-                string propertyName,
-                ListSortDirection sortDirection) : base(
-                    displayName,
-                    propertyName,
-                    sortDirection)
+            string displayName,
+            string propertyName,
+            ListSortDirection sortDirection,
+            ProjectItemType type) : base(
+                displayName,
+                propertyName,
+                sortDirection,
+                type)
         {
         }
     }

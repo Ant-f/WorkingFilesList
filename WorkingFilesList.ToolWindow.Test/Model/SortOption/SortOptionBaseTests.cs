@@ -18,6 +18,7 @@
 
 using NUnit.Framework;
 using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
@@ -35,7 +36,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             var option = new TestingSortOption(
                 "DisplayName",
                 propertyName,
-                ListSortDirection.Ascending);
+                ListSortDirection.Ascending,
+                ProjectItemType.Document | ProjectItemType.Project);
 
             // Act
 
@@ -56,7 +58,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             var option = new TestingSortOption(
                 "DisplayName",
                 "PropertyName",
-                sortDirection);
+                sortDirection,
+                ProjectItemType.Document | ProjectItemType.Project);
 
             // Act
 
