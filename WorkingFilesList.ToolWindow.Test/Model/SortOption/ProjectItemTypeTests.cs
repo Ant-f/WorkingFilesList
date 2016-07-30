@@ -16,23 +16,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Windows.Controls;
-using WorkingFilesList.ToolWindow.Interface;
+using NUnit.Framework;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.ViewModel
+namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 {
-    /// <summary>
-    /// Contains lists that UI controls can bind their
-    /// <see cref="ItemsControl.ItemsSource"/> property to
-    /// </summary>
-    public class OptionsLists : IOptionsLists
+    [TestFixture]
+    public class ProjectItemTypeTests
     {
-        public IList<ISortOption> DocumentSortOptions { get; }
-
-        public OptionsLists(IList<ISortOption> sortOptions)
+        [Test]
+        public void DocumentTypeIsIndependentOfProjectType()
         {
-            DocumentSortOptions = sortOptions;
+            // Arrange
+
+            const ProjectItemType type = ProjectItemType.Document;
+
+            // Act
+
+            var hasFlag = type.HasFlag(ProjectItemType.Project);
+
+            // Assert
+
+            Assert.IsFalse(hasFlag);
+        }
+
+        [Test]
+        public void ProjectTypeIsIndependentOfDocumentType()
+        {
+            // Arrange
+
+            const ProjectItemType type = ProjectItemType.Project;
+
+            // Act
+
+            var hasFlag = type.HasFlag(ProjectItemType.Document);
+
+            // Assert
+
+            Assert.IsFalse(hasFlag);
         }
     }
 }

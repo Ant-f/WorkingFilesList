@@ -649,7 +649,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name",
                 propertyName,
                 sortDirection);
@@ -674,12 +674,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name",
                 "PropertyName",
                 ListSortDirection.Descending);
 
-            builder.UserPreferences.SelectedSortOption = new TestingSortOption(
+            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
                 "Display Name 2",
                 "PropertyName",
                 ListSortDirection.Descending);

@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
 
@@ -27,6 +28,12 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     /// </summary>
     public abstract class SortOptionBase : ISortOption
     {
+        /// <summary>
+        /// Indicates whether calling <see cref="GetSortDescription"/> should
+        /// return a valid <see cref="SortDescription"/>
+        /// </summary>
+        public bool HasSortDescription { get; }
+
         /// <summary>
         /// Name that this set of sorting criteria will be displayed as. Should
         /// be unique.
@@ -43,6 +50,12 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
         /// </summary>
         public ListSortDirection SortDirection { get; }
 
+        protected SortOptionBase(string displayName)
+        {
+            DisplayName = displayName;
+            HasSortDescription = false;
+        }
+
         protected SortOptionBase(
             string displayName,
             string propertyName,
@@ -51,6 +64,7 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
             DisplayName = displayName;
             PropertyName = propertyName;
             SortDirection = sortDirection;
+            HasSortDescription = true;
         }
 
         /// <summary>
@@ -63,11 +77,19 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
         /// </returns>
         public SortDescription GetSortDescription()
         {
-            var sortDescription = new SortDescription(
-                PropertyName,
-                SortDirection);
+            if (HasSortDescription)
+            {
+                var sortDescription = new SortDescription(
+                    PropertyName,
+                    SortDirection);
 
-            return sortDescription;
+                return sortDescription;
+            }
+            else
+            {
+                throw new NotSupportedException(
+                    "This type does not represent usable sorting criteria");
+            }
         }
     }
 }

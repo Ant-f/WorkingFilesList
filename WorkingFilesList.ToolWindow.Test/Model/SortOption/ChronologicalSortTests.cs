@@ -70,5 +70,17 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 
             Assert.That(firstItem.ActivatedAt, Is.EqualTo(after));
         }
+
+        [Test]
+        public void HasSortDescriptionIsTrue()
+        {
+            // Arrange
+
+            var sortOption = new ChronologicalSort();
+
+            // Assert
+
+            Assert.IsTrue(sortOption.HasSortDescription);
+        }
     }
 }

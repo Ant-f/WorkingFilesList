@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var builder = new UserPreferencesBuilder
             {
-                SortOptions = new[] {alphabeticalSort}
+                DocumentSortOptions = new[] {alphabeticalSort}
             };
 
             builder.StoredSettingsRepositoryMock

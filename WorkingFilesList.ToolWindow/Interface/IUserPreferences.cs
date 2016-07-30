@@ -23,6 +23,6 @@ namespace WorkingFilesList.ToolWindow.Interface
     public interface IUserPreferences : INotifyPropertyChanged
     {
         int PathSegmentCount { get; set; }
-        ISortOption SelectedSortOption { get; set; }
+        ISortOption SelectedDocumentSortOption { get; set; }
     }
 }

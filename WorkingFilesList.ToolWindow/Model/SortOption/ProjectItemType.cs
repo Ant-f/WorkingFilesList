@@ -16,12 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Model.SortOption
 {
-    public interface IOptionsLists
+    [Flags]
+    public enum ProjectItemType
     {
-        IList<ISortOption> DocumentSortOptions { get; }
+        Document = 1,
+        Project = 2
     }
 }

@@ -16,12 +16,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
+using NUnit.Framework;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 {
-    public interface IOptionsLists
+    [TestFixture]
+    public class DisableSortingTests
     {
-        IList<ISortOption> DocumentSortOptions { get; }
+        [Test]
+        public void GetSortDescriptionThrowsNotSupportedException()
+        {
+            // Arrange
+
+            var sortOption = new DisableSorting();
+
+            // Assert
+
+            Assert.Throws<NotSupportedException>(() => sortOption.GetSortDescription());
+        }
+
+        [Test]
+        public void HasSortDescriptionIsFalse()
+        {
+            // Arrange
+
+            var sortOption = new DisableSorting();
+
+            // Assert
+
+            Assert.IsFalse(sortOption.HasSortDescription);
+        }
     }
 }

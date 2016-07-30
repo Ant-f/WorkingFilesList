@@ -67,5 +67,17 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 
             Assert.That(firstItem.DisplayName, Is.EqualTo(displayNameC));
         }
+
+        [Test]
+        public void HasSortDescriptionIsTrue()
+        {
+            // Arrange
+
+            var sortOption = new ReverseAlphabeticalSort();
+
+            // Assert
+
+            Assert.IsTrue(sortOption.HasSortDescription);
+        }
     }
 }

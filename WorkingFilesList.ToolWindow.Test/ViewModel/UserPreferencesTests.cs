@@ -47,7 +47,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SettingSelectedSortOptionStoresNewValueDisplayNameInRepository()
+        public void SettingSelectedDocumentSortOptionStoresNewValueDisplayNameInRepository()
         {
             // Arrange
 
@@ -58,7 +58,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            preferences.SelectedSortOption = option;
+            preferences.SelectedDocumentSortOption = option;
 
             // Verify
 
@@ -91,7 +91,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SelectedSortOptionDisplayNameIsRestoredOnInstanceCreation()
+        public void SelectedDocumentSortOptionDisplayNameIsRestoredOnInstanceCreation()
         {
             // Arrange
 
@@ -99,7 +99,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             var builder = new UserPreferencesBuilder
             {
-                SortOptions = new[]
+                DocumentSortOptions = new[]
                 {
                     new TestingSortOption(
                         displayName,
@@ -122,7 +122,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Verify(s => s.GetSelectedSortOptionName());
 
             Assert.That(
-                preferences.SelectedSortOption.DisplayName,
+                preferences.SelectedDocumentSortOption.DisplayName,
                 Is.EqualTo(displayName));
         }
     }

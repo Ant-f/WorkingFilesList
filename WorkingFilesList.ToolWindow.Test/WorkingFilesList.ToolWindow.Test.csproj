@@ -76,6 +76,8 @@
     <Compile Include="Model\DocumentMetadataTests.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
     <Compile Include="Model\SortOption\ChronologicalSortTests.cs" />
+    <Compile Include="Model\SortOption\DisableSortingTests.cs" />
+    <Compile Include="Model\SortOption\ProjectItemTypeTests.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />
     <Compile Include="Model\SortOption\SortOptionBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

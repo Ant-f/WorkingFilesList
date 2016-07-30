@@ -41,7 +41,7 @@ namespace WorkingFilesList.ToolWindow.Service
         {
             var options = new[]
             {
-                userPreferences.SelectedSortOption.GetSortDescription()
+                userPreferences.SelectedDocumentSortOption.GetSortDescription()
             };
 
             return options;

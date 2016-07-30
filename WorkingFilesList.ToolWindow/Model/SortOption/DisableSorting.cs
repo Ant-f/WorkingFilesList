@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Model.SortOption
 {
-    public interface IOptionsLists
+    public class DisableSorting : SortOptionBase
     {
-        IList<ISortOption> DocumentSortOptions { get; }
+        public DisableSorting() : base("None")
+        {
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
     internal class UserPreferencesBuilder
     {
-        public IEnumerable<ISortOption> SortOptions { get; set; }
+        public IEnumerable<ISortOption> DocumentSortOptions { get; set; }
 
         public Mock<IStoredSettingsRepository> StoredSettingsRepositoryMock { get; }
             = new Mock<IStoredSettingsRepository>();
@@ -41,9 +41,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         /// </returns>
         public UserPreferences CreateUserPreferences()
         {
-            if (SortOptions == null)
+            if (DocumentSortOptions == null)
             {
-                SortOptions = new List<ISortOption>
+                DocumentSortOptions = new List<ISortOption>
                 {
                     new TestingSortOption(
                         null,
@@ -54,7 +54,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             var preferences = new UserPreferences(
                 StoredSettingsRepositoryMock.Object,
-                SortOptions);
+                DocumentSortOptions);
 
             return preferences;
         }

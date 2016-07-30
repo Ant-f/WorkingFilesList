@@ -77,6 +77,8 @@
     <Compile Include="Model\DocumentMetadataInfo.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
+    <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="Model\SortOption\ProjectItemType.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\SortOptionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,7 +105,7 @@
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreferences.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReaction.cs" />
-    <Compile Include="ViewModel\UserPreference\SelectedSortOptionUpdateReaction.cs" />
+    <Compile Include="ViewModel\UserPreference\SelectedDocumentSortOptionUpdateReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionBase.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
