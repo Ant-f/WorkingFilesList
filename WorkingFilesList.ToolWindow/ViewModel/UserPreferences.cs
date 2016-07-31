@@ -30,20 +30,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private ISortOption _selectedDocumentSortOption;
         private ISortOption _selectedProjectSortOption;
 
-        public UserPreferences(
-            IStoredSettingsRepository storedSettingsRepository,
-            IEnumerable<ISortOption> sortOptions)
-        {
-            _storedSettingsRepository = storedSettingsRepository;
-
-            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
-
-            var sortOptionName = _storedSettingsRepository.GetSelectedSortOptionName();
-
-            _selectedDocumentSortOption = sortOptions
-                .Single(s => s.DisplayName == sortOptionName);
-        }
-
         /// <summary>
         /// The number of path segments to display, a path segment being either
         /// a single file or directory name that makes up the full name of a file
@@ -82,7 +68,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _selectedDocumentSortOption = value;
                     OnPropertyChanged();
 
-                    _storedSettingsRepository.SetSelectedSortOptionName(
+                    _storedSettingsRepository.SetSelectedDocumentSortOptionName(
                         _selectedDocumentSortOption?.DisplayName);
                 }
             }
@@ -101,8 +87,32 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _selectedProjectSortOption = value;
                     OnPropertyChanged();
+
+                    _storedSettingsRepository.SetSelectedProjectSortOptionName(
+                        _selectedProjectSortOption?.DisplayName);
                 }
             }
+        }
+
+        public UserPreferences(
+            IStoredSettingsRepository storedSettingsRepository,
+            IList<ISortOption> sortOptions)
+        {
+            _storedSettingsRepository = storedSettingsRepository;
+
+            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+
+            var documentSortOptionName = _storedSettingsRepository
+                .GetSelectedDocumentSortOptionName();
+
+            _selectedDocumentSortOption = sortOptions
+                .Single(s => s.DisplayName == documentSortOptionName);
+
+            var projectSortOptionName = _storedSettingsRepository
+                .GetSelectedProjectSortOptionName();
+
+            _selectedProjectSortOption = sortOptions
+                .Single(s => s.DisplayName == projectSortOptionName);
         }
     }
 }

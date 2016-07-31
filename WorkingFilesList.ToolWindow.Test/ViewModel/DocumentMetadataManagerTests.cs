@@ -674,6 +674,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
+            builder.UserPreferences.SelectedProjectSortOption = Mock.Of<ISortOption>(s =>
+                s.HasSortDescription == false);
+
             // Act
 
             builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(

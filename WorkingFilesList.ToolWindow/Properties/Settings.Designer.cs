@@ -38,12 +38,24 @@ namespace WorkingFilesList.ToolWindow.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("A-Z")]
-        public string SelectedSortOptionName {
+        public string SelectedDocumentSortOptionName {
             get {
-                return ((string)(this["SelectedSortOptionName"]));
+                return ((string)(this["SelectedDocumentSortOptionName"]));
             }
             set {
-                this["SelectedSortOptionName"] = value;
+                this["SelectedDocumentSortOptionName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public string SelectedProjectSortOptionName {
+            get {
+                return ((string)(this["SelectedProjectSortOptionName"]));
+            }
+            set {
+                this["SelectedProjectSortOptionName"] = value;
             }
         }
     }

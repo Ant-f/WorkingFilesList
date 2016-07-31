@@ -30,8 +30,9 @@ namespace WorkingFilesList.Ioc
         {
             // Bound in order of display
             Kernel.Bind<ISortOption>().To<AlphabeticalSort>().InSingletonScope();
-            Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ChronologicalSort>().InSingletonScope();
+            Kernel.Bind<ISortOption>().To<DisableSorting>().InSingletonScope();
+            Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
 
             Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();

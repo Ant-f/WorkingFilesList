@@ -18,7 +18,6 @@
 
 using Moq;
 using NUnit.Framework;
-using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;
@@ -48,7 +47,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Act
 
             var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
-                preferences).ToArray();
+                preferences);
 
             // Assert
 
@@ -77,7 +76,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
-            preferences.SelectedDocumentSortOption = Mock.Of<ISortOption>();
+
+            preferences.SelectedDocumentSortOption = Mock.Of<ISortOption>(s =>
+                s.HasSortDescription == false);
+
             preferences.SelectedProjectSortOption = alphabeticalSort;
 
             var service = new SortOptionsService();
@@ -85,30 +87,24 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Act
 
             var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
-                preferences).ToArray();
+                preferences);
 
             // Assert
 
-            // Expecting two SortDescription instances:
-            // * one for SelectedDocumentSortOption
-            // * one for SelectedProjectSortOption
+            // Returned collection should only contain sort option for
+            // SelectedProjectSortOption: the ISortOption of
+            // SelectedDocumentSortOption has its HasSortDescription property
+            // set to return false
 
-            Assert.That(appliedSortOptions.Length, Is.EqualTo(2));
+            Assert.That(appliedSortOptions.Length, Is.EqualTo(1));
 
-            // Mock ISortOption assigned to SelectedDocumentSortOption will have
-            // null for its PropertyName value
+            Assert.That(
+                appliedSortOptions[0].Direction,
+                Is.EqualTo(alphabeticalSort.SortDirection));
 
-            var documentSort = appliedSortOptions.Single(s =>
-                s.PropertyName == null);
-
-            // Try to find a sort description matching the sorting option assigned
-            // to SelectedProjectSortOption.
-
-            var projectSort = appliedSortOptions.Single(s =>
-                s.PropertyName == alphabeticalSort.PropertyName &&
-                s.Direction == alphabeticalSort.SortDirection);
-
-            Assert.IsFalse(projectSort == documentSort);
+            Assert.That(
+                appliedSortOptions[0].PropertyName,
+                Is.EqualTo(alphabeticalSort.PropertyName));
         }
     }
 }

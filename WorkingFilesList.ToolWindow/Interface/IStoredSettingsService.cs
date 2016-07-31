@@ -23,8 +23,11 @@ namespace WorkingFilesList.ToolWindow.Interface
         int GetPathSegmentCount();
         void SetPathSegmentCount(int count);
 
-        string GetSelectedSortOptionName();
-        void SetSelectedSortOptionName(string name);
+        string GetSelectedDocumentSortOptionName();
+        void SetSelectedDocumentSortOptionName(string name);
+
+        string GetSelectedProjectSortOptionName();
+        void SetSelectedProjectSortOptionName(string name);
 
         void Reset();
     }

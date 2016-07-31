@@ -17,10 +17,11 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
-using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel
 {
@@ -64,7 +65,27 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Verify
 
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedSortOptionName(option.DisplayName));
+                .Verify(r => r.SetSelectedDocumentSortOptionName(option.DisplayName));
+        }
+
+        [Test]
+        public void SettingSelectedProjectSortOptionStoresNewValueDisplayNameInRepository()
+        {
+            // Arrange
+
+            var option = new AlphabeticalSort();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.SelectedProjectSortOption = option;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetSelectedProjectSortOptionName(option.DisplayName));
         }
 
         [Test]
@@ -100,18 +121,25 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             var builder = new UserPreferencesBuilder
             {
-                DocumentSortOptions = new[]
+                SortOptions = new List<ISortOption>
                 {
                     new TestingSortOption(
                         displayName,
                         null,
                         ListSortDirection.Ascending,
-                        ProjectItemType.Document)
+                        ProjectItemType.Document | ProjectItemType.Project)
                 }
             };
 
             builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedSortOptionName())
+                .Setup(s => s.GetSelectedDocumentSortOptionName())
+                .Returns(displayName);
+
+            // Setup GetSelectedProjectSortOptionName so exception is not
+            // thrown in UserPreferences constructor
+
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetSelectedProjectSortOptionName())
                 .Returns(displayName);
 
             // Act
@@ -121,10 +149,54 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetSelectedSortOptionName());
+                .Verify(s => s.GetSelectedDocumentSortOptionName());
 
             Assert.That(
                 preferences.SelectedDocumentSortOption.DisplayName,
+                Is.EqualTo(displayName));
+        }
+
+        [Test]
+        public void SelectedProjectSortOptionDisplayNameIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const string displayName = "DisplayName";
+
+            var builder = new UserPreferencesBuilder
+            {
+                SortOptions = new List<ISortOption>
+                {
+                    new TestingSortOption(
+                        displayName,
+                        null,
+                        ListSortDirection.Ascending,
+                        ProjectItemType.Document | ProjectItemType.Project)
+                }
+            };
+
+            // Setup GetSelectedDocumentSortOptionName so exception is not
+            // thrown in UserPreferences constructor
+
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetSelectedDocumentSortOptionName())
+                .Returns(displayName);
+
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetSelectedProjectSortOptionName())
+                .Returns(displayName);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetSelectedProjectSortOptionName());
+
+            Assert.That(
+                preferences.SelectedProjectSortOption.DisplayName,
                 Is.EqualTo(displayName));
         }
 

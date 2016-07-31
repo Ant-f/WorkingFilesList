@@ -33,14 +33,25 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
-        public string GetSelectedSortOptionName()
+        public string GetSelectedDocumentSortOptionName()
         {
-            return Properties.Settings.Default.SelectedSortOptionName;
+            return Properties.Settings.Default.SelectedDocumentSortOptionName;
         }
 
-        public void SetSelectedSortOptionName(string name)
+        public void SetSelectedDocumentSortOptionName(string name)
         {
-            Properties.Settings.Default.SelectedSortOptionName = name;
+            Properties.Settings.Default.SelectedDocumentSortOptionName = name;
+            Properties.Settings.Default.Save();
+        }
+
+        public string GetSelectedProjectSortOptionName()
+        {
+            return Properties.Settings.Default.SelectedProjectSortOptionName;
+        }
+
+        public void SetSelectedProjectSortOptionName(string name)
+        {
+            Properties.Settings.Default.SelectedProjectSortOptionName = name;
             Properties.Settings.Default.Save();
         }
 

@@ -82,14 +82,14 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void SelectedSortOptionNameCanBeReset()
+        public void SelectedDocumentSortOptionNameCanBeReset()
         {
             // Arrange
 
             const string defaultValue = "A-Z";
 
             var repository = new StoredSettingsRepository();
-            repository.SetSelectedSortOptionName("Sort Option");
+            repository.SetSelectedDocumentSortOptionName("Sort Option");
 
             // Act
 
@@ -97,12 +97,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetSelectedSortOptionName();
+            var storedValue = repository.GetSelectedDocumentSortOptionName();
             Assert.That(storedValue, Is.EqualTo(defaultValue));
         }
 
         [Test]
-        public void SelectedSortOptionNameCanBeStoredAndRead()
+        public void SelectedDocumentSortOptionNameCanBeStoredAndRead()
         {
             // Arrange
 
@@ -111,13 +111,53 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetSelectedSortOptionName(name);
+            repository.SetSelectedDocumentSortOptionName(name);
 
             // Assert
 
             ReloadData();
 
-            var storedValue = repository.GetSelectedSortOptionName();
+            var storedValue = repository.GetSelectedDocumentSortOptionName();
+            Assert.That(storedValue, Is.EqualTo(name));
+        }
+
+        [Test]
+        public void SelectedProjectSortOptionNameCanBeReset()
+        {
+            // Arrange
+
+            const string defaultValue = "None";
+
+            var repository = new StoredSettingsRepository();
+            repository.SetSelectedProjectSortOptionName("Sort Option");
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            var storedValue = repository.GetSelectedProjectSortOptionName();
+            Assert.That(storedValue, Is.EqualTo(defaultValue));
+        }
+
+        [Test]
+        public void SelectedProjectSortOptionNameCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const string name = "Name";
+            var repository = new StoredSettingsRepository();
+
+            // Act
+
+            repository.SetSelectedProjectSortOptionName(name);
+
+            // Assert
+
+            ReloadData();
+
+            var storedValue = repository.GetSelectedProjectSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
         }
     }
