@@ -96,6 +96,13 @@
                 Padding="0,2">
             <StackPanel DataContext="{Binding UserPreferences}"
                         Orientation="Horizontal">
+
+                <ComboBox DisplayMemberPath="DisplayName"
+                          ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
+                          SelectedItem="{Binding SelectedProjectSortOption}"
+                          Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                          Width="60">
+                </ComboBox>
                 
                 <ComboBox DisplayMemberPath="DisplayName"
                           ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"

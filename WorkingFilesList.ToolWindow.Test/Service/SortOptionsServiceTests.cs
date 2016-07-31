@@ -16,7 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Moq;
 using NUnit.Framework;
+using System.Linq;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
@@ -27,30 +30,32 @@ namespace WorkingFilesList.ToolWindow.Test.Service
     public class SortOptionsServiceTests
     {
         [Test]
-        public void SortDescriptionIsReturnedForSelectedSortOption()
+        public void SortDescriptionIsReturnedForSelectedDocumentSortOption()
         {
             // Arrange
 
             var alphabeticalSort = new AlphabeticalSort();
-
-            var builder = new UserPreferencesBuilder
-            {
-                DocumentSortOptions = new[] {alphabeticalSort}
-            };
-
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedSortOptionName())
-                .Returns(alphabeticalSort.DisplayName);
+            var builder = new UserPreferencesBuilder();
 
             var preferences = builder.CreateUserPreferences();
+            preferences.SelectedDocumentSortOption = alphabeticalSort;
+
+            preferences.SelectedProjectSortOption = Mock.Of<ISortOption>(s =>
+                s.HasSortDescription == false);
+
             var service = new SortOptionsService();
 
             // Act
 
             var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
-                preferences);
+                preferences).ToArray();
 
             // Assert
+
+            // Returned collection should only contain sort option for
+            // SelectedDocumentSortOption: the ISortOption of
+            // SelectedProjectSortOption has its HasSortDescription property
+            // set to return false
 
             Assert.That(appliedSortOptions.Length, Is.EqualTo(1));
 
@@ -61,6 +66,49 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             Assert.That(
                 appliedSortOptions[0].PropertyName,
                 Is.EqualTo(alphabeticalSort.PropertyName));
+        }
+
+        [Test]
+        public void SortDescriptionIsReturnedForApplicableSelectedProjectSortOption()
+        {
+            // Arrange
+
+            var alphabeticalSort = new AlphabeticalSort();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.SelectedDocumentSortOption = Mock.Of<ISortOption>();
+            preferences.SelectedProjectSortOption = alphabeticalSort;
+
+            var service = new SortOptionsService();
+
+            // Act
+
+            var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
+                preferences).ToArray();
+
+            // Assert
+
+            // Expecting two SortDescription instances:
+            // * one for SelectedDocumentSortOption
+            // * one for SelectedProjectSortOption
+
+            Assert.That(appliedSortOptions.Length, Is.EqualTo(2));
+
+            // Mock ISortOption assigned to SelectedDocumentSortOption will have
+            // null for its PropertyName value
+
+            var documentSort = appliedSortOptions.Single(s =>
+                s.PropertyName == null);
+
+            // Try to find a sort description matching the sorting option assigned
+            // to SelectedProjectSortOption.
+
+            var projectSort = appliedSortOptions.Single(s =>
+                s.PropertyName == alphabeticalSort.PropertyName &&
+                s.Direction == alphabeticalSort.SortDirection);
+
+            Assert.IsFalse(projectSort == documentSort);
         }
     }
 }

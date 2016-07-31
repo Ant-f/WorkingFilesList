@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
+using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel
 {
@@ -125,6 +126,176 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(
                 preferences.SelectedDocumentSortOption.DisplayName,
                 Is.EqualTo(displayName));
+        }
+
+        [Test]
+        public void SettingPathSegmentCountToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const int pathSegmentCount = 7;
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PathSegmentCount = pathSegmentCount;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.PathSegmentCount = pathSegmentCount;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingPathSegmentCountToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.PathSegmentCount = 7;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingSelectedDocumentSortOptionToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.SelectedDocumentSortOption = alphabeticalSort;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.SelectedDocumentSortOption = alphabeticalSort;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingSelectedDocumentSortOptionToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.SelectedDocumentSortOption = new AlphabeticalSort();
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.SelectedDocumentSortOption = new ChronologicalSort();
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingSelectedProjectSortOptionToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.SelectedProjectSortOption = alphabeticalSort;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.SelectedProjectSortOption = alphabeticalSort;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingSelectedProjectSortOptionToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.SelectedProjectSortOption = new AlphabeticalSort();
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.SelectedProjectSortOption = new ReverseAlphabeticalSort();
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
         }
     }
 }

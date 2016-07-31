@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
 
@@ -33,18 +34,26 @@ namespace WorkingFilesList.ToolWindow.Service
         /// the desired sorting criteria
         /// </param>
         /// <returns>
-        /// Array of <see cref="SortDescription"/> instances that represents the
-        /// sorting criteria in <see cref="userPreferences"/>
+        /// <see cref="SortDescription"/> instances that represents the sorting
+        /// criteria in <see cref="userPreferences"/>
         /// </returns>
-        public SortDescription[] EvaluateAppliedSortDescriptions(
+        public IEnumerable<SortDescription> EvaluateAppliedSortDescriptions(
             IUserPreferences userPreferences)
         {
-            var options = new[]
-            {
-                userPreferences.SelectedDocumentSortOption.GetSortDescription()
-            };
+            var documentSort = userPreferences
+                .SelectedDocumentSortOption
+                .GetSortDescription();
 
-            return options;
+            yield return documentSort;
+
+            if (userPreferences.SelectedProjectSortOption.HasSortDescription)
+            {
+                var projectSort = userPreferences
+                    .SelectedProjectSortOption
+                    .GetSortDescription();
+
+                yield return projectSort;
+            }
         }
     }
 }

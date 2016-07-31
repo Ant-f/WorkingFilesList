@@ -31,11 +31,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     public class OptionsLists : IOptionsLists
     {
         public IList<ISortOption> DocumentSortOptions { get; }
+        public IList<ISortOption> ProjectSortOptions { get; }
 
-        public OptionsLists(IEnumerable<ISortOption> sortOptions)
+        public OptionsLists(IList<ISortOption> sortOptions)
         {
             DocumentSortOptions = sortOptions
                 .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Document))
+                .ToList();
+
+            ProjectSortOptions = sortOptions
+                .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Project))
                 .ToList();
         }
     }

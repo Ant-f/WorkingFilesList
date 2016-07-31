@@ -24,5 +24,6 @@ namespace WorkingFilesList.ToolWindow.Interface
     {
         int PathSegmentCount { get; set; }
         ISortOption SelectedDocumentSortOption { get; set; }
+        ISortOption SelectedProjectSortOption { get; set; }
     }
 }

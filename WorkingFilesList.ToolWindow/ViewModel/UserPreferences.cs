@@ -28,6 +28,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
+        private ISortOption _selectedProjectSortOption;
 
         public UserPreferences(
             IStoredSettingsRepository storedSettingsRepository,
@@ -83,6 +84,23 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                     _storedSettingsRepository.SetSelectedSortOptionName(
                         _selectedDocumentSortOption?.DisplayName);
+                }
+            }
+        }
+
+        public ISortOption SelectedProjectSortOption
+        {
+            get
+            {
+                return _selectedProjectSortOption;
+            }
+
+            set
+            {
+                if (_selectedProjectSortOption != value)
+                {
+                    _selectedProjectSortOption = value;
+                    OnPropertyChanged();
                 }
             }
         }

@@ -61,5 +61,38 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(options.DocumentSortOptions.Count, Is.EqualTo(1));
             Assert.That(options.DocumentSortOptions[0], Is.EqualTo(documentSortOption));
         }
+
+        [Test]
+        public void ProjectSortOptionsContainsOnlyApplicableItems()
+        {
+            // Arrange
+
+            var documentSortOption = new TestingSortOption(
+                "Document",
+                null,
+                ListSortDirection.Ascending,
+                ProjectItemType.Document);
+
+            var projectSortOption = new TestingSortOption(
+                "Project",
+                null,
+                ListSortDirection.Ascending,
+                ProjectItemType.Project);
+
+            var input = new List<ISortOption>
+            {
+                documentSortOption,
+                projectSortOption
+            };
+
+            // Act
+
+            var options = new OptionsLists(input);
+
+            // Assert
+
+            Assert.That(options.ProjectSortOptions.Count, Is.EqualTo(1));
+            Assert.That(options.ProjectSortOptions[0], Is.EqualTo(projectSortOption));
+        }
     }
 }

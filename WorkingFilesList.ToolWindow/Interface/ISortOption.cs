@@ -23,6 +23,7 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface ISortOption
     {
+        bool HasSortDescription { get; }
         ProjectItemType ApplicableTypes { get; }
         ListSortDirection SortDirection { get; }
         string DisplayName { get; }

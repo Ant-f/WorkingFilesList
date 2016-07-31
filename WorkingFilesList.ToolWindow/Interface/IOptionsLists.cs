@@ -23,5 +23,6 @@ namespace WorkingFilesList.ToolWindow.Interface
     public interface IOptionsLists
     {
         IList<ISortOption> DocumentSortOptions { get; }
+        IList<ISortOption> ProjectSortOptions { get; }
     }
 }
