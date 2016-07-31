@@ -99,6 +99,7 @@
     <Compile Include="ViewModel\Command\ActivateWindowTests.cs" />
     <Compile Include="ViewModel\Command\CloseDocumentTests.cs" />
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
+    <Compile Include="ViewModel\OptionsListsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionBaseTests.cs" />

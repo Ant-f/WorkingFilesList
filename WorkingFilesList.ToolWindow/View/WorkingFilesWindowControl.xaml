@@ -98,8 +98,8 @@
                         Orientation="Horizontal">
                 
                 <ComboBox DisplayMemberPath="DisplayName"
-                          ItemsSource="{Binding OptionsLists.SortOptions, Source={StaticResource ViewModel}}"
-                          SelectedItem="{Binding SelectedSortOption}"
+                          ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"
+                          SelectedItem="{Binding SelectedDocumentSortOption}"
                           Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                           Width="60">
                 </ComboBox>

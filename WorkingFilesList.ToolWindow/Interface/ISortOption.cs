@@ -17,14 +17,16 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface ISortOption
     {
+        ProjectItemType ApplicableTypes { get; }
+        ListSortDirection SortDirection { get; }
         string DisplayName { get; }
         string PropertyName { get; }
-        ListSortDirection SortDirection { get; }
 
         SortDescription GetSortDescription();
     }

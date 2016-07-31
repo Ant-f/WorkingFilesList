@@ -17,8 +17,10 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
@@ -30,9 +32,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         public IList<ISortOption> DocumentSortOptions { get; }
 
-        public OptionsLists(IList<ISortOption> sortOptions)
+        public OptionsLists(IEnumerable<ISortOption> sortOptions)
         {
-            DocumentSortOptions = sortOptions;
+            DocumentSortOptions = sortOptions
+                .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Document))
+                .ToList();
         }
     }
 }
