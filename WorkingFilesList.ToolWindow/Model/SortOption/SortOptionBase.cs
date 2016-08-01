@@ -35,6 +35,11 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
         public bool HasSortDescription { get; }
 
         /// <summary>
+        /// Indicates desired order of appearance when displayed in a sorted list
+        /// </summary>
+        public int DisplayIndex { get; set; }
+
+        /// <summary>
         /// Indicates which project items types derived classes are applicable
         /// to
         /// </summary>

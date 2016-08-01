@@ -16,20 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using System;
 
 namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface ISortOption
+    public interface IDisplayOrderContainer
     {
-        bool HasSortDescription { get; }
-        int DisplayIndex { get; set; }
-        ProjectItemType ApplicableTypes { get; }
-        ListSortDirection SortDirection { get; }
-        string DisplayName { get; }
-        string PropertyName { get; }
-
-        SortDescription GetSortDescription();
+        Type[] DisplayOrder { get; }
     }
 }

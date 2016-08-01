@@ -18,6 +18,8 @@
 
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;
@@ -105,6 +107,53 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             Assert.That(
                 appliedSortOptions[0].PropertyName,
                 Is.EqualTo(alphabeticalSort.PropertyName));
+        }
+
+        [Test]
+        public void AssignedDisplayOrderMatchesSpecifiedOrder()
+        {
+            // Arrange
+
+            const int disableSortingIndex = 0;
+            const int chronologicalSortIndex = 1;
+            const int alphabeticalSortIndex = 2;
+
+            var displayOrder = new Type[3];
+            displayOrder[disableSortingIndex] = typeof(DisableSorting);
+            displayOrder[chronologicalSortIndex] = typeof(ChronologicalSort);
+            displayOrder[alphabeticalSortIndex] = typeof(AlphabeticalSort);
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var chronologicalSort = new ChronologicalSort();
+            var disableSorting = new DisableSorting();
+
+            var sortOptions = new ISortOption[]
+            {
+                // Order should be different from indexes specified above
+                alphabeticalSort,
+                chronologicalSort,
+                disableSorting
+            };
+
+            var service = new SortOptionsService();
+
+            // Act
+
+            service.AssignDisplayOrder(displayOrder, sortOptions);
+
+            // Assert
+
+            Assert.That(
+                disableSorting.DisplayIndex,
+                Is.EqualTo(disableSortingIndex));
+
+            Assert.That(
+                chronologicalSort.DisplayIndex,
+                Is.EqualTo(chronologicalSortIndex));
+
+            Assert.That(
+                alphabeticalSort.DisplayIndex,
+                Is.EqualTo(alphabeticalSortIndex));
         }
     }
 }

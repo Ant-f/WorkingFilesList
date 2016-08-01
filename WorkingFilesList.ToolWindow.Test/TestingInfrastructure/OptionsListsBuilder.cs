@@ -16,15 +16,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Moq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.ViewModel;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
-    public interface ISortOptionsService
+    internal class OptionsListsBuilder
     {
-        SortDescription[] EvaluateAppliedSortDescriptions(IUserPreferences userPreferences);
-        void AssignDisplayOrder(IList<Type> displayOrder, IList<ISortOption> sortOptions);
+        public IList<ISortOption> SortOptions { get; set; }
+
+        public Type[] SortOptionsDisplayOrder { get; set; }
+
+        public ISortOptionsService SortOptionsService { get; set; }
+
+        public OptionsLists CreateOptionsLists()
+        {
+            var container = Mock.Of<IDisplayOrderContainer>(d =>
+                d.DisplayOrder == (SortOptionsDisplayOrder ?? new Type[0]));
+
+            var lists = new OptionsLists(
+                SortOptions,
+                container,
+                SortOptionsService ?? Mock.Of<ISortOptionsService>());
+
+            return lists;
+        }
     }
 }

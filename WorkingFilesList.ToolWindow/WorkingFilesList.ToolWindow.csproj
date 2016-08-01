@@ -67,6 +67,7 @@
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
     <Compile Include="Interface\ISortOption.cs" />
+    <Compile Include="Interface\IDisplayOrderContainer.cs" />
     <Compile Include="Interface\ISortOptionsService.cs" />
     <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Model\SortOption\ProjectItemType.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\SortOptionBase.cs" />

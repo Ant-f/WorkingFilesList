@@ -27,7 +27,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AgIAAACAAAAIAAIAAAAAAAAAAAAAAAAAIAAAAgAgEAA=</HashCode>
+      <HashCode>AgIAAACAAAAIAAJAAAAAAAAAAAAAAAAAIAAAAgAgAAA=</HashCode>
       <FileName>ViewModel\DocumentMetadataManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -35,7 +35,7 @@
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.OptionsLists">
     <Position X="9.25" Y="2.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModel\OptionsLists.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -46,7 +46,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AABAAAAAEAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABAQ=</HashCode>
+      <HashCode>AABAAAAgEAAACAAAAAAAAgAAAABAAAAAAAAAAAAABAA=</HashCode>
       <FileName>ViewModel\UserPreferences.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -70,6 +70,14 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAACAQQAAAAAAAAAAAAAAAABAAAAAABAAAA=</HashCode>
       <FileName>ViewModel\UserPreference\UpdateReactionBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.ViewModel.DisplayOrderContainer">
+    <Position X="11.75" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel\DisplayOrderContainer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

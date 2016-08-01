@@ -33,14 +33,23 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         public IList<ISortOption> DocumentSortOptions { get; }
         public IList<ISortOption> ProjectSortOptions { get; }
 
-        public OptionsLists(IList<ISortOption> sortOptions)
+        public OptionsLists(
+            IList<ISortOption> sortOptions,
+            IDisplayOrderContainer sortOptionsDisplayOrder,
+            ISortOptionsService sortOptionsService)
         {
+            sortOptionsService.AssignDisplayOrder(
+                sortOptionsDisplayOrder.DisplayOrder,
+                sortOptions);
+
             DocumentSortOptions = sortOptions
                 .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Document))
+                .OrderBy(s => s.DisplayIndex)
                 .ToList();
 
             ProjectSortOptions = sortOptions
                 .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Project))
+                .OrderBy(s => s.DisplayIndex)
                 .ToList();
         }
     }

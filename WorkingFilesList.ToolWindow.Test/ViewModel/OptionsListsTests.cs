@@ -17,12 +17,13 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
-using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel
 {
@@ -46,7 +47,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 ListSortDirection.Ascending,
                 ProjectItemType.Project);
 
-            var input = new List<ISortOption>
+            var options = new List<ISortOption>
             {
                 documentSortOption,
                 projectSortOption
@@ -54,12 +55,17 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            var options = new OptionsLists(input);
+            var builder = new OptionsListsBuilder
+            {
+                SortOptions = options
+            };
+
+            var lists = builder.CreateOptionsLists();
 
             // Assert
 
-            Assert.That(options.DocumentSortOptions.Count, Is.EqualTo(1));
-            Assert.That(options.DocumentSortOptions[0], Is.EqualTo(documentSortOption));
+            Assert.That(lists.DocumentSortOptions.Count, Is.EqualTo(1));
+            Assert.That(lists.DocumentSortOptions[0], Is.EqualTo(documentSortOption));
         }
 
         [Test]
@@ -79,7 +85,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 ListSortDirection.Ascending,
                 ProjectItemType.Project);
 
-            var input = new List<ISortOption>
+            var options = new List<ISortOption>
             {
                 documentSortOption,
                 projectSortOption
@@ -87,12 +93,109 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            var options = new OptionsLists(input);
+            var builder = new OptionsListsBuilder
+            {
+                SortOptions = options
+            };
+
+            var lists = builder.CreateOptionsLists();
 
             // Assert
 
-            Assert.That(options.ProjectSortOptions.Count, Is.EqualTo(1));
-            Assert.That(options.ProjectSortOptions[0], Is.EqualTo(projectSortOption));
+            Assert.That(lists.ProjectSortOptions.Count, Is.EqualTo(1));
+            Assert.That(lists.ProjectSortOptions[0], Is.EqualTo(projectSortOption));
+        }
+
+        [Test]
+        public void DocumentSortOptionsAppearInSpecifiedOrder()
+        {
+            // Arrange
+
+            const int chronologicalSortIndex = 0;
+            const int alphabeticalSortIndex = 1;
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var chronologicalSort = new ChronologicalSort();
+
+            var options = new ISortOption[]
+            {
+                // Order should be different from indexes specified above
+                alphabeticalSort,
+                chronologicalSort
+            };
+
+            var displayOrder = new Type[2];
+            displayOrder[chronologicalSortIndex] = typeof(ChronologicalSort);
+            displayOrder[alphabeticalSortIndex] = typeof(AlphabeticalSort);
+
+            // Act
+
+            var builder = new OptionsListsBuilder
+            {
+                SortOptions = options,
+                SortOptionsDisplayOrder = displayOrder,
+                SortOptionsService = new SortOptionsService()
+            };
+
+            var lists = builder.CreateOptionsLists();
+
+            // Assert
+
+            Assert.That(lists.DocumentSortOptions.Count, Is.EqualTo(2));
+
+            Assert.That(
+                lists.DocumentSortOptions[chronologicalSortIndex],
+                Is.EqualTo(chronologicalSort));
+
+            Assert.That(
+                lists.DocumentSortOptions[alphabeticalSortIndex],
+                Is.EqualTo(alphabeticalSort));
+        }
+
+        [Test]
+        public void ProjectSortOptionsAppearInSpecifiedOrder()
+        {
+            // Arrange
+
+            const int reverseAlphabeticalSortIndex = 0;
+            const int alphabeticalSortIndex = 1;
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var reverseAlphabeticalSort = new ReverseAlphabeticalSort();
+
+            var options = new ISortOption[]
+            {
+                // Order should be different from indexes specified above
+                alphabeticalSort,
+                reverseAlphabeticalSort
+            };
+
+            var displayOrder = new Type[2];
+            displayOrder[reverseAlphabeticalSortIndex] = typeof(ReverseAlphabeticalSort);
+            displayOrder[alphabeticalSortIndex] = typeof(AlphabeticalSort);
+
+            // Act
+
+            var builder = new OptionsListsBuilder
+            {
+                SortOptions = options,
+                SortOptionsDisplayOrder = displayOrder,
+                SortOptionsService = new SortOptionsService()
+            };
+
+            var lists = builder.CreateOptionsLists();
+
+            // Assert
+
+            Assert.That(lists.ProjectSortOptions.Count, Is.EqualTo(2));
+
+            Assert.That(
+                lists.ProjectSortOptions[reverseAlphabeticalSortIndex],
+                Is.EqualTo(reverseAlphabeticalSort));
+
+            Assert.That(
+                lists.ProjectSortOptions[alphabeticalSortIndex],
+                Is.EqualTo(alphabeticalSort));
         }
     }
 }

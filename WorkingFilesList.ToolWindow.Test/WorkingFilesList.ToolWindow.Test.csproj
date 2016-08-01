@@ -93,6 +93,7 @@
     <Compile Include="TestingInfrastructure\DocumentMetadataFactoryBuilder.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataManagerBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
+    <Compile Include="TestingInfrastructure\OptionsListsBuilder.cs" />
     <Compile Include="TestingInfrastructure\TestingSortOption.cs" />
     <Compile Include="TestingInfrastructure\TestingUpdateReaction.cs" />
     <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />

@@ -28,12 +28,12 @@ namespace WorkingFilesList.Ioc
     {
         public override void Load()
         {
-            // Bound in order of display
             Kernel.Bind<ISortOption>().To<AlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ChronologicalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<DisableSorting>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
 
+            Kernel.Bind<IDisplayOrderContainer>().To<DisplayOrderContainer>().InSingletonScope();
             Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<PathSegmentCountUpdateReaction>().InSingletonScope();
