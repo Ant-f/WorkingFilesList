@@ -20,14 +20,17 @@ using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
-    public class SelectedDocumentSortOptionUpdateReaction : UpdateReactionBase
+    public class SelectedSortOptionUpdateReaction : UpdateReactionBase
     {
         private readonly ISortOptionsService _sortOptionsService;
 
-        protected override string PropertyName { get; }
-            = nameof(IUserPreferences.SelectedDocumentSortOption);
+        protected override string[] PropertyNames { get; } =
+            {
+                nameof(IUserPreferences.SelectedDocumentSortOption),
+                nameof(IUserPreferences.SelectedProjectSortOption)
+            };
 
-        public SelectedDocumentSortOptionUpdateReaction(
+        public SelectedSortOptionUpdateReaction(
             ISortOptionsService sortOptionsService,
             IUserPreferences userPreferences)
             : base(userPreferences)

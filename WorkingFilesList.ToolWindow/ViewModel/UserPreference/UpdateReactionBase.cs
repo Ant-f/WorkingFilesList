@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
@@ -36,7 +37,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
         /// <see cref="INotifyPropertyChanged.PropertyChanged"/>,
         /// <see cref="UpdateCollection"/> is invoked if the property names match
         /// </summary>
-        protected abstract string PropertyName { get; }
+        protected abstract string[] PropertyNames { get; }
 
         protected UpdateReactionBase(IUserPreferences userPreferences)
         {
@@ -52,7 +53,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
         private void UserPreferencesPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (CollectionView != null &&
-                e.PropertyName == PropertyName)
+                PropertyNames.Contains(e.PropertyName))
             {
                 UpdateCollection();
             }

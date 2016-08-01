@@ -26,15 +26,26 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
     {
         private readonly Action _updateCollectionAction;
 
-        protected override string PropertyName { get; }
+        protected override string[] PropertyNames { get; }
 
         public TestingUpdateReaction(
             IUserPreferences userPreferences,
             string propertyName,
             Action updateCollectionAction)
+            : this(
+                userPreferences,
+                new[] {propertyName},
+                updateCollectionAction)
+        {
+        }
+
+        public TestingUpdateReaction(
+            IUserPreferences userPreferences,
+            string[] propertyNames,
+            Action updateCollectionAction)
             : base(userPreferences)
         {
-            PropertyName = propertyName;
+            PropertyNames = propertyNames;
             _updateCollectionAction = updateCollectionAction;
         }
 

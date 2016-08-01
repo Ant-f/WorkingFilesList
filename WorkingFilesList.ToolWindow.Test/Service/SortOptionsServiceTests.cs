@@ -19,7 +19,6 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;

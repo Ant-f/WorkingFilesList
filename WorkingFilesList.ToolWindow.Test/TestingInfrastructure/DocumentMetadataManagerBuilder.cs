@@ -89,7 +89,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                     FilePathService,
                     UserPreferences),
 
-                new SelectedDocumentSortOptionUpdateReaction(
+                new SelectedSortOptionUpdateReaction(
                     SortOptionsService,
                     UserPreferences)
             };

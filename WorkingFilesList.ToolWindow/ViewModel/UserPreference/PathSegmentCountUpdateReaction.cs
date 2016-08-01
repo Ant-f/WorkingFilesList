@@ -26,8 +26,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
     {
         private readonly IFilePathService _filePathService;
 
-        protected override string PropertyName { get; }
-            = nameof(IUserPreferences.PathSegmentCount);
+        protected override string[] PropertyNames { get; }
+            = {nameof(IUserPreferences.PathSegmentCount)};
 
         public PathSegmentCountUpdateReaction(
             IFilePathService filePathService,

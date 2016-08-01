@@ -41,7 +41,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
 
             var updateReaction = new TestingUpdateReaction(
                 userPreferencesMock.Object,
-                propertyName, () =>
+                propertyName,
+                () =>
                 {
                     updateOccurred = true;
                 });
@@ -70,7 +71,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
 
             var updateReaction = new TestingUpdateReaction(
                 userPreferencesMock.Object,
-                "PropertyName", () =>
+                "PropertyName",
+                () =>
                 {
                     updateOccurred = true;
                 });
@@ -89,6 +91,46 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
         }
 
         [Test]
+        public void AllMatchingNamesInPropertyChangedEventsTriggerCollectionUpdate()
+        {
+            // Arrange
+
+            const string propertyName1 = "PropertyName1";
+            const string propertyName2 = "PropertyName2";
+
+            var updateCount = 0;
+
+            var userPreferencesMock = new Mock<IUserPreferences>();
+
+            var updateReaction = new TestingUpdateReaction(
+                userPreferencesMock.Object,
+                new[] {propertyName1, propertyName2},
+                () =>
+                {
+                    updateCount++;
+                });
+
+            var view = new ListCollectionView(new ArrayList());
+            updateReaction.Initialize(view);
+
+            // Act
+
+            userPreferencesMock.Raise(u => u.PropertyChanged += null,
+                new PropertyChangedEventArgs(propertyName1));
+
+            userPreferencesMock.Raise(u => u.PropertyChanged += null,
+                new PropertyChangedEventArgs(propertyName2));
+
+            userPreferencesMock.Raise(u => u.PropertyChanged += null,
+                new PropertyChangedEventArgs("PropertyName3"));
+
+            // Assert
+
+            // Two updates: PropertyName1 and PropertyName2
+            Assert.That(updateCount, Is.EqualTo(2));
+        }
+
+        [Test]
         public void CollectionUpdateIsNotTriggeredIfCollectionIsNull()
         {
             // Arrange
@@ -100,7 +142,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
 
             var updateReaction = new TestingUpdateReaction(
                 userPreferencesMock.Object,
-                propertyName, () =>
+                propertyName,
+                () =>
                 {
                     updateOccurred = true;
                 });

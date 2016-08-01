@@ -103,6 +103,7 @@
     <Compile Include="ViewModel\OptionsListsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\SelectedSortOptionUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionBaseTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />

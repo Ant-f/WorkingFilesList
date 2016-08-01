@@ -37,7 +37,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<PathSegmentCountUpdateReaction>().InSingletonScope();
-            Kernel.Bind<IUpdateReaction>().To<SelectedDocumentSortOptionUpdateReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<SelectedSortOptionUpdateReaction>().InSingletonScope();
             Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();
         }
     }
