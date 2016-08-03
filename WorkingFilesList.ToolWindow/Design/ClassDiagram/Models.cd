@@ -19,21 +19,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.AlphabeticalSort" Collapsed="true">
-    <Position X="2.25" Y="4.75" Width="2.25" />
+    <Position X="5" Y="4.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\SortOption\AlphabeticalSort.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.ChronologicalSort" Collapsed="true">
-    <Position X="5.25" Y="4.75" Width="2.25" />
+    <Position X="5" Y="5.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\SortOption\ChronologicalSort.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.ReverseAlphabeticalSort" Collapsed="true">
-    <Position X="8.25" Y="4.75" Width="2.25" />
+    <Position X="5" Y="6.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\SortOption\ReverseAlphabeticalSort.cs</FileName>
@@ -42,16 +42,30 @@
   <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.SortOptionBase" Collapsed="true">
     <Position X="6.75" Y="3.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAQAAAAAAAAAAAAAAAAACAACQAABAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAQAAAAAAAAAAAAAAAQACAACQAABAAAA=</HashCode>
       <FileName>Model\SortOption\SortOptionBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting" Collapsed="true">
-    <Position X="11.25" Y="4.75" Width="2.25" />
+    <Position X="8.25" Y="4.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\SortOption\DisableSorting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.ProjectAlphabeticalSort" Collapsed="true">
+    <Position X="8.25" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\SortOption\ProjectAlphabeticalSort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.Model.SortOption.ProjectReverseAlphabeticalSort" Collapsed="true">
+    <Position X="8.25" Y="6.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\SortOption\ProjectReverseAlphabeticalSort.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IDocumentMetadataFactory">
@@ -64,7 +78,7 @@
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ISortOption">
     <Position X="6.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAQAAAAAAAAAAAAAAAAACAACQAABAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAQAAAAAAAAAAAAAAAQACAACQAABAAAA=</HashCode>
       <FileName>Interface\ISortOption.cs</FileName>
     </TypeIdentifier>
   </Interface>
