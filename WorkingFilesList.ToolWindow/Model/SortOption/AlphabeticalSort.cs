@@ -23,10 +23,10 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     public sealed class AlphabeticalSort : SortOptionBase
     {
         public AlphabeticalSort() : base(
-            "A-Z",
-            nameof(DocumentMetadata.DisplayName),
-            ListSortDirection.Ascending,
-            ProjectItemType.Document | ProjectItemType.Project)
+            displayName: "A-Z",
+            propertyName: nameof(DocumentMetadata.DisplayName),
+            sortDirection: ListSortDirection.Ascending,
+            applicableTypes: ProjectItemType.Document)
         {
         }
     }

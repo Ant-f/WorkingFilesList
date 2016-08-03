@@ -68,8 +68,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _selectedDocumentSortOption = value;
                     OnPropertyChanged();
 
-                    _storedSettingsRepository.SetSelectedDocumentSortOptionName(
-                        _selectedDocumentSortOption?.DisplayName);
+                    var typeString = _selectedDocumentSortOption?.ToString();
+                    _storedSettingsRepository.SetSelectedDocumentSortType(typeString);
                 }
             }
         }
@@ -88,8 +88,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _selectedProjectSortOption = value;
                     OnPropertyChanged();
 
-                    _storedSettingsRepository.SetSelectedProjectSortOptionName(
-                        _selectedProjectSortOption?.DisplayName);
+                    var typeString = _selectedProjectSortOption?.ToString();
+                    _storedSettingsRepository.SetSelectedProjectSortType(typeString);
                 }
             }
         }
@@ -102,17 +102,17 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
 
-            var documentSortOptionName = _storedSettingsRepository
-                .GetSelectedDocumentSortOptionName();
+            var documentSortOptionType = _storedSettingsRepository
+                .GetSelectedDocumentSortType();
 
             _selectedDocumentSortOption = sortOptions
-                .Single(s => s.DisplayName == documentSortOptionName);
+                .SingleOrDefault(s => s.ToString() == documentSortOptionType);
 
             var projectSortOptionName = _storedSettingsRepository
-                .GetSelectedProjectSortOptionName();
+                .GetSelectedProjectSortType();
 
             _selectedProjectSortOption = sortOptions
-                .Single(s => s.DisplayName == projectSortOptionName);
+                .SingleOrDefault(s => s.ToString() == projectSortOptionName);
         }
     }
 }

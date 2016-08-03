@@ -18,10 +18,7 @@
 
 using Moq;
 using System.Collections.Generic;
-using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
@@ -44,14 +41,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         {
             if (SortOptions == null)
             {
-                SortOptions = new List<ISortOption>
-                {
-                    new TestingSortOption(
-                        null,
-                        nameof(DocumentMetadata.DisplayName),
-                        ListSortDirection.Ascending,
-                        ProjectItemType.Document | ProjectItemType.Project)
-                };
+                SortOptions = new List<ISortOption>();
             }
 
             var preferences = new UserPreferences(

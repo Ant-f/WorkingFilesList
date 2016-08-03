@@ -37,7 +37,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
                 "DisplayName",
                 propertyName,
                 ListSortDirection.Ascending,
-                ProjectItemType.Document | ProjectItemType.Project);
+                ProjectItemType.Document);
 
             // Act
 
@@ -59,7 +59,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
                 "DisplayName",
                 "PropertyName",
                 sortDirection,
-                ProjectItemType.Document | ProjectItemType.Project);
+                ProjectItemType.Document);
 
             // Act
 

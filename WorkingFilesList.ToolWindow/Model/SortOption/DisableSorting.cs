@@ -21,8 +21,8 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     public class DisableSorting : SortOptionBase
     {
         public DisableSorting() : base(
-            "None",
-            ProjectItemType.Project)
+            displayName: "None",
+            applicableTypes: ProjectItemType.Project)
         {
         }
     }

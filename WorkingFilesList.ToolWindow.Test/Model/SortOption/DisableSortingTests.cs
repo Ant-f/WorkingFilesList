@@ -49,9 +49,8 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             Assert.IsFalse(sortOption.HasSortDescription);
         }
 
-        [TestCase(ProjectItemType.Document, false)]
-        [TestCase(ProjectItemType.Project, true)]
-        public void ApplicableTypesAreCorrect(ProjectItemType type, bool isApplicable)
+        [Test]
+        public void ApplicableTypeIsCorrect()
         {
             // Arrange
 
@@ -59,11 +58,12 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 
             // Act
 
-            var hasFlag = sortOption.ApplicableTypes.HasFlag(type);
+            var isProjectType =
+                sortOption.ApplicableType == ProjectItemType.Project;
 
             // Assert
 
-            Assert.That(hasFlag, Is.EqualTo(isApplicable));
+            Assert.IsTrue(isProjectType);
         }
     }
 }

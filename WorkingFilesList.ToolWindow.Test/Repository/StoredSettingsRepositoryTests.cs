@@ -82,14 +82,15 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void SelectedDocumentSortOptionNameCanBeReset()
+        public void SelectedDocumentSortTypeCanBeReset()
         {
             // Arrange
 
-            const string defaultValue = "A-Z";
+            // Value is WorkingFilesList.ToolWindow.Properties.Settings.Default.SelectedDocumentSortType
+            const string defaultValue = "WorkingFilesList.ToolWindow.Model.SortOption.AlphabeticalSort";
 
             var repository = new StoredSettingsRepository();
-            repository.SetSelectedDocumentSortOptionName("Sort Option");
+            repository.SetSelectedDocumentSortType("Testing.SortingOption");
 
             // Act
 
@@ -97,12 +98,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetSelectedDocumentSortOptionName();
+            var storedValue = repository.GetSelectedDocumentSortType();
             Assert.That(storedValue, Is.EqualTo(defaultValue));
         }
 
         [Test]
-        public void SelectedDocumentSortOptionNameCanBeStoredAndRead()
+        public void SelectedDocumentSortTypeCanBeStoredAndRead()
         {
             // Arrange
 
@@ -111,25 +112,26 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetSelectedDocumentSortOptionName(name);
+            repository.SetSelectedDocumentSortType(name);
 
             // Assert
 
             ReloadData();
 
-            var storedValue = repository.GetSelectedDocumentSortOptionName();
+            var storedValue = repository.GetSelectedDocumentSortType();
             Assert.That(storedValue, Is.EqualTo(name));
         }
 
         [Test]
-        public void SelectedProjectSortOptionNameCanBeReset()
+        public void SelectedProjectSortTypeCanBeReset()
         {
             // Arrange
 
-            const string defaultValue = "None";
+            // Value is WorkingFilesList.ToolWindow.Properties.Settings.Default.SelectedProjectSortType
+            const string defaultValue = "WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting";
 
             var repository = new StoredSettingsRepository();
-            repository.SetSelectedProjectSortOptionName("Sort Option");
+            repository.SetSelectedProjectSortType("Testing.SortOption");
 
             // Act
 
@@ -137,12 +139,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetSelectedProjectSortOptionName();
+            var storedValue = repository.GetSelectedProjectSortType();
             Assert.That(storedValue, Is.EqualTo(defaultValue));
         }
 
         [Test]
-        public void SelectedProjectSortOptionNameCanBeStoredAndRead()
+        public void SelectedProjectSortTypeCanBeStoredAndRead()
         {
             // Arrange
 
@@ -151,13 +153,13 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetSelectedProjectSortOptionName(name);
+            repository.SetSelectedProjectSortType(name);
 
             // Assert
 
             ReloadData();
 
-            var storedValue = repository.GetSelectedProjectSortOptionName();
+            var storedValue = repository.GetSelectedProjectSortType();
             Assert.That(storedValue, Is.EqualTo(name));
         }
     }

@@ -43,7 +43,7 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
         /// Indicates which project items types derived classes are applicable
         /// to
         /// </summary>
-        public ProjectItemType ApplicableTypes { get; }
+        public ProjectItemType ApplicableType { get; }
 
         /// <summary>
         /// Name that this set of sorting criteria will be displayed as. Should
@@ -63,7 +63,7 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
 
         protected SortOptionBase(string displayName, ProjectItemType applicableTypes)
         {
-            ApplicableTypes = applicableTypes;
+            ApplicableType = applicableTypes;
             DisplayName = displayName;
             HasSortDescription = false;
         }
@@ -74,7 +74,7 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
             ListSortDirection sortDirection,
             ProjectItemType applicableTypes)
         {
-            ApplicableTypes = applicableTypes;
+            ApplicableType = applicableTypes;
             DisplayName = displayName;
             PropertyName = propertyName;
             SortDirection = sortDirection;

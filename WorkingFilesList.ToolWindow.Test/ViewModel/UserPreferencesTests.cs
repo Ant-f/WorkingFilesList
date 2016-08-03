@@ -64,8 +64,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Verify
 
+            var typeString = option.ToString();
+
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedDocumentSortOptionName(option.DisplayName));
+                .Verify(r => r.SetSelectedDocumentSortType(typeString));
         }
 
         [Test]
@@ -84,8 +86,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Verify
 
+            var typeString = option.ToString();
+
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedProjectSortOptionName(option.DisplayName));
+                .Verify(r => r.SetSelectedProjectSortType(typeString));
         }
 
         [Test]
@@ -113,7 +117,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SelectedDocumentSortOptionDisplayNameIsRestoredOnInstanceCreation()
+        public void SelectedDocumentSortOptionIsRestoredOnInstanceCreation()
         {
             // Arrange
 
@@ -127,20 +131,15 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                         displayName,
                         null,
                         ListSortDirection.Ascending,
-                        ProjectItemType.Document | ProjectItemType.Project)
+                        ProjectItemType.Document)
                 }
             };
 
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedDocumentSortOptionName())
-                .Returns(displayName);
-
-            // Setup GetSelectedProjectSortOptionName so exception is not
-            // thrown in UserPreferences constructor
+            var typeString = builder.SortOptions[0].ToString();
 
             builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedProjectSortOptionName())
-                .Returns(displayName);
+                .Setup(s => s.GetSelectedDocumentSortType())
+                .Returns(typeString);
 
             // Act
 
@@ -149,7 +148,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetSelectedDocumentSortOptionName());
+                .Verify(s => s.GetSelectedDocumentSortType());
 
             Assert.That(
                 preferences.SelectedDocumentSortOption.DisplayName,
@@ -157,7 +156,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SelectedProjectSortOptionDisplayNameIsRestoredOnInstanceCreation()
+        public void SelectedProjectSortOptionIsRestoredOnInstanceCreation()
         {
             // Arrange
 
@@ -171,20 +170,15 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                         displayName,
                         null,
                         ListSortDirection.Ascending,
-                        ProjectItemType.Document | ProjectItemType.Project)
+                        ProjectItemType.Project)
                 }
             };
 
-            // Setup GetSelectedDocumentSortOptionName so exception is not
-            // thrown in UserPreferences constructor
+            var typeString = builder.SortOptions[0].ToString();
 
             builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedDocumentSortOptionName())
-                .Returns(displayName);
-
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedProjectSortOptionName())
-                .Returns(displayName);
+                .Setup(s => s.GetSelectedProjectSortType())
+                .Returns(typeString);
 
             // Act
 
@@ -193,7 +187,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetSelectedProjectSortOptionName());
+                .Verify(s => s.GetSelectedProjectSortType());
 
             Assert.That(
                 preferences.SelectedProjectSortOption.DisplayName,

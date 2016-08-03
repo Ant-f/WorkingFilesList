@@ -25,7 +25,7 @@ namespace WorkingFilesList.ToolWindow.Interface
     {
         bool HasSortDescription { get; }
         int DisplayIndex { get; set; }
-        ProjectItemType ApplicableTypes { get; }
+        ProjectItemType ApplicableType { get; }
         ListSortDirection SortDirection { get; }
         string DisplayName { get; }
         string PropertyName { get; }

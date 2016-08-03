@@ -160,19 +160,19 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const int reverseAlphabeticalSortIndex = 0;
             const int alphabeticalSortIndex = 1;
 
-            var alphabeticalSort = new AlphabeticalSort();
-            var reverseAlphabeticalSort = new ReverseAlphabeticalSort();
+            var projectAlphabeticalSort = new ProjectAlphabeticalSort();
+            var projectReverseAlphabeticalSort = new ProjectReverseAlphabeticalSort();
 
             var options = new ISortOption[]
             {
                 // Order should be different from indexes specified above
-                alphabeticalSort,
-                reverseAlphabeticalSort
+                projectAlphabeticalSort,
+                projectReverseAlphabeticalSort
             };
 
             var displayOrder = new Type[2];
-            displayOrder[reverseAlphabeticalSortIndex] = typeof(ReverseAlphabeticalSort);
-            displayOrder[alphabeticalSortIndex] = typeof(AlphabeticalSort);
+            displayOrder[reverseAlphabeticalSortIndex] = typeof(ProjectReverseAlphabeticalSort);
+            displayOrder[alphabeticalSortIndex] = typeof(ProjectAlphabeticalSort);
 
             // Act
 
@@ -191,11 +191,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(
                 lists.ProjectSortOptions[reverseAlphabeticalSortIndex],
-                Is.EqualTo(reverseAlphabeticalSort));
+                Is.EqualTo(projectReverseAlphabeticalSort));
 
             Assert.That(
                 lists.ProjectSortOptions[alphabeticalSortIndex],
-                Is.EqualTo(alphabeticalSort));
+                Is.EqualTo(projectAlphabeticalSort));
         }
     }
 }

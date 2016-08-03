@@ -23,10 +23,10 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     public sealed class ChronologicalSort : SortOptionBase
     {
         public ChronologicalSort() : base(
-            "Recent",
-            nameof(DocumentMetadata.ActivatedAt),
-            ListSortDirection.Descending,
-            ProjectItemType.Document)
+            displayName: "Recent",
+            propertyName: nameof(DocumentMetadata.ActivatedAt),
+            sortDirection: ListSortDirection.Descending,
+            applicableTypes: ProjectItemType.Document)
         {
         }
     }

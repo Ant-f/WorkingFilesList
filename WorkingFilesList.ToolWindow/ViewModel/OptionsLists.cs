@@ -43,12 +43,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 sortOptions);
 
             DocumentSortOptions = sortOptions
-                .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Document))
+                .Where(s => s.ApplicableType == ProjectItemType.Document)
                 .OrderBy(s => s.DisplayIndex)
                 .ToList();
 
             ProjectSortOptions = sortOptions
-                .Where(s => s.ApplicableTypes.HasFlag(ProjectItemType.Project))
+                .Where(s => s.ApplicableType == ProjectItemType.Project)
                 .OrderBy(s => s.DisplayIndex)
                 .ToList();
         }

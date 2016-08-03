@@ -154,5 +154,54 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 alphabeticalSort.DisplayIndex,
                 Is.EqualTo(alphabeticalSortIndex));
         }
+
+        [Test]
+        public void ProjectSortIsReturnedBeforeDocumentSort()
+        {
+            // Arrange
+
+            var alphabeticalSort = new AlphabeticalSort();
+            var projectReverseAlphabeticalSort = new ProjectReverseAlphabeticalSort();
+            var builder = new UserPreferencesBuilder();
+
+            var preferences = builder.CreateUserPreferences();
+            preferences.SelectedDocumentSortOption = alphabeticalSort;
+            preferences.SelectedProjectSortOption = projectReverseAlphabeticalSort;
+
+            var service = new SortOptionsService();
+
+            // Act
+
+            var appliedSortOptions = service.EvaluateAppliedSortDescriptions(
+                preferences);
+
+            // Assert
+
+            Assert.That(appliedSortOptions.Length, Is.EqualTo(2));
+
+            Assert.That(
+                appliedSortOptions[0].Direction,
+                Is.EqualTo(projectReverseAlphabeticalSort.SortDirection));
+
+            Assert.That(
+                appliedSortOptions[0].PropertyName,
+                Is.EqualTo(projectReverseAlphabeticalSort.PropertyName));
+
+            Assert.That(
+                appliedSortOptions[1].Direction,
+                Is.EqualTo(alphabeticalSort.SortDirection));
+
+            Assert.That(
+                appliedSortOptions[1].PropertyName,
+                Is.EqualTo(alphabeticalSort.PropertyName));
+
+            Assert.That(
+                appliedSortOptions[0].Direction,
+                Is.Not.EqualTo(appliedSortOptions[1].Direction));
+
+            Assert.That(
+                appliedSortOptions[0].PropertyName,
+                Is.Not.EqualTo(appliedSortOptions[1].PropertyName));
+        }
     }
 }

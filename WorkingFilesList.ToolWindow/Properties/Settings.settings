@@ -5,11 +5,11 @@
     <Setting Name="PathSegmentCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="SelectedDocumentSortOptionName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">A-Z</Value>
+    <Setting Name="SelectedDocumentSortType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WorkingFilesList.ToolWindow.Model.SortOption.AlphabeticalSort</Value>
     </Setting>
-    <Setting Name="SelectedProjectSortOptionName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">None</Value>
+    <Setting Name="SelectedProjectSortType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting</Value>
     </Setting>
   </Settings>
 </SettingsFile>

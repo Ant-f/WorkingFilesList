@@ -23,10 +23,10 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     public sealed class ReverseAlphabeticalSort : SortOptionBase
     {
         public ReverseAlphabeticalSort() : base(
-            "Z-A",
-            nameof(DocumentMetadata.DisplayName),
-            ListSortDirection.Descending,
-            ProjectItemType.Document | ProjectItemType.Project)
+            displayName: "Z-A",
+            propertyName: nameof(DocumentMetadata.DisplayName),
+            sortDirection: ListSortDirection.Descending,
+            applicableTypes: ProjectItemType.Document)
         {
         }
     }

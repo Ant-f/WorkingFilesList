@@ -44,12 +44,15 @@ namespace WorkingFilesList.ToolWindow.Service
         {
             var sortOptions = new[]
             {
-                userPreferences.SelectedDocumentSortOption,
-                userPreferences.SelectedProjectSortOption
+                // Project sort option needs to be before document sort option
+                // so that files are grouped by containing project
+
+                userPreferences.SelectedProjectSortOption,
+                userPreferences.SelectedDocumentSortOption
             };
 
             var sortDescriptions = sortOptions
-                .Where(s => s.HasSortDescription)
+                .Where(s => s != null && s.HasSortDescription)
                 .Select(s => s.GetSortDescription())
                 .ToArray();
 

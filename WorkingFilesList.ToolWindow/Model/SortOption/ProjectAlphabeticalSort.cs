@@ -16,11 +16,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.ComponentModel;
+
 namespace WorkingFilesList.ToolWindow.Model.SortOption
 {
-    public enum ProjectItemType
+    public sealed class ProjectAlphabeticalSort : SortOptionBase
     {
-        Document = 1,
-        Project = 2
+        public ProjectAlphabeticalSort() : base(
+            displayName: "A-Z",
+            propertyName: nameof(DocumentMetadata.ProjectDisplayName),
+            sortDirection: ListSortDirection.Ascending,
+            applicableTypes: ProjectItemType.Project)
+        {
+        }
     }
 }

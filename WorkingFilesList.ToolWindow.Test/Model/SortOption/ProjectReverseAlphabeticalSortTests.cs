@@ -25,16 +25,16 @@ using WorkingFilesList.ToolWindow.Model.SortOption;
 namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 {
     [TestFixture]
-    public class ReverseAlphabeticalSortTests
+    public class ProjectReverseAlphabeticalSortTests
     {
-        private static DocumentMetadata CreateDocumentMetadata(string displayName)
+        private static DocumentMetadata CreateDocumentMetadata(string projectDisplayName)
         {
-            var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var info = new DocumentMetadataInfo
             {
-                DisplayName = displayName
+                ProjectDisplayName = projectDisplayName
             };
 
+            var metadata = new DocumentMetadata(info, string.Empty);
             return metadata;
         }
 
@@ -43,16 +43,16 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            const string displayNameC = "C";
+            const string projectNameC = "C";
 
             var metadataList = new List<DocumentMetadata>
             {
                 CreateDocumentMetadata("B"),
-                CreateDocumentMetadata(displayNameC),
+                CreateDocumentMetadata(projectNameC),
                 CreateDocumentMetadata("A")
             };
 
-            var sortOption = new ReverseAlphabeticalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
             var sortDescription = sortOption.GetSortDescription();
             var view = new ListCollectionView(metadataList);
 
@@ -65,7 +65,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             view.MoveCurrentToFirst();
             var firstItem = (DocumentMetadata) view.CurrentItem;
 
-            Assert.That(firstItem.DisplayName, Is.EqualTo(displayNameC));
+            Assert.That(firstItem.ProjectDisplayName, Is.EqualTo(projectNameC));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ReverseAlphabeticalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
 
             // Assert
 
@@ -85,16 +85,16 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ReverseAlphabeticalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
 
             // Act
 
-            var isDocumentType =
-                sortOption.ApplicableType == ProjectItemType.Document;
+            var isProjectType =
+                sortOption.ApplicableType == ProjectItemType.Project;
 
             // Assert
 
-            Assert.IsTrue(isDocumentType);
+            Assert.IsTrue(isProjectType);
         }
     }
 }

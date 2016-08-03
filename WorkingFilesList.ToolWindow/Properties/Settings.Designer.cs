@@ -37,25 +37,25 @@ namespace WorkingFilesList.ToolWindow.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("A-Z")]
-        public string SelectedDocumentSortOptionName {
+        [global::System.Configuration.DefaultSettingValueAttribute("WorkingFilesList.ToolWindow.Model.SortOption.AlphabeticalSort")]
+        public string SelectedDocumentSortType {
             get {
-                return ((string)(this["SelectedDocumentSortOptionName"]));
+                return ((string)(this["SelectedDocumentSortType"]));
             }
             set {
-                this["SelectedDocumentSortOptionName"] = value;
+                this["SelectedDocumentSortType"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("None")]
-        public string SelectedProjectSortOptionName {
+        [global::System.Configuration.DefaultSettingValueAttribute("WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting")]
+        public string SelectedProjectSortType {
             get {
-                return ((string)(this["SelectedProjectSortOptionName"]));
+                return ((string)(this["SelectedProjectSortType"]));
             }
             set {
-                this["SelectedProjectSortOptionName"] = value;
+                this["SelectedProjectSortType"] = value;
             }
         }
     }

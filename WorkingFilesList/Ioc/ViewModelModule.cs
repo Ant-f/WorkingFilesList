@@ -31,6 +31,8 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<ISortOption>().To<AlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ChronologicalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<DisableSorting>().InSingletonScope();
+            Kernel.Bind<ISortOption>().To<ProjectAlphabeticalSort>().InSingletonScope();
+            Kernel.Bind<ISortOption>().To<ProjectReverseAlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
 
             Kernel.Bind<IDisplayOrderContainer>().To<DisplayOrderContainer>().InSingletonScope();
