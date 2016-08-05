@@ -16,34 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.ComponentModel;
 using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
-    public class PathSegmentCountUpdateReaction : UpdateReactionBase
+    public class PathSegmentCountUpdateReaction : IUpdateReaction
     {
         private readonly IFilePathService _filePathService;
 
-        protected override string[] PropertyNames { get; }
-            = {nameof(IUserPreferences.PathSegmentCount)};
-
-        public PathSegmentCountUpdateReaction(
-            IFilePathService filePathService,
-            IUserPreferences userPreferences)
-            : base(userPreferences)
+        public PathSegmentCountUpdateReaction(IFilePathService filePathService)
         {
             _filePathService = filePathService;
         }
-        
-        public override void UpdateCollection()
+
+        public void UpdateCollection(
+            ICollectionView view,
+            IUserPreferences userPreferences)
         {
-            foreach (var metadata in CollectionView.Cast<DocumentMetadata>())
+            foreach (var metadata in view.Cast<DocumentMetadata>())
             {
                 metadata.DisplayName = _filePathService.ReducePath(
                     metadata.CorrectedFullName,
-                    UserPreferences.PathSegmentCount);
+                    userPreferences.PathSegmentCount);
             }
 
             // Collection may need to be sorted: changing the number of path
@@ -51,7 +48,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
             // the selected sorting option, e.g. if an alphabetical sort is
             // applied.
 
-            CollectionView.Refresh();
+            view.Refresh();
         }
     }
 }

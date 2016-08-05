@@ -72,6 +72,8 @@
     <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
     <Compile Include="Interface\IUpdateReaction.cs" />
+    <Compile Include="Interface\IUpdateReactionManager.cs" />
+    <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
@@ -107,10 +109,11 @@
     <Compile Include="ViewModel\DocumentMetadataManager.cs" />
     <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReactionManager.cs" />
     <Compile Include="ViewModel\UserPreferences.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReaction.cs" />
     <Compile Include="ViewModel\UserPreference\SelectedSortOptionUpdateReaction.cs" />
-    <Compile Include="ViewModel\UserPreference\UpdateReactionBase.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReactionMapping.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />

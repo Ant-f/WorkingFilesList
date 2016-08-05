@@ -20,10 +20,8 @@ using System.ComponentModel;
 
 namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IUpdateReaction
+    public interface IUpdateReactionManager
     {
-        void UpdateCollection(
-            ICollectionView view,
-            IUserPreferences userPreferences);
+        void Initialize(ICollectionView view);
     }
 }

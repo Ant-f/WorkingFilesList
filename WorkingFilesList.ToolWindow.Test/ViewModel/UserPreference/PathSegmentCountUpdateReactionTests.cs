@@ -44,8 +44,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
                 u.PathSegmentCount == pathSegmentCount);
 
             var updateReaction = new PathSegmentCountUpdateReaction(
-                filePathServiceMock.Object,
-                preferences);
+                filePathServiceMock.Object);
 
             var info = new DocumentMetadataInfo();
             var metadataList = new List<DocumentMetadata>
@@ -54,11 +53,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             };
 
             var view = new ListCollectionView(metadataList);
-            updateReaction.Initialize(view);
 
             // Act
 
-            updateReaction.UpdateCollection();
+            updateReaction.UpdateCollection(view, preferences);
 
             // Assert
 
@@ -73,19 +71,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Arrange
 
             var updateReaction = new PathSegmentCountUpdateReaction(
-                Mock.Of<IFilePathService>(),
-                Mock.Of<IUserPreferences>());
+                Mock.Of<IFilePathService>());
 
             var collectionViewMock = new Mock<ICollectionView>
             {
                 DefaultValue = DefaultValue.Mock
             };
 
-            updateReaction.Initialize(collectionViewMock.Object);
-
             // Act
 
-            updateReaction.UpdateCollection();
+            updateReaction.UpdateCollection(
+                collectionViewMock.Object,
+                Mock.Of<IUserPreferences>());
 
             // Assert
 

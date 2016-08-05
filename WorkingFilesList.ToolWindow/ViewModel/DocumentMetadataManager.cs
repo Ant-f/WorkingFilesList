@@ -40,9 +40,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
-            IEnumerable<IUpdateReaction> updateReactions,
             IFilePathService filePathService,
             ITimeProvider timeProvider,
+            IUpdateReactionManager updateReactionManager,
             IUserPreferences userPreferences)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
@@ -55,11 +55,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
-            foreach (var reaction in updateReactions)
-            {
-                reaction.Initialize(ActiveDocumentMetadata);
-                reaction.UpdateCollection();
-            }
+            updateReactionManager.Initialize(ActiveDocumentMetadata);
         }
 
         /// <summary>

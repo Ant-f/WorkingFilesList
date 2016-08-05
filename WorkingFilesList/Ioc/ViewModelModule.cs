@@ -40,6 +40,8 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<PathSegmentCountUpdateReaction>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<SelectedSortOptionUpdateReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReactionManager>().To<UpdateReactionManager>().InSingletonScope();
+            Kernel.Bind<IUpdateReactionMapping>().To<UpdateReactionMapping>().InSingletonScope();
             Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();
         }
     }

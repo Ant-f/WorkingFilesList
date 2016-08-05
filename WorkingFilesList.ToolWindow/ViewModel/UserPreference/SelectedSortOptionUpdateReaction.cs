@@ -16,38 +16,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
-    public class SelectedSortOptionUpdateReaction : UpdateReactionBase
+    public class SelectedSortOptionUpdateReaction : IUpdateReaction
     {
         private readonly ISortOptionsService _sortOptionsService;
 
-        protected override string[] PropertyNames { get; } =
-            {
-                nameof(IUserPreferences.SelectedDocumentSortOption),
-                nameof(IUserPreferences.SelectedProjectSortOption)
-            };
-
-        public SelectedSortOptionUpdateReaction(
-            ISortOptionsService sortOptionsService,
-            IUserPreferences userPreferences)
-            : base(userPreferences)
+        public SelectedSortOptionUpdateReaction(ISortOptionsService sortOptionsService)
         {
             _sortOptionsService = sortOptionsService;
         }
-        
-        public override void UpdateCollection()
+
+        public void UpdateCollection(
+            ICollectionView view,
+            IUserPreferences userPreferences)
         {
-            CollectionView.SortDescriptions.Clear();
+            view.SortDescriptions.Clear();
 
             var sortDescriptions =
-                _sortOptionsService.EvaluateAppliedSortDescriptions(UserPreferences);
+                _sortOptionsService.EvaluateAppliedSortDescriptions(userPreferences);
 
             foreach (var sortDescription in sortDescriptions)
             {
-                CollectionView.SortDescriptions.Add(sortDescription);
+                view.SortDescriptions.Add(sortDescription);
             }
         }
     }

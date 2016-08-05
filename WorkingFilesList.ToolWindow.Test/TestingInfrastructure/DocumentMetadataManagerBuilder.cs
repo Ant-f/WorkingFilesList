@@ -49,6 +49,10 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public ISortOptionsService SortOptionsService { get; set; }
             = new SortOptionsService();
 
+        public IUpdateReactionManager UpdateReactionManager { get; set; }
+
+        public IUpdateReactionMapping UpdateReactionMapping { get; set; }
+
         public IUserPreferences UserPreferences { get; set; }
 
         /// <summary>
@@ -83,23 +87,30 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 FilePathService = new FilePathService();
             }
 
-            var updateReactions = new IUpdateReaction[]
+            if (UpdateReactionMapping == null)
             {
-                new PathSegmentCountUpdateReaction(
-                    FilePathService,
-                    UserPreferences),
+                var updateReactions = new IUpdateReaction[]
+                {
+                    new PathSegmentCountUpdateReaction(FilePathService),
+                    new SelectedSortOptionUpdateReaction(SortOptionsService)
+                };
 
-                new SelectedSortOptionUpdateReaction(
-                    SortOptionsService,
-                    UserPreferences)
-            };
+                UpdateReactionMapping = new UpdateReactionMapping(updateReactions);
+            }
+
+            if (UpdateReactionManager == null)
+            {
+                UpdateReactionManager = new UpdateReactionManager(
+                    UpdateReactionMapping,
+                    UserPreferences);
+            }
 
             var manager = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
-                updateReactions,
                 FilePathService,
                 TimeProviderMock.Object,
+                UpdateReactionManager,
                 UserPreferences);
 
             return manager;

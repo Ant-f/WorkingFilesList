@@ -16,14 +16,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
+using System.Collections.Generic;
+using WorkingFilesList.ToolWindow.Interface;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
-    public interface IUpdateReaction
+    public class TestingUpdateReactionMapping : IUpdateReactionMapping
     {
-        void UpdateCollection(
-            ICollectionView view,
-            IUserPreferences userPreferences);
+        public IDictionary<string, IEnumerable<IUpdateReaction>> MappingTable { get; }
+
+        public TestingUpdateReactionMapping(
+            IDictionary<string, IEnumerable<IUpdateReaction>> mappingTable)
+        {
+            MappingTable = mappingTable;
+        }
     }
 }
