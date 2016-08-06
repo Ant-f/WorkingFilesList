@@ -133,8 +133,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     var info = new DocumentMetadataInfo
                     {
                         FullName = newName,
-                        ProjectDisplayName = _activeDocumentMetadata[i].ProjectDisplayName,
-                        ProjectUniqueName = _activeDocumentMetadata[i].ProjectUniqueName
+
+                        ProjectDisplayName = _activeDocumentMetadata[i]
+                            .ProjectNames.DisplayName,
+
+                        ProjectUniqueName = _activeDocumentMetadata[i]
+                            .ProjectNames.UniqueName
                     };
 
                     var newMetadata = _documentMetadataFactory.Create(

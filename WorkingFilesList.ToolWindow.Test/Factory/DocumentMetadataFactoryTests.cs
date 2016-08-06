@@ -85,7 +85,7 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             Assert.That(
-                metadata.ProjectDisplayName,
+                metadata.ProjectNames.DisplayName,
                 Is.EqualTo(info.ProjectDisplayName));
         }
 
@@ -109,7 +109,7 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             Assert.That(
-                metadata.ProjectUniqueName,
+                metadata.ProjectNames.UniqueName,
                 Is.EqualTo(info.ProjectUniqueName));
         }
 

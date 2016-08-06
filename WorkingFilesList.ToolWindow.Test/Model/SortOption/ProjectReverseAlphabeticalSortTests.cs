@@ -65,7 +65,9 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             view.MoveCurrentToFirst();
             var firstItem = (DocumentMetadata) view.CurrentItem;
 
-            Assert.That(firstItem.ProjectDisplayName, Is.EqualTo(projectNameC));
+            Assert.That(
+                firstItem.ProjectNames.DisplayName,
+                Is.EqualTo(projectNameC));
         }
 
         [Test]

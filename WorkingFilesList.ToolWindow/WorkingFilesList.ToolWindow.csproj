@@ -78,6 +78,7 @@
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
     <Compile Include="Model\DocumentMetadataInfo.cs" />
+    <Compile Include="Model\ProjectNameData.cs" />
     <Compile Include="Model\SortOption\ProjectReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ProjectAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />

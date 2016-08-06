@@ -16,19 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
-
-namespace WorkingFilesList.ToolWindow.Model.SortOption
+namespace WorkingFilesList.ToolWindow.Model
 {
-    public sealed class ProjectAlphabeticalSort : SortOptionBase
+    public struct ProjectNameData
     {
-        public ProjectAlphabeticalSort() : base(
-            displayName: "A-Z",
-            propertyName: $"{nameof(DocumentMetadata.ProjectNames)}." +
-                          $"{nameof(ProjectNameData.DisplayName)}",
-            sortDirection: ListSortDirection.Ascending,
-            applicableTypes: ProjectItemType.Project)
+        /// <summary>
+        /// Display name of the document's containing project
+        /// </summary>
+        public string DisplayName { get; }
+
+        /// <summary>
+        /// Unique name of the document's containing project
+        /// </summary>
+        public string UniqueName { get; }
+
+        public ProjectNameData(string displayName, string uniqueName)
         {
+            DisplayName = displayName;
+            UniqueName = uniqueName;
         }
     }
 }

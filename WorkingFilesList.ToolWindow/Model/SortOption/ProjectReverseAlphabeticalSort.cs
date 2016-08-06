@@ -24,7 +24,8 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
     {
         public ProjectReverseAlphabeticalSort() : base(
             displayName: "Z-A",
-            propertyName: nameof(DocumentMetadata.ProjectDisplayName),
+            propertyName: $"{nameof(DocumentMetadata.ProjectNames)}." +
+                          $"{nameof(ProjectNameData.DisplayName)}",
             sortDirection: ListSortDirection.Descending,
             applicableTypes: ProjectItemType.Project)
         {

@@ -83,45 +83,16 @@ namespace WorkingFilesList.ToolWindow.Model
             }
         }
 
-        /// <summary>
-        /// Display name of the document's containing project
-        /// </summary>
-        public string ProjectDisplayName { get; }
-
-        /// <summary>
-        /// Unique name of the document's containing project
-        /// </summary>
-        public string ProjectUniqueName { get; }
-
         public ProjectNameData ProjectNames { get; }
 
         public DocumentMetadata(DocumentMetadataInfo info, string correctedFullName)
         {
             CorrectedFullName = correctedFullName;
             FullName = info.FullName;
-            ProjectDisplayName = info.ProjectDisplayName;
-            ProjectUniqueName = info.ProjectUniqueName;
 
-            ProjectNames = new ProjectNameData(info.ProjectDisplayName, info.ProjectUniqueName);
-        }
-    }
-
-    public struct ProjectNameData
-    {
-        /// <summary>
-        /// Display name of the document's containing project
-        /// </summary>
-        public string DisplayName { get; }
-
-        /// <summary>
-        /// Unique name of the document's containing project
-        /// </summary>
-        public string UniqueName { get; }
-
-        public ProjectNameData(string displayName, string uniqueName)
-        {
-            DisplayName = displayName;
-            UniqueName = uniqueName;
+            ProjectNames = new ProjectNameData(
+                info.ProjectDisplayName,
+                info.ProjectUniqueName);
         }
     }
 }
