@@ -46,35 +46,13 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AABAAAAgEAAACAAAAAAAAgAAAABAAAAAAAAAAAAABAA=</HashCode>
+      <HashCode>AABAAAAgEAAACAAAAAAAAgAAQABAAAAAAAAAAAAABgA=</HashCode>
       <FileName>ViewModel\UserPreferences.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.ToolWindow.ViewModel.UserPreference.PathSegmentCountUpdateReaction">
-    <Position X="4.75" Y="6.75" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAABgAAA=</HashCode>
-      <FileName>ViewModel\UserPreference\PathSegmentCountUpdateReaction.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="WorkingFilesList.ToolWindow.ViewModel.UserPreference.SelectedSortOptionUpdateReaction">
-    <Position X="8" Y="6.75" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAAAAABAAAA=</HashCode>
-      <FileName>ViewModel\UserPreference\SelectedSortOptionUpdateReaction.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReactionBase">
-    <Position X="6.5" Y="3.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAQAACAQQAAAAAAAAAAAAAAAABAAAAAABAAAA=</HashCode>
-      <FileName>ViewModel\UserPreference\UpdateReactionBase.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.DisplayOrderContainer">
-    <Position X="11.75" Y="3.25" Width="2.25" />
+    <Position X="11.75" Y="3.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModel\DisplayOrderContainer.cs</FileName>

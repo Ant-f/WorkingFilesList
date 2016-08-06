@@ -139,6 +139,7 @@
     <None Include="Design\ClassDiagram\Models.cd" />
     <None Include="Design\ClassDiagram\NumericUpDown.cd" />
     <None Include="Design\ClassDiagram\Services.cd" />
+    <None Include="Design\ClassDiagram\UpdateReactions.cd" />
     <None Include="Design\ClassDiagram\ViewModel.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
