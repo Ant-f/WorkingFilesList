@@ -96,33 +96,44 @@
                 Padding="0,2">
             <StackPanel DataContext="{Binding UserPreferences}"
                         Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+                           TargetType="{x:Type Separator}">
+                        <Setter Property="Margin" Value="3,0" />
+                    </Style>
+                </StackPanel.Resources>
 
                 <ComboBox DisplayMemberPath="DisplayName"
                           ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
                           SelectedItem="{Binding SelectedProjectSortOption}"
                           Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                          ToolTip="Project Name Sort"
                           Width="60">
                 </ComboBox>
-                
+
                 <ComboBox DisplayMemberPath="DisplayName"
                           ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"
                           SelectedItem="{Binding SelectedDocumentSortOption}"
                           Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                          ToolTip="File Name Sort"
                           Width="60">
                 </ComboBox>
 
-                <!--Path Segment Count-->
-                <TextBlock Margin="5,0"
-                           Text="Path Segments"
-                           VerticalAlignment="Center">
-                </TextBlock>
+                <Separator />
+
+                <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}"
+                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                              ToolTip="Group By Project">
+                    <Image Source="Icon/GroupByProject.png" />
+                </ToggleButton>
+
+                <Separator />
 
                 <controls:NumericUpDown Minimum="1"
+                                        ToolTip="File Name Segments"
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
-                
-                <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}">Group</ToggleButton>
             </StackPanel>
         </Border>
 
