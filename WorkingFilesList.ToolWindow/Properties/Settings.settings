@@ -11,5 +11,8 @@
     <Setting Name="SelectedProjectSortType" Type="System.String" Scope="User">
       <Value Profile="(Default)">WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting</Value>
     </Setting>
+    <Setting Name="GroupByProject" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

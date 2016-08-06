@@ -39,13 +39,13 @@
                     <ControlTemplate TargetType="{x:Type controls:NumericUpDown}">
                         <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                             <Grid.Resources>
-                                <Style TargetType="Path">
+                                <Style TargetType="{x:Type Path}">
                                     <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
                                     <Setter Property="Stretch" Value="UniformToFill" />
                                     <Setter Property="Width" Value="6" />
                                 </Style>
 
-                                <Style TargetType="RepeatButton">
+                                <Style TargetType="{x:Type RepeatButton}">
                                     <Setter Property="CommandParameter" Value="{Binding}" />
                                     <Setter Property="IsTabStop" Value="False" />
                                 </Style>
@@ -121,6 +121,8 @@
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
+                
+                <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}">Group</ToggleButton>
             </StackPanel>
         </Border>
 
@@ -130,6 +132,30 @@
                       Grid.Row="1"
                       IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
+            
+            <ItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <StackPanel>
+                                            <TextBlock FontStyle="Italic"
+                                                       Text="{Binding Name.DisplayName}">
+                                            </TextBlock>
+                                            
+                                            <Separator Margin="0,2" />
+                                            
+                                            <ItemsPresenter Margin="0,0,0,10" />
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ItemsControl.GroupStyle>
             
             <ItemsControl.Template>
                 <ControlTemplate>

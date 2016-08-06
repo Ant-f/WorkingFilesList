@@ -91,6 +91,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             {
                 var updateReactions = new IUpdateReaction[]
                 {
+                    new GroupByProjectUpdateReaction(),
                     new PathSegmentCountUpdateReaction(FilePathService),
                     new SelectedSortOptionUpdateReaction(SortOptionsService)
                 };

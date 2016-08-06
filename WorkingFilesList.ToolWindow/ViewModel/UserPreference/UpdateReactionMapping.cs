@@ -44,11 +44,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                 [nameof(IUserPreferences.SelectedDocumentSortOption)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<SelectedSortOptionUpdateReaction>().Single()
-
                 },
+
                 [nameof(IUserPreferences.SelectedProjectSortOption)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<SelectedSortOptionUpdateReaction>().Single()
+                },
+
+                [nameof(IUserPreferences.GroupByProject)] = new IUpdateReaction[]
+                {
+                    updateReactions.OfType<GroupByProjectUpdateReaction>().Single()
                 }
             };
         }

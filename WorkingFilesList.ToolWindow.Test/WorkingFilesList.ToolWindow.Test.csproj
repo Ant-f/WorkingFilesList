@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
     <Compile Include="ViewModel\OptionsListsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
+    <Compile Include="ViewModel\UserPreference\GroupByProjectUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionManagerTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionMappingTests.cs" />

@@ -58,5 +58,17 @@ namespace WorkingFilesList.ToolWindow.Properties {
                 this["SelectedProjectSortType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupByProject {
+            get {
+                return ((bool)(this["GroupByProject"]));
+            }
+            set {
+                this["GroupByProject"] = value;
+            }
+        }
     }
 }

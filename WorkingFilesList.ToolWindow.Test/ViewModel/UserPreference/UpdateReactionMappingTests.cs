@@ -32,6 +32,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
         {
             var updateReactions = new IUpdateReaction[]
             {
+                new GroupByProjectUpdateReaction(),
                 new PathSegmentCountUpdateReaction(Mock.Of<IFilePathService>()),
                 new SelectedSortOptionUpdateReaction(Mock.Of<ISortOptionsService>())
             };
@@ -50,6 +51,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
         [TestCase(
             nameof(IUserPreferences.SelectedProjectSortOption),
             typeof(SelectedSortOptionUpdateReaction))]
+
+        [TestCase(
+            nameof(IUserPreferences.GroupByProject),
+            typeof(GroupByProjectUpdateReaction))]
 
         public void MappingTableMapsCorrespondingUpdateReaction(
             string mappingKey,

@@ -55,6 +55,17 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
+        public bool GetGroupByProject()
+        {
+            return Properties.Settings.Default.GroupByProject;
+        }
+
+        public void SetGroupByProject(bool value)
+        {
+            Properties.Settings.Default.GroupByProject = value;
+            Properties.Settings.Default.Save();
+        }
+
         public void Reset()
         {
             Properties.Settings.Default.Reset();

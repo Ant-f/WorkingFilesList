@@ -162,5 +162,45 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var storedValue = repository.GetSelectedProjectSortType();
             Assert.That(storedValue, Is.EqualTo(name));
         }
+
+        [Test]
+        public void GroupByProjectCanBeReset()
+        {
+            // Arrange
+
+            const bool defaultGroupByProject = false;
+
+            var repository = new StoredSettingsRepository();
+            repository.SetGroupByProject(true);
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            var storedValue = repository.GetGroupByProject();
+            Assert.That(storedValue, Is.EqualTo(defaultGroupByProject));
+        }
+
+        [Test]
+        public void GroupByProjectCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool groupByProject = true;
+            var repository = new StoredSettingsRepository();
+
+            // Act
+
+            repository.SetGroupByProject(groupByProject);
+
+            // Assert
+
+            ReloadData();
+
+            var storedValue = repository.GetGroupByProject();
+            Assert.That(storedValue, Is.EqualTo(groupByProject));
+        }
     }
 }

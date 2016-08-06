@@ -49,50 +49,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SettingSelectedDocumentSortOptionStoresNewValueDisplayNameInRepository()
-        {
-            // Arrange
-
-            var option = new ChronologicalSort();
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            // Act
-
-            preferences.SelectedDocumentSortOption = option;
-
-            // Verify
-
-            var typeString = option.ToString();
-
-            builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedDocumentSortType(typeString));
-        }
-
-        [Test]
-        public void SettingSelectedProjectSortOptionStoresNewValueDisplayNameInRepository()
-        {
-            // Arrange
-
-            var option = new AlphabeticalSort();
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            // Act
-
-            preferences.SelectedProjectSortOption = option;
-
-            // Verify
-
-            var typeString = option.ToString();
-
-            builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedProjectSortType(typeString));
-        }
-
-        [Test]
         public void PathSegmentCountValueIsRestoredOnInstanceCreation()
         {
             // Arrange
@@ -114,6 +70,72 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Verify(s => s.GetPathSegmentCount());
 
             Assert.That(preferences.PathSegmentCount, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void SettingGroupByProjectStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool groupByProject = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.GroupByProject = groupByProject;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetGroupByProject(groupByProject));
+        }
+
+        [Test]
+        public void GroupByProjectValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool groupByProject = true;
+
+            var builder = new UserPreferencesBuilder();
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetGroupByProject())
+                .Returns(groupByProject);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetGroupByProject());
+
+            Assert.That(preferences.GroupByProject, Is.EqualTo(groupByProject));
+        }
+
+        [Test]
+        public void SettingSelectedDocumentSortOptionStoresNewValueDisplayNameInRepository()
+        {
+            // Arrange
+
+            var option = new ChronologicalSort();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.SelectedDocumentSortOption = option;
+
+            // Verify
+
+            var typeString = option.ToString();
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetSelectedDocumentSortType(typeString));
         }
 
         [Test]
@@ -153,6 +175,28 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(
                 preferences.SelectedDocumentSortOption.DisplayName,
                 Is.EqualTo(displayName));
+        }
+
+        [Test]
+        public void SettingSelectedProjectSortOptionStoresNewValueDisplayNameInRepository()
+        {
+            // Arrange
+
+            var option = new AlphabeticalSort();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.SelectedProjectSortOption = option;
+
+            // Verify
+
+            var typeString = option.ToString();
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetSelectedProjectSortType(typeString));
         }
 
         [Test]
@@ -357,6 +401,62 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Act
 
             preferences.SelectedProjectSortOption = new ReverseAlphabeticalSort();
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingGroupByProjectToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool groupByProject = true;
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.GroupByProject = groupByProject;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.GroupByProject = groupByProject;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingGroupByProjectToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.GroupByProject = true;
             preferences.PropertyChanged -= handler;
 
             // Assert

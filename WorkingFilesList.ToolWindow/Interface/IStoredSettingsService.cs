@@ -29,6 +29,9 @@ namespace WorkingFilesList.ToolWindow.Interface
         string GetSelectedProjectSortType();
         void SetSelectedProjectSortType(string name);
 
+        bool GetGroupByProject();
+        void SetGroupByProject(bool value);
+
         void Reset();
     }
 }

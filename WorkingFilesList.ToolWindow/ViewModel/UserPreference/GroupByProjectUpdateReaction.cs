@@ -17,14 +17,24 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
+using System.Windows.Data;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
-    public interface IUserPreferences : INotifyPropertyChanged
+    public class GroupByProjectUpdateReaction : IUpdateReaction
     {
-        bool GroupByProject { get; set; }
-        int PathSegmentCount { get; set; }
-        ISortOption SelectedDocumentSortOption { get; set; }
-        ISortOption SelectedProjectSortOption { get; set; }
+        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
+        {
+            view.GroupDescriptions.Clear();
+
+            if (userPreferences.GroupByProject)
+            {
+                const string propertyName = nameof(DocumentMetadata.ProjectNames);
+                var description = new PropertyGroupDescription(propertyName);
+                view.GroupDescriptions.Add(description);
+            }
+        }
     }
 }

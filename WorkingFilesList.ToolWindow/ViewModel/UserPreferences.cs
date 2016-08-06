@@ -17,8 +17,10 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
@@ -26,9 +28,35 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
+        private bool _groupByProject;
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
         private ISortOption _selectedProjectSortOption;
+
+        /// <summary>
+        /// Indicates whether a <see cref="GroupDescription"/> should be added
+        /// to views of <see cref="DocumentMetadata"/> collections to group
+        /// projects together
+        /// </summary>
+        public bool GroupByProject
+        {
+            get
+            {
+                return _groupByProject;
+            }
+
+            set
+            {
+                if (_groupByProject != value)
+                {
+                    _groupByProject = value;
+                    OnPropertyChanged();
+
+                    _storedSettingsRepository.SetGroupByProject(
+                        _groupByProject);
+                }
+            }
+        }
 
         /// <summary>
         /// The number of path segments to display, a path segment being either
@@ -113,6 +141,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _selectedProjectSortOption = sortOptions
                 .SingleOrDefault(s => s.ToString() == projectSortOptionName);
+
+            _groupByProject = _storedSettingsRepository.GetGroupByProject();
         }
     }
 }
