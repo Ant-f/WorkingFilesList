@@ -196,7 +196,7 @@
                                                  BorderBrush="Transparent"
                                                  Maximum="1"
                                                  Minimum="0"
-                                                 Value="{Binding UseOrder}">
+                                                 Value="{Binding UsageOrder}">
                                     </ProgressBar>
                                     
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"

@@ -21,9 +21,9 @@ using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface INormalizedUseOrderService
+    public interface INormalizedUsageOrderService
     {
-        void SetUseOrder(
+        void SetUsageOrder(
             IList<DocumentMetadata> metadataCollection,
             IUserPreferences userPreferences);
     }

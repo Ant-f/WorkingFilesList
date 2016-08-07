@@ -23,10 +23,10 @@ using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
-    public class NormalizedUseOrderService : INormalizedUseOrderService
+    public class NormalizedUsageOrderService : INormalizedUsageOrderService
     {
         /// <summary>
-        /// Sets <see cref="DocumentMetadata.UseOrder"/> according to sorted
+        /// Sets <see cref="DocumentMetadata.UsageOrder"/> according to sorted
         /// <see cref="DocumentMetadata.ActivatedAt"/> values to determine order
         /// of recent usage
         /// </summary>
@@ -37,7 +37,7 @@ namespace WorkingFilesList.ToolWindow.Service
         /// <see cref="IUserPreferences"/> instance that represents whether to
         /// show recent file usage
         /// </param>
-        public void SetUseOrder(
+        public void SetUsageOrder(
             IList<DocumentMetadata> metadataCollection,
             IUserPreferences userPreferences)
         {
@@ -54,7 +54,7 @@ namespace WorkingFilesList.ToolWindow.Service
                     ? counter*interval
                     : 0;
 
-                metadata.UseOrder = value;
+                metadata.UsageOrder = value;
             }
         }
     }

@@ -31,7 +31,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly IFilePathService _filePathService;
-        private readonly INormalizedUseOrderService _normalizedUseOrderService;
+        private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
@@ -42,7 +42,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
             IFilePathService filePathService,
-            INormalizedUseOrderService normalizedUseOrderService,
+            INormalizedUsageOrderService normalizedUsageOrderService,
             ITimeProvider timeProvider,
             IUpdateReactionManager updateReactionManager,
             IUserPreferences userPreferences)
@@ -54,7 +54,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _documentMetadataFactory = documentMetadataFactory;
             _filePathService = filePathService;
-            _normalizedUseOrderService = normalizedUseOrderService;
+            _normalizedUsageOrderService = normalizedUsageOrderService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
@@ -110,7 +110,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             if (activated)
             {
-                _normalizedUseOrderService.SetUseOrder(
+                _normalizedUsageOrderService.SetUsageOrder(
                     _activeDocumentMetadata,
                     _userPreferences);
 

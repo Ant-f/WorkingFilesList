@@ -43,8 +43,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
         public IFilePathService FilePathService { get; set; }
 
-        public Mock<INormalizedUseOrderService> NormalizedUseOrderServiceMock { get; }
-            = new Mock<INormalizedUseOrderService>();
+        public Mock<INormalizedUsageOrderService> NormalizedUsageOrderServiceMock { get; }
+            = new Mock<INormalizedUsageOrderService>();
 
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
@@ -97,7 +97,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                     new GroupByProjectUpdateReaction(),
                     new PathSegmentCountUpdateReaction(FilePathService),
                     new SelectedSortOptionUpdateReaction(SortOptionsService),
-                    new ShowRecentUsageUpdateReaction(NormalizedUseOrderServiceMock.Object)
+                    new ShowRecentUsageUpdateReaction(NormalizedUsageOrderServiceMock.Object)
                 };
 
                 UpdateReactionMapping = new UpdateReactionMapping(updateReactions);
@@ -114,7 +114,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
                 FilePathService,
-                NormalizedUseOrderServiceMock.Object,
+                NormalizedUsageOrderServiceMock.Object,
                 TimeProviderMock.Object,
                 UpdateReactionManager,
                 UserPreferences);

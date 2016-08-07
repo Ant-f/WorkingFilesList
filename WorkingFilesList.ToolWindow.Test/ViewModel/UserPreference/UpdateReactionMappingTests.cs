@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
                 new GroupByProjectUpdateReaction(),
                 new PathSegmentCountUpdateReaction(Mock.Of<IFilePathService>()),
                 new SelectedSortOptionUpdateReaction(Mock.Of<ISortOptionsService>()),
-                new ShowRecentUsageUpdateReaction(Mock.Of<INormalizedUseOrderService>())
+                new ShowRecentUsageUpdateReaction(Mock.Of<INormalizedUsageOrderService>())
             };
 
             return updateReactions;

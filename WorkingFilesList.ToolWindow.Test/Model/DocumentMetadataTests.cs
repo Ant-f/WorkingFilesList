@@ -148,7 +148,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
         }
 
         [Test]
-        public void SettingUseOrderToSameValueDoesNotRaisePropertyChanged()
+        public void SettingUsageOrderToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
@@ -158,7 +158,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty)
             {
-                UseOrder = value
+                UsageOrder = value
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -170,7 +170,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             // Act
 
-            metadata.UseOrder = value;
+            metadata.UsageOrder = value;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -179,7 +179,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
         }
 
         [Test]
-        public void SettingUseOrderToDifferentValueRaisesPropertyChanged()
+        public void SettingUsageOrderToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -188,7 +188,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty)
             {
-                UseOrder = 0.3
+                UsageOrder = 0.3
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -200,7 +200,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             // Act
 
-            metadata.UseOrder = 0.7;
+            metadata.UsageOrder = 0.7;
             metadata.PropertyChanged -= handler;
 
             // Assert

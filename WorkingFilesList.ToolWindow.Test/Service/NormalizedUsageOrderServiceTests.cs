@@ -27,7 +27,7 @@ using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 namespace WorkingFilesList.ToolWindow.Test.Service
 {
     [TestFixture]
-    public class NormalizedUseOrderServiceTests
+    public class NormalizedUsageOrderServiceTests
     {
         private static DocumentMetadata CreateDocumentMetadata(DateTime activatedAt)
         {
@@ -41,7 +41,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void UseOrderIsCalculatedFromActivatedAtTime()
+        public void UsageOrderIsCalculatedFromActivatedAtTime()
         {
             // Arrange
 
@@ -61,11 +61,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             var preferences = Mock.Of<IUserPreferences>(u =>
                 u.ShowRecentUsage == true);
 
-            var service = new NormalizedUseOrderService();
+            var service = new NormalizedUsageOrderService();
 
             // Act
 
-            service.SetUseOrder(metadata, preferences);
+            service.SetUsageOrder(metadata, preferences);
 
             // Assert
 
@@ -75,13 +75,13 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             var expectedSecond = interval*2;
             var expectedThird = interval*1;
 
-            Assert.That(first.UseOrder, Is.EqualTo(expectedFirst));
-            Assert.That(second.UseOrder, Is.EqualTo(expectedSecond));
-            Assert.That(third.UseOrder, Is.EqualTo(expectedThird));
+            Assert.That(first.UsageOrder, Is.EqualTo(expectedFirst));
+            Assert.That(second.UsageOrder, Is.EqualTo(expectedSecond));
+            Assert.That(third.UsageOrder, Is.EqualTo(expectedThird));
         }
 
         [Test]
-        public void MaximumUseOrderValueIs1()
+        public void MaximumUsageOrderValueIs1()
         {
             // Arrange
 
@@ -92,19 +92,19 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             var preferences = Mock.Of<IUserPreferences>(u =>
                 u.ShowRecentUsage == true);
 
-            var service = new NormalizedUseOrderService();
+            var service = new NormalizedUsageOrderService();
 
             // Act
 
-            service.SetUseOrder(metadata, preferences);
+            service.SetUsageOrder(metadata, preferences);
 
             // Assert
 
-            Assert.That(first.UseOrder, Is.Not.GreaterThan(1));
+            Assert.That(first.UsageOrder, Is.Not.GreaterThan(1));
         }
 
         [Test]
-        public void UseOrderIs0WhenShowRecentUsageIsFalse()
+        public void UsageOrderIs0WhenShowRecentUsageIsFalse()
         {
             // Arrange
 
@@ -121,7 +121,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 third
             };
 
-            var service = new NormalizedUseOrderService();
+            var service = new NormalizedUsageOrderService();
 
             var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
@@ -129,13 +129,13 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            service.SetUseOrder(metadata, preferences);
+            service.SetUsageOrder(metadata, preferences);
 
             // Assert
 
-            Assert.That(first.UseOrder, Is.EqualTo(0));
-            Assert.That(second.UseOrder, Is.EqualTo(0));
-            Assert.That(third.UseOrder, Is.EqualTo(0));
+            Assert.That(first.UsageOrder, Is.EqualTo(0));
+            Assert.That(second.UsageOrder, Is.EqualTo(0));
+            Assert.That(third.UsageOrder, Is.EqualTo(0));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace WorkingFilesList.ToolWindow.Model
     public class DocumentMetadata : PropertyChangedNotifier
     {
         private bool _isActive;
-        private double _useOrder;
+        private double _usageOrder;
         private string _displayName;
 
         /// <summary>
@@ -90,18 +90,18 @@ namespace WorkingFilesList.ToolWindow.Model
         /// <see cref="ActivatedAt"/>. Represented by a value between 0 and 1
         /// inclusive
         /// </summary>
-        public double UseOrder
+        public double UsageOrder
         {
             get
             {
-                return _useOrder;
+                return _usageOrder;
             }
 
             set
             {
-                if (_useOrder != value)
+                if (_usageOrder != value)
                 {
-                    _useOrder = value;
+                    _usageOrder = value;
                     OnPropertyChanged();
                 }
             }

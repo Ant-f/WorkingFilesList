@@ -819,7 +819,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void ActivateAssignsUseOrder()
+        public void ActivateAssignsUsageOrder()
         {
             // Arrange
 
@@ -865,8 +865,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(metadataCollection, Is.Not.Null);
 
-            builder.NormalizedUseOrderServiceMock
-                .Verify(n => n.SetUseOrder(
+            builder.NormalizedUsageOrderServiceMock
+                .Verify(n => n.SetUsageOrder(
                     (IList<DocumentMetadata>) metadataCollection,
                     It.IsAny<IUserPreferences>()));
         }
