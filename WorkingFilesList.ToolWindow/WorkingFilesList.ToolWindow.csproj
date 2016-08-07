@@ -85,6 +85,7 @@
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Model\SortOption\ProjectItemType.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
