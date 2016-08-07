@@ -63,6 +63,7 @@
     <Compile Include="Interface\IDocumentMetadataManager.cs" />
     <Compile Include="Interface\IDteEventsSubscriber.cs" />
     <Compile Include="Interface\IIntValueControl.cs" />
+    <Compile Include="Interface\INormalizedUseOrderService.cs" />
     <Compile Include="Interface\IOptionsLists.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ViewModel\Command\ActivateWindow.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />
     <Compile Include="ViewModel\DocumentMetadataManager.cs" />
+    <Compile Include="Service\NormalizedUseOrderService.cs" />
     <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreference\GroupByProjectUpdateReaction.cs" />

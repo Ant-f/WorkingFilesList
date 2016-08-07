@@ -813,5 +813,53 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             var document3 = collection.Single(m => m.FullName == document3Name);
             Assert.IsTrue(document3.IsActive);
         }
+
+        [Test]
+        public void ActivateAssignsUseOrder()
+        {
+            // Arrange
+
+            const string documentName = "DocumentName";
+            IList metadataCollection = null;
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(documentName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+
+            var collectionViewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var generatorMock = new Mock<ICollectionViewGenerator>();
+
+            generatorMock
+                .Setup(c => c.CreateView(It.IsAny<IList>()))
+                .Callback<IList>(mc => metadataCollection = mc)
+                .Returns(collectionViewMock.Object);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = generatorMock.Object
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Synchronize(documents);
+
+            // Act
+
+            manager.Activate(documentName);
+
+            // Assert
+
+            Assert.That(metadataCollection, Is.Not.Null);
+
+            builder.NormalizedUseOrderServiceMock
+                .Verify(n => n.SetUseOrder(
+                    (IList<DocumentMetadata>) metadataCollection));
+        }
     }
 }

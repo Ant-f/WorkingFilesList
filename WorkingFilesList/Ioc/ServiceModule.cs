@@ -30,6 +30,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<ICollectionViewGenerator>().To<CollectionViewGenerator>().InSingletonScope();
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
             Kernel.Bind<IFilePathService>().To<FilePathService>().InSingletonScope();
+            Kernel.Bind<INormalizedUseOrderService>().To<NormalizedUseOrderService>().InSingletonScope();
             Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
             Kernel.Bind<ISortOptionsService>().To<SortOptionsService>().InSingletonScope();

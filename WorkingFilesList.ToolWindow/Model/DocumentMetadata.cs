@@ -83,6 +83,14 @@ namespace WorkingFilesList.ToolWindow.Model
             }
         }
 
+        /// <summary>
+        /// Indicates the position of this <see cref="DocumentMetadata"/>
+        /// instance in relation to others when ordered by
+        /// <see cref="ActivatedAt"/>. Represented by a value between 0 and 1
+        /// inclusive
+        /// </summary>
+        public double UseOrder { get; set; }
+
         public ProjectNameData ProjectNames { get; }
 
         public DocumentMetadata(DocumentMetadataInfo info, string correctedFullName)

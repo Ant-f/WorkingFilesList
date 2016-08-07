@@ -43,6 +43,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
         public IFilePathService FilePathService { get; set; }
 
+        public Mock<INormalizedUseOrderService> NormalizedUseOrderServiceMock { get; }
+            = new Mock<INormalizedUseOrderService>();
+
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
 
@@ -110,6 +113,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
                 FilePathService,
+                NormalizedUseOrderServiceMock.Object,
                 TimeProviderMock.Object,
                 UpdateReactionManager,
                 UserPreferences);

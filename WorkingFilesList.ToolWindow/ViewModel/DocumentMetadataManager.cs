@@ -31,6 +31,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly IFilePathService _filePathService;
+        private readonly INormalizedUseOrderService _normalizedUseOrderService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
@@ -41,6 +42,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
             IFilePathService filePathService,
+            INormalizedUseOrderService normalizedUseOrderService,
             ITimeProvider timeProvider,
             IUpdateReactionManager updateReactionManager,
             IUserPreferences userPreferences)
@@ -52,6 +54,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _documentMetadataFactory = documentMetadataFactory;
             _filePathService = filePathService;
+            _normalizedUseOrderService = normalizedUseOrderService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
@@ -91,7 +94,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <param name="fullName">Full path and name of document file</param>
         public void Activate(string fullName)
         {
-            var refreshView = false;
+            var activated = false;
 
             foreach (var metadata in _activeDocumentMetadata)
             {
@@ -101,12 +104,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     var utcNow = _timeProvider.UtcNow;
                     metadata.ActivatedAt = utcNow;
-                    refreshView = true;
+                    activated = true;
                 }
             }
 
-            if (refreshView)
+            if (activated)
             {
+                _normalizedUseOrderService.SetUseOrder(_activeDocumentMetadata);
                 ActiveDocumentMetadata.Refresh();
             }
         }
