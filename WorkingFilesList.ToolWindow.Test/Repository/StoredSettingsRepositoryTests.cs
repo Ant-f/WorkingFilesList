@@ -202,5 +202,45 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var storedValue = repository.GetGroupByProject();
             Assert.That(storedValue, Is.EqualTo(groupByProject));
         }
+
+        [Test]
+        public void ShowRecentUsageCanBeReset()
+        {
+            // Arrange
+
+            const bool defaultShowRecentUsage = false;
+
+            var repository = new StoredSettingsRepository();
+            repository.SetShowRecentUsage(true);
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            var storedValue = repository.GetShowRecentUsage();
+            Assert.That(storedValue, Is.EqualTo(defaultShowRecentUsage));
+        }
+
+        [Test]
+        public void ShowRecentUsageCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool showRecentUsage = true;
+            var repository = new StoredSettingsRepository();
+
+            // Act
+
+            repository.SetShowRecentUsage(showRecentUsage);
+
+            // Assert
+
+            ReloadData();
+
+            var storedValue = repository.GetShowRecentUsage();
+            Assert.That(storedValue, Is.EqualTo(showRecentUsage));
+        }
     }
 }

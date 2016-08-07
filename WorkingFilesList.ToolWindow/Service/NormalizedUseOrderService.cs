@@ -25,17 +25,35 @@ namespace WorkingFilesList.ToolWindow.Service
 {
     public class NormalizedUseOrderService : INormalizedUseOrderService
     {
-        public void SetUseOrder(IList<DocumentMetadata> metadataCollection)
+        /// <summary>
+        /// Sets <see cref="DocumentMetadata.UseOrder"/> according to sorted
+        /// <see cref="DocumentMetadata.ActivatedAt"/> values to determine order
+        /// of recent usage
+        /// </summary>
+        /// <param name="metadataCollection">
+        /// Collection over which to establish historic order of usage 
+        /// </param>
+        /// <param name="userPreferences">
+        /// <see cref="IUserPreferences"/> instance that represents whether to
+        /// show recent file usage
+        /// </param>
+        public void SetUseOrder(
+            IList<DocumentMetadata> metadataCollection,
+            IUserPreferences userPreferences)
         {
             var interval = 1/(double) metadataCollection.Count;
-            var sorted = metadataCollection.OrderBy(m => m.ActivatedAt);
+            var sortedCollection = metadataCollection.OrderBy(m => m.ActivatedAt);
 
             var counter = 0;
 
-            foreach (var metadata in sorted)
+            foreach (var metadata in sortedCollection)
             {
                 counter++;
-                var value = counter*interval;
+
+                var value = userPreferences.ShowRecentUsage
+                    ? counter*interval
+                    : 0;
+
                 metadata.UseOrder = value;
             }
         }

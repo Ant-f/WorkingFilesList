@@ -70,5 +70,17 @@ namespace WorkingFilesList.ToolWindow.Properties {
                 this["GroupByProject"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowRecentUsage {
+            get {
+                return ((bool)(this["ShowRecentUsage"]));
+            }
+            set {
+                this["ShowRecentUsage"] = value;
+            }
+        }
     }
 }

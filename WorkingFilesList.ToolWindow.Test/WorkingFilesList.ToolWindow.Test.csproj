@@ -107,6 +107,7 @@
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
     <Compile Include="ViewModel\UserPreference\GroupByProjectUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\ShowRecentUsageUpdateReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionManagerTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionMappingTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />

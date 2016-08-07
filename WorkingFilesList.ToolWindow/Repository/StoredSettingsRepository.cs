@@ -66,6 +66,17 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
+        public bool GetShowRecentUsage()
+        {
+            return Properties.Settings.Default.ShowRecentUsage;
+        }
+
+        public void SetShowRecentUsage(bool value)
+        {
+            Properties.Settings.Default.ShowRecentUsage = value;
+            Properties.Settings.Default.Save();
+        }
+
         public void Reset()
         {
             Properties.Settings.Default.Reset();

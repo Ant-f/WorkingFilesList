@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
         private bool _groupByProject;
+        private bool _showRecentUsage;
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
         private ISortOption _selectedProjectSortOption;
@@ -54,6 +55,31 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                     _storedSettingsRepository.SetGroupByProject(
                         _groupByProject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should show the order of its historical usage reletive to the
+        /// other entries on that list
+        /// </summary>
+        public bool ShowRecentUsage
+        {
+            get
+            {
+                return _showRecentUsage;
+            }
+
+            set
+            {
+                if (_showRecentUsage != value)
+                {
+                    _showRecentUsage = value;
+                    OnPropertyChanged();
+
+                    _storedSettingsRepository.SetShowRecentUsage(
+                        _showRecentUsage);
                 }
             }
         }
@@ -127,8 +153,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             IList<ISortOption> sortOptions)
         {
             _storedSettingsRepository = storedSettingsRepository;
-
             _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+            _groupByProject = _storedSettingsRepository.GetGroupByProject();
+            _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
 
             var documentSortOptionType = _storedSettingsRepository
                 .GetSelectedDocumentSortType();
@@ -141,8 +168,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _selectedProjectSortOption = sortOptions
                 .SingleOrDefault(s => s.ToString() == projectSortOptionName);
-
-            _groupByProject = _storedSettingsRepository.GetGroupByProject();
         }
     }
 }

@@ -17,14 +17,29 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.ComponentModel;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
-    public interface INormalizedUseOrderService
+    public class ShowRecentUsageUpdateReaction : IUpdateReaction
     {
-        void SetUseOrder(
-            IList<DocumentMetadata> metadataCollection,
-            IUserPreferences userPreferences);
+        private readonly INormalizedUseOrderService _normalizedUseOrderService;
+
+        public ShowRecentUsageUpdateReaction(
+            INormalizedUseOrderService normalizedUseOrderService)
+        {
+            _normalizedUseOrderService = normalizedUseOrderService;
+        }
+
+        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
+        {
+            var collection = (IList<DocumentMetadata>) view.SourceCollection;
+
+            _normalizedUseOrderService.SetUseOrder(
+                collection,
+                userPreferences);
+        }
     }
 }

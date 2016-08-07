@@ -54,6 +54,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                 [nameof(IUserPreferences.GroupByProject)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<GroupByProjectUpdateReaction>().Single()
+                },
+
+                [nameof(IUserPreferences.ShowRecentUsage)] = new IUpdateReaction[]
+                {
+                    updateReactions.OfType<ShowRecentUsageUpdateReaction>().Single()
                 }
             };
         }

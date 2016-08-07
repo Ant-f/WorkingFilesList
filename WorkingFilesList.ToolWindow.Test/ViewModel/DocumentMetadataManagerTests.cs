@@ -722,9 +722,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Setup(c => c.CreateView(It.IsAny<IList>()))
                 .Returns(collectionViewMock.Object);
 
+            var mappingTable = new Dictionary<string, IEnumerable<IUpdateReaction>>();
+            var mapping = new TestingUpdateReactionMapping(mappingTable);
+
             var builder = new DocumentMetadataManagerBuilder
             {
-                CollectionViewGenerator = generatorMock.Object
+                CollectionViewGenerator = generatorMock.Object,
+                UpdateReactionMapping = mapping
             };
 
             var manager = builder.CreateDocumentMetadataManager();
@@ -841,9 +845,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Callback<IList>(mc => metadataCollection = mc)
                 .Returns(collectionViewMock.Object);
 
+            var mappingTable = new Dictionary<string, IEnumerable<IUpdateReaction>>();
+            var mapping = new TestingUpdateReactionMapping(mappingTable);
+
             var builder = new DocumentMetadataManagerBuilder
             {
-                CollectionViewGenerator = generatorMock.Object
+                CollectionViewGenerator = generatorMock.Object,
+                UpdateReactionMapping = mapping
             };
 
             var manager = builder.CreateDocumentMetadataManager();
@@ -859,7 +867,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             builder.NormalizedUseOrderServiceMock
                 .Verify(n => n.SetUseOrder(
-                    (IList<DocumentMetadata>) metadataCollection));
+                    (IList<DocumentMetadata>) metadataCollection,
+                    It.IsAny<IUserPreferences>()));
         }
     }
 }

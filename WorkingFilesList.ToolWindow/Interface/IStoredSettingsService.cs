@@ -32,6 +32,9 @@ namespace WorkingFilesList.ToolWindow.Interface
         bool GetGroupByProject();
         void SetGroupByProject(bool value);
 
+        bool GetShowRecentUsage();
+        void SetShowRecentUsage(bool value);
+
         void Reset();
     }
 }

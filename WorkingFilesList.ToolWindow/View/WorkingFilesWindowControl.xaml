@@ -27,7 +27,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             d:DesignHeight="100" d:DesignWidth="300"
+             d:DesignHeight="120" d:DesignWidth="300"
              Name="MyToolWindow">
     <UserControl.Resources>
         <locator:ViewModelService x:Key="ViewModel" />
@@ -134,6 +134,12 @@
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
+
+                <ToggleButton IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}"
+                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                              ToolTip="Show Recent Usage">
+                    RECENT
+                </ToggleButton>
             </StackPanel>
         </Border>
 
@@ -185,7 +191,14 @@
                     <Button>
                         <Button.Template>
                             <ControlTemplate>
-                                <Grid Background="Transparent">
+                                <Grid>
+                                    <ProgressBar Background="Transparent"
+                                                 BorderBrush="Transparent"
+                                                 Maximum="1"
+                                                 Minimum="0"
+                                                 Value="{Binding UseOrder}">
+                                    </ProgressBar>
+                                    
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
                                                FontWeight="{Binding IsActive, Converter={StaticResource BoolToFontWeight}}"
                                                Text="{Binding DisplayName}" />

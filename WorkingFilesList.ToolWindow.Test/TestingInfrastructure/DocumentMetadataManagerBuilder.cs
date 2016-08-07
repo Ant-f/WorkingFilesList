@@ -96,7 +96,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 {
                     new GroupByProjectUpdateReaction(),
                     new PathSegmentCountUpdateReaction(FilePathService),
-                    new SelectedSortOptionUpdateReaction(SortOptionsService)
+                    new SelectedSortOptionUpdateReaction(SortOptionsService),
+                    new ShowRecentUsageUpdateReaction(NormalizedUseOrderServiceMock.Object)
                 };
 
                 UpdateReactionMapping = new UpdateReactionMapping(updateReactions);

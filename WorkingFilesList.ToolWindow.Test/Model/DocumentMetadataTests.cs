@@ -146,5 +146,66 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             Assert.IsTrue(propertyChangedRaised);
         }
+
+        [Test]
+        public void SettingUseOrderToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const double value = 0.7;
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
+            {
+                UseOrder = value
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.UseOrder = value;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingUseOrderToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
+            {
+                UseOrder = 0.3
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.UseOrder = 0.7;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }

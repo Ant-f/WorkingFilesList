@@ -23,6 +23,7 @@ namespace WorkingFilesList.ToolWindow.Interface
     public interface IUserPreferences : INotifyPropertyChanged
     {
         bool GroupByProject { get; set; }
+        bool ShowRecentUsage { get; set; }
         int PathSegmentCount { get; set; }
         ISortOption SelectedDocumentSortOption { get; set; }
         ISortOption SelectedProjectSortOption { get; set; }

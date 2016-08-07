@@ -16,10 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Moq;
 using NUnit.Framework;
 using System;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Service;
+using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Service
 {
@@ -55,11 +58,14 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 third
             };
 
+            var preferences = Mock.Of<IUserPreferences>(u =>
+                u.ShowRecentUsage == true);
+
             var service = new NormalizedUseOrderService();
 
             // Act
 
-            service.SetUseOrder(metadata);
+            service.SetUseOrder(metadata, preferences);
 
             // Assert
 
@@ -82,15 +88,54 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             var utcNow = DateTime.UtcNow;
             var first = CreateDocumentMetadata(utcNow);
             var metadata = new[] {first};
+
+            var preferences = Mock.Of<IUserPreferences>(u =>
+                u.ShowRecentUsage == true);
+
             var service = new NormalizedUseOrderService();
 
             // Act
 
-            service.SetUseOrder(metadata);
+            service.SetUseOrder(metadata, preferences);
 
             // Assert
 
             Assert.That(first.UseOrder, Is.Not.GreaterThan(1));
+        }
+
+        [Test]
+        public void UseOrderIs0WhenShowRecentUsageIsFalse()
+        {
+            // Arrange
+
+            var utcNow = DateTime.UtcNow;
+
+            var first = CreateDocumentMetadata(utcNow);
+            var second = CreateDocumentMetadata(utcNow - TimeSpan.FromSeconds(1));
+            var third = CreateDocumentMetadata(utcNow - TimeSpan.FromSeconds(2));
+
+            var metadata = new[]
+            {
+                second,
+                first,
+                third
+            };
+
+            var service = new NormalizedUseOrderService();
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.ShowRecentUsage = false;
+
+            // Act
+
+            service.SetUseOrder(metadata, preferences);
+
+            // Assert
+
+            Assert.That(first.UseOrder, Is.EqualTo(0));
+            Assert.That(second.UseOrder, Is.EqualTo(0));
+            Assert.That(third.UseOrder, Is.EqualTo(0));
         }
     }
 }

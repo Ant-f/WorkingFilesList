@@ -38,6 +38,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<IUpdateReaction>().To<GroupByProjectUpdateReaction>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<PathSegmentCountUpdateReaction>().InSingletonScope();
             Kernel.Bind<IUpdateReaction>().To<SelectedSortOptionUpdateReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<ShowRecentUsageUpdateReaction>().InSingletonScope();
 
             Kernel.Bind<IDisplayOrderContainer>().To<DisplayOrderContainer>().InSingletonScope();
             Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();

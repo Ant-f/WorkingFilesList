@@ -110,7 +110,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             if (activated)
             {
-                _normalizedUseOrderService.SetUseOrder(_activeDocumentMetadata);
+                _normalizedUseOrderService.SetUseOrder(
+                    _activeDocumentMetadata,
+                    _userPreferences);
+
                 ActiveDocumentMetadata.Refresh();
             }
         }
