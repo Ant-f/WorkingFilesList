@@ -22,6 +22,7 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IUserPreferences : INotifyPropertyChanged
     {
+        bool AssignProjectColours { get; set; }
         bool GroupByProject { get; set; }
         bool ShowRecentUsage { get; set; }
         int PathSegmentCount { get; set; }

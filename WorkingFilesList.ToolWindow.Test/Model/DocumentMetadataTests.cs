@@ -18,6 +18,7 @@
 
 using NUnit.Framework;
 using System.ComponentModel;
+using System.Windows.Media;
 using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Test.Model
@@ -201,6 +202,83 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             // Act
 
             metadata.UsageOrder = 0.7;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void ProjectBrushIsTransparentIfNull()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
+            {
+                ProjectBrush = null
+            };
+
+            // Assert
+
+            Assert.That(metadata.ProjectBrush, Is.EqualTo(Brushes.Transparent));
+        }
+
+        [Test]
+        public void SettingProjectBrushToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            var projectBrush = Brushes.MidnightBlue;
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
+            {
+                ProjectBrush = projectBrush
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.ProjectBrush = projectBrush;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingProjectBrushToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty)
+            {
+                ProjectBrush = Brushes.MidnightBlue
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.ProjectBrush = Brushes.White;
             metadata.PropertyChanged -= handler;
 
             // Assert

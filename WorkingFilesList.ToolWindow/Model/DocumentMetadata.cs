@@ -18,6 +18,8 @@
 
 using EnvDTE;
 using System;
+using System.Windows.Media;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Model
@@ -25,8 +27,30 @@ namespace WorkingFilesList.ToolWindow.Model
     public class DocumentMetadata : PropertyChangedNotifier
     {
         private bool _isActive;
+        private Brush _projectBrush;
         private double _usageOrder;
         private string _displayName;
+
+        /// <summary>
+        /// Used when <see cref="IUserPreferences.ShowRecentUsage"/> and/or
+        /// <see cref="IUserPreferences.AssignProjectColours"/> are enabled
+        /// </summary>
+        public Brush ProjectBrush
+        {
+            get
+            {
+                return _projectBrush ?? Brushes.Transparent;
+            }
+
+            set
+            {
+                if (!ProjectBrush.Equals(value))
+                {
+                    _projectBrush = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Time when the document this metadata corresponds to was activated,
