@@ -28,11 +28,37 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
+        private bool _assignProjectColours;
         private bool _groupByProject;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
         private ISortOption _selectedProjectSortOption;
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should be assigned a colour associated with its
+        /// <see cref="DocumentMetadataInfo.ProjectUniqueName"/>
+        /// </summary>
+        public bool AssignProjectColours
+        {
+            get
+            {
+                return _assignProjectColours;
+            }
+
+            set
+            {
+                if (_assignProjectColours != value)
+                {
+                    _assignProjectColours = value;
+                    OnPropertyChanged();
+
+                    _storedSettingsRepository.SetAssignProjectColours(
+                        _assignProjectColours);
+                }
+            }
+        }
 
         /// <summary>
         /// Indicates whether a <see cref="GroupDescription"/> should be added
@@ -153,8 +179,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             IList<ISortOption> sortOptions)
         {
             _storedSettingsRepository = storedSettingsRepository;
-            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+
+            _assignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
             _groupByProject = _storedSettingsRepository.GetGroupByProject();
+            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
             _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
 
             var documentSortOptionType = _storedSettingsRepository

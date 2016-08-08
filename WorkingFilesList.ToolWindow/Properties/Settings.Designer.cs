@@ -82,5 +82,17 @@ namespace WorkingFilesList.ToolWindow.Properties {
                 this["ShowRecentUsage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AssignProjectColours {
+            get {
+                return ((bool)(this["AssignProjectColours"]));
+            }
+            set {
+                this["AssignProjectColours"] = value;
+            }
+        }
     }
 }

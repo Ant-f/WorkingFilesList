@@ -242,5 +242,45 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var storedValue = repository.GetShowRecentUsage();
             Assert.That(storedValue, Is.EqualTo(showRecentUsage));
         }
+
+        [Test]
+        public void AssignProjectColoursCanBeReset()
+        {
+            // Arrange
+
+            const bool defaultAssignProjectColours = false;
+
+            var repository = new StoredSettingsRepository();
+            repository.SetAssignProjectColours(true);
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            var storedValue = repository.GetAssignProjectColours();
+            Assert.That(storedValue, Is.EqualTo(defaultAssignProjectColours));
+        }
+
+        [Test]
+        public void AssignProjectColoursCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool assignProjectColours = true;
+            var repository = new StoredSettingsRepository();
+
+            // Act
+
+            repository.SetAssignProjectColours(assignProjectColours);
+
+            // Assert
+
+            ReloadData();
+
+            var storedValue = repository.GetAssignProjectColours();
+            Assert.That(storedValue, Is.EqualTo(assignProjectColours));
+        }
     }
 }

@@ -77,6 +77,17 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
+        public bool GetAssignProjectColours()
+        {
+            return Properties.Settings.Default.AssignProjectColours;
+        }
+
+        public void SetAssignProjectColours(bool value)
+        {
+            Properties.Settings.Default.AssignProjectColours = value;
+            Properties.Settings.Default.Save();
+        }
+
         public void Reset()
         {
             Properties.Settings.Default.Reset();

@@ -283,6 +283,50 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void SettingAssignProjectColoursStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool assignProjectColours = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.AssignProjectColours = assignProjectColours;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetAssignProjectColours(assignProjectColours));
+        }
+
+        [Test]
+        public void AssignProjectColoursValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool assignProjectColours = true;
+
+            var builder = new UserPreferencesBuilder();
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetAssignProjectColours())
+                .Returns(assignProjectColours);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetAssignProjectColours());
+
+            Assert.That(preferences.AssignProjectColours, Is.EqualTo(assignProjectColours));
+        }
+
+        [Test]
         public void SettingPathSegmentCountToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
@@ -557,6 +601,62 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Act
 
             preferences.ShowRecentUsage = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingAssignProjectColoursToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool assignProjectColours = true;
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.AssignProjectColours = assignProjectColours;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.AssignProjectColours = assignProjectColours;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingAssignProjectColoursToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.AssignProjectColours = true;
             preferences.PropertyChanged -= handler;
 
             // Assert

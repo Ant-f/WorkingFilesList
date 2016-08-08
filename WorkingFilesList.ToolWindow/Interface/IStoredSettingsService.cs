@@ -35,6 +35,9 @@ namespace WorkingFilesList.ToolWindow.Interface
         bool GetShowRecentUsage();
         void SetShowRecentUsage(bool value);
 
+        bool GetAssignProjectColours();
+        void SetAssignProjectColours(bool value);
+
         void Reset();
     }
 }
