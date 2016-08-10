@@ -140,6 +140,12 @@
                               ToolTip="Show Recent Usage">
                     RECENT
                 </ToggleButton>
+
+                <ToggleButton IsChecked="{Binding AssignProjectColours, Mode=TwoWay}"
+                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                              ToolTip="Assign Project Colours">
+                    COLOURS
+                </ToggleButton>
             </StackPanel>
         </Border>
 
@@ -194,6 +200,7 @@
                                 <Grid>
                                     <ProgressBar Background="Transparent"
                                                  BorderBrush="Transparent"
+                                                 Foreground="{Binding ProjectBrush}"
                                                  Maximum="1"
                                                  Minimum="0"
                                                  Value="{Binding UsageOrder}">

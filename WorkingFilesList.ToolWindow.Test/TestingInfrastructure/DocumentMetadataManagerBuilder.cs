@@ -21,6 +21,7 @@ using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
@@ -94,10 +95,11 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             {
                 var updateReactions = new IUpdateReaction[]
                 {
-                    new GroupByProjectUpdateReaction(),
-                    new PathSegmentCountUpdateReaction(FilePathService),
-                    new SelectedSortOptionUpdateReaction(SortOptionsService),
-                    new ShowRecentUsageUpdateReaction(NormalizedUsageOrderServiceMock.Object)
+                    new AssignProjectColoursReaction(Mock.Of<IProjectBrushService>()),
+                    new GroupByProjectReaction(),
+                    new PathSegmentCountReaction(FilePathService),
+                    new SelectedSortOptionReaction(SortOptionsService),
+                    new ShowRecentUsageReaction(NormalizedUsageOrderServiceMock.Object)
                 };
 
                 UpdateReactionMapping = new UpdateReactionMapping(updateReactions);

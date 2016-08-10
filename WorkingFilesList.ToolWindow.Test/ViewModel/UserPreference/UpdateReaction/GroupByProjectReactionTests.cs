@@ -20,12 +20,12 @@ using NUnit.Framework;
 using System.Windows.Data;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
-using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
-namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReaction
 {
     [TestFixture]
-    public class GroupByProjectUpdateReactionTests
+    public class GroupByProjectReactionTests
     {
         [Test]
         public void PropertyGroupDescriptionForProjectNamesIsAddedWhenGroupByProjectIsTrue()
@@ -39,7 +39,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             var collection = new DocumentMetadata[0];
             var view = new ListCollectionView(collection);
 
-            var reaction = new GroupByProjectUpdateReaction();
+            var reaction = new GroupByProjectReaction();
 
             // Act
 
@@ -66,7 +66,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             var collection = new DocumentMetadata[0];
             var view = new ListCollectionView(collection);
 
-            var reaction = new GroupByProjectUpdateReaction();
+            var reaction = new GroupByProjectReaction();
 
             // Act
 

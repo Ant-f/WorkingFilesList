@@ -16,33 +16,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {
-    public class SelectedSortOptionUpdateReaction : IUpdateReaction
+    public class ShowRecentUsageReaction : IUpdateReaction
     {
-        private readonly ISortOptionsService _sortOptionsService;
+        private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
 
-        public SelectedSortOptionUpdateReaction(ISortOptionsService sortOptionsService)
+        public ShowRecentUsageReaction(
+            INormalizedUsageOrderService normalizedUsageOrderService)
         {
-            _sortOptionsService = sortOptionsService;
+            _normalizedUsageOrderService = normalizedUsageOrderService;
         }
 
-        public void UpdateCollection(
-            ICollectionView view,
-            IUserPreferences userPreferences)
+        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
         {
-            view.SortDescriptions.Clear();
+            var collection = (IList<DocumentMetadata>) view.SourceCollection;
 
-            var sortDescriptions =
-                _sortOptionsService.EvaluateAppliedSortDescriptions(userPreferences);
-
-            foreach (var sortDescription in sortDescriptions)
-            {
-                view.SortDescriptions.Add(sortDescription);
-            }
+            _normalizedUsageOrderService.SetUsageOrder(
+                collection,
+                userPreferences);
         }
     }
 }

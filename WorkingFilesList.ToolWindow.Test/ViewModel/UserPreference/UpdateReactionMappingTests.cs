@@ -22,6 +22,7 @@ using System;
 using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
 {
@@ -32,34 +33,39 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
         {
             var updateReactions = new IUpdateReaction[]
             {
-                new GroupByProjectUpdateReaction(),
-                new PathSegmentCountUpdateReaction(Mock.Of<IFilePathService>()),
-                new SelectedSortOptionUpdateReaction(Mock.Of<ISortOptionsService>()),
-                new ShowRecentUsageUpdateReaction(Mock.Of<INormalizedUsageOrderService>())
+                new AssignProjectColoursReaction(Mock.Of<IProjectBrushService>()),
+                new GroupByProjectReaction(),
+                new PathSegmentCountReaction(Mock.Of<IFilePathService>()),
+                new SelectedSortOptionReaction(Mock.Of<ISortOptionsService>()),
+                new ShowRecentUsageReaction(Mock.Of<INormalizedUsageOrderService>())
             };
 
             return updateReactions;
         }
 
         [TestCase(
+            nameof(IUserPreferences.AssignProjectColours),
+            typeof(AssignProjectColoursReaction))]
+
+        [TestCase(
             nameof(IUserPreferences.PathSegmentCount),
-            typeof(PathSegmentCountUpdateReaction))]
+            typeof(PathSegmentCountReaction))]
 
         [TestCase(
             nameof(IUserPreferences.SelectedDocumentSortOption),
-            typeof(SelectedSortOptionUpdateReaction))]
+            typeof(SelectedSortOptionReaction))]
 
         [TestCase(
             nameof(IUserPreferences.SelectedProjectSortOption),
-            typeof(SelectedSortOptionUpdateReaction))]
+            typeof(SelectedSortOptionReaction))]
 
         [TestCase(
             nameof(IUserPreferences.GroupByProject),
-            typeof(GroupByProjectUpdateReaction))]
+            typeof(GroupByProjectReaction))]
 
         [TestCase(
             nameof(IUserPreferences.ShowRecentUsage),
-            typeof(ShowRecentUsageUpdateReaction))]
+            typeof(ShowRecentUsageReaction))]
 
         public void MappingTableMapsCorrespondingUpdateReaction(
             string mappingKey,

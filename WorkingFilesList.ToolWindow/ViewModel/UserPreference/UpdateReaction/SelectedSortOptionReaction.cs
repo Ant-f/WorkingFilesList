@@ -17,38 +17,32 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System.ComponentModel;
-using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {
-    public class PathSegmentCountUpdateReaction : IUpdateReaction
+    public class SelectedSortOptionReaction : IUpdateReaction
     {
-        private readonly IFilePathService _filePathService;
+        private readonly ISortOptionsService _sortOptionsService;
 
-        public PathSegmentCountUpdateReaction(IFilePathService filePathService)
+        public SelectedSortOptionReaction(ISortOptionsService sortOptionsService)
         {
-            _filePathService = filePathService;
+            _sortOptionsService = sortOptionsService;
         }
 
         public void UpdateCollection(
             ICollectionView view,
             IUserPreferences userPreferences)
         {
-            foreach (var metadata in view.Cast<DocumentMetadata>())
+            view.SortDescriptions.Clear();
+
+            var sortDescriptions =
+                _sortOptionsService.EvaluateAppliedSortDescriptions(userPreferences);
+
+            foreach (var sortDescription in sortDescriptions)
             {
-                metadata.DisplayName = _filePathService.ReducePath(
-                    metadata.CorrectedFullName,
-                    userPreferences.PathSegmentCount);
+                view.SortDescriptions.Add(sortDescription);
             }
-
-            // Collection may need to be sorted: changing the number of path
-            // segments could make the displayed item order no longer agree with
-            // the selected sorting option, e.g. if an alphabetical sort is
-            // applied.
-
-            view.Refresh();
         }
     }
 }

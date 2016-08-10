@@ -16,8 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Moq;
 using NUnit.Framework;
 using System.Windows.Media;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.Service
@@ -25,23 +27,34 @@ namespace WorkingFilesList.ToolWindow.Test.Service
     [TestFixture]
     public class ProjectBrushServiceTests
     {
-        private readonly Brush[] _colourBrushes =
+        private static IProjectBrushes CreateProjectBrushes()
         {
-            Brushes.AliceBlue,
-            Brushes.Brown,
-            Brushes.CornflowerBlue
-        };
+            var brushes = Mock.Of<IProjectBrushes>(p =>
+                p.GenericBrush == Brushes.Orange &&
+                p.ProjectSpecificBrushes == new[]
+                {
+                    Brushes.AliceBlue,
+                    Brushes.Brown,
+                    Brushes.CornflowerBlue
+                });
+
+            return brushes;
+        }
 
         [Test]
-        public void GetBrushReturnsBrush()
+        public void GetBrushReturnsBrushWhenAssigningProjectColours()
         {
             // Arrange
 
-            var service = new ProjectBrushService(_colourBrushes);
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
 
             // Act
 
-            var brush = service.GetBrush("Id");
+            var brush = service.GetBrush("Id", userPreferences);
 
             // Assert
 
@@ -49,18 +62,22 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void SameBrushIsReturnedForSameId()
+        public void SameBrushIsReturnedForSameIdWhenAssigningProjectColours()
         {
             // Arrange
 
             const string id = "Id";
 
-            var service = new ProjectBrushService(_colourBrushes);
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
 
             // Act
 
-            var brush1 = service.GetBrush(id);
-            var brush2 = service.GetBrush(id);
+            var brush1 = service.GetBrush(id, userPreferences);
+            var brush2 = service.GetBrush(id, userPreferences);
 
             // Assert
 
@@ -68,16 +85,20 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void DifferentBrushIsReturnedForDifferentIds()
+        public void DifferentBrushIsReturnedForDifferentIdsWhenAssigningProjectColours()
         {
             // Arrange
 
-            var service = new ProjectBrushService(_colourBrushes);
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
 
             // Act
 
-            var brush1 = service.GetBrush("Id1");
-            var brush2 = service.GetBrush("Id2");
+            var brush1 = service.GetBrush("Id1", userPreferences);
+            var brush2 = service.GetBrush("Id2", userPreferences);
 
             // Assert
 
@@ -85,42 +106,70 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void BrushesAreAssignedInOrderOfServiceConstructorParameter()
+        public void ProjectSpecificBrushesAreAssignedInDeclaredOrderWhenAssigningProjectColours()
         {
             // Arrange
 
-            var service = new ProjectBrushService(_colourBrushes);
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
 
             // Act
 
-            var brush1 = service.GetBrush("Id1");
-            var brush2 = service.GetBrush("Id2");
-            var brush3 = service.GetBrush("Id3");
+            var brush1 = service.GetBrush("Id1", userPreferences);
+            var brush2 = service.GetBrush("Id2", userPreferences);
+            var brush3 = service.GetBrush("Id3", userPreferences);
 
             // Assert
 
-            Assert.That(brush1, Is.EqualTo(_colourBrushes[0]));
-            Assert.That(brush2, Is.EqualTo(_colourBrushes[1]));
-            Assert.That(brush3, Is.EqualTo(_colourBrushes[2]));
+            Assert.That(brush1, Is.EqualTo(brushes.ProjectSpecificBrushes[0]));
+            Assert.That(brush2, Is.EqualTo(brushes.ProjectSpecificBrushes[1]));
+            Assert.That(brush3, Is.EqualTo(brushes.ProjectSpecificBrushes[2]));
         }
 
         [Test]
-        public void FirstBrushIsReusedForFourthIdWhenThreeDifferentBrushesAreAvailable()
+        public void FirstBrushIsReusedForFourthIdWhenThreeDifferentBrushesAreAvailableAndAssigningProjectColours()
         {
             // Arrange
 
-            var service = new ProjectBrushService(_colourBrushes);
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
 
             // Act
 
-            var brush1 = service.GetBrush("Id1");
-            service.GetBrush("Id2");
-            service.GetBrush("Id3");
-            var brush4 = service.GetBrush("Id4");
+            var brush1 = service.GetBrush("Id1", userPreferences);
+            service.GetBrush("Id2", userPreferences);
+            service.GetBrush("Id3", userPreferences);
+            var brush4 = service.GetBrush("Id4", userPreferences);
 
             // Assert
 
             Assert.That(brush4, Is.EqualTo(brush1));
+        }
+
+        [Test]
+        public void GenericBrushIsReturnedWhenAssignProjectColoursIsFalse()
+        {
+            // Arrange
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                !u.AssignProjectColours);
+
+            // Act
+
+            var brush = service.GetBrush("Id", userPreferences);
+
+            // Assert
+
+            Assert.That(brush, Is.EqualTo(brushes.GenericBrush));
         }
     }
 }

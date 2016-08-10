@@ -21,6 +21,7 @@ using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model.SortOption;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.Ioc
 {
@@ -35,14 +36,16 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<ISortOption>().To<ProjectReverseAlphabeticalSort>().InSingletonScope();
             Kernel.Bind<ISortOption>().To<ReverseAlphabeticalSort>().InSingletonScope();
 
-            Kernel.Bind<IUpdateReaction>().To<GroupByProjectUpdateReaction>().InSingletonScope();
-            Kernel.Bind<IUpdateReaction>().To<PathSegmentCountUpdateReaction>().InSingletonScope();
-            Kernel.Bind<IUpdateReaction>().To<SelectedSortOptionUpdateReaction>().InSingletonScope();
-            Kernel.Bind<IUpdateReaction>().To<ShowRecentUsageUpdateReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<AssignProjectColoursReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<GroupByProjectReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<PathSegmentCountReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<SelectedSortOptionReaction>().InSingletonScope();
+            Kernel.Bind<IUpdateReaction>().To<ShowRecentUsageReaction>().InSingletonScope();
 
             Kernel.Bind<IDisplayOrderContainer>().To<DisplayOrderContainer>().InSingletonScope();
             Kernel.Bind<IDocumentMetadataManager>().To<DocumentMetadataManager>().InSingletonScope();
             Kernel.Bind<IOptionsLists>().To<OptionsLists>().InSingletonScope();
+            Kernel.Bind<IProjectBrushes>().To<ProjectBrushes>().InSingletonScope();
             Kernel.Bind<IUpdateReactionManager>().To<UpdateReactionManager>().InSingletonScope();
             Kernel.Bind<IUpdateReactionMapping>().To<UpdateReactionMapping>().InSingletonScope();
             Kernel.Bind<IUserPreferences>().To<UserPreferences>().InSingletonScope();

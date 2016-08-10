@@ -23,12 +23,12 @@ using System.ComponentModel;
 using System.Windows.Data;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
-namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReaction
 {
     [TestFixture]
-    public class PathSegmentCountUpdateReactionTests
+    public class PathSegmentCountReactionTests
     {
         [Test]
         public void CollectionUpdateUsesFilePathService()
@@ -43,7 +43,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             var preferences = Mock.Of<IUserPreferences>(u =>
                 u.PathSegmentCount == pathSegmentCount);
 
-            var updateReaction = new PathSegmentCountUpdateReaction(
+            var updateReaction = new PathSegmentCountReaction(
                 filePathServiceMock.Object);
 
             var info = new DocumentMetadataInfo();
@@ -70,7 +70,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
         {
             // Arrange
 
-            var updateReaction = new PathSegmentCountUpdateReaction(
+            var updateReaction = new PathSegmentCountReaction(
                 Mock.Of<IFilePathService>());
 
             var collectionViewMock = new Mock<ICollectionView>

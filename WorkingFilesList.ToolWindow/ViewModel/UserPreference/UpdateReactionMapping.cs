@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {
@@ -36,29 +37,34 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
         {
             MappingTable = new Dictionary<string, IEnumerable<IUpdateReaction>>
             {
+                [nameof(IUserPreferences.AssignProjectColours)] = new IUpdateReaction[]
+                {
+                    updateReactions.OfType<AssignProjectColoursReaction>().Single()
+                },
+
                 [nameof(IUserPreferences.PathSegmentCount)] = new IUpdateReaction[]
                 {
-                    updateReactions.OfType<PathSegmentCountUpdateReaction>().Single()
+                    updateReactions.OfType<PathSegmentCountReaction>().Single()
                 },
 
                 [nameof(IUserPreferences.SelectedDocumentSortOption)] = new IUpdateReaction[]
                 {
-                    updateReactions.OfType<SelectedSortOptionUpdateReaction>().Single()
+                    updateReactions.OfType<SelectedSortOptionReaction>().Single()
                 },
 
                 [nameof(IUserPreferences.SelectedProjectSortOption)] = new IUpdateReaction[]
                 {
-                    updateReactions.OfType<SelectedSortOptionUpdateReaction>().Single()
+                    updateReactions.OfType<SelectedSortOptionReaction>().Single()
                 },
 
                 [nameof(IUserPreferences.GroupByProject)] = new IUpdateReaction[]
                 {
-                    updateReactions.OfType<GroupByProjectUpdateReaction>().Single()
+                    updateReactions.OfType<GroupByProjectReaction>().Single()
                 },
 
                 [nameof(IUserPreferences.ShowRecentUsage)] = new IUpdateReaction[]
                 {
-                    updateReactions.OfType<ShowRecentUsageUpdateReaction>().Single()
+                    updateReactions.OfType<ShowRecentUsageReaction>().Single()
                 }
             };
         }

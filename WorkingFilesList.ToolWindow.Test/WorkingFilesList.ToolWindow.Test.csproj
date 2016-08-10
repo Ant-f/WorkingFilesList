@@ -106,9 +106,11 @@
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
     <Compile Include="ViewModel\OptionsListsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
-    <Compile Include="ViewModel\UserPreference\GroupByProjectUpdateReactionTests.cs" />
-    <Compile Include="ViewModel\UserPreference\PathSegmentCountUpdateReactionTests.cs" />
-    <Compile Include="ViewModel\UserPreference\ShowRecentUsageUpdateReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\AssignProjectColoursReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\GroupByProjectReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\PathSegmentCountReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\SelectedSortOptionReactionTests.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\ShowRecentUsageReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionManagerTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionMappingTests.cs" />
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
@@ -130,6 +132,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -16,25 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
-using System.Windows.Data;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
+using System.Windows.Media;
 
-namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public class GroupByProjectUpdateReaction : IUpdateReaction
+    public interface IProjectBrushService
     {
-        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
-        {
-            view.GroupDescriptions.Clear();
-
-            if (userPreferences.GroupByProject)
-            {
-                const string propertyName = nameof(DocumentMetadata.ProjectNames);
-                var description = new PropertyGroupDescription(propertyName);
-                view.GroupDescriptions.Add(description);
-            }
-        }
+        Brush GetBrush(string uniqueId, IUserPreferences userPreferences);
     }
 }

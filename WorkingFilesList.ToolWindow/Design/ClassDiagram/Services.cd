@@ -4,7 +4,7 @@
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
   <Class Name="WorkingFilesList.ToolWindow.Service.TimeProvider">
-    <Position X="11.75" Y="2" Width="2.25" />
+    <Position X="11.75" Y="2.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\TimeProvider.cs</FileName>
@@ -12,7 +12,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.PathCasingRestorer">
-    <Position X="6.5" Y="2" Width="2.25" />
+    <Position X="6.5" Y="2.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\PathCasingRestorer.cs</FileName>
@@ -20,15 +20,15 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.SortOptionsService">
-    <Position X="9" Y="2" Width="2.5" />
+    <Position X="9" Y="2.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Service\SortOptionsService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.CollectionViewGenerator">
-    <Position X="4" Y="2" Width="2.25" />
+    <Position X="4" Y="2.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\CollectionViewGenerator.cs</FileName>
@@ -36,10 +36,18 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.FilePathService">
-    <Position X="4" Y="5.25" Width="2.25" />
+    <Position X="4" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Service\FilePathService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.Service.ProjectBrushService">
+    <Position X="6.5" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAgAAAAgAA=</HashCode>
+      <FileName>Service\ProjectBrushService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -60,7 +68,7 @@
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ISortOptionsService">
     <Position X="9" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Interface\ISortOptionsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -72,10 +80,17 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IFilePathService">
-    <Position X="4" Y="3.75" Width="2.25" />
+    <Position X="4" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IFilePathService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectBrushService">
+    <Position X="6.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Interface\IProjectBrushService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

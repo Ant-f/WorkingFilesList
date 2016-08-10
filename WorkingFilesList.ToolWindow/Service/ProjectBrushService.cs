@@ -18,31 +18,52 @@
 
 using System.Collections.Generic;
 using System.Windows.Media;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
-    public class ProjectBrushService
+    public class ProjectBrushService : IProjectBrushService
     {
-        private readonly IList<Brush> _availableBrushes;
+        private readonly IProjectBrushes _projectBrushes;
         private readonly IDictionary<string, Brush> _brushAssignment;
 
-        public ProjectBrushService(IList<Brush> availableBrushes)
+        /// <summary>
+        /// Contains methods to return <see cref="Brush"/> instances
+        /// </summary>
+        /// <param name="projectBrushes">
+        /// The range of <see cref="Brush"/> instances that can be returned
+        /// </param>
+        public ProjectBrushService(IProjectBrushes projectBrushes)
         {
-            _availableBrushes = availableBrushes;
+            _projectBrushes = projectBrushes;
             _brushAssignment = new Dictionary<string, Brush>();
         }
 
-        public Brush GetBrush(string uniqueId)
+        public Brush GetBrush(string uniqueId, IUserPreferences userPreferences)
         {
-            var entryExists = _brushAssignment.ContainsKey(uniqueId);
+            Brush returnBrush;
 
-            if (!entryExists)
+            if (userPreferences.AssignProjectColours)
             {
-                var index = _brushAssignment.Count%_availableBrushes.Count;
-                _brushAssignment[uniqueId] = _availableBrushes[index];
+                var entryExists = _brushAssignment.ContainsKey(uniqueId);
+
+                if (!entryExists)
+                {
+                    var index =
+                        _brushAssignment.Count%
+                        _projectBrushes.ProjectSpecificBrushes.Length;
+
+                    _brushAssignment[uniqueId] = _projectBrushes
+                        .ProjectSpecificBrushes[index];
+                }
+
+                returnBrush = _brushAssignment[uniqueId];
+            }
+            else
+            {
+                returnBrush = _projectBrushes.GenericBrush;
             }
 
-            var returnBrush = _brushAssignment[uniqueId];
             return returnBrush;
         }
     }

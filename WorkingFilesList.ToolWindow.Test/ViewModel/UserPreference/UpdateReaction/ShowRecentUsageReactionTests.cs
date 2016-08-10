@@ -16,30 +16,41 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using Moq;
+using NUnit.Framework;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Windows.Data;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
-namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReaction
 {
-    public class ShowRecentUsageUpdateReaction : IUpdateReaction
+    [TestFixture]
+    public class ShowRecentUsageReactionTests
     {
-        private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
-
-        public ShowRecentUsageUpdateReaction(
-            INormalizedUsageOrderService normalizedUsageOrderService)
+        [Test]
+        public void UpdateCollectionUsesNormalizedUsageOrderService()
         {
-            _normalizedUsageOrderService = normalizedUsageOrderService;
-        }
+            // Arrange
 
-        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
-        {
-            var collection = (IList<DocumentMetadata>) view.SourceCollection;
+            var serviceMock = new Mock<INormalizedUsageOrderService>();
 
-            _normalizedUsageOrderService.SetUsageOrder(
-                collection,
-                userPreferences);
+            var updateReaction = (IUpdateReaction)new ShowRecentUsageReaction(
+                serviceMock.Object);
+
+            var preferences = Mock.Of<IUserPreferences>();
+
+            var collection = new List<DocumentMetadata>();
+            var view = new ListCollectionView(collection);
+
+            // Act
+
+            updateReaction.UpdateCollection(view, preferences);
+
+            // Assert
+
+            serviceMock.Verify(s => s.SetUsageOrder(collection, preferences));
         }
     }
 }

@@ -16,41 +16,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Data;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 
-namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
+namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {
-    [TestFixture]
-    public class ShowRecentUsageUpdateReactionTests
+    public class GroupByProjectReaction : IUpdateReaction
     {
-        [Test]
-        public void UpdateCollectionUsesNormalizedUsageOrderService()
+        public void UpdateCollection(ICollectionView view, IUserPreferences userPreferences)
         {
-            // Arrange
+            view.GroupDescriptions.Clear();
 
-            var serviceMock = new Mock<INormalizedUsageOrderService>();
-
-            var updateReaction = (IUpdateReaction)new ShowRecentUsageUpdateReaction(
-                serviceMock.Object);
-
-            var preferences = Mock.Of<IUserPreferences>();
-
-            var collection = new List<DocumentMetadata>();
-            var view = new ListCollectionView(collection);
-
-            // Act
-
-            updateReaction.UpdateCollection(view, preferences);
-
-            // Assert
-
-            serviceMock.Verify(s => s.SetUsageOrder(collection, preferences));
+            if (userPreferences.GroupByProject)
+            {
+                const string propertyName = nameof(DocumentMetadata.ProjectNames);
+                var description = new PropertyGroupDescription(propertyName);
+                view.GroupDescriptions.Add(description);
+            }
         }
     }
 }
