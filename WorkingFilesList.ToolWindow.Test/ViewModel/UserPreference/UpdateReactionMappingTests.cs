@@ -67,6 +67,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             nameof(IUserPreferences.ShowRecentUsage),
             typeof(ShowRecentUsageReaction))]
 
+        [TestCase(
+            nameof(IUserPreferences.ShowRecentUsage),
+            typeof(AssignProjectColoursReaction))]
+
         public void MappingTableMapsCorrespondingUpdateReaction(
             string mappingKey,
             Type updateReactionType)

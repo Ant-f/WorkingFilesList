@@ -52,7 +52,7 @@ namespace WorkingFilesList.ToolWindow.Service
 
                 var value = userPreferences.ShowRecentUsage
                     ? counter*interval
-                    : 0;
+                    : 1; // Set to 1 so entire list-item length is coloured
 
                 metadata.UsageOrder = value;
             }

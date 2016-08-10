@@ -118,7 +118,7 @@
     <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\AssignProjectColoursReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\GroupByProjectReaction.cs" />
-    <Compile Include="ViewModel\UserPreference\UpdateReaction\ShowRecentReaction.cs" />
+    <Compile Include="ViewModel\UserPreference\UpdateReaction\ShowRecentUsageReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionManager.cs" />
     <Compile Include="ViewModel\UserPreferences.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\PathSegmentCountReaction.cs" />

@@ -61,7 +61,9 @@ namespace WorkingFilesList.ToolWindow.Service
             }
             else
             {
-                returnBrush = _projectBrushes.GenericBrush;
+                returnBrush = userPreferences.ShowRecentUsage
+                    ? _projectBrushes.GenericBrush
+                    : Brushes.Transparent;
             }
 
             return returnBrush;

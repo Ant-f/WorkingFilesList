@@ -104,7 +104,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void UsageOrderIs0WhenShowRecentUsageIsFalse()
+        public void UsageOrderIs1WhenShowRecentUsageIsFalse()
         {
             // Arrange
 
@@ -133,9 +133,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Assert
 
-            Assert.That(first.UsageOrder, Is.EqualTo(0));
-            Assert.That(second.UsageOrder, Is.EqualTo(0));
-            Assert.That(third.UsageOrder, Is.EqualTo(0));
+            const double desiredValue = 1;
+
+            Assert.That(first.UsageOrder, Is.EqualTo(desiredValue));
+            Assert.That(second.UsageOrder, Is.EqualTo(desiredValue));
+            Assert.That(third.UsageOrder, Is.EqualTo(desiredValue));
         }
     }
 }

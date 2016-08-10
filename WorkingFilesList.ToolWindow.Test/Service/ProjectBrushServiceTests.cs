@@ -42,7 +42,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void GetBrushReturnsBrushWhenAssigningProjectColours()
+        public void GetBrushReturnsNonNullWhenAssigningProjectColours()
         {
             // Arrange
 
@@ -62,7 +62,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void SameBrushIsReturnedForSameIdWhenAssigningProjectColours()
+        public void SameBrushReturnedForSameIdWhenAssigningProjectColours()
         {
             // Arrange
 
@@ -85,7 +85,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void DifferentBrushIsReturnedForDifferentIdsWhenAssigningProjectColours()
+        public void DifferentBrushReturnedForDifferentIdsWhenAssigningProjectColours()
         {
             // Arrange
 
@@ -106,7 +106,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void ProjectSpecificBrushesAreAssignedInDeclaredOrderWhenAssigningProjectColours()
+        public void ProjectBrushesAreAssignedInDeclaredOrderWhenAssigningProjectColours()
         {
             // Arrange
 
@@ -130,7 +130,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void FirstBrushIsReusedForFourthIdWhenThreeDifferentBrushesAreAvailableAndAssigningProjectColours()
+        public void Brush1ReusedForId4When3UniqueBrushesAvailableAndAssigningProjectColours()
         {
             // Arrange
 
@@ -153,7 +153,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void GenericBrushIsReturnedWhenAssignProjectColoursIsFalse()
+        public void GenericBrushReturnedWhenNotAssigningProjectColoursAndShowingRecentUsage()
         {
             // Arrange
 
@@ -161,7 +161,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             var service = new ProjectBrushService(brushes);
 
             var userPreferences = Mock.Of<IUserPreferences>(u =>
-                !u.AssignProjectColours);
+                !u.AssignProjectColours &&
+                u.ShowRecentUsage);
 
             // Act
 
@@ -170,6 +171,27 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Assert
 
             Assert.That(brush, Is.EqualTo(brushes.GenericBrush));
+        }
+
+        [Test]
+        public void TransparentReturnedWhenNotAssigningProjectColoursAndNotShowingRecentUsage()
+        {
+            // Arrange
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                !u.AssignProjectColours &&
+                !u.ShowRecentUsage);
+
+            // Act
+
+            var brush = service.GetBrush("Id", userPreferences);
+
+            // Assert
+
+            Assert.That(brush, Is.EqualTo(Brushes.Transparent));
         }
     }
 }

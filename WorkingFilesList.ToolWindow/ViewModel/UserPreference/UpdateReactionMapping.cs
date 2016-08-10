@@ -28,8 +28,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
         /// <summary>
         /// Maps the names of <see cref="IUserPreferences"/> properties to
         /// <see cref="IUpdateReaction"/> instances that should be applied to a
-        /// collection view in order for it to reflect changes to user
-        /// preference values
+        /// collection view in order for it to reflect user preference values
         /// </summary>
         public IDictionary<string, IEnumerable<IUpdateReaction>> MappingTable { get; }
 
@@ -64,6 +63,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 
                 [nameof(IUserPreferences.ShowRecentUsage)] = new IUpdateReaction[]
                 {
+                    // Showing/hiding recent usage needs to update project colours
+                    // in addition to usage order: when project-specific-colours
+                    // is disabled, the colour still needs to be set to either a
+                    // generic project colour, or Transparent depending on whether
+                    // recent file usage is visually represented.
+
+                    updateReactions.OfType<AssignProjectColoursReaction>().Single(),
                     updateReactions.OfType<ShowRecentUsageReaction>().Single()
                 }
             };
