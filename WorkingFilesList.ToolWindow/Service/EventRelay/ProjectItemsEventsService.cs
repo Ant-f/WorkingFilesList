@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System.IO;
 using EnvDTE;
 using WorkingFilesList.ToolWindow.Interface;
 
@@ -39,9 +40,16 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         {
             if (projectItem?.Document != null)
             {
+                var directoryName = Path.GetDirectoryName(
+                    projectItem.Document.FullName);
+
+                var oldFullName = directoryName != null
+                    ? Path.Combine(directoryName, oldName)
+                    : oldName;
+
                 _documentMetadataManager.UpdateFullName(
                     projectItem.Document.FullName,
-                    oldName);
+                    oldFullName);
             }
         }
     }

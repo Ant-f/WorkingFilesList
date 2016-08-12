@@ -134,7 +134,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
                 var existingMetadata = _activeDocumentMetadata[i];
-                var match = string.CompareOrdinal(existingMetadata.FullName, oldName) == 0;
+
+                var match = string.CompareOrdinal(
+                    existingMetadata.CorrectedFullName,
+                    oldName) == 0;
+
                 if (match)
                 {
                     var info = new DocumentMetadataInfo

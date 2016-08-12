@@ -32,25 +32,22 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            const string oldName = "OldName";
-            const string newName = "NewName";
-
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             var service = new ProjectItemsEventsService(metadataManagerMock.Object);
 
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.FullName).Returns(newName);
-
-            var projectItemMock = new Mock<ProjectItem>();
-            projectItemMock.Setup(p => p.Document).Returns(documentMock.Object);
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Document == Mock.Of<Document>(d =>
+                    d.FullName == "NewName"));
 
             // Act
 
-            service.ItemRenamed(projectItemMock.Object, oldName);
+            service.ItemRenamed(projectItem, "OldName");
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.UpdateFullName(newName, oldName));
+            metadataManagerMock.Verify(m => m.UpdateFullName(
+                It.IsAny<string>(),
+                It.IsAny<string>()));
         }
 
         [Test]
@@ -61,11 +58,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             var service = new ProjectItemsEventsService(metadataManagerMock.Object);
 
-            var projectItemMock = new Mock<ProjectItem>();
+            var projectItem = Mock.Of<ProjectItem>();
 
             // Act
 
-            service.ItemRenamed(projectItemMock.Object, "OldName");
+            service.ItemRenamed(projectItem, "OldName");
 
             // Assert
 
@@ -73,6 +70,36 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 It.IsAny<string>(),
                 It.IsAny<string>()),
                 Times.Never);
+        }
+
+        [Test]
+        public void OldNameIsConverterToFullName()
+        {
+            // Arrange
+
+            const string oldFileName = "OldFileName.txt";
+            const string newFileName = "NewFileName.txt";
+            const string path = @"C:\Directory\SubDirectory\";
+
+            const string newFullName = path + newFileName;
+            const string expectedOldName = path + oldFileName;
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Document == Mock.Of<Document>(d =>
+                    d.FullName == newFullName));
+
+            // Act
+
+            service.ItemRenamed(projectItem, oldFileName);
+
+            // Assert
+
+            metadataManagerMock.Verify(m => m.UpdateFullName(
+                newFullName,
+                expectedOldName));
         }
     }
 }

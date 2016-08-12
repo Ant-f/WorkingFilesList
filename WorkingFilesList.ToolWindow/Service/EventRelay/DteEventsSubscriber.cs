@@ -32,6 +32,8 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private readonly IProjectItemsEventsService _projectItemsEventsService;
         private readonly IWindowEventsService _windowEventsService;
 
+        private ProjectItemsEvents _projectItemsEvents;
+
         public DteEventsSubscriber(
             IProjectItemsEventsService projectItemsEventsService,
             IWindowEventsService windowEventsService)
@@ -51,7 +53,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             dteEvents.WindowEvents.WindowClosing += WindowEventsWindowClosing;
             dteEvents.WindowEvents.WindowCreated += WindowEventsWindowCreated;
 
-            dteEvents.ProjectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
+            // Keep a reference to dteEvents.ProjectItemsEvents; it will get
+            // garbage collected otherwise
+            _projectItemsEvents = dteEvents.ProjectItemsEvents;
+
+            _projectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
         }
 
         private void WindowEventsWindowActivated(Window gotFocus, Window lostFocus)

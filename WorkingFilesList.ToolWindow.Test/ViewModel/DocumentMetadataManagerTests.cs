@@ -870,5 +870,60 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     (IList<DocumentMetadata>) metadataCollection,
                     It.IsAny<IUserPreferences>()));
         }
+
+        /// <summary>
+        /// There are certain conditions where <see cref="Document"/> provides
+        /// <see cref="Document.FullName"/> in lower case. When a project item
+        /// is renamed, its full name is provided with the correct casing. In
+        /// order for the names to match, it needs to be compared against
+        /// <see cref="DocumentMetadata.CorrectedFullName"/>
+        /// </summary>
+        [Test]
+        public void UpdateFullNameMatchesOldNameWithCorrectedFullName()
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+            const string newName = "NewName";
+            const string correctedOldName = "CorrectedOldName";
+
+            var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+
+            metadataFactoryBuilder.PathCasingRestorerMock
+                .Setup(p => p.RestoreCasing(It.IsAny<string>()))
+                .Returns(correctedOldName);
+
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(false);
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factory
+            };
+
+            metadataManagerBuilder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(oldName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            manager.Synchronize(documents);
+
+            // Act
+
+            manager.UpdateFullName(newName, correctedOldName);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>) manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(newName));
+        }
     }
 }
