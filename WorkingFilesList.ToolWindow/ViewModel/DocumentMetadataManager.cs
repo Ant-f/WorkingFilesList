@@ -30,7 +30,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
-        private readonly IFilePathService _filePathService;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
@@ -41,7 +40,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
             IDocumentMetadataFactory documentMetadataFactory,
-            IFilePathService filePathService,
             INormalizedUsageOrderService normalizedUsageOrderService,
             ITimeProvider timeProvider,
             IUpdateReactionManager updateReactionManager,
@@ -53,7 +51,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 _activeDocumentMetadata);
 
             _documentMetadataFactory = documentMetadataFactory;
-            _filePathService = filePathService;
             _normalizedUsageOrderService = normalizedUsageOrderService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
@@ -76,11 +73,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             if (!metadataExists)
             {
                 var metadata = _documentMetadataFactory.Create(info);
-
-                metadata.DisplayName = _filePathService.ReducePath(
-                    metadata.CorrectedFullName,
-                    _userPreferences.PathSegmentCount);
-
                 _activeDocumentMetadata.Add(metadata);
             }
         }

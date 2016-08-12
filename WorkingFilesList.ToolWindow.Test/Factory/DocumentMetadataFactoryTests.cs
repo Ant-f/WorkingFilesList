@@ -16,7 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using System;
+using Moq;
 using NUnit.Framework;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
@@ -142,6 +145,98 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.PathCasingRestorerMock.Verify(p => p.RestoreCasing(lowerCase));
             Assert.That(metadata.CorrectedFullName, Is.EqualTo(correctedCasing));
+        }
+
+        [Test]
+        public void CreateWithInfoUsesFilePathService()
+        {
+            // Arrange
+
+            const string filePathServiceOutput = "FilePathServiceOutput";
+            const string fullName = "FullName";
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = fullName
+            };
+
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.FilePathServiceMock
+                .Setup(f => f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()))
+                .Returns(filePathServiceOutput);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(metadata.DisplayName, Is.EqualTo(filePathServiceOutput));
+        }
+
+        [Test]
+        public void CreateWithInfoAndActivatedTimeUsesFilePathService()
+        {
+            // Arrange
+
+            const string filePathServiceOutput = "FilePathServiceOutput";
+            const string fullName = "FullName";
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = fullName
+            };
+
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.FilePathServiceMock
+                .Setup(f => f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()))
+                .Returns(filePathServiceOutput);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info, DateTime.UtcNow);
+
+            // Assert
+
+            Assert.That(metadata.DisplayName, Is.EqualTo(filePathServiceOutput));
+        }
+
+        [Test]
+        public void CreatePassesPathSegmentCountFromUserPreferencesToFilePathService()
+        {
+            // Arrange
+
+            const int pathSegmentCount = 7;
+
+            var info = new DocumentMetadataInfo();
+
+            var builder = new DocumentMetadataFactoryBuilder
+            {
+                UserPreferences = Mock.Of<IUserPreferences>(u =>
+                    u.PathSegmentCount == pathSegmentCount)
+            };
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            factory.Create(info);
+
+            // Assert
+
+            builder.FilePathServiceMock.Verify(f => f.ReducePath(
+                It.IsAny<string>(),
+                pathSegmentCount));
         }
     }
 }

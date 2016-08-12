@@ -491,44 +491,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void AddUsesFilePathService()
-        {
-            // Arrange
-
-            const int pathSegmentCount = 7;
-            const string correctedName = "CorrectedName";
-
-            var factory = Mock.Of<IDocumentMetadataFactory>(f =>
-                f.Create(It.IsAny<DocumentMetadataInfo>()) == new DocumentMetadata(
-                    new DocumentMetadataInfo(),
-                    correctedName));
-
-            var filePathServiceMock = new Mock<IFilePathService>();
-
-            var builder = new DocumentMetadataManagerBuilder
-            {
-                DocumentMetadataFactory = factory,
-                FilePathService = filePathServiceMock.Object
-            };
-
-            builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetPathSegmentCount())
-                .Returns(pathSegmentCount);
-
-            var manager = builder.CreateDocumentMetadataManager();
-
-            // Act
-
-            manager.Add(new DocumentMetadataInfo());
-
-            // Assert
-
-            filePathServiceMock.Verify(f => f.ReducePath(
-                correctedName,
-                pathSegmentCount));
-        }
-
-        [Test]
         public void SynchronizeUsesDocumentMetadataFactory()
         {
             // Arrange
@@ -568,42 +530,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             factoryMock.Verify(p => p.Create(info));
-        }
-
-        [Test]
-        public void PathSegmentCountInAddedDocumentMatchesUserPreferences()
-        {
-            // Arrange
-
-            const string one = "One";
-            const string two = "Two";
-            const string three = "Three";
-
-            var info = new DocumentMetadataInfo
-            {
-                FullName = Path.Combine(three, two, one)
-            };
-
-            var expectedDocumentName = Path.Combine(two, one);
-
-            var builder = new DocumentMetadataManagerBuilder();
-            builder.UserPreferencesBuilder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetPathSegmentCount())
-                .Returns(2); // expectedDocumentName is built with two strings
-
-            var manager = builder.CreateDocumentMetadataManager();
-
-            // Act
-
-            manager.Add(info);
-
-            // Assert
-
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
-
-            Assert.That(collection.Count, Is.EqualTo(1));
-            Assert.That(collection[0].DisplayName, Is.EqualTo(expectedDocumentName));
         }
 
         [Test]

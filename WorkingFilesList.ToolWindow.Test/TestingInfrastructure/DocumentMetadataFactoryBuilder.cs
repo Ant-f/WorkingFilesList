@@ -25,10 +25,15 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
     internal class DocumentMetadataFactoryBuilder
     {
+        public Mock<IFilePathService> FilePathServiceMock { get; }
+            = new Mock<IFilePathService>();
+
         public Mock<IPathCasingRestorer> PathCasingRestorerMock { get; }
             = new Mock<IPathCasingRestorer>();
 
         public Mock<ITimeProvider> TimeProviderMock { get; }
+
+        public IUserPreferences UserPreferences { get; set; }
 
         public DocumentMetadataFactoryBuilder()
         {
@@ -63,8 +68,10 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             }
 
             var factory = new DocumentMetadataFactory(
+                FilePathServiceMock.Object,
                 PathCasingRestorerMock.Object,
-                TimeProviderMock.Object);
+                TimeProviderMock.Object,
+                UserPreferences ?? Mock.Of<IUserPreferences>());
 
             return factory;
         }

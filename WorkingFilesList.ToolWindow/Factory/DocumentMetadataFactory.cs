@@ -29,15 +29,21 @@ namespace WorkingFilesList.ToolWindow.Factory
     /// </summary>
     public class DocumentMetadataFactory : IDocumentMetadataFactory
     {
+        private readonly IFilePathService _filePathService;
         private readonly IPathCasingRestorer _pathCasingRestorer;
         private readonly ITimeProvider _timeProvider;
+        private readonly IUserPreferences _userPreferences;
 
         public DocumentMetadataFactory(
+            IFilePathService filePathService,
             IPathCasingRestorer pathCasingRestorer,
-            ITimeProvider timeProvider)
+            ITimeProvider timeProvider,
+            IUserPreferences userPreferences)
         {
+            _filePathService = filePathService;
             _pathCasingRestorer = pathCasingRestorer;
             _timeProvider = timeProvider;
+            _userPreferences = userPreferences;
         }
 
         /// <summary>
@@ -69,9 +75,15 @@ namespace WorkingFilesList.ToolWindow.Factory
         public DocumentMetadata Create(DocumentMetadataInfo info, DateTime activatedAt)
         {
             var correctedCasing = _pathCasingRestorer.RestoreCasing(info.FullName);
+
+            var displayName = _filePathService.ReducePath(
+                correctedCasing,
+                _userPreferences.PathSegmentCount);
+
             var metadata = new DocumentMetadata(info, correctedCasing)
             {
-                ActivatedAt = activatedAt
+                ActivatedAt = activatedAt,
+                DisplayName = displayName
             };
 
             return metadata;

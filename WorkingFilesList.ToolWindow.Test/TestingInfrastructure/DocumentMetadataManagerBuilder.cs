@@ -42,8 +42,6 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         /// </summary>
         public IDocumentMetadataFactory DocumentMetadataFactory { get; set; }
 
-        public IFilePathService FilePathService { get; set; }
-
         public Mock<INormalizedUsageOrderService> NormalizedUsageOrderServiceMock { get; }
             = new Mock<INormalizedUsageOrderService>();
 
@@ -86,18 +84,15 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 UserPreferences = UserPreferencesBuilder.CreateUserPreferences();
             }
 
-            if (FilePathService == null)
-            {
-                FilePathService = new FilePathService();
-            }
-
             if (UpdateReactionMapping == null)
             {
+                var filePathService = new FilePathService();
+
                 var updateReactions = new IUpdateReaction[]
                 {
                     new AssignProjectColoursReaction(Mock.Of<IProjectBrushService>()),
                     new GroupByProjectReaction(),
-                    new PathSegmentCountReaction(FilePathService),
+                    new PathSegmentCountReaction(filePathService),
                     new SelectedSortOptionReaction(SortOptionsService),
                     new ShowRecentUsageReaction(NormalizedUsageOrderServiceMock.Object)
                 };
@@ -115,7 +110,6 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             var manager = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
                 DocumentMetadataFactory,
-                FilePathService,
                 NormalizedUsageOrderServiceMock.Object,
                 TimeProviderMock.Object,
                 UpdateReactionManager,
