@@ -31,6 +31,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public Mock<IPathCasingRestorer> PathCasingRestorerMock { get; }
             = new Mock<IPathCasingRestorer>();
 
+        public Mock<IProjectBrushService> ProjectBrushServiceMock { get; }
+            = new Mock<IProjectBrushService>();
+
         public Mock<ITimeProvider> TimeProviderMock { get; }
 
         public IUserPreferences UserPreferences { get; set; }
@@ -70,6 +73,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             var factory = new DocumentMetadataFactory(
                 FilePathServiceMock.Object,
                 PathCasingRestorerMock.Object,
+                ProjectBrushServiceMock.Object,
                 TimeProviderMock.Object,
                 UserPreferences ?? Mock.Of<IUserPreferences>());
 

@@ -17,6 +17,7 @@
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System;
+using System.Windows.Media;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.ToolWindow.Interface;
@@ -148,18 +149,13 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         }
 
         [Test]
-        public void CreateWithInfoUsesFilePathService()
+        public void CreateWithInfoUsesFilePathServiceToSetDisplayName()
         {
             // Arrange
 
             const string filePathServiceOutput = "FilePathServiceOutput";
-            const string fullName = "FullName";
 
-            var info = new DocumentMetadataInfo
-            {
-                FullName = fullName
-            };
-
+            var info = new DocumentMetadataInfo();
             var builder = new DocumentMetadataFactoryBuilder();
 
             builder.FilePathServiceMock
@@ -180,18 +176,13 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         }
 
         [Test]
-        public void CreateWithInfoAndActivatedTimeUsesFilePathService()
+        public void CreateWithInfoAndActivatedTimeUsesFilePathServiceToSetDisplayName()
         {
             // Arrange
 
             const string filePathServiceOutput = "FilePathServiceOutput";
-            const string fullName = "FullName";
 
-            var info = new DocumentMetadataInfo
-            {
-                FullName = fullName
-            };
-
+            var info = new DocumentMetadataInfo();
             var builder = new DocumentMetadataFactoryBuilder();
 
             builder.FilePathServiceMock
@@ -237,6 +228,60 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             builder.FilePathServiceMock.Verify(f => f.ReducePath(
                 It.IsAny<string>(),
                 pathSegmentCount));
+        }
+
+        [Test]
+        public void CreateWithInfoSetsProjectBrush()
+        {
+            // Arrange
+
+            var projectBrush = Brushes.MidnightBlue;
+
+            var info = new DocumentMetadataInfo();
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.ProjectBrushServiceMock
+                .Setup(p => p.GetBrush(
+                    It.IsAny<string>(),
+                    It.IsAny<IUserPreferences>()))
+                .Returns(projectBrush);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(metadata.ProjectBrush, Is.EqualTo(projectBrush));
+        }
+
+        [Test]
+        public void CreateWithInfoAndActivatedTimeSetsProjectBrush()
+        {
+            // Arrange
+
+            var projectBrush = Brushes.MidnightBlue;
+
+            var info = new DocumentMetadataInfo();
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.ProjectBrushServiceMock
+                .Setup(p => p.GetBrush(
+                    It.IsAny<string>(),
+                    It.IsAny<IUserPreferences>()))
+                .Returns(projectBrush);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info, DateTime.UtcNow);
+
+            // Assert
+
+            Assert.That(metadata.ProjectBrush, Is.EqualTo(projectBrush));
         }
     }
 }

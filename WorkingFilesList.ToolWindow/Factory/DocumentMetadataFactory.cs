@@ -31,17 +31,20 @@ namespace WorkingFilesList.ToolWindow.Factory
     {
         private readonly IFilePathService _filePathService;
         private readonly IPathCasingRestorer _pathCasingRestorer;
+        private readonly IProjectBrushService _projectBrushService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
 
         public DocumentMetadataFactory(
             IFilePathService filePathService,
             IPathCasingRestorer pathCasingRestorer,
+            IProjectBrushService projectBrushService,
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
             _filePathService = filePathService;
             _pathCasingRestorer = pathCasingRestorer;
+            _projectBrushService = projectBrushService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
         }
@@ -80,10 +83,15 @@ namespace WorkingFilesList.ToolWindow.Factory
                 correctedCasing,
                 _userPreferences.PathSegmentCount);
 
+            var projectBrush = _projectBrushService.GetBrush(
+                info.ProjectUniqueName,
+                _userPreferences);
+
             var metadata = new DocumentMetadata(info, correctedCasing)
             {
                 ActivatedAt = activatedAt,
-                DisplayName = displayName
+                DisplayName = displayName,
+                ProjectBrush = projectBrush
             };
 
             return metadata;
