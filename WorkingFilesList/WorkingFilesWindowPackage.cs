@@ -112,7 +112,7 @@ namespace WorkingFilesList
             // the tool window
 
             var metadataManager = kernel.Get<IDocumentMetadataManager>();
-            metadataManager.Synchronize(dte2.Documents);
+            metadataManager.Synchronize(dte2.Documents, true);
         }
     }
 }

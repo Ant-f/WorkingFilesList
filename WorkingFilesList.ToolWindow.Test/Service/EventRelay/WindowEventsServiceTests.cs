@@ -85,7 +85,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.Synchronize(documents));
+            metadataManagerMock.Verify(m => m.Synchronize(documents, false));
         }
 
         [Test]
@@ -132,7 +132,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             metadataManagerMock.Setup(m => m.ActiveDocumentMetadata.IsEmpty).Returns(true);
 
-            metadataManagerMock.Setup(m => m.Synchronize(It.IsAny<Documents>()))
+            metadataManagerMock
+                .Setup(m => m.Synchronize(
+                    It.IsAny<Documents>(),
+                    false))
                 .Callback(() => synchronized = true);
 
             // Check that Activate is called after Synchronize: the value of
@@ -161,7 +164,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
+            metadataManagerMock
+                .Verify(m => m.Synchronize(
+                    It.IsAny<Documents>(),
+                    false));
+
             metadataManagerMock.Verify(m => m.Activate(It.IsAny<string>()));
 
             Assert.IsTrue(synchronizedWhenUpdatingActivatedTime);
@@ -221,7 +228,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.Synchronize(It.IsAny<Documents>()));
+            metadataManagerMock
+                .Verify(m => m.Synchronize(
+                    It.IsAny<Documents>(),
+                    false));
         }
 
         // Test cases should not include vsWindowType.vsWindowTypeDocument
@@ -367,12 +377,14 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             created.Verify(w => w.DTE, Times.Never);
 
-            metadataManagerMock
-                .Verify(m => m.Synchronize(null),
+            metadataManagerMock.Verify(m => m.Synchronize(
+                    null,
+                    It.IsAny<bool>()),
                 Times.Never);
 
-            metadataManagerMock
-                .Verify(m => m.Synchronize(It.IsAny<Documents>()),
+            metadataManagerMock.Verify(m => m.Synchronize(
+                It.IsAny<Documents>(),
+                It.IsAny<bool>()),
                 Times.Never);
         }
     }

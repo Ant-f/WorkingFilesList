@@ -117,7 +117,7 @@ namespace WorkingFilesList.Test
 
             // Assert
 
-            managerMock.Verify(m => m.Synchronize(documents));
+            managerMock.Verify(m => m.Synchronize(documents, true));
         }
     }
 }

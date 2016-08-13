@@ -29,6 +29,6 @@ namespace WorkingFilesList.ToolWindow.Interface
         void Activate(string fullName);
         void Add(DocumentMetadataInfo info);
         void UpdateFullName(string newName, string oldName);
-        void Synchronize(Documents documents);
+        void Synchronize(Documents documents, bool setUsageOrder);
     }
 }

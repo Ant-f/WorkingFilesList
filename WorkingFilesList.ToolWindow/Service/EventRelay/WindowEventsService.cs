@@ -50,7 +50,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         {
             if (window.Type == vsWindowType.vsWindowTypeDocument)
             {
-                _documentMetadataManager.Synchronize(window.DTE.Documents);
+                _documentMetadataManager.Synchronize(window.DTE.Documents, false);
             }
         }
 
@@ -61,7 +61,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             {
                 if (_documentMetadataManager.ActiveDocumentMetadata.IsEmpty)
                 {
-                    _documentMetadataManager.Synchronize(window.DTE.Documents);
+                    _documentMetadataManager.Synchronize(window.DTE.Documents, false);
 
                     _documentMetadataManager.Activate(
                         window.Document.FullName);

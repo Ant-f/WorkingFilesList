@@ -23,7 +23,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.ToolWindow.Interface;
@@ -125,7 +124,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Assert
 
@@ -162,7 +161,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Synchronize to set two items in the document metadata service
             // metadata list
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             var updatedDocumentMockList = new List<Document>
             {
@@ -175,7 +174,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(updatedDocuments);
+            manager.Synchronize(updatedDocuments, false);
 
             // Assert
 
@@ -212,7 +211,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Assert
 
@@ -242,7 +241,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Assert
 
@@ -276,7 +275,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     return utcNow;
                 });
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
@@ -347,7 +346,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     return simulatedTime;
                 });
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
@@ -390,7 +389,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.TimeProviderMock.Setup(t => t.UtcNow)
                 .Returns(() => DateTime.UtcNow);
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
@@ -453,7 +452,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            Assert.DoesNotThrow(() => manager.Synchronize(documentsMock.Object));
+            Assert.DoesNotThrow(() => manager.Synchronize(documentsMock.Object, false));
         }
 
         [Test]
@@ -525,7 +524,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Assert
 
@@ -658,7 +657,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             var manager = builder.CreateDocumentMetadataManager();
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Act
 
@@ -721,7 +720,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
@@ -781,7 +780,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             var manager = builder.CreateDocumentMetadataManager();
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Act
 
@@ -837,7 +836,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             var documents = CreateDocuments(documentMockList);
-            manager.Synchronize(documents);
+            manager.Synchronize(documents, false);
 
             // Act
 
@@ -850,6 +849,41 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].FullName, Is.EqualTo(newName));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SynchronizeUsesNormalizedUsageOrderService(bool setUsageOrder)
+        {
+            // Arrange
+
+            var setUsageOrderInvoked = false;
+
+            var builder = new DocumentMetadataManagerBuilder();
+
+            builder.NormalizedUsageOrderServiceMock
+                .Setup(n => n.SetUsageOrder(
+                    It.IsAny<IList<DocumentMetadata>>(),
+                    It.IsAny<IUserPreferences>()))
+                .Callback(() => setUsageOrderInvoked = true);
+
+            builder.UpdateReactionMapping = new TestingUpdateReactionMapping(
+                new Dictionary<string, IEnumerable<IUpdateReaction>>());
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var documentsMock = new Mock<Documents>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            // Act
+
+            manager.Synchronize(documentsMock.Object, setUsageOrder);
+
+            // Assert
+
+            Assert.That(setUsageOrderInvoked, Is.EqualTo(setUsageOrder));
         }
     }
 }

@@ -165,7 +165,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <see cref="Documents"/> that <see cref="ActiveDocumentMetadata"/>
         /// should reflect
         /// </param>
-        public void Synchronize(Documents documents)
+        /// <param name="setUsageOrder">
+        /// true to update <see cref="DocumentMetadata.UsageOrder"/> for every
+        /// <see cref="DocumentMetadata"/> in <see cref="ActiveDocumentMetadata"/>
+        /// after Synchronization, false otherwise
+        /// </param>
+        public void Synchronize(Documents documents, bool setUsageOrder)
         {
             var documentNameSet = new HashSet<string>();
 
@@ -214,6 +219,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _activeDocumentMetadata.RemoveAt(i);
                     i--;
                 }
+            }
+
+            if (setUsageOrder)
+            {
+                _normalizedUsageOrderService.SetUsageOrder(
+                    _activeDocumentMetadata,
+                    _userPreferences);
             }
         }
     }
