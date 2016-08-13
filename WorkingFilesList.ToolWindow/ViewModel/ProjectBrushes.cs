@@ -26,15 +26,23 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <summary>
         /// <see cref="Brush"/> to return when not using project specific colours
         /// </summary>
-        public Brush GenericBrush { get; } = Brushes.DarkOrange;
+        public Brush GenericBrush { get; } = Brushes.DarkGray;
 
         /// <summary>
         /// Available <see cref="Brush"/> instances for assigning to projects
         /// </summary>
         public Brush[] ProjectSpecificBrushes { get; } =
             {
+                Brushes.CornflowerBlue,
                 Brushes.GreenYellow,
-                Brushes.CornflowerBlue
+                Brushes.DarkOrange,
+                Brushes.Pink,
+                Brushes.BlanchedAlmond,
+                Brushes.MediumSlateBlue,
+                Brushes.DarkSeaGreen,
+                Brushes.Goldenrod,
+                Brushes.Sienna,
+                Brushes.Salmon
             };
     }
 }

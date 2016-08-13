@@ -85,6 +85,39 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="{x:Type ProgressBar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="PART_Track"/>
+                            <Grid x:Name="PART_Indicator"
+                                  Background="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClipToBounds="true"
+                                  HorizontalAlignment="Left"
+                                  Margin="0,1"
+                                  Opacity="0.3">
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid DataContext="{StaticResource ViewModel}">
@@ -203,18 +236,21 @@
                     <Button>
                         <Button.Template>
                             <ControlTemplate>
-                                <Grid>
+                                <Grid Background="Transparent" ToolTip="{Binding CorrectedFullName}">
                                     <ProgressBar Background="Transparent"
                                                  BorderBrush="Transparent"
                                                  Foreground="{Binding ProjectBrush}"
+                                                 IsHitTestVisible="False"
                                                  Maximum="1"
                                                  Minimum="0"
                                                  Value="{Binding UsageOrder}">
                                     </ProgressBar>
-                                    
+
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
                                                FontWeight="{Binding IsActive, Converter={StaticResource BoolToFontWeight}}"
-                                               Text="{Binding DisplayName}" />
+                                               IsHitTestVisible="False"
+                                               Text="{Binding DisplayName}">
+                                    </TextBlock>
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
