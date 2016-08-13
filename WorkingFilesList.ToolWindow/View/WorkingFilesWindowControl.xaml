@@ -24,6 +24,7 @@
              xmlns:locator="clr-namespace:WorkingFilesList.ToolWindow.Service.Locator"
              xmlns:controls="clr-namespace:WorkingFilesList.ToolWindow.View.Controls"
              xmlns:converter="clr-namespace:WorkingFilesList.ToolWindow.View.Converter"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -32,6 +33,7 @@
     <UserControl.Resources>
         <locator:ViewModelService x:Key="ViewModel" />
         <converter:BoolToFontWeight x:Key="BoolToFontWeight" />
+        <system:Double x:Key="ToolbarControlHeight">22</system:Double>
 
         <Style TargetType="{x:Type controls:NumericUpDown}">
             <Setter Property="Template">
@@ -41,7 +43,7 @@
                             <Grid.Resources>
                                 <Style TargetType="{x:Type Path}">
                                     <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
-                                    <Setter Property="Stretch" Value="UniformToFill" />
+                                    <Setter Property="Stretch" Value="Uniform" />
                                     <Setter Property="Width" Value="6" />
                                 </Style>
 
@@ -101,6 +103,12 @@
                            TargetType="{x:Type Separator}">
                         <Setter Property="Margin" Value="3,0" />
                     </Style>
+                    
+                    <Style BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                           TargetType="{x:Type ToggleButton}">
+                        <Setter Property="Height" Value="{StaticResource ToolbarControlHeight}" />
+                        <Setter Property="Width" Value="{StaticResource ToolbarControlHeight}" />
+                    </Style>
                 </StackPanel.Resources>
 
                 <ComboBox DisplayMemberPath="DisplayName"
@@ -122,30 +130,28 @@
                 <Separator />
 
                 <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}"
-                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
                               ToolTip="Group By Project">
                     <Image Source="Icon/GroupByProject.png" />
                 </ToggleButton>
 
+                <ToggleButton IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}"
+                              ToolTip="Show Recent Usage">
+                    <Image Source="Icon/ShowRecentUsage.png" />
+                </ToggleButton>
+
+                <ToggleButton IsChecked="{Binding AssignProjectColours, Mode=TwoWay}"
+                              ToolTip="Assign Project Colours">
+                    <Image Source="Icon/ProjectColours.png" />
+                </ToggleButton>
+
                 <Separator />
 
-                <controls:NumericUpDown Minimum="1"
+                <controls:NumericUpDown Height="{StaticResource ToolbarControlHeight}"
+                                        Minimum="1"
                                         ToolTip="File Name Segments"
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
-
-                <ToggleButton IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}"
-                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
-                              ToolTip="Show Recent Usage">
-                    RECENT
-                </ToggleButton>
-
-                <ToggleButton IsChecked="{Binding AssignProjectColours, Mode=TwoWay}"
-                              Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
-                              ToolTip="Assign Project Colours">
-                    COLOURS
-                </ToggleButton>
             </StackPanel>
         </Border>
 
