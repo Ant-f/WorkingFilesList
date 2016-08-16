@@ -26,9 +26,7 @@ namespace WorkingFilesList.ToolWindow.View.Controls
 {
     /// <summary>
     /// Control for displaying/editing int values. Style and template is located
-    /// in XAML of <see cref="WorkingFilesWindowControl"/>, where this control
-    /// is used; it doesn't seem possible to use extenal resource dictionary
-    /// files with Visual Studio extension tool windows.
+    /// in /View/Theme/NumericUpDown.xaml
     /// </summary>
     public class NumericUpDown : Control, IIntValueControl
     {
