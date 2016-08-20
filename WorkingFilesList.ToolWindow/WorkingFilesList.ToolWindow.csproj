@@ -145,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Theme\RepeatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Theme\ToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

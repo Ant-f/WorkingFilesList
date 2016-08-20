@@ -101,7 +101,8 @@
 
                 <Separator />
 
-                <controls:NumericUpDown Minimum="1"
+                <controls:NumericUpDown Focusable="False"
+                                        Minimum="1"
                                         ToolTip="File Name Segments"
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">

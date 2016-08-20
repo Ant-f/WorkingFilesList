@@ -22,6 +22,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="General.xaml"/>
+        <ResourceDictionary Source="RepeatButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type controls:NumericUpDown}">
@@ -32,14 +33,9 @@
                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                         <Grid.Resources>
                             <Style TargetType="{x:Type Path}">
-                                <Setter Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+                                <Setter Property="Fill" Value="{DynamicResource VsBrush.ComboBoxGlyph}" />
                                 <Setter Property="Stretch" Value="Uniform" />
                                 <Setter Property="Width" Value="6" />
-                            </Style>
-                            
-                            <Style TargetType="{x:Type RepeatButton}">
-                                <Setter Property="CommandParameter" Value="{Binding}" />
-                                <Setter Property="IsTabStop" Value="False" />
                             </Style>
                         </Grid.Resources>
 
@@ -53,19 +49,24 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <TextBox Grid.Column="0"
+                        <TextBox Background="{DynamicResource VsBrush.ToolWindowBackground}"
+                                 Foreground="{DynamicResource VsBrush.ToolWindowText}"
+                                 BorderBrush="{DynamicResource VsBrush.ComboBoxBorder}"
+                                 Grid.Column="0"
                                  Grid.RowSpan="2"
                                  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                  VerticalContentAlignment="Center">
                         </TextBox>
 
                         <RepeatButton Command="{Binding IncrementValue}"
+                                      CommandParameter="{Binding}"
                                       Grid.Column="1"
                                       Grid.Row="0">
                             <Path Data="M 0,1 L 2,1 L 1,0 Z" />
                         </RepeatButton>
 
                         <RepeatButton Command="{Binding DecrementValue}"
+                                      CommandParameter="{Binding}"
                                       Grid.Column="1"
                                       Grid.Row="1">
                             <Path Data="M 0,0 L 2,0 L 1,1 Z" />
