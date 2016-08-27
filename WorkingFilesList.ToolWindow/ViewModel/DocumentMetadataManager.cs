@@ -150,6 +150,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                     _activeDocumentMetadata[i] = newMetadata;
 
+                    _normalizedUsageOrderService.SetUsageOrder(
+                        _activeDocumentMetadata,
+                        _userPreferences);
+
                     break;
                 }
             }

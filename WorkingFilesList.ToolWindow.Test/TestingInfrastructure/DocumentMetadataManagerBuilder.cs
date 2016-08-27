@@ -115,6 +115,14 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 UpdateReactionManager,
                 UserPreferences);
 
+            // Initialization logic in the constructor of
+            // DocumentMetadataManager will make calls on the mock
+            // NormalizedUsageOrderService. Reset calls so that these are not
+            // counted in the tests that the created DocumentMetadataManager
+            // will be used in.
+
+            NormalizedUsageOrderServiceMock.ResetCalls();
+
             return manager;
         }
     }

@@ -885,5 +885,45 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(setUsageOrderInvoked, Is.EqualTo(setUsageOrder));
         }
+
+        [Test]
+        public void UpdateFullNameSetsUsageOrder()
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+
+            var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(true);
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factory
+            };
+
+            metadataManagerBuilder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() => DateTime.UtcNow);
+
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(oldName)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            manager.Synchronize(documents, false);
+
+            // Act
+
+            manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            metadataManagerBuilder.NormalizedUsageOrderServiceMock
+                .Verify(n => n.SetUsageOrder(
+                    It.IsAny<IList<DocumentMetadata>>(),
+                    It.IsAny<IUserPreferences>()));
+        }
     }
 }
