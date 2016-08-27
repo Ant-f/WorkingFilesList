@@ -213,25 +213,46 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             var service = new WindowEventsService(metadataManagerMock.Object);
 
-            var documents = Mock.Of<Documents>();
-
-            var dte2Mock = new Mock<DTE>();
-            dte2Mock.Setup(d => d.Documents).Returns(documents);
-
-            var created = new Mock<Window>();
-            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
-            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument &&
+                w.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == Mock.Of<Documents>()));
 
             // Act
 
-            service.WindowClosing(created.Object);
+            service.WindowClosing(created);
 
             // Assert
 
             metadataManagerMock
                 .Verify(m => m.Synchronize(
                     It.IsAny<Documents>(),
-                    false));
+                    It.IsAny<bool>()));
+        }
+
+        [Test]
+        public void ClosingDocumentWindowSetsUsageOrder()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
+
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument &&
+                w.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == Mock.Of<Documents>()));
+
+            // Act
+
+            service.WindowClosing(created);
+
+            // Assert
+
+            metadataManagerMock
+                .Verify(m => m.Synchronize(
+                    It.IsAny<Documents>(),
+                    true));
         }
 
         // Test cases should not include vsWindowType.vsWindowTypeDocument

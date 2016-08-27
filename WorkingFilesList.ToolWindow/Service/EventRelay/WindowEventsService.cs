@@ -50,7 +50,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         {
             if (window.Type == vsWindowType.vsWindowTypeDocument)
             {
-                _documentMetadataManager.Synchronize(window.DTE.Documents, false);
+                _documentMetadataManager.Synchronize(window.DTE.Documents, true);
             }
         }
 
