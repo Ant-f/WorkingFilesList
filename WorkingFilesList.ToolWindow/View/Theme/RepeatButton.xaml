@@ -22,7 +22,7 @@
     <Style TargetType="{x:Type RepeatButton}">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="#FF707070"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ComboBoxBorder}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Padding" Value="1"/>
@@ -41,7 +41,6 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource VsBrush.DropDownMouseOverBackgroundGradient}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource VsBrush.DropDownMouseOverBorder}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>

@@ -28,7 +28,7 @@
         <Setter Property="Padding" Value="2"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ComboBoxBorder}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -47,12 +47,8 @@
                             <Setter Property="Background" Value="Transparent"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ToolWindowButtonDownBorder}"/>
-                            <Setter Property="Background" Value="{DynamicResource VsBrush.ToolWindowButtonHoverActive}"/>
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ToolWindowButtonHoverActiveBorder}"/>
-                            <Setter Property="Background" Value="{DynamicResource VsBrush.ToolWindowButtonHoverActive}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.DropDownMouseOverBackgroundGradient}"/>
+                            <Setter Property="Background" Value="{DynamicResource VsBrush.DropDownMouseOverBackgroundGradient}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -60,15 +56,7 @@
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ToolWindowButtonDownBorder}"/>
-                            <Setter Property="Background" Value="{DynamicResource VsBrush.ToolWindowButtonHoverActive}"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsKeyboardFocused" Value="True"/>
-                                <Condition Property="IsChecked" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ToolWindowButtonDownBorder}"/>
-                            <Setter Property="Background" Value="{DynamicResource VsBrush.ToolWindowButtonHoverActive}"/>
+                            <Setter Property="Background" Value="Transparent"/>
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ToolWindowButtonDownBorder}"/>

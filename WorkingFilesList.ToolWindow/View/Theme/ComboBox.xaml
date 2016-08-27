@@ -152,7 +152,7 @@
                                 <Condition Property="IsDropDownOpen" Value="False"/>
                                 <Condition Property="IsEditable" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="SelectedContentBorder" Value="{DynamicResource VsBrush.Highlight}"/>
+                            <Setter Property="Background" TargetName="SelectedContentBorder" Value="Transparent"/>
                         </MultiTrigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="Background" TargetName="DropDownButton" Value="{x:Null}"/>
@@ -183,14 +183,6 @@
                                 <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsKeyboardFocusWithin" Value="True"/>
-                                <Condition Property="IsDropDownOpen" Value="False"/>
-                                <Condition Property="IsEditable" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Foreground" Value="{DynamicResource VsBrush.HighlightText}"/>
                         </MultiTrigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="Padding" Value="2"/>
