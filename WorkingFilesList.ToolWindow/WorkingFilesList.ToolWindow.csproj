@@ -129,6 +129,9 @@
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />
     <Compile Include="View\Converter\BoolToFontWeight.cs" />
+    <Compile Include="View\Converter\ConverterMappingCollection.cs" />
+    <Compile Include="View\Converter\ConverterMapping.cs" />
+    <Compile Include="View\Converter\MappedValuesConverter.cs" />
     <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>
