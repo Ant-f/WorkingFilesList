@@ -116,7 +116,6 @@
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />
     <Compile Include="View\Controls\NumericUpDownTests.cs" />
-    <Compile Include="View\Converter\BoolToFontWeightTests.cs" />
     <Compile Include="View\Converter\ConverterMappingCollectionTests.cs" />
     <Compile Include="View\Converter\MappedValuesConverterTests.cs" />
   </ItemGroup>

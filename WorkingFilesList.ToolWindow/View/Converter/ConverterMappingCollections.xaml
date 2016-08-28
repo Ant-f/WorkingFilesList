@@ -1,0 +1,95 @@
+﻿<!--  WorkingFilesList
+      Visual Studio extension tool window that shows a selectable list of files
+      that are open in the editor
+      Copyright(C) 2016 Anthony Fung
+      
+      This program is free software: you can redistribute it and/or modify
+      it under the terms of the GNU General Public License as published by
+      the Free Software Foundation, either version 3 of the License, or
+      (at your option) any later version.
+      
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+      GNU General Public License for more details.
+      
+      You should have received a copy of the GNU General Public License
+      along with this program. If not, see<http://www.gnu.org/licenses/>.  -->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:WorkingFilesList.ToolWindow.View.Converter"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <converter:ConverterMappingCollection x:Key="IsActiveToFontWeightMapping">
+        <converter:ConverterMappingCollection.MappedValues>
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>True</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <FontWeight>Bold</FontWeight>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>False</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <FontWeight>Normal</FontWeight>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+        </converter:ConverterMappingCollection.MappedValues>
+    </converter:ConverterMappingCollection>
+
+    <converter:ConverterMappingCollection x:Key="IsActiveToProgressBarPadding">
+        <converter:ConverterMappingCollection.MappedValues>
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>True</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <Thickness>0</Thickness>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>False</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <Thickness>0,1</Thickness>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+        </converter:ConverterMappingCollection.MappedValues>
+    </converter:ConverterMappingCollection>
+
+    <converter:ConverterMappingCollection x:Key="IsActiveToProgressBarBorderThickness">
+        <converter:ConverterMappingCollection.MappedValues>
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>True</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <Thickness>1</Thickness>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+
+            <converter:ConverterMapping>
+                <converter:ConverterMapping.From>
+                    <system:Boolean>False</system:Boolean>
+                </converter:ConverterMapping.From>
+
+                <converter:ConverterMapping.To>
+                    <Thickness>0</Thickness>
+                </converter:ConverterMapping.To>
+            </converter:ConverterMapping>
+        </converter:ConverterMappingCollection.MappedValues>
+    </converter:ConverterMappingCollection>
+</ResourceDictionary>

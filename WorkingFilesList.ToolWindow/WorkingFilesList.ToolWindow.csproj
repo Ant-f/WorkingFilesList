@@ -128,7 +128,6 @@
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />
-    <Compile Include="View\Converter\BoolToFontWeight.cs" />
     <Compile Include="View\Converter\ConverterMappingCollection.cs" />
     <Compile Include="View\Converter\ConverterMapping.cs" />
     <Compile Include="View\Converter\MappedValuesConverter.cs" />
@@ -140,6 +139,10 @@
     <DesignData Include="Design\DesignTimeData\DesignDocumentMetadata.xaml">
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="View\Converter\ConverterMappingCollections.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Theme\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

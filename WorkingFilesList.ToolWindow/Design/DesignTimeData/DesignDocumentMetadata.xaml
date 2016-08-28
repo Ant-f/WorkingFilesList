@@ -22,26 +22,31 @@
 <collections:ArrayList xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
                        xmlns:model="clr-namespace:WorkingFilesList.ToolWindow.Model">
     <model:DocumentMetadata DisplayName="The quick brown fox jumped over the lazy dog.txt"
+                            IsActive="True"
                             ProjectBrush="CornflowerBlue"
                             UsageOrder="1">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document2.txt"
+                            IsActive="False"
                             ProjectBrush="CornflowerBlue"
                             UsageOrder="0.8">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document3.txt"
+                            IsActive="False"
                             ProjectBrush="CornflowerBlue"
                             UsageOrder="0.6">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document4.txt"
+                            IsActive="False"
                             ProjectBrush="CornflowerBlue"
                             UsageOrder="0.4">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document5.txt"
+                            IsActive="False"
                             ProjectBrush="CornflowerBlue"
                             UsageOrder="0.2">
     </model:DocumentMetadata>

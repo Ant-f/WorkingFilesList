@@ -33,6 +33,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Converter/ConverterMappingCollections.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBox.xaml"/>
                 <ResourceDictionary Source="Theme/ItemsControl.xaml"/>
                 <ResourceDictionary Source="Theme/NumericUpDown.xaml"/>
@@ -42,7 +43,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <locator:ViewModelService x:Key="ViewModel" />
-            <converter:BoolToFontWeight x:Key="BoolToFontWeight" />
+            <converter:MappedValuesConverter x:Key="MappedValuesConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -147,16 +148,25 @@
                             <ControlTemplate>
                                 <Grid Background="Transparent"
                                       ToolTip="{Binding CorrectedFullName}">
-                                    
-                                    <ProgressBar Foreground="{Binding ProjectBrush}"
+
+                                    <ProgressBar BorderBrush="{Binding ProjectBrush}"
+                                                 BorderThickness="{Binding IsActive,
+                                                                           Converter={StaticResource MappedValuesConverter},
+                                                                           ConverterParameter={StaticResource IsActiveToProgressBarBorderThickness}}"
+                                                 Foreground="{Binding ProjectBrush}"
                                                  IsHitTestVisible="False"
                                                  Maximum="1"
                                                  Minimum="0"
+                                                 Padding="{Binding IsActive,
+                                                                   Converter={StaticResource MappedValuesConverter},
+                                                                   ConverterParameter={StaticResource IsActiveToProgressBarPadding}}"
                                                  Value="{Binding UsageOrder}">
                                     </ProgressBar>
 
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
-                                               FontWeight="{Binding IsActive, Converter={StaticResource BoolToFontWeight}}"
+                                               FontWeight="{Binding IsActive,
+                                                                    Converter={StaticResource MappedValuesConverter},
+                                                                    ConverterParameter={StaticResource IsActiveToFontWeightMapping}}"
                                                IsHitTestVisible="False"
                                                Text="{Binding DisplayName}">
                                     </TextBlock>
