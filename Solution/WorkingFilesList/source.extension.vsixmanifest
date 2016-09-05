@@ -5,6 +5,7 @@
     <DisplayName>WorkingFilesList</DisplayName>
     <Description xml:space="preserve">Visual Studio extension tool window that shows a selectable list of files that are open in the editor</Description>
     <License>LICENSE.txt</License>
+    <Icon>Resources\WorkingFilesWindowPackage.ico</Icon>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />

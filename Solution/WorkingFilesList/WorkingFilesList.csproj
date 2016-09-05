@@ -182,9 +182,12 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\WorkingFilesWindowCommand.png" />
-    <Content Include="Resources\WorkingFilesWindowPackage.ico" />
+    <Content Include="Resources\WorkingFilesWindowPackage.ico">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <VSCTCompile Include="WorkingFilesWindowPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
