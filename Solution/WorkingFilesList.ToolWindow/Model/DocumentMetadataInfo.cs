@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see<http://www.gnu.org/licenses/>.
 
+using EnvDTE;
+
 namespace WorkingFilesList.ToolWindow.Model
 {
     public struct DocumentMetadataInfo
@@ -31,8 +33,8 @@ namespace WorkingFilesList.ToolWindow.Model
         public string ProjectDisplayName { get; set; }
 
         /// <summary>
-        /// Unique name of the document's containing project
+        /// <see cref="Project.FullName"/> of the document's containing project
         /// </summary>
-        public string ProjectUniqueName { get; set; }
+        public string ProjectFullName { get; set; }
     }
 }

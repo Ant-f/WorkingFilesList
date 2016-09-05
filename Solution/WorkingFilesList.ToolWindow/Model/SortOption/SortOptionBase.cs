@@ -46,8 +46,7 @@ namespace WorkingFilesList.ToolWindow.Model.SortOption
         public ProjectItemType ApplicableType { get; }
 
         /// <summary>
-        /// Name that this set of sorting criteria will be displayed as. Should
-        /// be unique.
+        /// Name that this set of sorting criteria will be displayed as
         /// </summary>
         public string DisplayName { get; }
 

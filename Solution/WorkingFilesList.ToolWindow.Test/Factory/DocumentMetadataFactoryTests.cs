@@ -94,13 +94,13 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         }
 
         [Test]
-        public void ProjectUniqueNameEqualsMetadataInfoValue()
+        public void ProjectFullNameEqualsMetadataInfoValue()
         {
             // Arrange
 
             var info = new DocumentMetadataInfo
             {
-                ProjectUniqueName = "ProjectUniqueName"
+                ProjectFullName = "ProjectFullName"
             };
 
             var builder = new DocumentMetadataFactoryBuilder();
@@ -113,8 +113,8 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             Assert.That(
-                metadata.ProjectNames.UniqueName,
-                Is.EqualTo(info.ProjectUniqueName));
+                metadata.ProjectNames.FullName,
+                Is.EqualTo(info.ProjectFullName));
         }
 
         [Test]

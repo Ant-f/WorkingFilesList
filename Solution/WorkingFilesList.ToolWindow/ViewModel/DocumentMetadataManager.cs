@@ -111,7 +111,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
-        /// Replaces the specified doucment metadata item with another that
+        /// Replaces the specified document metadata item with another that
         /// reflects the updated full name. Does not alter the value of
         /// <see cref="DocumentMetadata.ActivatedAt"/>
         /// </summary>
@@ -140,8 +140,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                         ProjectDisplayName = _activeDocumentMetadata[i]
                             .ProjectNames.DisplayName,
 
-                        ProjectUniqueName = _activeDocumentMetadata[i]
-                            .ProjectNames.UniqueName
+                        ProjectFullName = _activeDocumentMetadata[i]
+                            .ProjectNames.FullName
                     };
 
                     var newMetadata = _documentMetadataFactory.Create(
@@ -197,7 +197,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     {
                         FullName = document.FullName,
                         ProjectDisplayName = document.ProjectItem.ContainingProject.Name,
-                        ProjectUniqueName = document.ProjectItem.ContainingProject.UniqueName
+                        ProjectFullName = document.ProjectItem.ContainingProject.FullName
                     };
 
                     Add(info);

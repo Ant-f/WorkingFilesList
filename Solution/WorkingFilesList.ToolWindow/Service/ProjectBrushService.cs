@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Windows.Media;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
@@ -39,13 +40,31 @@ namespace WorkingFilesList.ToolWindow.Service
             _brushAssignment = new Dictionary<string, Brush>();
         }
 
-        public Brush GetBrush(string uniqueId, IUserPreferences userPreferences)
+        /// <summary>
+        /// Returns a <see cref="Brush"/> instance to use as a background for
+        /// each entry on the <see cref="DocumentMetadata"/> list
+        /// </summary>
+        /// <param name="id">
+        /// A value to be associated with a <see cref="Brush"/>. When
+        /// <see cref="IUserPreferences.AssignProjectColours"/> is true,
+        /// passing the same id on subsequent invocations of this method will
+        /// return the same <see cref="Brush"/>
+        /// </param>
+        /// <param name="userPreferences">
+        /// Determines whether the returned <see cref="Brush"/> is
+        /// project-specific, generic, or transparent
+        /// </param>
+        /// <returns>
+        /// A <see cref="Brush"/> appropriate to both <see cref="id"/> and the
+        /// property values of <see cref="userPreferences"/>
+        /// </returns>
+        public Brush GetBrush(string id, IUserPreferences userPreferences)
         {
             Brush returnBrush;
 
             if (userPreferences.AssignProjectColours)
             {
-                var entryExists = _brushAssignment.ContainsKey(uniqueId);
+                var entryExists = _brushAssignment.ContainsKey(id);
 
                 if (!entryExists)
                 {
@@ -53,11 +72,11 @@ namespace WorkingFilesList.ToolWindow.Service
                         _brushAssignment.Count%
                         _projectBrushes.ProjectSpecificBrushes.Length;
 
-                    _brushAssignment[uniqueId] = _projectBrushes
+                    _brushAssignment[id] = _projectBrushes
                         .ProjectSpecificBrushes[index];
                 }
 
-                returnBrush = _brushAssignment[uniqueId];
+                returnBrush = _brushAssignment[id];
             }
             else
             {

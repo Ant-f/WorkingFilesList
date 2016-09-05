@@ -44,7 +44,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 FullName = fullName,
                 ProjectDisplayName = string.Empty,
-                ProjectUniqueName = string.Empty
+                ProjectFullName = string.Empty
             };
 
             var document = CreateDocumentWithInfo(info, nullActiveWindow);
@@ -464,7 +464,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 FullName = "FullName",
                 ProjectDisplayName = "ProjectDisplayName",
-                ProjectUniqueName = "ProjectUniqueName"
+                ProjectFullName = "ProjectFullName"
             };
 
             var factoryMock = new Mock<IDocumentMetadataFactory>();
@@ -498,7 +498,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 FullName = "FullName",
                 ProjectDisplayName = "ProjectDisplayName",
-                ProjectUniqueName = "ProjectUniqueName"
+                ProjectFullName = "ProjectFullName"
             };
 
             var documentMockList = new List<Document>

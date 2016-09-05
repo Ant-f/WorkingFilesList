@@ -40,7 +40,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
             foreach (var metadata in view.Cast<DocumentMetadata>())
             {
                 var brush = _projectBrushService.GetBrush(
-                    metadata.ProjectNames.UniqueName,
+                    metadata.ProjectNames.FullName,
                     userPreferences);
 
                 metadata.ProjectBrush = brush;

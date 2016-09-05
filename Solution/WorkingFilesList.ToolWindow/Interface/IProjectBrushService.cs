@@ -22,6 +22,6 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IProjectBrushService
     {
-        Brush GetBrush(string uniqueId, IUserPreferences userPreferences);
+        Brush GetBrush(string id, IUserPreferences userPreferences);
     }
 }

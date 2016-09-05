@@ -183,7 +183,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             {
                 FullName = "DocumentName",
                 ProjectDisplayName = "ProjectDisplayName",
-                ProjectUniqueName = "ProjectUniqueName"
+                ProjectFullName = "ProjectFullName"
             };
 
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();

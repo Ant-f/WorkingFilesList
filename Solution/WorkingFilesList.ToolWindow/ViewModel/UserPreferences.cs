@@ -38,7 +38,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <summary>
         /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
         /// list should be assigned a colour associated with its
-        /// <see cref="DocumentMetadataInfo.ProjectUniqueName"/>
+        /// <see cref="DocumentMetadataInfo.ProjectFullName"/>
         /// </summary>
         public bool AssignProjectColours
         {

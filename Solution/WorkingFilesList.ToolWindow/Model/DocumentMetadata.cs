@@ -140,7 +140,7 @@ namespace WorkingFilesList.ToolWindow.Model
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,
-                info.ProjectUniqueName);
+                info.ProjectFullName);
         }
     }
 }

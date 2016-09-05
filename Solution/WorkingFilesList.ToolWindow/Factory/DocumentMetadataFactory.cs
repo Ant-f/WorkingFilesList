@@ -84,7 +84,7 @@ namespace WorkingFilesList.ToolWindow.Factory
                 _userPreferences.PathSegmentCount);
 
             var projectBrush = _projectBrushService.GetBrush(
-                info.ProjectUniqueName,
+                info.ProjectFullName,
                 _userPreferences);
 
             var metadata = new DocumentMetadata(info, correctedCasing)

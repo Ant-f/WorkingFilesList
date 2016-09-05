@@ -75,8 +75,8 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                         ProjectDisplayName =
                             window.Document.ProjectItem.ContainingProject.Name,
 
-                        ProjectUniqueName =
-                            window.Document.ProjectItem.ContainingProject.UniqueName
+                        ProjectFullName =
+                            window.Document.ProjectItem.ContainingProject.FullName
                     };
 
                     _documentMetadataManager.Add(info);

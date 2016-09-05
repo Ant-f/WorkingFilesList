@@ -36,7 +36,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 d.ActiveWindow == activeWindow &&
                 d.FullName == info.FullName &&
                 d.ProjectItem.ContainingProject.Name == info.ProjectDisplayName &&
-                d.ProjectItem.ContainingProject.UniqueName == info.ProjectUniqueName);
+                d.ProjectItem.ContainingProject.FullName == info.ProjectFullName);
 
             return documentMock;
         }
