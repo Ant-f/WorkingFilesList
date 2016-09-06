@@ -28,6 +28,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public Mock<IProjectItemsEventsService> ProjectItemsEventsServiceMock { get; }
             = new Mock<IProjectItemsEventsService>();
 
+        public Mock<ISolutionEventsService> SolutionEventsServiceMock { get; }
+            = new Mock<ISolutionEventsService>();
+
         public Mock<IWindowEventsService> WindowEventsServiceMock { get; }
             = new Mock<IWindowEventsService>();
 
@@ -53,6 +56,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             var subscriber = new DteEventsSubscriber(
                 ProjectItemsEventsServiceMock.Object,
+                SolutionEventsServiceMock.Object,
                 WindowEventsServiceMock.Object);
 
             return subscriber;

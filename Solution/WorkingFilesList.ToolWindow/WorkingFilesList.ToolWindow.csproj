@@ -70,6 +70,7 @@
     <Compile Include="Interface\IProjectBrushes.cs" />
     <Compile Include="Interface\IProjectBrushService.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
+    <Compile Include="Interface\ISolutionEventsService.cs" />
     <Compile Include="Interface\ISortOption.cs" />
     <Compile Include="Interface\IDisplayOrderContainer.cs" />
     <Compile Include="Interface\ISortOptionsService.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Model\SortOption\ProjectItemType.cs" />

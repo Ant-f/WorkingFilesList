@@ -29,67 +29,32 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
     {
         private class TestingMocks
         {
-            public Mock<Events2> Events2Mock { get; set; }
-            public Mock<ProjectItemsEvents> ProjectItemsEventsMock { get; set; }
-            public Mock<WindowEvents> WindowEventsMock { get; set; }
-        }
+            public Mock<Events2> Events2Mock { get; }
+                = new Mock<Events2>();
 
-        private static Mock<WindowEvents> CreateWindowEventsMock()
-        {
-            var windowEventsMock = new Mock<WindowEvents>();
+            public Mock<ProjectItemsEvents> ProjectItemsEventsMock { get; }
+                = new Mock<ProjectItemsEvents>();
 
-            // Exception will be thrown when subscribing to events if they are
-            // not raised at least once; do so here as part of setup
+            public Mock<SolutionEvents> SolutionEventsMock { get; }
+                = new Mock<SolutionEvents>();
 
-            windowEventsMock.Raise(w =>
-                w.WindowActivated += null,
-                Mock.Of<Window>(),
-                Mock.Of<Window>());
+            public Mock<WindowEvents> WindowEventsMock { get; }
+                = new Mock<WindowEvents>();
 
-            windowEventsMock.Raise(w =>
-                w.WindowClosing += null,
-                Mock.Of<Window>());
-
-            windowEventsMock.Raise(w =>
-                w.WindowCreated += null,
-                Mock.Of<Window>());
-
-            return windowEventsMock;
-        }
-
-        private static Mock<ProjectItemsEvents> CreateProjectItemsEventsMock()
-        {
-            var projectItemsEventsMock = new Mock<ProjectItemsEvents>();
-
-            // Exception will be thrown when subscribing to events if they are
-            // not raised at least once; do so here as part of setup
-
-            projectItemsEventsMock.Raise(w =>
-                w.ItemRenamed += null,
-                Mock.Of<ProjectItem>(),
-                string.Empty);
-
-            return projectItemsEventsMock;
-        }
-
-        private static TestingMocks CreateTestingMocks()
-        {
-            var mocks = new TestingMocks
+            public TestingMocks()
             {
-                Events2Mock = new Mock<Events2>(),
-                ProjectItemsEventsMock = CreateProjectItemsEventsMock(),
-                WindowEventsMock = CreateWindowEventsMock()
-            };
+                Events2Mock
+                    .Setup(e => e.ProjectItemsEvents)
+                    .Returns(ProjectItemsEventsMock.Object);
 
-            mocks.Events2Mock
-                .Setup(e => e.ProjectItemsEvents)
-                .Returns(mocks.ProjectItemsEventsMock.Object);
+                Events2Mock
+                    .Setup(e => e.SolutionEvents)
+                    .Returns(SolutionEventsMock.Object);
 
-            mocks.Events2Mock
-                .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
-                .Returns(mocks.WindowEventsMock.Object);
-
-            return mocks;
+                Events2Mock
+                    .Setup(e => e.get_WindowEvents(It.IsAny<Window>()))
+                    .Returns(WindowEventsMock.Object);
+            }
         }
 
         [Test]
@@ -97,7 +62,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            var mocks = CreateTestingMocks();
+            var mocks = new TestingMocks();
             var builder = new DteEventsSubscriberBuilder();
 
             var subscriber = builder.CreateDteEventsSubscriber();
@@ -107,7 +72,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             mocks.WindowEventsMock.Raise(w =>
                 w.WindowActivated += null,
-                null, null);
+                    null,
+                    null);
 
             // Assert
 
@@ -122,7 +88,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            var mocks = CreateTestingMocks();
+            var mocks = new TestingMocks();
             var builder = new DteEventsSubscriberBuilder();
 
             var subscriber = builder.CreateDteEventsSubscriber();
@@ -132,11 +98,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             mocks.WindowEventsMock.Raise(w =>
                 w.WindowCreated += null,
-                Mock.Of<Window>());
+                    Mock.Of<Window>());
 
             // Assert
 
-            builder.WindowEventsServiceMock.Verify(f => f
+            builder.WindowEventsServiceMock.Verify(w => w
                 .WindowCreated(It.IsAny<Window>()));
         }
 
@@ -145,7 +111,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            var mocks = CreateTestingMocks();
+            var mocks = new TestingMocks();
             var builder = new DteEventsSubscriberBuilder();
 
             var subscriber = builder.CreateDteEventsSubscriber();
@@ -155,11 +121,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             mocks.WindowEventsMock.Raise(w =>
                 w.WindowClosing += null,
-                Mock.Of<Window>());
+                    Mock.Of<Window>());
 
             // Assert
 
-            builder.WindowEventsServiceMock.Verify(f => f
+            builder.WindowEventsServiceMock.Verify(w => w
                 .WindowClosing(It.IsAny<Window>()));
         }
 
@@ -168,7 +134,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            var mocks = CreateTestingMocks();
+            var mocks = new TestingMocks();
             var builder = new DteEventsSubscriberBuilder();
 
             var subscriber = builder.CreateDteEventsSubscriber();
@@ -178,14 +144,86 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             mocks.ProjectItemsEventsMock.Raise(w =>
                 w.ItemRenamed += null,
-                Mock.Of<ProjectItem>(), string.Empty);
+                    Mock.Of<ProjectItem>(),
+                    string.Empty);
 
             // Assert
 
-            builder.ProjectItemsEventsServiceMock.Verify(f => f
+            builder.ProjectItemsEventsServiceMock.Verify(w => w
                 .ItemRenamed(
                     It.IsAny<ProjectItem>(),
                     It.IsAny<string>()));
+        }
+
+        [Test]
+        public void SubscribesToAfterClosing()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.AfterClosing += null);
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(w => w.AfterClosing());
+        }
+
+        [Test]
+        public void SubscribesToProjectRenamed()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.ProjectRenamed += null,
+                    Mock.Of<Project>(),
+                    null);
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(w =>
+                w.ProjectRenamed(
+                    It.IsAny<Project>(),
+                    It.IsAny<string>()));
+        }
+
+        [Test]
+        public void SubscribesToProjectRemoved()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.ProjectRemoved += null,
+                    Mock.Of<Project>());
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(w =>
+                w.ProjectRemoved(
+                    It.IsAny<Project>()));
         }
     }
 }

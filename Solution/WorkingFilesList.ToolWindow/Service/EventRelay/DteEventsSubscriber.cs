@@ -30,15 +30,20 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
     public class DteEventsSubscriber : IDteEventsSubscriber
     {
         private readonly IProjectItemsEventsService _projectItemsEventsService;
+        private readonly ISolutionEventsService _solutionEventsService;
         private readonly IWindowEventsService _windowEventsService;
 
         private ProjectItemsEvents _projectItemsEvents;
+        private SolutionEvents _solutionEvents;
+        private WindowEvents _windowEvents;
 
         public DteEventsSubscriber(
             IProjectItemsEventsService projectItemsEventsService,
+            ISolutionEventsService solutionEventsService,
             IWindowEventsService windowEventsService)
         {
             _projectItemsEventsService = projectItemsEventsService;
+            _solutionEventsService = solutionEventsService;
             _windowEventsService = windowEventsService;
         }
 
@@ -49,15 +54,22 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         /// <param name="dteEvents"><see cref="DTE2.Events"/> property</param>
         public void SubscribeTo(Events2 dteEvents)
         {
-            dteEvents.WindowEvents.WindowActivated += WindowEventsWindowActivated;
-            dteEvents.WindowEvents.WindowClosing += WindowEventsWindowClosing;
-            dteEvents.WindowEvents.WindowCreated += WindowEventsWindowCreated;
+            // Keep references to objects with events that will be subscribed
+            // to: otherwise they can go out of scope and be garbage collected
 
-            // Keep a reference to dteEvents.ProjectItemsEvents; it will get
-            // garbage collected otherwise
             _projectItemsEvents = dteEvents.ProjectItemsEvents;
+            _solutionEvents = dteEvents.SolutionEvents;
+            _windowEvents = dteEvents.WindowEvents;
 
+            _windowEvents.WindowActivated += WindowEventsWindowActivated;
+            _windowEvents.WindowClosing += WindowEventsWindowClosing;
+            _windowEvents.WindowCreated += WindowEventsWindowCreated;
+            
             _projectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
+
+            _solutionEvents.AfterClosing += SolutionEventsAfterClosing;
+            _solutionEvents.ProjectRenamed += SolutionEventsProjectRenamed;
+            _solutionEvents.ProjectRemoved += SolutionEventsProjectRemoved;
         }
 
         private void WindowEventsWindowActivated(Window gotFocus, Window lostFocus)
@@ -78,6 +90,21 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private void ProjectItemsEventsItemRenamed(ProjectItem projectItem, string oldName)
         {
             _projectItemsEventsService.ItemRenamed(projectItem, oldName);
+        }
+
+        private void SolutionEventsAfterClosing()
+        {
+            _solutionEventsService.AfterClosing();
+        }
+
+        private void SolutionEventsProjectRenamed(Project project, string oldName)
+        {
+            _solutionEventsService.ProjectRenamed(project, oldName);
+        }
+
+        private void SolutionEventsProjectRemoved(Project project)
+        {
+            _solutionEventsService.ProjectRemoved(project);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace WorkingFilesList.Ioc
             Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
             Kernel.Bind<IProjectBrushService>().To<ProjectBrushService>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
+            Kernel.Bind<ISolutionEventsService>().To<SolutionEventsService>().InSingletonScope();
             Kernel.Bind<ISortOptionsService>().To<SortOptionsService>().InSingletonScope();
             Kernel.Bind<ITimeProvider>().To<TimeProvider>().InSingletonScope();
             Kernel.Bind<IWindowEventsService>().To<WindowEventsService>().InSingletonScope();
