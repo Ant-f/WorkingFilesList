@@ -69,7 +69,6 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
             _solutionEvents.AfterClosing += SolutionEventsAfterClosing;
             _solutionEvents.ProjectRenamed += SolutionEventsProjectRenamed;
-            _solutionEvents.ProjectRemoved += SolutionEventsProjectRemoved;
         }
 
         private void WindowEventsWindowActivated(Window gotFocus, Window lostFocus)
@@ -100,11 +99,6 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private void SolutionEventsProjectRenamed(Project project, string oldName)
         {
             _solutionEventsService.ProjectRenamed(project, oldName);
-        }
-
-        private void SolutionEventsProjectRemoved(Project project)
-        {
-            _solutionEventsService.ProjectRemoved(project);
         }
     }
 }

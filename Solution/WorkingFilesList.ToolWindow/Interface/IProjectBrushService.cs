@@ -23,5 +23,7 @@ namespace WorkingFilesList.ToolWindow.Interface
     public interface IProjectBrushService
     {
         Brush GetBrush(string id, IUserPreferences userPreferences);
+        void ClearBrushIdCollection();
+        void UpdateBrushId(string oldId, string newId);
     }
 }

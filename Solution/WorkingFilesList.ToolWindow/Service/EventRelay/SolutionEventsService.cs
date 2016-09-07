@@ -23,19 +23,21 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {
     public class SolutionEventsService : ISolutionEventsService
     {
+        private readonly IProjectBrushService _projectBrushService;
+
+        public SolutionEventsService(IProjectBrushService projectBrushService)
+        {
+            _projectBrushService = projectBrushService;
+        }
+
         public void AfterClosing()
         {
-            throw new System.NotImplementedException();
+            _projectBrushService.ClearBrushIdCollection();
         }
 
         public void ProjectRenamed(Project project, string oldName)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void ProjectRemoved(Project project)
-        {
-            throw new System.NotImplementedException();
+            _projectBrushService.UpdateBrushId(oldName, project.FullName);
         }
     }
 }

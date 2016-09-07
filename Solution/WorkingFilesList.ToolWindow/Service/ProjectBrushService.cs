@@ -87,5 +87,15 @@ namespace WorkingFilesList.ToolWindow.Service
 
             return returnBrush;
         }
+
+        public void ClearBrushIdCollection()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateBrushId(string oldId, string newId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

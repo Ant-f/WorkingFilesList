@@ -87,6 +87,7 @@
     <Compile Include="Service\CollectionViewGeneratorTests.cs" />
     <Compile Include="Service\EventRelay\DteEventsSubscriberTests.cs" />
     <Compile Include="Service\EventRelay\ProjectItemsEventsServiceTests.cs" />
+    <Compile Include="Service\EventRelay\SolutionEventsServiceTests.cs" />
     <Compile Include="Service\EventRelay\WindowEventsServiceTests.cs" />
     <Compile Include="Service\FilePathServiceTests.cs" />
     <Compile Include="Service\NormalizedUsageOrderServiceTests.cs" />

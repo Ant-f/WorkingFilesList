@@ -24,6 +24,5 @@ namespace WorkingFilesList.ToolWindow.Interface
     {
         void AfterClosing();
         void ProjectRenamed(Project project, string oldName);
-        void ProjectRemoved(Project project);
     }
 }
