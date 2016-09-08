@@ -26,6 +26,14 @@ namespace WorkingFilesList.ToolWindow.Service
     public class ProjectBrushService : IProjectBrushService
     {
         private readonly IProjectBrushes _projectBrushes;
+
+        /// <summary>
+        /// Used to associate project names with <see cref="Brush"/> instances.
+        /// Entries should not be removed, except by calling
+        /// <see cref="ClearBrushIdCollection"/>. This is so that if a project
+        /// is either removed or renamed, the same <see cref="Brush"/> can be
+        /// used again if it is re-added or renamed to its original name
+        /// </summary>
         private readonly IDictionary<string, Brush> _brushAssignment;
 
         /// <summary>
@@ -88,14 +96,47 @@ namespace WorkingFilesList.ToolWindow.Service
             return returnBrush;
         }
 
+        /// <summary>
+        /// Reset the association between id values and returned
+        /// <see cref="Brush"/> instances when calling <see cref="GetBrush"/>
+        /// </summary>
         public void ClearBrushIdCollection()
         {
-            throw new System.NotImplementedException();
+            _brushAssignment.Clear();
         }
 
+        /// <summary>
+        /// Associates the <see cref="Brush"/> instance already associated with
+        /// <paramref name="oldId"/> with <paramref name="newId"/>. Does
+        /// nothing if <paramref name="newId"/> was previously used as an argument
+        /// with <see cref="GetBrush"/>
+        /// </summary>
+        /// <param name="oldId">
+        /// An id that <see cref="GetBrush"/> has previously been called with
+        /// </param>
+        /// <param name="newId">
+        /// An id to associate the same <see cref="Brush"/> instance as that for
+        /// <paramref name="oldId"/> when calling <see cref="GetBrush"/>
+        /// </param>
         public void UpdateBrushId(string oldId, string newId)
         {
-            throw new System.NotImplementedException();
+            var newIdIsValid =
+                !string.IsNullOrWhiteSpace(newId) &&
+                !_brushAssignment.ContainsKey(newId);
+
+            if (!newIdIsValid)
+            {
+                return;
+            }
+
+            var oldIdIsValid = _brushAssignment.ContainsKey(oldId);
+            if (!oldIdIsValid)
+            {
+                return;
+            }
+
+            var existingBrush = _brushAssignment[oldId];
+            _brushAssignment.Add(newId, existingBrush);
         }
     }
 }

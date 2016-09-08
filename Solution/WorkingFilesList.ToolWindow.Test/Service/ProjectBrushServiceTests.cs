@@ -18,6 +18,7 @@
 
 using Moq;
 using NUnit.Framework;
+using System.Linq;
 using System.Windows.Media;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
@@ -192,6 +193,120 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Assert
 
             Assert.That(brush, Is.EqualTo(Brushes.Transparent));
+        }
+
+        [Test]
+        public void SecondIdReturnsSameBrushAsFirstIdAfterClearingIdCollection()
+        {
+            // Arrange
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
+
+            // Act
+
+            var brush1 = service.GetBrush("Id1", userPreferences);
+            service.ClearBrushIdCollection();
+            var brush2 = service.GetBrush("Id2", userPreferences);
+
+            // Assert
+
+            var firstProjectBrush = brushes.ProjectSpecificBrushes[0];
+
+            Assert.That(brush1, Is.EqualTo(firstProjectBrush));
+            Assert.That(brush2, Is.EqualTo(firstProjectBrush));
+
+            Assert.That(brushes.ProjectSpecificBrushes.Length, Is.GreaterThan(1));
+
+            var isUnique = brushes
+                .ProjectSpecificBrushes
+                .Count(b => b.Equals(firstProjectBrush)) == 1;
+
+            Assert.IsTrue(isUnique);
+        }
+
+        [Test]
+        public void NewIdReturnsBrushOfOldIdAfterUpdatingBrushId()
+        {
+            // Arrange
+
+            const string newId = "NewId";
+            const string oldId = "OldId";
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
+
+            // Act
+
+            var oldIdBrush = service.GetBrush(oldId, userPreferences);
+            service.UpdateBrushId(oldId, newId);
+            var newIdBrush = service.GetBrush(newId, userPreferences);
+
+            // Assert
+
+            Assert.That(oldIdBrush, Is.EqualTo(newIdBrush));
+        }
+
+        [Test]
+        public void UpdatingNonExistentIdDoesNotThrowException()
+        {
+            // Arrange
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            // Assert
+
+            Assert.DoesNotThrow(() =>
+                service.UpdateBrushId("NonExistentId", "NewId"));
+        }
+
+        [Test]
+        public void UpdateDoesNotThrowExceptionWhenNewIdIsNull()
+        {
+            // Arrange
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            // Assert
+
+            Assert.DoesNotThrow(() =>
+                service.UpdateBrushId("OldId", null));
+        }
+
+        [Test]
+        public void UpdatingToAlreadyExistingIdReturnsBrushForExistingId()
+        {
+            // Arrange
+
+            const string id1 = "Id1";
+            const string id2 = "Id2";
+
+            var brushes = CreateProjectBrushes();
+            var service = new ProjectBrushService(brushes);
+
+            var userPreferences = Mock.Of<IUserPreferences>(u =>
+                u.AssignProjectColours);
+
+            var id1Brush = service.GetBrush(id1, userPreferences);
+            var id2Brush = service.GetBrush(id2, userPreferences);
+
+            // Act
+
+            service.UpdateBrushId(id2, id1);
+            var brush = service.GetBrush(id1, userPreferences);
+
+            // Assert
+
+            Assert.That(brush, Is.EqualTo(id1Brush));
+            Assert.That(brush, Is.Not.EqualTo(id2Brush));
         }
     }
 }
