@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 {
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
+        private readonly IDocumentMetadataEqualityService _documentMetadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
         private readonly ITimeProvider _timeProvider;
@@ -39,6 +40,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
+            IDocumentMetadataEqualityService documentMetadataEqualityService,
             IDocumentMetadataFactory documentMetadataFactory,
             INormalizedUsageOrderService normalizedUsageOrderService,
             ITimeProvider timeProvider,
@@ -50,6 +52,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             ActiveDocumentMetadata = collectionViewGenerator.CreateView(
                 _activeDocumentMetadata);
 
+            _documentMetadataEqualityService = documentMetadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
             _normalizedUsageOrderService = normalizedUsageOrderService;
             _timeProvider = timeProvider;
@@ -67,8 +70,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </param>
         public void Add(DocumentMetadataInfo info)
         {
-            var metadataExists = _activeDocumentMetadata
-                .Any(m => m.FullName == info.FullName);
+            var metadataExists = _activeDocumentMetadata.Any(m =>
+                _documentMetadataEqualityService.Compare(info, m));
 
             if (!metadataExists)
             {
@@ -176,7 +179,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </param>
         public void Synchronize(Documents documents, bool setUsageOrder)
         {
-            var documentNameSet = new HashSet<string>();
+            // DocumentMetadataInfo for each Document in 'documents'
+            var documentsInfoSet = new HashSet<DocumentMetadataInfo>();
 
             // Add documents unique to method parameter collection
 
@@ -191,8 +195,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                         continue;
                     }
 
-                    documentNameSet.Add(document.FullName);
-
                     var info = new DocumentMetadataInfo
                     {
                         FullName = document.FullName,
@@ -200,6 +202,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                         ProjectFullName = document.ProjectItem.ContainingProject.FullName
                     };
 
+                    documentsInfoSet.Add(info);
                     Add(info);
                 }
             }
@@ -215,8 +218,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
-                var removeMetadata = !documentNameSet
-                    .Contains(_activeDocumentMetadata[i].FullName);
+                var removeMetadata = documentsInfoSet.All(info =>
+                    !_documentMetadataEqualityService.Compare(
+                        info, _activeDocumentMetadata[i]));
 
                 if (removeMetadata)
                 {

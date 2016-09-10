@@ -191,6 +191,92 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void SynchronizeComparesAllDocumentMetadataInfoPropertiesWhenSynchronizing()
+        {
+            // Arrange
+
+            const string document1Name = "Document1Name";
+            const string document2Name = "Document2Name";
+            const string originalProjectDisplayName = "OriginalProjectDisplayName";
+            const string originalProjectFullName = "OriginalProjectFullName";
+            const string updatedProjectDisplayName = "UpdatedProjectDisplayName";
+            const string updatedProjectFullName = "UpdatedProjectFullName";
+
+            var info1 = new DocumentMetadataInfo
+            {
+                FullName = document1Name,
+                ProjectDisplayName = originalProjectDisplayName,
+                ProjectFullName = originalProjectFullName
+            };
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocumentWithInfo(info1),
+                CreateDocumentWithInfo(new DocumentMetadataInfo
+                {
+                    FullName = document2Name,
+                    ProjectDisplayName = originalProjectDisplayName,
+                    ProjectFullName = originalProjectFullName
+                })
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Synchronize to set two items in the document metadata service
+            // metadata list
+
+            manager.Synchronize(documents, false);
+
+            var updatedDocumentMockList = new List<Document>
+            {
+                CreateDocumentWithInfo(info1),
+                CreateDocumentWithInfo(new DocumentMetadataInfo
+                {
+                    FullName = document2Name,
+                    ProjectDisplayName = updatedProjectDisplayName,
+                    ProjectFullName = updatedProjectFullName
+                })
+            };
+
+            // Synchronizing with the updated list should update project
+            // properties of second document metadata
+
+            var updatedDocuments = CreateDocuments(updatedDocumentMockList);
+
+            // Act
+
+            manager.Synchronize(updatedDocuments, false);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(2));
+
+            var document1 = collection.SingleOrDefault(m =>
+                m.FullName == document1Name &&
+                m.ProjectNames.DisplayName == originalProjectDisplayName &&
+                m.ProjectNames.FullName == originalProjectFullName);
+
+            var document2OriginalProject = collection.SingleOrDefault(m =>
+                m.FullName == document2Name &&
+                m.ProjectNames.DisplayName == originalProjectDisplayName &&
+                m.ProjectNames.FullName == originalProjectFullName);
+
+            var document2UpdatedProject = collection.SingleOrDefault(m =>
+                m.FullName == document2Name &&
+                m.ProjectNames.DisplayName == updatedProjectDisplayName &&
+                m.ProjectNames.FullName == updatedProjectFullName);
+
+            Assert.That(document1, Is.Not.Null);
+            Assert.That(document2UpdatedProject, Is.Not.Null);
+            Assert.That(document2OriginalProject, Is.Null);
+        }
+
+        [Test]
         public void DocumentsAddedBySynchronizeSetActivatedAt()
         {
             // Arrange

@@ -28,12 +28,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
     public class SolutionEventsServiceTests
     {
         [Test]
-        public void ProjectBrushIdCollectionIsClearedAfterSolutionClosing()
+        public void ClosingSolutionClearsProjectBrushIdCollection()
         {
             // Arrange
 
             var projectBrushServiceMock = new Mock<IProjectBrushService>();
-            var service = new SolutionEventsService(projectBrushServiceMock.Object);
+
+            var service = new SolutionEventsService(
+                Mock.Of<IDocumentMetadataManager>(),
+                projectBrushServiceMock.Object);
 
             // Act
 
@@ -46,7 +49,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
-        public void BrushIdIsUpdatedWithNewAndOldProjectNamesAfterRenamingProject()
+        public void RenamingProjectUpdatesBrushIdWithNewAndOldProjectNames()
         {
             // Arrange
 
@@ -54,8 +57,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             const string newName = "NewName";
 
             var projectBrushServiceMock = new Mock<IProjectBrushService>();
-            var service = new SolutionEventsService(projectBrushServiceMock.Object);
-            var project = Mock.Of<Project>(p => p.FullName == newName);
+
+            var service = new SolutionEventsService(
+                Mock.Of<IDocumentMetadataManager>(),
+                projectBrushServiceMock.Object);
+
+            var project = Mock.Of<Project>(p =>
+                p.FullName == newName &&
+                p.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == Mock.Of<Documents>()));
 
             // Act
 
@@ -67,6 +77,70 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 p.UpdateBrushId(
                     oldName,
                     newName));
+        }
+
+        [Test]
+        public void RenamingProjectSynchronizesDocumentMetadata()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                metadataManagerMock.Object,
+                Mock.Of<IProjectBrushService>());
+
+            var renamedProject = Mock.Of<Project>(p =>
+                p.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == Mock.Of<Documents>()));
+
+            // Act
+
+            service.ProjectRenamed(renamedProject, null);
+
+            // Assert
+
+            metadataManagerMock
+                .Verify(m => m.Synchronize(
+                    It.IsAny<Documents>(),
+                    true));
+        }
+
+        [Test]
+        public void RenamingProjectCallsUpdateBrushIdBeforeSynchronize()
+        {
+            // Arrange
+
+            var updateBrushIdCalled = false;
+            var updateBrushIdCalledBeforeSynchronize = false;
+
+            var projectBrushServiceMock = new Mock<IProjectBrushService>();
+
+            projectBrushServiceMock.Setup(p => p
+                .UpdateBrushId(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback(() => updateBrushIdCalled = true);
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+
+            metadataManagerMock.Setup(m => m
+                .Synchronize(It.IsAny<Documents>(), It.IsAny<bool>()))
+                .Callback(() => updateBrushIdCalledBeforeSynchronize = !updateBrushIdCalled);
+
+            var service = new SolutionEventsService(
+                metadataManagerMock.Object,
+                projectBrushServiceMock.Object);
+
+            var renamedProject = Mock.Of<Project>(p =>
+                p.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == Mock.Of<Documents>()));
+
+            // Act
+
+            service.ProjectRenamed(renamedProject, null);
+
+            // Assert
+
+            Assert.IsFalse(updateBrushIdCalledBeforeSynchronize);
         }
     }
 }

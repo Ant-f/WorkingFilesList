@@ -23,10 +23,14 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {
     public class SolutionEventsService : ISolutionEventsService
     {
+        private readonly IDocumentMetadataManager _documentMetadataManager;
         private readonly IProjectBrushService _projectBrushService;
 
-        public SolutionEventsService(IProjectBrushService projectBrushService)
+        public SolutionEventsService(
+            IDocumentMetadataManager documentMetadataManager,
+            IProjectBrushService projectBrushService)
         {
+            _documentMetadataManager = documentMetadataManager;
             _projectBrushService = projectBrushService;
         }
 
@@ -38,6 +42,10 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         public void ProjectRenamed(Project project, string oldName)
         {
             _projectBrushService.UpdateBrushId(oldName, project.FullName);
+
+            // Synchronize after updating brush ID so the project continues to
+            // use the same brush
+            _documentMetadataManager.Synchronize(project.DTE.Documents, true);
         }
     }
 }

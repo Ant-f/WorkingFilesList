@@ -36,6 +36,15 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public ICollectionViewGenerator CollectionViewGenerator { get; set; }
 
         /// <summary>
+        /// Service to test whether metadata structures refer to the same
+        /// document, to pass as constructor parameter when creating new
+        /// <see cref="DocumentMetadataManager"/> instances. A
+        /// <see cref="ToolWindow.Service.DocumentMetadataEqualityService"/>
+        /// instance will be created if this property is left null.
+        /// </summary>
+        public IDocumentMetadataEqualityService DocumentMetadataEqualityService { get; set; }
+
+        /// <summary>
         /// Factory to pass as constructor parameter when creating new
         /// <see cref="DocumentMetadataManager"/> instances. A mock factory that
         /// outputs its input parameter is created if this property is left null.
@@ -109,6 +118,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             var manager = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
+                DocumentMetadataEqualityService ?? new DocumentMetadataEqualityService(),
                 DocumentMetadataFactory,
                 NormalizedUsageOrderServiceMock.Object,
                 TimeProviderMock.Object,
