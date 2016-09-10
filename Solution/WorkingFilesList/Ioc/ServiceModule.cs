@@ -28,6 +28,7 @@ namespace WorkingFilesList.Ioc
         public override void Load()
         {
             Kernel.Bind<ICollectionViewGenerator>().To<CollectionViewGenerator>().InSingletonScope();
+            Kernel.Bind<IDocumentMetadataEqualityService>().To<DocumentMetadataEqualityService>().InSingletonScope();
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
             Kernel.Bind<IFilePathService>().To<FilePathService>().InSingletonScope();
             Kernel.Bind<INormalizedUsageOrderService>().To<NormalizedUsageOrderService>().InSingletonScope();

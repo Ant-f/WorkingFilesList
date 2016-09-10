@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
     <Compile Include="Interface\ICommands.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="Service\DocumentMetadataEqualityService.cs" />
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />

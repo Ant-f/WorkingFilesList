@@ -46,7 +46,7 @@
   <Class Name="WorkingFilesList.ToolWindow.Service.ProjectBrushService">
     <Position X="4" Y="5.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAggAA=</HashCode>
+      <HashCode>AAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAgAAAggAA=</HashCode>
       <FileName>Service\ProjectBrushService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -56,6 +56,14 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\NormalizedUsageOrderService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.Service.DocumentMetadataEqualityService">
+    <Position X="11.75" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Service\DocumentMetadataEqualityService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -97,7 +105,7 @@
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectBrushService">
     <Position X="4" Y="4.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Interface\IProjectBrushService.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -106,6 +114,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\INormalizedUsageOrderService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IDocumentMetadataEqualityService">
+    <Position X="11.75" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Interface\IDocumentMetadataEqualityService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
