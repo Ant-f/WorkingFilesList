@@ -213,14 +213,14 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             var service = new WindowEventsService(metadataManagerMock.Object);
 
-            var created = Mock.Of<Window>(w =>
+            var closing = Mock.Of<Window>(w =>
                 w.Type == vsWindowType.vsWindowTypeDocument &&
                 w.DTE == Mock.Of<DTE>(d =>
                     d.Documents == Mock.Of<Documents>()));
 
             // Act
 
-            service.WindowClosing(created);
+            service.WindowClosing(closing);
 
             // Assert
 
