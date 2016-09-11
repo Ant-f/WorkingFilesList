@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Comment CommentText="WorkingFilesList&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright(C) 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&#xD;&#xA;&#xD;&#xA;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&#xD;&#xA;&#xD;&#xA;You should have received a copy of the GNU General Public License along with this program. If not, see&lt;http://www.gnu.org/licenses/&gt;.">
+  <Comment CommentText="Working Files List&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright © 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&#xD;&#xA;&#xD;&#xA;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.&#xD;&#xA;&#xD;&#xA;You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.">
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
   <Class Name="WorkingFilesList.ToolWindow.Model.DocumentMetadata">
     <Position X="9.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAECAAAAAAAIAgEIAAAAQAAAAAAAQAAAAAAAAIAAA=</HashCode>
+      <HashCode>AAAAEAQAAAAAIIAgGIBAEAQAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Model\DocumentMetadata.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Factory.DocumentMetadataFactory">
     <Position X="4" Y="2" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAKAAAAAAAAAAAAAAAAAEgAAAAAAgAgAAA=</HashCode>
       <FileName>Factory\DocumentMetadataFactory.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
