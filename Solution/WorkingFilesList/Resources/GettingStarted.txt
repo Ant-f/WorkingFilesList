@@ -1,0 +1,66 @@
+﻿Working Files List
+------------------
+
+Copyright © 2016 Anthony Fung
+
+Thanks for installing this extension. Working Files List is a Visual Studio
+extension tool window that shows a selectable list of files that are open in
+the editor. For the latest information, see
+https://github.com/Ant-f/WorkingFilesList
+
+To get started, select [View] -> [Other Windows] -> [Working Files List] on the
+Visual Studio menu bar.
+
+The main area of the tool window displays a list of every file that is open for
+editing; the name of the active window is displayed in bold text.
+
+  * Left-clicking on an item in the list activates the tab for that file
+
+  * Middle-clicking on an item closes that file
+
+  * Hover the mouse over an item to show its full name in the tool tip
+
+The controls at the top of the window allow sorting and grouping. From left to
+right:
+
+  (1) Project Name Sort: applied sort for each file’s containing project
+
+  (2) File Name Sort: applied sort for each file
+
+  (3) Group by Project: groups each list entry by its containing project
+
+  (4) Show Recent Usage: shows the order of usage of each list item as a bar
+      chart.
+
+  (5) Assign Project Colours: gives each list item a background colour, which
+      is linked with the item’s associated project.
+
+  (6) File Name Segments: represents how many parts of the full file name is
+      displayed. By default, only the name for each open file is shown. By
+      increasing this number, it is possible to include the directories that
+      the file is in.
+
+  (7) Extension Information: further details about this extension, including
+      its license.
+
+
+
+License
+-------
+
+Working Files List is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Working Files List is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Working Files List. If not, see <http://www.gnu.org/licenses/>.
+
+Working Files List uses the third party open source software Ninject under the terms
+and conditions of the Apache License Version 2.0. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
