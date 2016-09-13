@@ -26,6 +26,7 @@ namespace WorkingFilesList.ToolWindow.Service.Locator
     /// </summary>
     public class ViewModelService
     {
+        public static IAboutPanelService AboutPanelService { get; private set; }
         public static ICommands Commands { get; private set; }
         public static IDocumentMetadataManager DocumentMetadataManager { get; private set; }
         public static IOptionsLists OptionsLists { get; private set; }
@@ -37,11 +38,13 @@ namespace WorkingFilesList.ToolWindow.Service.Locator
         }
 
         public ViewModelService(
+            IAboutPanelService aboutPanelService,
             ICommands commands,
             IDocumentMetadataManager documentMetadataManager,
             IOptionsLists optionsLists,
             IUserPreferences userPreferences)
         {
+            AboutPanelService = aboutPanelService;
             Commands = commands;
             DocumentMetadataManager = documentMetadataManager;
             OptionsLists = optionsLists;

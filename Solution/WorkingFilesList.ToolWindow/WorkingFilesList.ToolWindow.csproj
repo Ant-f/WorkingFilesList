@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Interface\IAboutPanelService.cs" />
     <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
+    <Compile Include="Service\AboutPanelService.cs" />
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
@@ -129,6 +131,9 @@
     <Compile Include="ViewModel\UserPreference\UpdateReaction\PathSegmentCountReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\SelectedSortOptionReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionMapping.cs" />
+    <Compile Include="View\Controls\AboutPanel.xaml.cs">
+      <DependentUpon>AboutPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />
@@ -143,6 +148,10 @@
     <DesignData Include="Design\DesignTimeData\DesignDocumentMetadata.xaml">
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="View\Controls\AboutPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Converter\ConverterMappingCollections.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -155,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Theme\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Theme\RepeatButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -164,10 +177,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Theme\Separator.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Theme\ItemsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -205,6 +214,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Icon\WorkingFilesList32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Icon\About.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Service\AboutText.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

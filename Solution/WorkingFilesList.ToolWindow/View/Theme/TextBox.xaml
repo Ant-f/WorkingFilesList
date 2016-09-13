@@ -18,21 +18,10 @@
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <Style TargetType="{x:Type ItemsControl}">
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
-                        <ScrollViewer Focusable="False"
-                                      HorizontalScrollBarVisibility="Auto"
-                                      VerticalScrollBarVisibility="Auto">
-                            <ItemsPresenter Margin="2,0,0,0" />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+
+    <Style x:Key="ToolWindowTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{DynamicResource VsBrush.ToolWindowBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource VsBrush.ComboBoxBorder}"/>
     </Style>
 </ResourceDictionary>

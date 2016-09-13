@@ -23,6 +23,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="General.xaml"/>
         <ResourceDictionary Source="RepeatButton.xaml"/>
+        <ResourceDictionary Source="TextBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type controls:NumericUpDown}">
@@ -49,11 +50,9 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <TextBox Background="{DynamicResource VsBrush.ToolWindowBackground}"
-                                 Foreground="{DynamicResource VsBrush.ToolWindowText}"
-                                 BorderBrush="{DynamicResource VsBrush.ComboBoxBorder}"
-                                 Grid.Column="0"
+                        <TextBox Grid.Column="0"
                                  Grid.RowSpan="2"
+                                 Style="{StaticResource ToolWindowTextBox}"
                                  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                  VerticalContentAlignment="Center">
                         </TextBox>

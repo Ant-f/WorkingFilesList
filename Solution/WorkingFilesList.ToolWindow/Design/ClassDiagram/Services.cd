@@ -4,7 +4,7 @@
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
   <Class Name="WorkingFilesList.ToolWindow.Service.TimeProvider">
-    <Position X="9.25" Y="6" Width="2.25" />
+    <Position X="6.75" Y="6.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\TimeProvider.cs</FileName>
@@ -12,7 +12,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.PathCasingRestorer">
-    <Position X="11.75" Y="2" Width="2.25" />
+    <Position X="11.75" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\PathCasingRestorer.cs</FileName>
@@ -20,7 +20,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.SortOptionsService">
-    <Position X="6.5" Y="6" Width="2.5" />
+    <Position X="4" Y="6.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Service\SortOptionsService.cs</FileName>
@@ -28,7 +28,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.CollectionViewGenerator">
-    <Position X="4" Y="2" Width="2.25" />
+    <Position X="4" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\CollectionViewGenerator.cs</FileName>
@@ -36,7 +36,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.FilePathService">
-    <Position X="6.5" Y="2" Width="2.25" />
+    <Position X="6.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Service\FilePathService.cs</FileName>
@@ -44,7 +44,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.ProjectBrushService">
-    <Position X="4" Y="5.75" Width="2.25" />
+    <Position X="14.25" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAgAAAggAA=</HashCode>
       <FileName>Service\ProjectBrushService.cs</FileName>
@@ -52,7 +52,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.NormalizedUsageOrderService">
-    <Position X="9" Y="2" Width="2.5" />
+    <Position X="9" Y="2.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Service\NormalizedUsageOrderService.cs</FileName>
@@ -60,15 +60,23 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.Service.DocumentMetadataEqualityService">
-    <Position X="11.75" Y="6" Width="2.25" />
+    <Position X="9.25" Y="6.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Service\DocumentMetadataEqualityService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="WorkingFilesList.ToolWindow.Service.AboutPanelService">
+    <Position X="12.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Service\AboutPanelService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ITimeProvider">
-    <Position X="9.25" Y="4.25" Width="2.25" />
+    <Position X="6.75" Y="5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\ITimeProvider.cs</FileName>
@@ -82,7 +90,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ISortOptionsService">
-    <Position X="6.5" Y="4.25" Width="2.5" />
+    <Position X="4" Y="5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Interface\ISortOptionsService.cs</FileName>
@@ -103,7 +111,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectBrushService">
-    <Position X="4" Y="4.25" Width="2.25" />
+    <Position X="14.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Interface\IProjectBrushService.cs</FileName>
@@ -117,10 +125,17 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IDocumentMetadataEqualityService">
-    <Position X="11.75" Y="4.25" Width="2.25" />
+    <Position X="9.25" Y="5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Interface\IDocumentMetadataEqualityService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IAboutPanelService">
+    <Position X="12.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IAboutPanelService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

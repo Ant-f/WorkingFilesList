@@ -27,15 +27,13 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="300"
-             Name="MyToolWindow">
+             d:DesignHeight="120" d:DesignWidth="300">
     
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Converter/ConverterMappingCollections.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBox.xaml"/>
-                <ResourceDictionary Source="Theme/ItemsControl.xaml"/>
                 <ResourceDictionary Source="Theme/NumericUpDown.xaml"/>
                 <ResourceDictionary Source="Theme/ProgressBar.xaml"/>
                 <ResourceDictionary Source="Theme/Separator.xaml"/>
@@ -108,6 +106,14 @@
                                         Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Width="40">
                 </controls:NumericUpDown>
+
+                <Separator />
+
+                <ToggleButton x:Name="AboutButton"
+                              x:FieldModifier="private"
+                              ToolTip="Extension Information">
+                    <Image Source="Icon/About.png" />
+                </ToggleButton>
             </StackPanel>
         </Border>
 
@@ -115,7 +121,31 @@
         <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
                       d:DataContext="{d:DesignData Source=/Design/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
+                      IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
+            
+            <ItemsControl.Style>
+                <Style TargetType="{x:Type ItemsControl}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=AboutButton}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.Style>
+            
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
+                        <ScrollViewer Focusable="False"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter Margin="2,0,0,0" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ItemsControl.Template>
 
             <ItemsControl.GroupStyle>
                 <GroupStyle>
@@ -189,5 +219,18 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <controls:AboutPanel Grid.Row="1">
+            <controls:AboutPanel.Style>
+                <Style TargetType="{x:Type controls:AboutPanel}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=AboutButton}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:AboutPanel.Style>
+        </controls:AboutPanel>
     </Grid>
 </UserControl>
