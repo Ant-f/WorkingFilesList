@@ -29,7 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(
+        protected void OnPropertyChanged(
             [CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
