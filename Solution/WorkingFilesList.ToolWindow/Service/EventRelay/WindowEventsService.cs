@@ -62,9 +62,6 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                 if (_documentMetadataManager.ActiveDocumentMetadata.IsEmpty)
                 {
                     _documentMetadataManager.Synchronize(window.DTE.Documents, false);
-
-                    _documentMetadataManager.Activate(
-                        window.Document.FullName);
                 }
                 else
                 {
@@ -81,6 +78,8 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
                     _documentMetadataManager.Add(info);
                 }
+
+                _documentMetadataManager.Activate(window.Document.FullName);
             }
         }
     }

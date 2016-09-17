@@ -100,21 +100,19 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             var service = new WindowEventsService(metadataManagerMock.Object);
 
-            var dte2Mock = new Mock<DTE>();
-            dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument &&
 
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
-            documentMock.Setup(d => d.FullName).Returns(documentName);
+                w.Document == Mock.Of<Document>(d =>
+                    d.ActiveWindow == Mock.Of<Window>() &&
+                    d.FullName == documentName) &&
 
-            var created = new Mock<Window>();
-            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
-            created.Setup(w => w.Document).Returns(documentMock.Object);
-            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+                w.DTE == Mock.Of<DTE>(dte =>
+                    dte.Documents == Mock.Of<Documents>()));
 
             // Act
 
-            service.WindowCreated(created.Object);
+            service.WindowCreated(created);
 
             // Assert
 
@@ -146,21 +144,19 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             var service = new WindowEventsService(metadataManagerMock.Object);
 
-            var dte2Mock = new Mock<DTE>();
-            dte2Mock.Setup(d => d.Documents).Returns(Mock.Of<Documents>());
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument &&
 
-            var documentMock = new Mock<Document>();
-            documentMock.Setup(d => d.ActiveWindow).Returns(Mock.Of<Window>());
-            documentMock.Setup(d => d.FullName).Returns("DocumentName");
+                w.Document == Mock.Of<Document>(d =>
+                    d.ActiveWindow == Mock.Of<Window>() &&
+                    d.FullName == "DocumentName") &&
 
-            var created = new Mock<Window>();
-            created.Setup(w => w.Type).Returns(vsWindowType.vsWindowTypeDocument);
-            created.Setup(w => w.Document).Returns(documentMock.Object);
-            created.Setup(w => w.DTE).Returns(dte2Mock.Object);
+                w.DTE == Mock.Of<DTE>(dte =>
+                    dte.Documents == Mock.Of<Documents>()));
 
             // Act
 
-            service.WindowCreated(created.Object);
+            service.WindowCreated(created);
 
             // Assert
 
@@ -175,13 +171,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
-        public void CreatingDocumentWindowWithNonEmptyMetadataCollectionAddsDocument()
+        public void CreatingDocumentWindowWithNonEmptyMetadataCollectionAddsAndActivatesDocument()
         {
             // Arrange
 
+            const string documentFullName = "DocumentFullName";
+
             var info = new DocumentMetadataInfo
             {
-                FullName = "DocumentName",
+                FullName = documentFullName,
                 ProjectDisplayName = "ProjectDisplayName",
                 ProjectFullName = "ProjectFullName"
             };
@@ -203,6 +201,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             metadataManagerMock.Verify(m => m.Add(info));
+            metadataManagerMock.Verify(m => m.Activate(documentFullName));
         }
 
         [Test]
