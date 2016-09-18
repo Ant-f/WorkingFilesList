@@ -1011,5 +1011,54 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     It.IsAny<IList<DocumentMetadata>>(),
                     It.IsAny<IUserPreferences>()));
         }
+
+        [Test]
+        public void AlreadyActiveDocumentIsNotReactivated()
+        {
+            // Arrange
+
+            const string document1Name = "Document1";
+            var utcNow = DateTime.UtcNow;
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument(document1Name)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+
+            builder.TimeProviderMock.Setup(t => t.UtcNow)
+                .Returns(() =>
+                {
+                    // Simulate time passing
+                    utcNow = utcNow + TimeSpan.FromSeconds(1);
+                    return utcNow;
+                });
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            manager.Synchronize(documents, false);
+            manager.Activate(document1Name);
+            var firstActivationTime = utcNow;
+
+            // Act
+
+            manager.Activate(document1Name);
+
+            // Assert
+
+            builder.NormalizedUsageOrderServiceMock.Verify(n => n
+                .SetUsageOrder(
+                    It.IsAny<IList<DocumentMetadata>>(),
+                    It.IsAny<IUserPreferences>()),
+                Times.Once);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].ActivatedAt, Is.EqualTo(firstActivationTime));
+        }
     }
 }

@@ -36,6 +36,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
+        /// <summary>
+        /// Full name of the document file last activated, i.e. the single
+        /// <see cref="DocumentMetadata"/> in <see cref="_activeDocumentMetadata"/>
+        /// for which <see cref="DocumentMetadata.IsActive"/> is true
+        /// </summary>
+        private string _activatedDocument;
+
         public ICollectionView ActiveDocumentMetadata { get; }
 
         public DocumentMetadataManager(
@@ -89,6 +96,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <param name="fullName">Full path and name of document file</param>
         public void Activate(string fullName)
         {
+            if (fullName == _activatedDocument)
+            {
+                return;
+            }
+
             var activated = false;
 
             foreach (var metadata in _activeDocumentMetadata)
@@ -97,6 +109,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 if (metadata.IsActive)
                 {
+                    _activatedDocument = metadata.FullName;
                     var utcNow = _timeProvider.UtcNow;
                     metadata.ActivatedAt = utcNow;
                     activated = true;
