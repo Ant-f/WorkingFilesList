@@ -17,9 +17,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using EnvDTE;
+using EnvDTE80;
 using Moq;
 using NUnit.Framework;
+using System;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
 namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
@@ -35,6 +38,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var projectBrushServiceMock = new Mock<IProjectBrushService>();
 
             var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
                 projectBrushServiceMock.Object);
 
@@ -59,6 +63,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var projectBrushServiceMock = new Mock<IProjectBrushService>();
 
             var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
                 projectBrushServiceMock.Object);
 
@@ -87,6 +92,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
 
             var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
                 Mock.Of<IProjectBrushService>());
 
@@ -127,6 +133,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 .Callback(() => updateBrushIdCalledBeforeSynchronize = !updateBrushIdCalled);
 
             var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
                 projectBrushServiceMock.Object);
 
@@ -141,6 +148,68 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             Assert.IsFalse(updateBrushIdCalledBeforeSynchronize);
+        }
+
+        [Test]
+        public void SolutionNameChangedIsRaisedWhenSolutionIsOpened()
+        {
+            // Arrange
+
+            const string newName = "NewName";
+            string eventArgsNewName = null;
+
+            var dte2 = Mock.Of<DTE2>(d =>
+                d.Solution.FullName == newName);
+
+            var service = new SolutionEventsService(
+                dte2,
+                Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IProjectBrushService>());
+
+            var handler = new EventHandler<SolutionNameChangedEventArgs>((s, e) =>
+            {
+                eventArgsNewName = e.NewName;
+            });
+
+            service.SolutionNameChanged += handler;
+
+            // Act
+
+            service.Opened();
+            service.SolutionNameChanged -= handler;
+
+            // Assert
+
+            Assert.That(eventArgsNewName, Is.EqualTo(newName));
+        }
+
+        [Test]
+        public void SolutionNameChangedIsRaisedWithEmptyStringWhenSolutionIsClosed()
+        {
+            // Arrange
+
+            string eventArgsNewName = null;
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IProjectBrushService>());
+
+            var handler = new EventHandler<SolutionNameChangedEventArgs>((s, e) =>
+            {
+                eventArgsNewName = e.NewName;
+            });
+
+            service.SolutionNameChanged += handler;
+
+            // Act
+
+            service.AfterClosing();
+            service.SolutionNameChanged -= handler;
+
+            // Assert
+
+            Assert.That(eventArgsNewName, Is.EqualTo(string.Empty));
         }
     }
 }

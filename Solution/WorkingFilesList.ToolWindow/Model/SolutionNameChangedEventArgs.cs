@@ -16,18 +16,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using EnvDTE;
 using System;
-using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.ToolWindow.Model
 {
-    public interface ISolutionEventsService
+    public class SolutionNameChangedEventArgs : EventArgs
     {
-        event EventHandler<SolutionNameChangedEventArgs> SolutionNameChanged;
+        public string NewName { get; }
 
-        void AfterClosing();
-        void Opened();
-        void ProjectRenamed(Project project, string oldName);
+        public SolutionNameChangedEventArgs(string newName)
+        {
+            NewName = newName;
+        }
     }
 }

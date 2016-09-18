@@ -30,6 +30,7 @@ namespace WorkingFilesList.ToolWindow.Service.Locator
         public static ICommands Commands { get; private set; }
         public static IDocumentMetadataManager DocumentMetadataManager { get; private set; }
         public static IOptionsLists OptionsLists { get; private set; }
+        public static ISolutionEventsService SolutionEventsService { get; private set; }
         public static IUserPreferences UserPreferences { get; private set; }
 
         public ViewModelService()
@@ -42,12 +43,14 @@ namespace WorkingFilesList.ToolWindow.Service.Locator
             ICommands commands,
             IDocumentMetadataManager documentMetadataManager,
             IOptionsLists optionsLists,
+            ISolutionEventsService solutionEventsService,
             IUserPreferences userPreferences)
         {
             AboutPanelService = aboutPanelService;
             Commands = commands;
             DocumentMetadataManager = documentMetadataManager;
             OptionsLists = optionsLists;
+            SolutionEventsService = solutionEventsService;
             UserPreferences = userPreferences;
         }
     }

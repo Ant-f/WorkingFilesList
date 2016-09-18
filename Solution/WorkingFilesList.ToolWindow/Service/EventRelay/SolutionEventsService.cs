@@ -17,19 +17,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using EnvDTE;
+using EnvDTE80;
+using System;
+using System.IO;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {
     public class SolutionEventsService : ISolutionEventsService
     {
+        private readonly DTE2 _dte2;
         private readonly IDocumentMetadataManager _documentMetadataManager;
         private readonly IProjectBrushService _projectBrushService;
 
+        public event EventHandler<SolutionNameChangedEventArgs> SolutionNameChanged;
+
         public SolutionEventsService(
+            DTE2 dte2,
             IDocumentMetadataManager documentMetadataManager,
             IProjectBrushService projectBrushService)
         {
+            _dte2 = dte2;
             _documentMetadataManager = documentMetadataManager;
             _projectBrushService = projectBrushService;
         }
@@ -37,6 +46,13 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         public void AfterClosing()
         {
             _projectBrushService.ClearBrushIdCollection();
+            RaiseSolutionNameChanged(string.Empty);
+        }
+
+        public void Opened()
+        {
+            var name = Path.GetFileNameWithoutExtension(_dte2.Solution.FullName);
+            RaiseSolutionNameChanged(name);
         }
 
         public void ProjectRenamed(Project project, string oldName)
@@ -46,6 +62,13 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             // Synchronize after updating brush ID so the project continues to
             // use the same brush
             _documentMetadataManager.Synchronize(project.DTE.Documents, true);
+        }
+
+        private void RaiseSolutionNameChanged(string name)
+        {
+            SolutionNameChanged?.Invoke(
+                this,
+                new SolutionNameChangedEventArgs(name));
         }
     }
 }

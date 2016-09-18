@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.ToolWindow.Service.Locator;
 using WorkingFilesList.ToolWindow.View;
 
 namespace WorkingFilesList
@@ -39,12 +41,14 @@ namespace WorkingFilesList
     [Guid("1a5129bb-eaa3-4a09-91e0-8e572ac81214")]
     public class WorkingFilesWindow : ToolWindowPane
     {
+        private const string DefaultCaption = "Working Files List";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkingFilesWindow"/> class.
         /// </summary>
         public WorkingFilesWindow() : base(null)
         {
-            this.Caption = "Working Files List";
+            this.Caption = DefaultCaption;
 
             // This is the user control hosted by the tool window; Note that,
             // even if this class implements IDisposable, we are not calling
@@ -52,6 +56,22 @@ namespace WorkingFilesList
             // Dispose on the object returned by the Content property.
 
             this.Content = new WorkingFilesWindowControl();
+
+            ViewModelService.SolutionEventsService.SolutionNameChanged +=
+                SolutionEventsServiceSolutionNameChanged;
+        }
+
+        private void SolutionEventsServiceSolutionNameChanged(
+            object sender,
+            SolutionNameChangedEventArgs e)
+        {
+            var nameIsEmpty = string.IsNullOrWhiteSpace(e.NewName);
+
+            var prefix = nameIsEmpty
+                ? string.Empty
+                : $"{e.NewName} - ";
+
+            this.Caption = $"{prefix}{DefaultCaption}";
         }
     }
 }

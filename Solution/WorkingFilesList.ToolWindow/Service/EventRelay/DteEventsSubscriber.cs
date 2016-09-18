@@ -68,6 +68,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             _projectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
 
             _solutionEvents.AfterClosing += SolutionEventsAfterClosing;
+            _solutionEvents.Opened += SolutionEventsOpened;
             _solutionEvents.ProjectRenamed += SolutionEventsProjectRenamed;
         }
 
@@ -94,6 +95,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private void SolutionEventsAfterClosing()
         {
             _solutionEventsService.AfterClosing();
+        }
+
+        private void SolutionEventsOpened()
+        {
+            _solutionEventsService.Opened();
         }
 
         private void SolutionEventsProjectRenamed(Project project, string oldName)
