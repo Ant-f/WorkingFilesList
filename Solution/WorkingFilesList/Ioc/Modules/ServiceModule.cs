@@ -21,7 +21,7 @@ using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Ioc.Modules
 {
     internal class ServiceModule : NinjectModule
     {

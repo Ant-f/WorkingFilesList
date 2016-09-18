@@ -16,25 +16,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-using Ninject.Modules;
-using System.Windows.Input;
-using WorkingFilesList.ToolWindow.ViewModel.Command;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.ViewModel;
+using EnvDTE80;
+using Ninject;
+using WorkingFilesList.Ioc.Modules;
 
 namespace WorkingFilesList.Ioc
 {
-    /// <summary>
-    /// Ninject module that creates bindings for the commands used within the
-    /// extension. Buttons within the application UI are bound to these commands.
-    /// </summary>
-    internal class CommandModule : NinjectModule
+    public class NinjectKernelFactory
     {
-        public override void Load()
+        public IKernel CreateKernel(DTE2 dte2)
         {
-            Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
-            Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
-            Kernel.Bind<ICommands>().To<Commands>().InSingletonScope();
+            var kernel = new StandardKernel(
+                new CommandModule(),
+                new FactoryModule(),
+                new RepositoryModule(),
+                new ServiceModule(),
+                new ViewModelModule());
+
+            kernel.Bind<DTE2>().ToConstant(dte2);
+            return kernel;
         }
     }
 }

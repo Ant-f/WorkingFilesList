@@ -54,6 +54,8 @@ namespace WorkingFilesList
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class WorkingFilesWindowPackage : Package
     {
+        private IKernel _kernel;
+
         /// <summary>
         /// WorkingFilesWindowPackage GUID string.
         /// </summary>
@@ -85,9 +87,10 @@ namespace WorkingFilesList
             base.Initialize();
 
             var dte2 = (DTE2) GetService(typeof(DTE));
-            NinjectContainer.InitializeKernel(dte2);
+            var kernelFactory = new NinjectKernelFactory();
+            _kernel = kernelFactory.CreateKernel(dte2);
 
-            InitializeServices(NinjectContainer.Kernel);
+            InitializeServices(_kernel);
         }
 
         #endregion

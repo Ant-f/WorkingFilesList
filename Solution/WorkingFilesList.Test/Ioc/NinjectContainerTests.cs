@@ -47,7 +47,8 @@ namespace WorkingFilesList.Test.Ioc
         {
             CommonMethods.ResetStoredRepositoryData();
 
-            NinjectContainer.InitializeKernel(Mock.Of<DTE2>());
+            var factory = new NinjectKernelFactory();
+            var kernel = factory.CreateKernel(Mock.Of<DTE2>());
 
             var typesToResolve = new List<Type>
             {
@@ -69,7 +70,7 @@ namespace WorkingFilesList.Test.Ioc
 
             foreach (var interfaceType in typesToResolve)
             {
-                var objects = NinjectContainer.Kernel.GetAll(interfaceType);
+                var objects = kernel.GetAll(interfaceType);
                 Assert.IsNotEmpty(objects, $"Unable to resolve instance(s) of {interfaceType.Name}");
             }
         }

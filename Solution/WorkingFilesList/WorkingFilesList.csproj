@@ -52,12 +52,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Ioc\CommandModule.cs" />
-    <Compile Include="Ioc\FactoryModule.cs" />
-    <Compile Include="Ioc\NinjectContainer.cs" />
-    <Compile Include="Ioc\RepositoryModule.cs" />
-    <Compile Include="Ioc\ServiceModule.cs" />
-    <Compile Include="Ioc\ViewModelModule.cs" />
+    <Compile Include="Ioc\Modules\CommandModule.cs" />
+    <Compile Include="Ioc\Modules\FactoryModule.cs" />
+    <Compile Include="Ioc\NinjectKernelFactory.cs" />
+    <Compile Include="Ioc\Modules\RepositoryModule.cs" />
+    <Compile Include="Ioc\Modules\ServiceModule.cs" />
+    <Compile Include="Ioc\Modules\ViewModelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkingFilesWindow.cs" />
     <Compile Include="WorkingFilesWindowCommand.cs" />

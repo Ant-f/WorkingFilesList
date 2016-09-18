@@ -17,16 +17,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Ninject.Modules;
+using System.Windows.Input;
+using WorkingFilesList.ToolWindow.ViewModel.Command;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Repository;
+using WorkingFilesList.ToolWindow.ViewModel;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Ioc.Modules
 {
-    public class RepositoryModule : NinjectModule
+    /// <summary>
+    /// Ninject module that creates bindings for the commands used within the
+    /// extension. Buttons within the application UI are bound to these commands.
+    /// </summary>
+    internal class CommandModule : NinjectModule
     {
         public override void Load()
         {
-            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
+            Kernel.Bind<ICommands>().To<Commands>().InSingletonScope();
         }
     }
 }

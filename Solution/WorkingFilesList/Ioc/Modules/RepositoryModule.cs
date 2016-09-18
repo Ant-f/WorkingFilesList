@@ -17,16 +17,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Factory;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Repository;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Ioc.Modules
 {
-    internal class FactoryModule : NinjectModule
+    public class RepositoryModule : NinjectModule
     {
         public override void Load()
         {
-            Kernel.Bind<IDocumentMetadataFactory>().To<DocumentMetadataFactory>().InSingletonScope();
+            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope();
         }
     }
 }

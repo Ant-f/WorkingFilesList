@@ -23,7 +23,7 @@ using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
-namespace WorkingFilesList.Ioc
+namespace WorkingFilesList.Ioc.Modules
 {
     internal class ViewModelModule : NinjectModule
     {
