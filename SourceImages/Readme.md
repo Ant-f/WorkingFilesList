@@ -1,9 +1,11 @@
-This folder contains the source vector images (created using CorelDRAW X7) for
-the icons within Working Files List.
+This folder contains source images for icons (in CorelDRAW X7 format) and other
+graphics (in Corel PHOTO-PAINT X7 format) used within Working Files List and
+its accompanying documentation.
 
 Copyright © 2016 Anthony Fung
 
-The images within this folder are part of Working Files List.
+The images within this folder and its subfolders are part of Working Files
+List.
 
 Working Files List is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
