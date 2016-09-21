@@ -8,7 +8,8 @@ editor, with the ability to group and sort entries.
 
 ## Installation
 
-After building the project, navigate to the output directory and launch
+After building the project (using the Release build configuration as
+appropriate), navigate to the output directory and launch
 `WorkingFilesList.vsix` to add the extension to Visual Studio. Within Visual
 Studio, select [**View**] -> [**Other Windows**] -> [**Working Files List**] on
 the menu bar.
@@ -37,6 +38,16 @@ with Working Files List. If not, see <http://www.gnu.org/licenses/>
 Working Files List uses the third party open source software Ninject under the
 terms and conditions of the Apache License Version 2.0. You may obtain a copy
 of the License at <http://www.apache.org/licenses/LICENSE-2.0>
+
+## Launching in the Visual Studio Experimental Instance
+
+To launch this extension in the Visual Studio Experimental Instance, select the
+**Debug** tab in the properties page for `WorkingFilesList`. Select **Start
+external program** as the start action and enter the path to Visual Studio, e.g.
+
+`C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe`
+
+Set `/rootsuffix Exp` as the start options **Command line arguments**
 
 ## Uninstallation
 
