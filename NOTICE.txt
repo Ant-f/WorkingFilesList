@@ -1,0 +1,5 @@
+Working Files List
+Copyright © 2016 Anthony Fung <https://github.com/Ant-f>
+
+This software uses Ninject <http://ninject.org/> under the terms and conditions
+of the Apache License Version 2.0.

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Comment CommentText="Working Files List&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright © 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&#xD;&#xA;&#xD;&#xA;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.&#xD;&#xA;&#xD;&#xA;You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.">
+  <Comment CommentText="Working Files List&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright © 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at&#xD;&#xA;   &#xD;&#xA;    http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;   &#xD;&#xA;Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.">
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
   <Comment CommentText="These services act as intermediaries between the Visual Studio DTE, and the Document Metadata Manager">
@@ -9,7 +9,7 @@
   <Class Name="WorkingFilesList.ToolWindow.Service.EventRelay.DteEventsSubscriber">
     <Position X="4" Y="2.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAIGAAIRAAAAAACAAAAAQBAAAACAAAAEAAAgA=</HashCode>
+      <HashCode>AEAAAAAAIGAAIRBAAAAACAAAAAQBAAAACAAAAEAAAgA=</HashCode>
       <FileName>Service\EventRelay\DteEventsSubscriber.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
