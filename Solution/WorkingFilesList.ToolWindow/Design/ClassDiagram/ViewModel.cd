@@ -52,7 +52,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.DisplayOrderContainer">
-    <Position X="11.75" Y="3.5" Width="2.25" />
+    <Position X="11.75" Y="3.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModel\DisplayOrderContainer.cs</FileName>
