@@ -10,8 +10,13 @@ editor, with the ability to group and sort entries.
 
 After building the project (using the Release build configuration as
 appropriate), navigate to the output directory and launch
-`WorkingFilesList.vsix` to add the extension to Visual Studio. Within Visual
-Studio, select [**View**] -> [**Other Windows**] -> [**Working Files List**] on
+`WorkingFilesList.vsix` to add the extension to Visual Studio.
+
+Alternatively, you can download a copy from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51);
+or from within Visual Studio by searching for `working files list` in
+[**Tools**] -> [**Extensions and Updates**]
+
+Within Visual Studio, select [**View**] -> [**Other Windows**] -> [**Working Files List**] on
 the menu bar.
 
 ## Resources
@@ -19,6 +24,8 @@ the menu bar.
 [User Guide](https://github.com/Ant-f/WorkingFilesList/wiki/User-Guide)
 
 [Wiki](https://github.com/Ant-f/WorkingFilesList/wiki)
+
+[Visual Studio Gallery Page](https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51)
 
 ## License
 
