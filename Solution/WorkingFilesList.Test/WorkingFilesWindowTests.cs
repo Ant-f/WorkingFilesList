@@ -84,7 +84,7 @@ namespace WorkingFilesList.Test
 
             // Assert
 
-            var expectedCaption = $"{solutionName} - {DefaultCaption}";
+            var expectedCaption = $"{DefaultCaption} [{solutionName}]";
             Assert.That(window.Caption, Is.EqualTo(expectedCaption));
         }
 
@@ -111,6 +111,34 @@ namespace WorkingFilesList.Test
             // Assert
 
             Assert.That(window.Caption, Is.EqualTo(DefaultCaption));
+        }
+
+        [Test]
+        public void SolutionEventsServiceOpenedIsInvokedInConstructor()
+        {
+            // Arrange
+
+            const string solutionName = "SolutionName";
+
+            Mock<ISolutionEventsService> solutionEventsServiceMock;
+            var service = CreateViewModelService(out solutionEventsServiceMock);
+
+            solutionEventsServiceMock
+                .Setup(s => s.Opened())
+                .Raises(s =>
+                    s.SolutionNameChanged += null,
+                    null,
+                    new SolutionNameChangedEventArgs(solutionName));
+
+            // Act
+
+            var window = new WorkingFilesWindow();
+
+            // Assert
+
+            solutionEventsServiceMock.Verify(s => s.Opened());
+            var expectedCaption = $"{DefaultCaption} [{solutionName}]";
+            Assert.That(window.Caption, Is.EqualTo(expectedCaption));
         }
     }
 }

@@ -58,6 +58,15 @@ namespace WorkingFilesList
 
             ViewModelService.SolutionEventsService.SolutionNameChanged +=
                 SolutionEventsServiceSolutionNameChanged;
+
+            // The name of an already open solution will not be displayed in
+            // the caption text. Invoke ISolutionEventsService.Opened to
+            // address this. This needs to be done here (instead of within
+            // the SolutionEventsService itself) because DTE events are
+            // subscribed to on package initialization, which occurs before
+            // this constuctor is called.
+
+            ViewModelService.SolutionEventsService.Opened();
         }
 
         private void SolutionEventsServiceSolutionNameChanged(
@@ -66,11 +75,11 @@ namespace WorkingFilesList
         {
             var nameIsEmpty = string.IsNullOrWhiteSpace(e.NewName);
 
-            var prefix = nameIsEmpty
+            var suffix = nameIsEmpty
                 ? string.Empty
-                : $"{e.NewName} - ";
+                : $" [{e.NewName}]";
 
-            this.Caption = $"{prefix}{DefaultCaption}";
+            this.Caption = $"{DefaultCaption}{suffix}";
         }
     }
 }

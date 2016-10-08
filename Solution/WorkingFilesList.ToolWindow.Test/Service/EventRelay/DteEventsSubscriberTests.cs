@@ -151,15 +151,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Act
 
-            mocks.ProjectItemsEventsMock.Raise(w =>
-                w.ItemRenamed += null,
+            mocks.ProjectItemsEventsMock.Raise(p =>
+                p.ItemRenamed += null,
                 projectItem,
                 oldName);
 
             // Assert
 
-            builder.ProjectItemsEventsServiceMock.Verify(w =>
-                w.ItemRenamed(
+            builder.ProjectItemsEventsServiceMock.Verify(p =>
+                p.ItemRenamed(
                     projectItem,
                     oldName));
         }
@@ -182,8 +182,30 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            builder.SolutionEventsServiceMock.Verify(w =>
-                w.AfterClosing());
+            builder.SolutionEventsServiceMock.Verify(s =>
+                s.AfterClosing());
+        }
+
+        [Test]
+        public void SubscribesToOpened()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.Opened += null);
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(s =>
+                s.Opened());
         }
 
         [Test]
@@ -209,8 +231,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            builder.SolutionEventsServiceMock.Verify(w =>
-                w.ProjectRenamed(project, oldName));
+            builder.SolutionEventsServiceMock.Verify(s =>
+                s.ProjectRenamed(project, oldName));
         }
     }
 }
