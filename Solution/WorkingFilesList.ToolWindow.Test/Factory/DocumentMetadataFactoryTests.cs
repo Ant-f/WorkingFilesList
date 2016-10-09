@@ -17,6 +17,7 @@
 
 using System;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.ToolWindow.Interface;
@@ -281,6 +282,39 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             Assert.That(metadata.ProjectBrush, Is.EqualTo(projectBrush));
+        }
+
+        [Test]
+        public void CreateSetsMetadataIcon()
+        {
+            // Arrange
+
+            const string extension = ".extension";
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = $"FullName{extension}"
+            };
+
+            var builder = new DocumentMetadataFactoryBuilder();
+            var icon = Mock.Of<BitmapSource>();
+
+            builder.DocumentIconServiceMock
+                .Setup(d => d.GetIcon(extension))
+                .Returns(icon);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            builder.DocumentIconServiceMock.Verify(d =>
+                d.GetIcon(extension));
+
+            Assert.That(metadata.Icon, Is.EqualTo(icon));
         }
     }
 }

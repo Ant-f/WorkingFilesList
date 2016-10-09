@@ -48,7 +48,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             var info = new DocumentMetadataInfo();
             var metadataList = new List<DocumentMetadata>
             {
-                new DocumentMetadata(info, correctedName)
+                new DocumentMetadata(info, correctedName, null)
             };
 
             var view = new ListCollectionView(metadataList);

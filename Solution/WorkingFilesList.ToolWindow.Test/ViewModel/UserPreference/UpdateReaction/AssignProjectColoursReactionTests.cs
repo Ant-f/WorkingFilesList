@@ -31,7 +31,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
         private static DocumentMetadata CreateDocumentMetadata()
         {
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty);
+            var metadata = new DocumentMetadata(info, string.Empty, null);
             return metadata;
         }
 

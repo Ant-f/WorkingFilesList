@@ -18,6 +18,7 @@
 using EnvDTE;
 using System;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 
@@ -29,6 +30,11 @@ namespace WorkingFilesList.ToolWindow.Model
         private Brush _projectBrush;
         private double _usageOrder;
         private string _displayName;
+
+        /// <summary>
+        /// Icon depicting a document's file type
+        /// </summary>
+        public BitmapSource Icon { get; }
 
         /// <summary>
         /// Used when <see cref="IUserPreferences.ShowRecentUsage"/> and/or
@@ -132,10 +138,14 @@ namespace WorkingFilesList.ToolWindow.Model
 
         public ProjectNameData ProjectNames { get; }
 
-        public DocumentMetadata(DocumentMetadataInfo info, string correctedFullName)
+        public DocumentMetadata(
+            DocumentMetadataInfo info,
+            string correctedFullName,
+            BitmapSource icon)
         {
             CorrectedFullName = correctedFullName;
             FullName = info.FullName;
+            Icon = icon;
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,

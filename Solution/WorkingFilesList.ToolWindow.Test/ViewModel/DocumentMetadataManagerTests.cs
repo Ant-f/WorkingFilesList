@@ -556,7 +556,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             factoryMock
                 .Setup(f => f.Create(info))
-                .Returns(new DocumentMetadata(info, string.Empty));
+                .Returns(new DocumentMetadata(info, string.Empty, null));
 
             var builder = new DocumentMetadataManagerBuilder
             {
@@ -598,7 +598,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 .Setup(f => f.Create(It.IsAny<DocumentMetadataInfo>()))
                 .Returns(new DocumentMetadata(
                     info,
-                    "CorrectedFullName"));
+                    "CorrectedFullName",
+                    null));
 
             var builder = new DocumentMetadataManagerBuilder
             {

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\IAboutPanelService.cs" />
+    <Compile Include="Interface\IDocumentIconService.cs" />
     <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Model\SortOption\ChronologicalSort.cs" />
     <Compile Include="Model\SortOption\DisableSorting.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
+    <Compile Include="Service\DocumentIconService.cs" />
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
@@ -224,6 +226,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Service\AboutText.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Service\DocumentIcon\CS_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,6 +16,7 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Model;
 
@@ -28,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.Factory
     /// </summary>
     public class DocumentMetadataFactory : IDocumentMetadataFactory
     {
+        private readonly IDocumentIconService _documentIconService;
         private readonly IFilePathService _filePathService;
         private readonly IPathCasingRestorer _pathCasingRestorer;
         private readonly IProjectBrushService _projectBrushService;
@@ -35,12 +37,14 @@ namespace WorkingFilesList.ToolWindow.Factory
         private readonly IUserPreferences _userPreferences;
 
         public DocumentMetadataFactory(
+            IDocumentIconService documentIconService,
             IFilePathService filePathService,
             IPathCasingRestorer pathCasingRestorer,
             IProjectBrushService projectBrushService,
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
+            _documentIconService = documentIconService;
             _filePathService = filePathService;
             _pathCasingRestorer = pathCasingRestorer;
             _projectBrushService = projectBrushService;
@@ -86,7 +90,10 @@ namespace WorkingFilesList.ToolWindow.Factory
                 info.ProjectFullName,
                 _userPreferences);
 
-            var metadata = new DocumentMetadata(info, correctedCasing)
+            var extension = Path.GetExtension(info.FullName);
+            var icon = _documentIconService.GetIcon(extension);
+
+            var metadata = new DocumentMetadata(info, correctedCasing, icon)
             {
                 ActivatedAt = activatedAt,
                 DisplayName = displayName,

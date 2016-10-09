@@ -24,6 +24,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
     internal class DocumentMetadataFactoryBuilder
     {
+        public Mock<IDocumentIconService> DocumentIconServiceMock { get; }
+            = new Mock<IDocumentIconService>();
+
         public Mock<IFilePathService> FilePathServiceMock { get; }
             = new Mock<IFilePathService>();
 
@@ -70,6 +73,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             }
 
             var factory = new DocumentMetadataFactory(
+                DocumentIconServiceMock.Object,
                 FilePathServiceMock.Object,
                 PathCasingRestorerMock.Object,
                 ProjectBrushServiceMock.Object,

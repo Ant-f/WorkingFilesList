@@ -33,7 +33,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
                 ProjectDisplayName = projectDisplayName
             };
 
-            var metadata = new DocumentMetadata(info, string.Empty);
+            var metadata = new DocumentMetadata(info, string.Empty, null);
             return metadata;
         }
 

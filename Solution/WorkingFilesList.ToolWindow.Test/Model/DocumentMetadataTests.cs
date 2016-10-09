@@ -34,7 +34,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 DisplayName = displayName
             };
@@ -64,7 +64,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 DisplayName = "DisplayName"
             };
@@ -95,7 +95,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 IsActive = isActive
             };
@@ -125,7 +125,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 IsActive = true
             };
@@ -156,7 +156,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 UsageOrder = value
             };
@@ -186,7 +186,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 UsageOrder = 0.3
             };
@@ -214,7 +214,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             // Arrange
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 ProjectBrush = null
             };
@@ -233,7 +233,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 ProjectBrush = projectBrush
             };
@@ -263,7 +263,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty)
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
                 ProjectBrush = Brushes.MidnightBlue
             };

@@ -36,7 +36,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 ProjectFullName = "ProjectFullName"
             };
 
-            var metadata = new DocumentMetadata(info, null);
+            var metadata = new DocumentMetadata(info, null, null);
             var service = new DocumentMetadataEqualityService();
 
             // Act
@@ -103,7 +103,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 FullName = metadataFullName,
                 ProjectDisplayName = metadataProjectDisplayName,
                 ProjectFullName = metadataProjectFullName
-            }, null);
+            }, null, null);
 
             var service = new DocumentMetadataEqualityService();
 
