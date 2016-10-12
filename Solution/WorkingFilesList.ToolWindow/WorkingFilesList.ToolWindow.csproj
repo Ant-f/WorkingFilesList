@@ -228,7 +228,17 @@
     <EmbeddedResource Include="Service\AboutText.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service\DocumentIcon\CS_16x.png" />
+    <Resource Include="Service\DocumentIcon\CS_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Service\DocumentIcon\ConfigurationFile_16x.png" />
+    <Resource Include="Service\DocumentIcon\CPP_16x.png" />
+    <Resource Include="Service\DocumentIcon\Document_16x.png" />
+    <Resource Include="Service\DocumentIcon\FS_16x.png" />
+    <Resource Include="Service\DocumentIcon\JS_16x.png" />
+    <Resource Include="Service\DocumentIcon\TS_16x.png" />
+    <Resource Include="Service\DocumentIcon\VB_16x.png" />
+    <Resource Include="Service\DocumentIcon\WPFPage_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

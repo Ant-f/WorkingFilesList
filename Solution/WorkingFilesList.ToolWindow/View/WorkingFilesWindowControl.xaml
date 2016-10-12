@@ -26,7 +26,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="300">
+             d:DesignHeight="120" d:DesignWidth="360">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -177,12 +177,18 @@
                             <ControlTemplate>
                                 <Grid Background="Transparent"
                                       ToolTip="{Binding CorrectedFullName}">
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
 
                                     <ProgressBar BorderBrush="{Binding ProjectBrush}"
                                                  BorderThickness="{Binding IsActive,
                                                                            Converter={StaticResource MappedValuesConverter},
                                                                            ConverterParameter={StaticResource IsActiveToProgressBarBorderThickness}}"
                                                  Foreground="{Binding ProjectBrush}"
+                                                 Grid.ColumnSpan="2"
                                                  IsHitTestVisible="False"
                                                  Maximum="1"
                                                  Minimum="0"
@@ -192,12 +198,22 @@
                                                  Value="{Binding UsageOrder}">
                                     </ProgressBar>
 
+                                    <Image Grid.Column="0"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,2,0"
+                                           Source="{Binding Icon}"
+                                           Stretch="None"
+                                           VerticalAlignment="Center">
+                                    </Image>
+                                    
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
                                                FontWeight="{Binding IsActive,
                                                                     Converter={StaticResource MappedValuesConverter},
                                                                     ConverterParameter={StaticResource IsActiveToFontWeightMapping}}"
+                                               Grid.Column="1"
                                                IsHitTestVisible="False"
-                                               Text="{Binding DisplayName}">
+                                               Text="{Binding DisplayName}"
+                                               VerticalAlignment="Center">
                                     </TextBlock>
                                 </Grid>
                             </ControlTemplate>

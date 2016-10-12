@@ -34,7 +34,7 @@ namespace WorkingFilesList.ToolWindow.Model
         /// <summary>
         /// Icon depicting a document's file type
         /// </summary>
-        public BitmapSource Icon { get; }
+        public BitmapSource Icon { get; set; }
 
         /// <summary>
         /// Used when <see cref="IUserPreferences.ShowRecentUsage"/> and/or

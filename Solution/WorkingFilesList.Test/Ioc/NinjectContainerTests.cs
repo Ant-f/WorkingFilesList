@@ -23,17 +23,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using WorkingFilesList.Ioc;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Ioc
 {
     [TestFixture]
+    [Apartment(ApartmentState.STA)]
     public class NinjectContainerTests
     {
         /// <summary>
+        /// <see cref="Uri"/> instances in <see cref="DocumentIconService"/>
+        /// are in the pack URI format. Creating a <see cref="FrameworkElement"/>
+        /// initializes enough of the framework to enable reading pack URIs.
+        /// 
         /// Stored data should be reset by calling
         /// <see cref="CommonMethods.ResetStoredRepositoryData"/> before
         /// attempting to resolve an <see cref="IUserPreferences"/> instance. As
@@ -41,11 +49,16 @@ namespace WorkingFilesList.Test.Ioc
         /// <see cref="ISortOption.DisplayName"/> from stored data, the test may
         /// erroneously fail otherwise.
         /// </summary>
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            new FrameworkElement();
+            CommonMethods.ResetStoredRepositoryData();
+        }
+        
         [Test]
         public void InterfaceBindingResolution()
         {
-            CommonMethods.ResetStoredRepositoryData();
-
             var factory = new NinjectKernelFactory();
             var kernel = factory.CreateKernel(Mock.Of<DTE2>());
 
