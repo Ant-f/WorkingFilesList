@@ -37,6 +37,9 @@ namespace WorkingFilesList.ToolWindow.Interface
         bool GetAssignProjectColours();
         void SetAssignProjectColours(bool value);
 
+        bool GetShowFileTypeIcons();
+        void SetShowFileTypeIcons(bool value);
+
         void Reset();
     }
 }

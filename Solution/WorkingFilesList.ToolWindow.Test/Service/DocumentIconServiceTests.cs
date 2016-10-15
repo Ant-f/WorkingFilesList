@@ -44,6 +44,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         [TestCase(".cs", "CS_16x.png")]
         [TestCase(".fs", "FS_16x.png")]
         [TestCase(".js", "JS_16x.png")]
+        [TestCase(".txt", "TextFile_16x.png")]
         [TestCase(".ts", "TS_16x.png")]
         [TestCase(".vb", "VB_16x.png")]
         [TestCase(".xaml", "WPFPage_16x.png")]

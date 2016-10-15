@@ -24,6 +24,7 @@ namespace WorkingFilesList.ToolWindow.Interface
         bool AssignProjectColours { get; set; }
         bool GroupByProject { get; set; }
         bool ShowRecentUsage { get; set; }
+        bool ShowFileTypeIcons { get; set; }
         int PathSegmentCount { get; set; }
         ISortOption SelectedDocumentSortOption { get; set; }
         ISortOption SelectedProjectSortOption { get; set; }

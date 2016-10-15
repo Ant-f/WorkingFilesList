@@ -87,6 +87,17 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
+        public bool GetShowFileTypeIcons()
+        {
+            return Properties.Settings.Default.ShowFileTypeIcons;
+        }
+
+        public void SetShowFileTypeIcons(bool value)
+        {
+            Properties.Settings.Default.ShowFileTypeIcons = value;
+            Properties.Settings.Default.Save();
+        }
+
         public void Reset()
         {
             Properties.Settings.Default.Reset();

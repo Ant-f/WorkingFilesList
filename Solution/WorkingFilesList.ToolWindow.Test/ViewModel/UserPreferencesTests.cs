@@ -564,6 +564,106 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void SettingShowFileTypeIconsStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool showFileTypeIcons = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.ShowFileTypeIcons = showFileTypeIcons;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetShowFileTypeIcons(showFileTypeIcons));
+        }
+
+        [Test]
+        public void ShowFileTypeIconsValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool showFileTypeIcons = true;
+
+            var builder = new UserPreferencesBuilder();
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetShowFileTypeIcons())
+                .Returns(showFileTypeIcons);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetShowFileTypeIcons());
+
+            Assert.That(preferences.ShowFileTypeIcons, Is.EqualTo(showFileTypeIcons));
+        }
+
+        [Test]
+        public void SettingShowFileTypeIconsToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool showFileTypeIcons = true;
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.ShowFileTypeIcons = showFileTypeIcons;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowFileTypeIcons = showFileTypeIcons;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingShowFileTypeIconsToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowFileTypeIcons = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
         public void SettingPathSegmentCountStoresNewValueInRepository()
         {
             // Arrange

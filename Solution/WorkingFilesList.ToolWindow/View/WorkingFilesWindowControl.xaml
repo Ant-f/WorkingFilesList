@@ -97,6 +97,11 @@
                     <Image Source="Icon/ProjectColours.png" />
                 </ToggleButton>
 
+                <ToggleButton IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}"
+                              ToolTip="File Type Icons">
+                    <Image Source="Icon/ShowFileTypeIcons.png" />
+                </ToggleButton>
+
                 <Separator />
 
                 <controls:NumericUpDown Focusable="False"
@@ -200,10 +205,20 @@
 
                                     <Image Grid.Column="0"
                                            HorizontalAlignment="Center"
-                                           Margin="0,0,2,0"
+                                           Margin="0,0,5,0"
                                            Source="{Binding Icon}"
                                            Stretch="None"
                                            VerticalAlignment="Center">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
                                     </Image>
                                     
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"

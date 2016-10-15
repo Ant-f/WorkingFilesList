@@ -94,5 +94,17 @@ namespace WorkingFilesList.ToolWindow.Properties {
                 this["AssignProjectColours"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowFileTypeIcons {
+            get {
+                return ((bool)(this["ShowFileTypeIcons"]));
+            }
+            set {
+                this["ShowFileTypeIcons"] = value;
+            }
+        }
     }
 }

@@ -281,5 +281,45 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var storedValue = repository.GetAssignProjectColours();
             Assert.That(storedValue, Is.EqualTo(assignProjectColours));
         }
+
+        [Test]
+        public void ShowFileTypeIconsCanBeReset()
+        {
+            // Arrange
+
+            const bool defaultShowFileTypeIcons = true;
+
+            var repository = new StoredSettingsRepository();
+            repository.SetShowFileTypeIcons(false);
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            var storedValue = repository.GetShowFileTypeIcons();
+            Assert.That(storedValue, Is.EqualTo(defaultShowFileTypeIcons));
+        }
+
+        [Test]
+        public void ShowFileTypeIconsCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool showFileTypeIcons = true;
+            var repository = new StoredSettingsRepository();
+
+            // Act
+
+            repository.SetShowFileTypeIcons(showFileTypeIcons);
+
+            // Assert
+
+            ReloadData();
+
+            var storedValue = repository.GetShowFileTypeIcons();
+            Assert.That(storedValue, Is.EqualTo(showFileTypeIcons));
+        }
     }
 }

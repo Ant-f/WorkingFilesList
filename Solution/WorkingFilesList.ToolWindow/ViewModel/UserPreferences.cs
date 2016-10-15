@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         private bool _assignProjectColours;
         private bool _groupByProject;
+        private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
@@ -110,6 +111,31 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should show an icon representing its file type, based on its
+        /// file extension
+        /// </summary>
+        public bool ShowFileTypeIcons
+        {
+            get
+            {
+                return _showFileTypeIcons;
+            }
+
+            set
+            {
+                if (_showFileTypeIcons != value)
+                {
+                    _showFileTypeIcons = value;
+                    OnPropertyChanged();
+
+                    _storedSettingsRepository.SetShowFileTypeIcons(
+                        _showFileTypeIcons);
+                }
+            }
+        }
+
+        /// <summary>
         /// The number of path segments to display, a path segment being either
         /// a single file or directory name that makes up the full name of a file
         /// </summary>
@@ -182,6 +208,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _assignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
             _groupByProject = _storedSettingsRepository.GetGroupByProject();
             _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+            _showFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
             _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
 
             var documentSortOptionType = _storedSettingsRepository

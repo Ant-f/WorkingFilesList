@@ -39,6 +39,7 @@ namespace WorkingFilesList.ToolWindow.Service
                 [".cs"] = CreateBitmapImage("CS_16x.png"),
                 [".fs"] = CreateBitmapImage("FS_16x.png"),
                 [".js"] = CreateBitmapImage("JS_16x.png"),
+                [".txt"] = CreateBitmapImage("TextFile_16x.png"),
                 [".ts"] = CreateBitmapImage("TS_16x.png"),
                 [".vb"] = CreateBitmapImage("VB_16x.png"),
                 [".xaml"] = CreateBitmapImage("WPFPage_16x.png")

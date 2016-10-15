@@ -240,6 +240,12 @@
     <Resource Include="Service\DocumentIcon\VB_16x.png" />
     <Resource Include="Service\DocumentIcon\WPFPage_16x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Icon\ShowFileTypeIcons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Service\DocumentIcon\TextFile_16x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
