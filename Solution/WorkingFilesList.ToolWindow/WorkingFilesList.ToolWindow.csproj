@@ -140,9 +140,6 @@
     <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
     <Compile Include="View\Controls\NumericUpDown.cs" />
-    <Compile Include="View\Converter\ConverterMappingCollection.cs" />
-    <Compile Include="View\Converter\ConverterMapping.cs" />
-    <Compile Include="View\Converter\MappedValuesConverter.cs" />
     <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>
@@ -154,10 +151,6 @@
     <Page Include="View\Controls\AboutPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Converter\ConverterMappingCollections.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Theme\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
