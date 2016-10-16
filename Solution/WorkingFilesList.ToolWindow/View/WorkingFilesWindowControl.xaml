@@ -187,29 +187,41 @@
                             <ControlTemplate>
                                 <Grid Background="Transparent"
                                       ToolTip="{Binding CorrectedFullName}">
-                                    
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
+                                    <Border x:Name="MouseOverBackground"
+                                            Background="{Binding ProjectBrush}"
+                                            Grid.ColumnSpan="2"
+                                            IsHitTestVisible="False"
+                                            Margin="0,1"
+                                            Opacity="0.1"
+                                            Visibility="Collapsed">
+                                    </Border>
+                                    
                                     <ProgressBar BorderBrush="{Binding ProjectBrush}"
-                                                 BorderThickness="{Binding IsActive,
-                                                                           Converter={StaticResource MappedValuesConverter},
-                                                                           ConverterParameter={StaticResource IsActiveToProgressBarBorderThickness}}"
                                                  Foreground="{Binding ProjectBrush}"
                                                  Grid.ColumnSpan="2"
                                                  IsHitTestVisible="False"
                                                  Maximum="1"
                                                  Minimum="0"
-                                                 Padding="{Binding IsActive,
-                                                                   Converter={StaticResource MappedValuesConverter},
-                                                                   ConverterParameter={StaticResource IsActiveToProgressBarPadding}}"
                                                  Value="{Binding UsageOrder}">
                                     </ProgressBar>
 
+                                    <Border x:Name="MouseOverBorder"
+                                            BorderBrush="{Binding ProjectBrush}"
+                                            BorderThickness="0"
+                                            Grid.ColumnSpan="2"
+                                            IsHitTestVisible="False"
+                                            Opacity="0.7">
+                                    </Border>
+
                                     <Image Grid.Column="0"
                                            HorizontalAlignment="Center"
+                                           IsHitTestVisible="False"
                                            Margin="0,0,5,0"
                                            Source="{Binding Icon}"
                                            Stretch="None"
@@ -249,6 +261,13 @@
                                         </TextBlock.Style>
                                     </TextBlock>
                                 </Grid>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="MouseOverBackground" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="MouseOverBorder" Property="BorderThickness" Value="1"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
 

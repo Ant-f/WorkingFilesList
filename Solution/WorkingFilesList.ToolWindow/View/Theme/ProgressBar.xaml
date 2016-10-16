@@ -32,14 +32,12 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Rectangle x:Name="PART_Track"/>
+                        <Border x:Name="PART_Track"/>
 
                         <Border x:Name="PART_Indicator"
-                                BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
-                                BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"
-                                ClipToBounds="true"
+                                ClipToBounds="True"
                                 HorizontalAlignment="Left"
-                                Margin="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}">
+                                Margin="0,1">
                             <Border.Background>
                                 <SolidColorBrush Color="{Binding (ProgressBar.Foreground).(SolidColorBrush.Color), RelativeSource={RelativeSource TemplatedParent}}"
                                                  Opacity="0.3">
