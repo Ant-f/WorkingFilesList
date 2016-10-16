@@ -22,16 +22,16 @@
                        xmlns:model="clr-namespace:WorkingFilesList.ToolWindow.Model">
     <model:DocumentMetadata DisplayName="The quick brown fox jumped over the lazy dog.txt"
                             Icon="../../Service/DocumentIcon/CS_16x.png"
-                            IsActive="True"
+                            IsActive="False"
                             ProjectBrush="CornflowerBlue"
-                            UsageOrder="1">
+                            UsageOrder="0.8">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document2.txt"
                             Icon="../../Service/DocumentIcon/FS_16x.png"
-                            IsActive="False"
+                            IsActive="True"
                             ProjectBrush="CornflowerBlue"
-                            UsageOrder="0.8">
+                            UsageOrder="1">
     </model:DocumentMetadata>
 
     <model:DocumentMetadata DisplayName="Document3.txt"

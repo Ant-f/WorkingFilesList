@@ -20,30 +20,6 @@
                     xmlns:converter="clr-namespace:WorkingFilesList.ToolWindow.View.Converter"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <converter:ConverterMappingCollection x:Key="IsActiveToFontWeightMapping">
-        <converter:ConverterMappingCollection.MappedValues>
-            <converter:ConverterMapping>
-                <converter:ConverterMapping.From>
-                    <system:Boolean>True</system:Boolean>
-                </converter:ConverterMapping.From>
-
-                <converter:ConverterMapping.To>
-                    <FontWeight>Bold</FontWeight>
-                </converter:ConverterMapping.To>
-            </converter:ConverterMapping>
-
-            <converter:ConverterMapping>
-                <converter:ConverterMapping.From>
-                    <system:Boolean>False</system:Boolean>
-                </converter:ConverterMapping.From>
-
-                <converter:ConverterMapping.To>
-                    <FontWeight>Normal</FontWeight>
-                </converter:ConverterMapping.To>
-            </converter:ConverterMapping>
-        </converter:ConverterMappingCollection.MappedValues>
-    </converter:ConverterMappingCollection>
-
     <converter:ConverterMappingCollection x:Key="IsActiveToProgressBarPadding">
         <converter:ConverterMappingCollection.MappedValues>
             <converter:ConverterMapping>

@@ -23,6 +23,7 @@
              xmlns:locator="clr-namespace:WorkingFilesList.ToolWindow.Service.Locator"
              xmlns:controls="clr-namespace:WorkingFilesList.ToolWindow.View.Controls"
              xmlns:converter="clr-namespace:WorkingFilesList.ToolWindow.View.Converter"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -127,6 +128,9 @@
                       Grid.Row="1"
                       IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
+            <ItemsControl.Resources>
+                <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
+            </ItemsControl.Resources>
             
             <ItemsControl.Style>
                 <Style TargetType="{x:Type ItemsControl}">
@@ -160,10 +164,11 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <StackPanel>
                                             <TextBlock FontStyle="Italic"
+                                                       Opacity="{StaticResource InactiveItemOpacity}"
                                                        Text="{Binding Name.DisplayName}">
                                             </TextBlock>
 
-                                            <Separator Margin="0,2" />
+                                            <Separator Opacity="{StaticResource InactiveItemOpacity}" Margin="0,2" />
 
                                             <ItemsPresenter Margin="0,0,0,10" />
                                         </StackPanel>
@@ -211,24 +216,37 @@
                                            VerticalAlignment="Center">
                                         <Image.Style>
                                             <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
                                                         <Setter Property="Visibility" Value="Visible"/>
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Image.Style>
                                     </Image>
-                                    
+
                                     <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
-                                               FontWeight="{Binding IsActive,
-                                                                    Converter={StaticResource MappedValuesConverter},
-                                                                    ConverterParameter={StaticResource IsActiveToFontWeightMapping}}"
                                                Grid.Column="1"
                                                IsHitTestVisible="False"
                                                Text="{Binding DisplayName}"
                                                VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
                                     </TextBlock>
                                 </Grid>
                             </ControlTemplate>
