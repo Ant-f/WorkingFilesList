@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.Factory
     /// </summary>
     public class DocumentMetadataFactory : IDocumentMetadataFactory
     {
+        private readonly IDisplayNameHighlightEvaluator _displayNameHighlightEvaluator;
         private readonly IDocumentIconService _documentIconService;
         private readonly IFilePathService _filePathService;
         private readonly IPathCasingRestorer _pathCasingRestorer;
@@ -37,6 +38,7 @@ namespace WorkingFilesList.ToolWindow.Factory
         private readonly IUserPreferences _userPreferences;
 
         public DocumentMetadataFactory(
+            IDisplayNameHighlightEvaluator displayNameHighlightEvaluator,
             IDocumentIconService documentIconService,
             IFilePathService filePathService,
             IPathCasingRestorer pathCasingRestorer,
@@ -44,6 +46,7 @@ namespace WorkingFilesList.ToolWindow.Factory
             ITimeProvider timeProvider,
             IUserPreferences userPreferences)
         {
+            _displayNameHighlightEvaluator = displayNameHighlightEvaluator;
             _documentIconService = documentIconService;
             _filePathService = filePathService;
             _pathCasingRestorer = pathCasingRestorer;
@@ -93,10 +96,21 @@ namespace WorkingFilesList.ToolWindow.Factory
             var extension = Path.GetExtension(info.FullName);
             var icon = _documentIconService.GetIcon(extension);
 
+            var displayNameHighlight = _displayNameHighlightEvaluator
+                .GetHighlight(displayName);
+
+            var displayNamePostHighlight = _displayNameHighlightEvaluator
+                .GetPostHighlight(displayName);
+
+            var displayNamePreHighlight = _displayNameHighlightEvaluator
+                .GetPreHighlight(displayName);
+
             var metadata = new DocumentMetadata(info, correctedCasing, icon)
             {
                 ActivatedAt = activatedAt,
-                DisplayName = displayName,
+                DisplayNameHighlight = displayNameHighlight,
+                DisplayNamePostHighlight = displayNamePostHighlight,
+                DisplayNamePreHighlight = displayNamePreHighlight,
                 ProjectBrush = projectBrush
             };
 

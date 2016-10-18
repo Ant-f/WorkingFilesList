@@ -239,15 +239,27 @@
                                         </Image.Style>
                                     </Image>
 
-                                    <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
-                                               Grid.Column="1"
-                                               IsHitTestVisible="False"
-                                               Text="{Binding DisplayName}"
-                                               VerticalAlignment="Center">
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
+                                    <StackPanel Grid.Column="1"
+                                                IsHitTestVisible="False"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style x:Key="BaseTextBlock" TargetType="{x:Type TextBlock}">
                                                 <Setter Property="FontWeight" Value="Normal"/>
-                                                <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
+                                            </Style>
+
+                                            <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                                <Setter Property="Opacity" Value="0.45"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                            <Style x:Key="HighlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                                <Setter Property="Opacity" Value="0.65"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                                                         <Setter Property="FontWeight" Value="Bold"/>
@@ -255,8 +267,12 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                        </StackPanel.Resources>
+
+                                        <TextBlock Text="{Binding DisplayNamePreHighlight}" Style="{StaticResource LowlightedText}"/>
+                                        <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
+                                        <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
+                                    </StackPanel>
                                 </Grid>
 
                                 <ControlTemplate.Triggers>

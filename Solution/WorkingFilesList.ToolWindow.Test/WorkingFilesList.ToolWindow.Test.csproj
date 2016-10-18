@@ -86,6 +86,7 @@
     <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
     <Compile Include="Service\AboutPanelServiceTests.cs" />
     <Compile Include="Service\CollectionViewGeneratorTests.cs" />
+    <Compile Include="Service\DisplayNameHighlightEvaluatorTests.cs" />
     <Compile Include="Service\DocumentIconServiceTests.cs" />
     <Compile Include="Service\DocumentMetadataEqualityServiceTests.cs" />
     <Compile Include="Service\EventRelay\DteEventsSubscriberTests.cs" />

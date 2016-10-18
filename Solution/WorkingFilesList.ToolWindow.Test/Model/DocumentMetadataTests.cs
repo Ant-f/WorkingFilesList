@@ -26,17 +26,17 @@ namespace WorkingFilesList.ToolWindow.Test.Model
     public class DocumentMetadataTests
     {
         [Test]
-        public void SettingDisplayNameToSameValueDoesNotRaisePropertyChanged()
+        public void SettingDisplayNamePreHighlightToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
-            const string displayName = "DisplayName";
+            const string preHighlight = "PreHighlight";
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                DisplayName = displayName
+                DisplayNamePreHighlight = preHighlight
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -48,7 +48,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             // Act
 
-            metadata.DisplayName = displayName;
+            metadata.DisplayNamePreHighlight = preHighlight;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -57,7 +57,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
         }
 
         [Test]
-        public void SettingDisplayNameToDifferentValueRaisesPropertyChanged()
+        public void SettingDisplayNamePreHighlightToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -66,7 +66,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                DisplayName = "DisplayName"
+                DisplayNamePreHighlight = "PreHighlight"
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -78,7 +78,129 @@ namespace WorkingFilesList.ToolWindow.Test.Model
 
             // Act
 
-            metadata.DisplayName = "NewDisplayName";
+            metadata.DisplayNamePreHighlight = "NewPreHighlight";
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingDisplayNameHighlightToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const string highlight = "Highlight";
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                DisplayNameHighlight = highlight
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.DisplayNameHighlight = highlight;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingDisplayNameHighlightToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                DisplayNameHighlight = "Highlight"
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.DisplayNameHighlight = "NewHighlight";
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingDisplayNamePostHighlightToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const string postHighlight = "PostHighlight";
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                DisplayNamePostHighlight = postHighlight
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.DisplayNamePostHighlight = postHighlight;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingDisplayNamePostHighlightToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                DisplayNamePostHighlight = "PostHighlight"
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.DisplayNamePostHighlight = "NewPostHighlight";
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -283,6 +405,29 @@ namespace WorkingFilesList.ToolWindow.Test.Model
             // Assert
 
             Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void DisplayNameIsConcatenationOfDisplayNameHighlightProperties()
+        {
+            // Arrange
+
+            const string preHighlight = "[PreHighlight]";
+            const string highlight = "[Highlight]";
+            const string postHighlight = "[PostHighlight]";
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                DisplayNamePreHighlight = preHighlight,
+                DisplayNameHighlight = highlight,
+                DisplayNamePostHighlight = postHighlight
+            };
+
+            // Assert
+
+            var expected = $"{preHighlight}{highlight}{postHighlight}";
+            Assert.That(metadata.DisplayName, Is.EqualTo(expected));
         }
     }
 }

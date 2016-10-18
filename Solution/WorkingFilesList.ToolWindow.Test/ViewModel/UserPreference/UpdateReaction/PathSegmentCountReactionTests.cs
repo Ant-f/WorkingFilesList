@@ -43,6 +43,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
                 u.PathSegmentCount == pathSegmentCount);
 
             var updateReaction = new PathSegmentCountReaction(
+                Mock.Of<IDisplayNameHighlightEvaluator>(),
                 filePathServiceMock.Object);
 
             var info = new DocumentMetadataInfo();
@@ -70,6 +71,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             // Arrange
 
             var updateReaction = new PathSegmentCountReaction(
+                Mock.Of<IDisplayNameHighlightEvaluator>(),
                 Mock.Of<IFilePathService>());
 
             var collectionViewMock = new Mock<ICollectionView>
@@ -86,6 +88,135 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             // Assert
 
             collectionViewMock.Verify(c => c.Refresh());
+        }
+
+        [Test]
+        public void CollectionUpdateSetsDisplayNameHighlight()
+        {
+            // Arrange
+
+            const string highlight = "Highlight";
+            const string reducedPath = "ReducedPath";
+
+            var filePathService = Mock.Of<IFilePathService>(f =>
+                f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()) == reducedPath);
+
+            var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
+
+            highlightEvaluatorMock
+                .Setup(h => h.GetHighlight(reducedPath))
+                .Returns(highlight);
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, "CorrectedName", null);
+
+            var metadataList = new List<DocumentMetadata>
+            {
+                metadata
+            };
+
+            var view = new ListCollectionView(metadataList);
+
+            var updateReaction = new PathSegmentCountReaction(
+                highlightEvaluatorMock.Object,
+                filePathService);
+
+            // Act
+
+            updateReaction.UpdateCollection(view, Mock.Of<IUserPreferences>());
+
+            // Assert
+
+            highlightEvaluatorMock.Verify(h => h.GetHighlight(reducedPath));
+            Assert.That(metadata.DisplayNameHighlight, Is.EqualTo(highlight));
+        }
+
+        [Test]
+        public void CollectionUpdateSetsDisplayNamePostHighlight()
+        {
+            // Arrange
+
+            const string postHighlight = "PostHighlight";
+            const string reducedPath = "ReducedPath";
+
+            var filePathService = Mock.Of<IFilePathService>(f =>
+                f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()) == reducedPath);
+
+            var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
+
+            highlightEvaluatorMock
+                .Setup(h => h.GetPostHighlight(reducedPath))
+                .Returns(postHighlight);
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, "CorrectedName", null);
+
+            var metadataList = new List<DocumentMetadata>
+            {
+                metadata
+            };
+
+            var view = new ListCollectionView(metadataList);
+
+            var updateReaction = new PathSegmentCountReaction(
+                highlightEvaluatorMock.Object,
+                filePathService);
+
+            // Act
+
+            updateReaction.UpdateCollection(view, Mock.Of<IUserPreferences>());
+
+            // Assert
+
+            highlightEvaluatorMock.Verify(h => h.GetPostHighlight(reducedPath));
+            Assert.That(metadata.DisplayNamePostHighlight, Is.EqualTo(postHighlight));
+        }
+
+        [Test]
+        public void CollectionUpdateSetsDisplayNamePreHighlight()
+        {
+            // Arrange
+
+            const string preHighlight = "PreHighlight";
+            const string reducedPath = "ReducedPath";
+
+            var filePathService = Mock.Of<IFilePathService>(f =>
+                f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()) == reducedPath);
+
+            var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
+
+            highlightEvaluatorMock
+                .Setup(h => h.GetPreHighlight(reducedPath))
+                .Returns(preHighlight);
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, "CorrectedName", null);
+
+            var metadataList = new List<DocumentMetadata>
+            {
+                metadata
+            };
+
+            var view = new ListCollectionView(metadataList);
+
+            var updateReaction = new PathSegmentCountReaction(
+                highlightEvaluatorMock.Object,
+                filePathService);
+
+            // Act
+
+            updateReaction.UpdateCollection(view, Mock.Of<IUserPreferences>());
+
+            // Assert
+
+            highlightEvaluatorMock.Verify(h => h.GetPreHighlight(reducedPath));
+            Assert.That(metadata.DisplayNamePreHighlight, Is.EqualTo(preHighlight));
         }
     }
 }

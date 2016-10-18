@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\IAboutPanelService.cs" />
+    <Compile Include="Interface\IDisplayNameHighlightEvaluator.cs" />
     <Compile Include="Interface\IDocumentIconService.cs" />
     <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Service\DocumentIconService.cs" />
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
+    <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Model\SortOption\ProjectItemType.cs" />

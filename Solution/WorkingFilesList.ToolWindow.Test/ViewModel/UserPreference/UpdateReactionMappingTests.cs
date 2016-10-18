@@ -34,7 +34,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             {
                 new AssignProjectColoursReaction(Mock.Of<IProjectBrushService>()),
                 new GroupByProjectReaction(),
-                new PathSegmentCountReaction(Mock.Of<IFilePathService>()),
+
+                new PathSegmentCountReaction(
+                    Mock.Of<IDisplayNameHighlightEvaluator>(),
+                    Mock.Of<IFilePathService>()),
+
                 new SelectedSortOptionReaction(Mock.Of<ISortOptionsService>()),
                 new ShowRecentUsageReaction(Mock.Of<INormalizedUsageOrderService>())
             };

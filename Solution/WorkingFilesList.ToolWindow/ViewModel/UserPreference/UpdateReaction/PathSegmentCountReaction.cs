@@ -24,10 +24,14 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {
     public class PathSegmentCountReaction : IUpdateReaction
     {
+        private readonly IDisplayNameHighlightEvaluator _displayNameHighlightEvaluator;
         private readonly IFilePathService _filePathService;
 
-        public PathSegmentCountReaction(IFilePathService filePathService)
+        public PathSegmentCountReaction(
+            IDisplayNameHighlightEvaluator displayNameHighlightEvaluator,
+            IFilePathService filePathService)
         {
+            _displayNameHighlightEvaluator = displayNameHighlightEvaluator;
             _filePathService = filePathService;
         }
 
@@ -37,9 +41,22 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
         {
             foreach (var metadata in view.Cast<DocumentMetadata>())
             {
-                metadata.DisplayName = _filePathService.ReducePath(
+                var displayName = _filePathService.ReducePath(
                     metadata.CorrectedFullName,
                     userPreferences.PathSegmentCount);
+
+                var preHighlight = _displayNameHighlightEvaluator
+                    .GetPreHighlight(displayName);
+
+                var highlight = _displayNameHighlightEvaluator
+                    .GetHighlight(displayName);
+
+                var postHighlight = _displayNameHighlightEvaluator
+                    .GetPostHighlight(displayName);
+
+                metadata.DisplayNamePreHighlight = preHighlight;
+                metadata.DisplayNameHighlight = highlight;
+                metadata.DisplayNamePostHighlight = postHighlight;
             }
 
             // Collection may need to be sorted: changing the number of path

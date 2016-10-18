@@ -94,13 +94,14 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             if (UpdateReactionMapping == null)
             {
+                var displayNameHighlightEvaluator = new DisplayNameHighlightEvaluator();
                 var filePathService = new FilePathService();
 
                 var updateReactions = new IUpdateReaction[]
                 {
                     new AssignProjectColoursReaction(Mock.Of<IProjectBrushService>()),
                     new GroupByProjectReaction(),
-                    new PathSegmentCountReaction(filePathService),
+                    new PathSegmentCountReaction(displayNameHighlightEvaluator, filePathService),
                     new SelectedSortOptionReaction(SortOptionsService),
                     new ShowRecentUsageReaction(NormalizedUsageOrderServiceMock.Object)
                 };

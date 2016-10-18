@@ -28,6 +28,7 @@ namespace WorkingFilesList.Ioc.Modules
         {
             Kernel.Bind<IAboutPanelService>().To<AboutPanelService>().InSingletonScope();
             Kernel.Bind<ICollectionViewGenerator>().To<CollectionViewGenerator>().InSingletonScope();
+            Kernel.Bind<IDisplayNameHighlightEvaluator>().To<DisplayNameHighlightEvaluator>().InSingletonScope();
             Kernel.Bind<IDocumentIconService>().To<DocumentIconService>().InSingletonScope();
             Kernel.Bind<IDocumentMetadataEqualityService>().To<DocumentMetadataEqualityService>().InSingletonScope();
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();

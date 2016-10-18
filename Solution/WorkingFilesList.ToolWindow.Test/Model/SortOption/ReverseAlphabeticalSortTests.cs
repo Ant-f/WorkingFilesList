@@ -31,7 +31,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                DisplayName = displayName
+                DisplayNameHighlight = displayName
             };
 
             return metadata;

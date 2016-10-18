@@ -153,7 +153,10 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         {
             // Arrange
 
-            const string filePathServiceOutput = "FilePathServiceOutput";
+            const string filePathServiceOutput = "Output";
+            const string preHighlightSuffix = "[PreHighlight]";
+            const string highlightSuffix = "[Highlight]";
+            const string postHighlightSuffix = "[PostHighlight]";
 
             var info = new DocumentMetadataInfo();
             var builder = new DocumentMetadataFactoryBuilder();
@@ -163,6 +166,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
                     It.IsAny<string>(),
                     It.IsAny<int>()))
                 .Returns(filePathServiceOutput);
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPreHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + preHighlightSuffix);
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + highlightSuffix);
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPostHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + postHighlightSuffix);
 
             var factory = builder.CreateDocumentMetadataFactory(true);
 
@@ -172,7 +190,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             // Assert
 
-            Assert.That(metadata.DisplayName, Is.EqualTo(filePathServiceOutput));
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetPreHighlight(filePathServiceOutput));
+
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetHighlight(filePathServiceOutput));
+
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetPostHighlight(filePathServiceOutput));
+
+            var expected =
+                $"{filePathServiceOutput}{preHighlightSuffix}" +
+                $"{filePathServiceOutput}{highlightSuffix}" +
+                $"{filePathServiceOutput}{postHighlightSuffix}";
+
+            Assert.That(metadata.DisplayName, Is.EqualTo(expected));
         }
 
         [Test]
@@ -180,7 +212,10 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
         {
             // Arrange
 
-            const string filePathServiceOutput = "FilePathServiceOutput";
+            const string filePathServiceOutput = "Output";
+            const string preHighlightSuffix = "[PreHighlight]";
+            const string highlightSuffix = "[Highlight]";
+            const string postHighlightSuffix = "[PostHighlight]";
 
             var info = new DocumentMetadataInfo();
             var builder = new DocumentMetadataFactoryBuilder();
@@ -191,6 +226,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
                     It.IsAny<int>()))
                 .Returns(filePathServiceOutput);
 
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPreHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + preHighlightSuffix);
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + highlightSuffix);
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPostHighlight(
+                    It.IsAny<string>()))
+                .Returns<string>(str => str + postHighlightSuffix);
+
             var factory = builder.CreateDocumentMetadataFactory(true);
 
             // Act
@@ -199,7 +249,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             // Assert
 
-            Assert.That(metadata.DisplayName, Is.EqualTo(filePathServiceOutput));
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetPreHighlight(filePathServiceOutput));
+
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetHighlight(filePathServiceOutput));
+
+            builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
+                d.GetPostHighlight(filePathServiceOutput));
+
+            var expected =
+                $"{filePathServiceOutput}{preHighlightSuffix}" +
+                $"{filePathServiceOutput}{highlightSuffix}" +
+                $"{filePathServiceOutput}{postHighlightSuffix}";
+
+            Assert.That(metadata.DisplayName, Is.EqualTo(expected));
         }
 
         [Test]
@@ -315,6 +379,84 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
                 d.GetIcon(extension));
 
             Assert.That(metadata.Icon, Is.EqualTo(icon));
+        }
+
+        [Test]
+        public void CreateSetsDisplayNameHighlight()
+        {
+            // Arrange
+
+            const string highlight = "Highlight";
+
+            var info = new DocumentMetadataInfo();
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetHighlight(
+                    It.IsAny<string>()))
+                .Returns(highlight);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(metadata.DisplayNameHighlight, Is.EqualTo(highlight));
+        }
+
+        [Test]
+        public void CreateSetsDisplayNamePostHighlight()
+        {
+            // Arrange
+
+            const string postHighlight = "PostHighlight";
+
+            var info = new DocumentMetadataInfo();
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPostHighlight(
+                    It.IsAny<string>()))
+                .Returns(postHighlight);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(metadata.DisplayNamePostHighlight, Is.EqualTo(postHighlight));
+        }
+
+        [Test]
+        public void CreateSetsDisplayNamePreHighlight()
+        {
+            // Arrange
+
+            const string preHighlight = "PreHighlight";
+
+            var info = new DocumentMetadataInfo();
+            var builder = new DocumentMetadataFactoryBuilder();
+
+            builder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetPreHighlight(
+                    It.IsAny<string>()))
+                .Returns(preHighlight);
+
+            var factory = builder.CreateDocumentMetadataFactory(true);
+
+            // Act
+
+            var metadata = factory.Create(info);
+
+            // Assert
+
+            Assert.That(metadata.DisplayNamePreHighlight, Is.EqualTo(preHighlight));
         }
     }
 }

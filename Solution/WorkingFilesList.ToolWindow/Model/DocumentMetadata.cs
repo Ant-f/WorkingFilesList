@@ -29,7 +29,9 @@ namespace WorkingFilesList.ToolWindow.Model
         private bool _isActive;
         private Brush _projectBrush;
         private double _usageOrder;
-        private string _displayName;
+        private string _displayNameHighlight;
+        private string _displayNamePostHighlight;
+        private string _displayNamePreHighlight;
 
         /// <summary>
         /// Icon depicting a document's file type
@@ -75,14 +77,72 @@ namespace WorkingFilesList.ToolWindow.Model
         {
             get
             {
-                return _displayName;
+                var displayName =
+                    DisplayNamePreHighlight +
+                    DisplayNameHighlight +
+                    DisplayNamePostHighlight;
+
+                return displayName;
+            }
+        }
+
+        /// <summary>
+        /// Substring of <see cref="DisplayName"/> to be highlighted
+        /// </summary>
+        public string DisplayNameHighlight
+        {
+            get
+            {
+                return _displayNameHighlight;
             }
 
             set
             {
-                if (_displayName != value)
+                if (_displayNameHighlight != value)
                 {
-                    _displayName = value;
+                    _displayNameHighlight = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Substring of <see cref="DisplayName"/> to the right of
+        /// <see cref="DisplayNameHighlight"/>
+        /// </summary>
+        public string DisplayNamePostHighlight
+        {
+            get
+            {
+                return _displayNamePostHighlight;
+            }
+
+            set
+            {
+                if (_displayNamePostHighlight != value)
+                {
+                    _displayNamePostHighlight = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Substring of <see cref="DisplayName"/> to the left of
+        /// <see cref="DisplayNameHighlight"/>
+        /// </summary>
+        public string DisplayNamePreHighlight
+        {
+            get
+            {
+                return _displayNamePreHighlight;
+            }
+
+            set
+            {
+                if (_displayNamePreHighlight != value)
+                {
+                    _displayNamePreHighlight = value;
                     OnPropertyChanged();
                 }
             }

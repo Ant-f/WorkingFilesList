@@ -24,6 +24,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
     internal class DocumentMetadataFactoryBuilder
     {
+        public Mock<IDisplayNameHighlightEvaluator> DisplayNameHighlightEvaluatorMock { get; }
+            = new Mock<IDisplayNameHighlightEvaluator>();
+
         public Mock<IDocumentIconService> DocumentIconServiceMock { get; }
             = new Mock<IDocumentIconService>();
 
@@ -73,6 +76,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             }
 
             var factory = new DocumentMetadataFactory(
+                DisplayNameHighlightEvaluatorMock.Object,
                 DocumentIconServiceMock.Object,
                 FilePathServiceMock.Object,
                 PathCasingRestorerMock.Object,
