@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="WorkingFilesList.AnthonyFung.7eaac650-4fb8-4977-a31e-873b5a852614" Version="0.6" Language="en-US" Publisher="Anthony Fung" />
+    <Identity Id="WorkingFilesList.AnthonyFung.7eaac650-4fb8-4977-a31e-873b5a852614" Version="0.7" Language="en-US" Publisher="Anthony Fung" />
     <DisplayName>Working Files List</DisplayName>
     <Description xml:space="preserve">Visual Studio extension tool window that shows a selectable list of files that are open in the editor</Description>
     <MoreInfo>https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51</MoreInfo>
     <License>LICENSE.txt</License>
     <GettingStartedGuide>Resources\GettingStarted.txt</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/Ant-f/WorkingFilesList/releases</ReleaseNotes>
     <Icon>Resources\WorkingFilesWindowPackage.ico</Icon>
     <PreviewImage>Resources\WorkingFilesListPreview.png</PreviewImage>
   </Metadata>
