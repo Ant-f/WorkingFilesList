@@ -36,6 +36,7 @@
                 <ResourceDictionary Source="Theme/ProgressBar.xaml"/>
                 <ResourceDictionary Source="Theme/Separator.xaml"/>
                 <ResourceDictionary Source="Theme/ToggleButton.xaml"/>
+                <ResourceDictionary Source="Theme/ToolBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <locator:ViewModelService x:Key="ViewModel" />
@@ -49,11 +50,9 @@
         </Grid.RowDefinitions>
 
         <!--User Preferences-->
-        <Border Background="{DynamicResource VsBrush.CommandBarGradient}"
-                Padding="0,2">
-            <StackPanel DataContext="{Binding UserPreferences}"
-                        Orientation="Horizontal">
-
+        <ToolBarTray Background="{DynamicResource VsBrush.CommandBarGradient}"
+                     DataContext="{Binding UserPreferences}">
+            <ToolBar Background="Transparent">
                 <ComboBox ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
                           SelectedItem="{Binding SelectedProjectSortOption}"
                           ToolTip="Project Name Sort"
@@ -70,7 +69,7 @@
                           SelectedItem="{Binding SelectedDocumentSortOption}"
                           ToolTip="File Name Sort"
                           Width="60">
-                    
+
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DisplayName}"/>
@@ -79,7 +78,7 @@
                 </ComboBox>
 
                 <Separator />
-
+                
                 <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}"
                               ToolTip="Group By Project">
                     <Image Source="Icon/GroupByProject.png" />
@@ -116,8 +115,8 @@
                               ToolTip="Extension Information">
                     <Image Source="Icon/About.png" />
                 </ToggleButton>
-            </StackPanel>
-        </Border>
+            </ToolBar>
+        </ToolBarTray>
 
         <!--Active Documents-->
         <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"

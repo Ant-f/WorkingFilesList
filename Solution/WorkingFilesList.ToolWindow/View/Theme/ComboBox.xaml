@@ -22,8 +22,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="General.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
-    <Style TargetType="{x:Type ComboBox}">
+
+    <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
         <Setter Property="Background" Value="{DynamicResource VsBrush.ComboBoxBackground}"/>
