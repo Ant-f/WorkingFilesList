@@ -79,6 +79,7 @@
     <Compile Include="Interface\IDisplayOrderContainer.cs" />
     <Compile Include="Interface\ISortOptionsService.cs" />
     <Compile Include="Interface\IStoredSettingsService.cs" />
+    <Compile Include="Interface\ITestFileNameEvaluator.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
     <Compile Include="Interface\IUpdateReaction.cs" />
     <Compile Include="Interface\IUpdateReactionManager.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
+    <Compile Include="Service\TestFileNameEvaluator.cs" />
+    <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Model\SortOption\ProjectItemType.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />

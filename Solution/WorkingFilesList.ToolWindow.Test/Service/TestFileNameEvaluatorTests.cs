@@ -15,25 +15,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.ViewModel.Command;
+using NUnit.Framework;
+using WorkingFilesList.ToolWindow.Service;
 
-namespace WorkingFilesList.ToolWindow.ViewModel
+namespace WorkingFilesList.ToolWindow.Test.Service
 {
-    public class Commands : ICommands
+    [TestFixture]
+    public class TestFileNameEvaluatorTests
     {
-        public ICommand ActivateWindow { get; }
-        public ICommand CloseDocument { get; }
-        public ICommand OpenTestFile { get; }
-
-        public Commands(IList<ICommand> commandCollection)
+        [TestCase(@"FileName.cs", "FileNameTests.cs")]
+        [TestCase(@"C:\FileName.cs", "FileNameTests.cs")]
+        [TestCase(@"C:\Directory\FileName.cs", "FileNameTests.cs")]
+        public void TestFileNameIsBuiltByAppendingTestsSuffixAndRemovingDirectoryName(
+            string input,
+            string expectedOutput)
         {
-            ActivateWindow = commandCollection.OfType<ActivateWindow>().Single();
-            CloseDocument = commandCollection.OfType<CloseDocument>().Single();
-            OpenTestFile = commandCollection.OfType<OpenTestFile>().Single();
+            // Arrange
+
+            var service = new TestFileNameEvaluator();
+
+            // Act
+
+            var result = service.EvaluateTestFileName(input);
+
+            // Assert
+
+            Assert.That(result, Is.EqualTo(expectedOutput));
         }
     }
 }

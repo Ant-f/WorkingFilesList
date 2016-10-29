@@ -39,6 +39,7 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
             Kernel.Bind<ISolutionEventsService>().To<SolutionEventsService>().InSingletonScope();
             Kernel.Bind<ISortOptionsService>().To<SortOptionsService>().InSingletonScope();
+            Kernel.Bind<ITestFileNameEvaluator>().To<TestFileNameEvaluator>().InSingletonScope();
             Kernel.Bind<ITimeProvider>().To<TimeProvider>().InSingletonScope();
             Kernel.Bind<IWindowEventsService>().To<WindowEventsService>().InSingletonScope();
         }

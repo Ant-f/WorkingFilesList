@@ -98,6 +98,7 @@
     <Compile Include="Service\PathCasingRestorerTests.cs" />
     <Compile Include="Service\ProjectBrushServiceTests.cs" />
     <Compile Include="Service\SortOptionsServiceTests.cs" />
+    <Compile Include="Service\TestFileNameEvaluatorTests.cs" />
     <Compile Include="TestingInfrastructure\CommonMethods.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataFactoryBuilder.cs" />
     <Compile Include="TestingInfrastructure\DocumentMetadataManagerBuilder.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />
     <Compile Include="ViewModel\Command\ActivateWindowTests.cs" />
     <Compile Include="ViewModel\Command\CloseDocumentTests.cs" />
+    <Compile Include="ViewModel\Command\OpenTestFileTests.cs" />
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
     <Compile Include="ViewModel\OptionsListsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />

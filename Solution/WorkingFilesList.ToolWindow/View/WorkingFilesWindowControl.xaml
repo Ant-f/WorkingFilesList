@@ -293,6 +293,11 @@
                                           CommandParameter="{Binding .}"
                                           Gesture="MiddleClick">
                             </MouseBinding>
+
+                            <MouseBinding Command="{Binding Commands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                          CommandParameter="{Binding .}"
+                                          Gesture="RightClick">
+                            </MouseBinding>
                         </Button.InputBindings>
                     </Button>
                 </DataTemplate>

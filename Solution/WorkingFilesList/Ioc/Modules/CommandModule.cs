@@ -33,6 +33,7 @@ namespace WorkingFilesList.Ioc.Modules
         {
             Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
             Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<OpenTestFile>().InSingletonScope();
             Kernel.Bind<ICommands>().To<Commands>().InSingletonScope();
         }
     }

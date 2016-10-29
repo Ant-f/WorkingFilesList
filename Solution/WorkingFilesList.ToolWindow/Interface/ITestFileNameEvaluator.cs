@@ -15,14 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows.Input;
-
 namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface ICommands
+    public interface ITestFileNameEvaluator
     {
-        ICommand ActivateWindow { get; }
-        ICommand CloseDocument { get; }
-        ICommand OpenTestFile { get; }
+        string EvaluateTestFileName(string fileName);
     }
 }
