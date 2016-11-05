@@ -19,7 +19,7 @@ using Moq;
 using NUnit.Framework;
 using System.Linq;
 using System.Windows.Media;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.Service

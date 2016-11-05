@@ -57,44 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
-    <Compile Include="Interface\IAboutPanelService.cs" />
-    <Compile Include="Interface\IDisplayNameHighlightEvaluator.cs" />
-    <Compile Include="Interface\IDocumentIconService.cs" />
-    <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
-    <Compile Include="Interface\IFilePathService.cs" />
-    <Compile Include="Interface\ICollectionViewGenerator.cs" />
-    <Compile Include="Interface\ICommands.cs" />
-    <Compile Include="Interface\IDocumentMetadataFactory.cs" />
-    <Compile Include="Interface\IDocumentMetadataManager.cs" />
-    <Compile Include="Interface\IDteEventsSubscriber.cs" />
-    <Compile Include="Interface\IIntValueControl.cs" />
-    <Compile Include="Interface\INormalizedUsageOrderService.cs" />
-    <Compile Include="Interface\IOptionsLists.cs" />
-    <Compile Include="Interface\IPathCasingRestorer.cs" />
-    <Compile Include="Interface\IProjectBrushes.cs" />
-    <Compile Include="Interface\IProjectBrushService.cs" />
-    <Compile Include="Interface\IProjectItemsEventsService.cs" />
-    <Compile Include="Interface\ISolutionEventsService.cs" />
-    <Compile Include="Interface\ISortOption.cs" />
-    <Compile Include="Interface\IDisplayOrderContainer.cs" />
-    <Compile Include="Interface\ISortOptionsService.cs" />
-    <Compile Include="Interface\IStoredSettingsService.cs" />
-    <Compile Include="Interface\ITestFileNameEvaluator.cs" />
-    <Compile Include="Interface\ITimeProvider.cs" />
-    <Compile Include="Interface\IUpdateReaction.cs" />
-    <Compile Include="Interface\IUpdateReactionManager.cs" />
-    <Compile Include="Interface\IUpdateReactionMapping.cs" />
-    <Compile Include="Interface\IUserPreferences.cs" />
-    <Compile Include="Interface\IWindowEventsService.cs" />
-    <Compile Include="Model\DocumentMetadata.cs" />
-    <Compile Include="Model\DocumentMetadataInfo.cs" />
-    <Compile Include="Model\ProjectNameData.cs" />
-    <Compile Include="Model\SolutionNameChangedEventArgs.cs" />
-    <Compile Include="Model\SortOption\ProjectReverseAlphabeticalSort.cs" />
-    <Compile Include="Model\SortOption\ProjectAlphabeticalSort.cs" />
-    <Compile Include="Model\SortOption\AlphabeticalSort.cs" />
-    <Compile Include="Model\SortOption\ChronologicalSort.cs" />
-    <Compile Include="Model\SortOption\DisableSorting.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
     <Compile Include="Service\DocumentIconService.cs" />
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />
@@ -104,9 +66,6 @@
     <Compile Include="Service\TestFileNameEvaluator.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
-    <Compile Include="Model\SortOption\ProjectItemType.cs" />
-    <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
-    <Compile Include="Model\SortOption\SortOptionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -119,7 +78,6 @@
     <Compile Include="Service\EventRelay\DteEventsSubscriber.cs" />
     <Compile Include="Service\EventRelay\ProjectItemsEventsService.cs" />
     <Compile Include="Service\EventRelay\WindowEventsService.cs" />
-    <Compile Include="Service\Locator\ViewModelService.cs" />
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="Service\SortOptionsService.cs" />
     <Compile Include="Service\TimeProvider.cs" />
@@ -130,7 +88,6 @@
     <Compile Include="Service\NormalizedUsageOrderService.cs" />
     <Compile Include="ViewModel\OptionsLists.cs" />
     <Compile Include="ViewModel\ProjectBrushes.cs" />
-    <Compile Include="ViewModel\PropertyChangedNotifier.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\AssignProjectColoursReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\GroupByProjectReaction.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\ShowRecentUsageReaction.cs" />
@@ -247,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Service\DocumentIcon\TextFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkingFilesList.Core\WorkingFilesList.Core.csproj">
+      <Project>{a0c5bdb5-6398-42a9-9262-463f15fd364b}</Project>
+      <Name>WorkingFilesList.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

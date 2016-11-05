@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 
 namespace WorkingFilesList.ToolWindow.ViewModel

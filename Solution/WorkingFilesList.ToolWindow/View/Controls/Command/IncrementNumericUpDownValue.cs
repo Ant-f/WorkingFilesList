@@ -17,7 +17,7 @@
 
 using System;
 using System.Windows.Input;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.View.Controls.Command
 {

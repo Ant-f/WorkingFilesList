@@ -18,7 +18,7 @@
 using Moq;
 using NUnit.Framework;
 using System.Threading;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.View.Controls;
 using WorkingFilesList.ToolWindow.View.Controls.Command;
 

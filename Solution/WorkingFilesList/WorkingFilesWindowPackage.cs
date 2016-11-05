@@ -23,8 +23,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using WorkingFilesList.Ioc;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Service.Locator;
+using WorkingFilesList.OptionsDialoguePage;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Service.Locator;
 
 namespace WorkingFilesList
 {
@@ -48,6 +49,7 @@ namespace WorkingFilesList
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(OptionsPage), "Working Files List", "General", 1000, 1001, true)]
     [ProvideToolWindow(typeof(WorkingFilesWindow))]
     [Guid(WorkingFilesWindowPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]

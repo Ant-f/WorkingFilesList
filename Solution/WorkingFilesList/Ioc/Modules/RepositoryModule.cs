@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.Ioc.Modules

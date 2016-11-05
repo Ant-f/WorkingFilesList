@@ -20,8 +20,8 @@ using EnvDTE80;
 using Moq;
 using Ninject.MockingKernel.Moq;
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Service.Locator;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Service.Locator;
 
 namespace WorkingFilesList.Test
 {

@@ -24,9 +24,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
+using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
 

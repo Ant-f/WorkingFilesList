@@ -17,7 +17,7 @@
 
 using Moq;
 using WorkingFilesList.ToolWindow.Factory;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure

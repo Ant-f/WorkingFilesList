@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using Moq;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;

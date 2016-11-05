@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.ToolWindow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.ToolWindow.Test", "WorkingFilesList.ToolWindow.Test\WorkingFilesList.ToolWindow.Test.csproj", "{18F82948-FEDB-44FC-9E5A-6F2A32540A85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.OptionsDialoguePage", "WorkingFilesList.OptionsDialoguePage\WorkingFilesList.OptionsDialoguePage.csproj", "{006B8580-C063-4478-818B-625783DADA43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.Core", "WorkingFilesList.Core\WorkingFilesList.Core.csproj", "{A0C5BDB5-6398-42A9-9262-463F15FD364B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18F82948-FEDB-44FC-9E5A-6F2A32540A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006B8580-C063-4478-818B-625783DADA43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006B8580-C063-4478-818B-625783DADA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006B8580-C063-4478-818B-625783DADA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006B8580-C063-4478-818B-625783DADA43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C5BDB5-6398-42A9-9262-463F15FD364B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C5BDB5-6398-42A9-9262-463F15FD364B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C5BDB5-6398-42A9-9262-463F15FD364B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C5BDB5-6398-42A9-9262-463F15FD364B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

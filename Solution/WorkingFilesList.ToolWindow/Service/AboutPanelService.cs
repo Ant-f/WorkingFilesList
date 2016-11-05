@@ -17,7 +17,7 @@
 
 using System.IO;
 using System.Reflection;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

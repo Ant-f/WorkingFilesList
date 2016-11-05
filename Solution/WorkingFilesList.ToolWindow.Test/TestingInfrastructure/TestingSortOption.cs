@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using System.ComponentModel;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {

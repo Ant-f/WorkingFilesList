@@ -18,7 +18,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.View.Controls.Command;
 
 namespace WorkingFilesList.ToolWindow.View.Controls

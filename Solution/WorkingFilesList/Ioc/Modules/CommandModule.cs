@@ -18,7 +18,7 @@
 using Ninject.Modules;
 using System.Windows.Input;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.Ioc.Modules

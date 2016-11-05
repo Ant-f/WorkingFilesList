@@ -15,8 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.Service.Locator;
+using WorkingFilesList.Core.Model;
+using WorkingFilesList.Core.Service.Locator;
 using WorkingFilesList.ToolWindow.View;
 
 namespace WorkingFilesList

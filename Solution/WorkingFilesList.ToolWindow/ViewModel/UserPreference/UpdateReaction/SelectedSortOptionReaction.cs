@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using System.ComponentModel;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {

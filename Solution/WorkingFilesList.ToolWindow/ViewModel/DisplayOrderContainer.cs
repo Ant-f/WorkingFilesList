@@ -16,8 +16,8 @@
 // limitations under the License.
 
 using System;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {

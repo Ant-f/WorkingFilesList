@@ -18,7 +18,7 @@
 using NUnit.Framework;
 using System.ComponentModel;
 using System.Windows.Media;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.Test.Model
 {

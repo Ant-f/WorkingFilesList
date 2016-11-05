@@ -18,8 +18,8 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel

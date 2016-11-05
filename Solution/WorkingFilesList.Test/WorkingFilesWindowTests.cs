@@ -18,9 +18,9 @@
 using Moq;
 using NUnit.Framework;
 using System.Threading;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
-using WorkingFilesList.ToolWindow.Service.Locator;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
+using WorkingFilesList.Core.Service.Locator;
 
 namespace WorkingFilesList.Test
 {

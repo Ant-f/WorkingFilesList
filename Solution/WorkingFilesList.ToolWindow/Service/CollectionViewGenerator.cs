@@ -18,7 +18,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Data;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

@@ -17,7 +17,7 @@
 
 using NUnit.Framework;
 using System.Windows.Data;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 

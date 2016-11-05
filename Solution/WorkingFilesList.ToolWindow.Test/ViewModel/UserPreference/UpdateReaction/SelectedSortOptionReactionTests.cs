@@ -19,8 +19,8 @@ using Moq;
 using NUnit.Framework;
 using System.ComponentModel;
 using System.Windows.Data;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReaction

@@ -18,8 +18,8 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 

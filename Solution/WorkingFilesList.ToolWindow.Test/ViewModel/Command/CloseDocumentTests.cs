@@ -20,7 +20,7 @@ using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;

@@ -17,7 +17,7 @@
 
 using Ninject.Modules;
 using WorkingFilesList.ToolWindow.Factory;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.Ioc.Modules
 {

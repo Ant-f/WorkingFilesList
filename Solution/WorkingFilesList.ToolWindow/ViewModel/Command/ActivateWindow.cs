@@ -19,7 +19,7 @@ using EnvDTE;
 using EnvDTE80;
 using System;
 using System.Windows.Input;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.Command
 {

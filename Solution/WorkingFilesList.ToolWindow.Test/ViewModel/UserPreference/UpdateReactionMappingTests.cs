@@ -19,7 +19,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 

@@ -17,7 +17,7 @@
 
 using EnvDTE;
 using System.IO;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

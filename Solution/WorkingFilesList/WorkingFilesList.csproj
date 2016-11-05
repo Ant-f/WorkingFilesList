@@ -172,6 +172,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -205,6 +206,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WorkingFilesList.Core\WorkingFilesList.Core.csproj">
+      <Project>{a0c5bdb5-6398-42a9-9262-463f15fd364b}</Project>
+      <Name>WorkingFilesList.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkingFilesList.OptionsDialoguePage\WorkingFilesList.OptionsDialoguePage.csproj">
+      <Project>{006b8580-c063-4478-818b-625783dada43}</Project>
+      <Name>WorkingFilesList.OptionsDialoguePage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WorkingFilesList.ToolWindow\WorkingFilesList.ToolWindow.csproj">
       <Project>{29ebf580-9e29-46d4-bd18-11db06fe1861}</Project>
       <Name>WorkingFilesList.ToolWindow</Name>

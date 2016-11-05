@@ -15,9 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using EnvDTE;
-using WorkingFilesList.ToolWindow.Interface;
+using System.IO;
+using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {

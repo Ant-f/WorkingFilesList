@@ -27,7 +27,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using WorkingFilesList.Ioc;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 

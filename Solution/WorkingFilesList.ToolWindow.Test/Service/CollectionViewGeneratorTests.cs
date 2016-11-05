@@ -17,7 +17,7 @@
 
 using NUnit.Framework;
 using System.Collections.Generic;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.Service

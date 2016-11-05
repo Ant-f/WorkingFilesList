@@ -19,7 +19,7 @@
       the Visual Studio XAML designer  -->
 
 <collections:ArrayList xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
-                       xmlns:model="clr-namespace:WorkingFilesList.ToolWindow.Model">
+                       xmlns:model="clr-namespace:WorkingFilesList.Core.Model;assembly=WorkingFilesList.Core">
     <model:DocumentMetadata DisplayNamePreHighlight="The quick "
                             DisplayNameHighlight="brown fox "
                             DisplayNamePostHighlight="jumped over the lazy dog.txt"

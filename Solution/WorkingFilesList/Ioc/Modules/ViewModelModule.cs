@@ -16,8 +16,8 @@
 // limitations under the License.
 
 using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;

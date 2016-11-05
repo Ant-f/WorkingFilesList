@@ -18,7 +18,7 @@
 using EnvDTE;
 using Moq;
 using System.Collections.Generic;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure

@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.Service

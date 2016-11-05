@@ -17,8 +17,8 @@
 
 using System;
 using System.IO;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.Factory
 {

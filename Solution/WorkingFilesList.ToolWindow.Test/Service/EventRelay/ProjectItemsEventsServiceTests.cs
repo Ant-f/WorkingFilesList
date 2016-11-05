@@ -18,7 +18,7 @@
 using EnvDTE;
 using Moq;
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
 namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay

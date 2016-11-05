@@ -20,8 +20,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Moq;
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Factory

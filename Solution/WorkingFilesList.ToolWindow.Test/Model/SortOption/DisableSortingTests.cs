@@ -17,7 +17,7 @@
 
 using System;
 using NUnit.Framework;
-using WorkingFilesList.ToolWindow.Model.SortOption;
+using WorkingFilesList.Core.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
 {
