@@ -15,23 +15,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel;
+using NUnit.Framework;
 using WorkingFilesList.Core.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
-    internal class TestingSortOption : SortOptionBase
+    [TestFixture]
+    public class ProjectItemTypeTests
     {
-        public TestingSortOption(
-            string displayName,
-            string propertyName,
-            ListSortDirection sortDirection,
-            ProjectItemType type) : base(
-                displayName,
-                propertyName,
-                sortDirection,
-                type)
+        [Test]
+        public void DocumentTypeIsIndependentOfProjectType()
         {
+            // Arrange
+
+            const ProjectItemType type = ProjectItemType.Document;
+
+            // Act
+
+            var hasFlag = type.HasFlag(ProjectItemType.Project);
+
+            // Assert
+
+            Assert.IsFalse(hasFlag);
+        }
+
+        [Test]
+        public void ProjectTypeIsIndependentOfDocumentType()
+        {
+            // Arrange
+
+            const ProjectItemType type = ProjectItemType.Project;
+
+            // Act
+
+            var hasFlag = type.HasFlag(ProjectItemType.Document);
+
+            // Assert
+
+            Assert.IsFalse(hasFlag);
         }
     }
 }

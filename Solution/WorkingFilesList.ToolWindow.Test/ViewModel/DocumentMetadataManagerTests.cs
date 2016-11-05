@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
+using WorkingFilesList.Core.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
 

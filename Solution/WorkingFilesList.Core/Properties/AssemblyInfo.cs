@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("WorkingFilesList.Core")]
 [assembly: AssemblyDescription("Shared interfaces and data types")]
-[assembly: AssemblyProduct("WorkingFilesList")]
+[assembly: AssemblyProduct("Working Files List")]
 [assembly: AssemblyCopyright("Copyright © 2016 Anthony Fung")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -15,44 +15,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using NUnit.Framework;
 using WorkingFilesList.Core.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
     [TestFixture]
-    public class ProjectItemTypeTests
+    public class DisableSortingTests
     {
         [Test]
-        public void DocumentTypeIsIndependentOfProjectType()
+        public void GetSortDescriptionThrowsNotSupportedException()
         {
             // Arrange
 
-            const ProjectItemType type = ProjectItemType.Document;
-
-            // Act
-
-            var hasFlag = type.HasFlag(ProjectItemType.Project);
+            var sortOption = new DisableSorting();
 
             // Assert
 
-            Assert.IsFalse(hasFlag);
+            Assert.Throws<NotSupportedException>(() => sortOption.GetSortDescription());
         }
 
         [Test]
-        public void ProjectTypeIsIndependentOfDocumentType()
+        public void HasSortDescriptionIsFalse()
         {
             // Arrange
 
-            const ProjectItemType type = ProjectItemType.Project;
-
-            // Act
-
-            var hasFlag = type.HasFlag(ProjectItemType.Document);
+            var sortOption = new DisableSorting();
 
             // Assert
 
-            Assert.IsFalse(hasFlag);
+            Assert.IsFalse(sortOption.HasSortDescription);
+        }
+
+        [Test]
+        public void ApplicableTypeIsCorrect()
+        {
+            // Arrange
+
+            var sortOption = new DisableSorting();
+
+            // Act
+
+            var isProjectType =
+                sortOption.ApplicableType == ProjectItemType.Project;
+
+            // Assert
+
+            Assert.IsTrue(isProjectType);
         }
     }
 }

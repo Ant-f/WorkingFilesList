@@ -21,19 +21,19 @@ using System.Windows.Data;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
     [TestFixture]
-    public class ProjectReverseAlphabeticalSortTests
+    public class ReverseAlphabeticalSortTests
     {
-        private static DocumentMetadata CreateDocumentMetadata(string projectDisplayName)
+        private static DocumentMetadata CreateDocumentMetadata(string displayName)
         {
-            var info = new DocumentMetadataInfo
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                ProjectDisplayName = projectDisplayName
+                DisplayNameHighlight = displayName
             };
 
-            var metadata = new DocumentMetadata(info, string.Empty, null);
             return metadata;
         }
 
@@ -42,16 +42,16 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            const string projectNameC = "C";
+            const string displayNameC = "C";
 
             var metadataList = new List<DocumentMetadata>
             {
                 CreateDocumentMetadata("B"),
-                CreateDocumentMetadata(projectNameC),
+                CreateDocumentMetadata(displayNameC),
                 CreateDocumentMetadata("A")
             };
 
-            var sortOption = new ProjectReverseAlphabeticalSort();
+            var sortOption = new ReverseAlphabeticalSort();
             var sortDescription = sortOption.GetSortDescription();
             var view = new ListCollectionView(metadataList);
 
@@ -64,9 +64,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             view.MoveCurrentToFirst();
             var firstItem = (DocumentMetadata) view.CurrentItem;
 
-            Assert.That(
-                firstItem.ProjectNames.DisplayName,
-                Is.EqualTo(projectNameC));
+            Assert.That(firstItem.DisplayName, Is.EqualTo(displayNameC));
         }
 
         [Test]
@@ -74,7 +72,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ProjectReverseAlphabeticalSort();
+            var sortOption = new ReverseAlphabeticalSort();
 
             // Assert
 
@@ -86,16 +84,16 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ProjectReverseAlphabeticalSort();
+            var sortOption = new ReverseAlphabeticalSort();
 
             // Act
 
-            var isProjectType =
-                sortOption.ApplicableType == ProjectItemType.Project;
+            var isDocumentType =
+                sortOption.ApplicableType == ProjectItemType.Document;
 
             // Assert
 
-            Assert.IsTrue(isProjectType);
+            Assert.IsTrue(isDocumentType);
         }
     }
 }

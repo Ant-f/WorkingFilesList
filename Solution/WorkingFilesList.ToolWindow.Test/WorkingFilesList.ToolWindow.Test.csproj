@@ -73,15 +73,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
-    <Compile Include="Model\DocumentMetadataTests.cs" />
-    <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ProjectReverseAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ProjectAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ChronologicalSortTests.cs" />
-    <Compile Include="Model\SortOption\DisableSortingTests.cs" />
-    <Compile Include="Model\SortOption\ProjectItemTypeTests.cs" />
-    <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\SortOptionBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
     <Compile Include="Service\AboutPanelServiceTests.cs" />
@@ -104,7 +95,6 @@
     <Compile Include="TestingInfrastructure\DocumentMetadataManagerBuilder.cs" />
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
     <Compile Include="TestingInfrastructure\OptionsListsBuilder.cs" />
-    <Compile Include="TestingInfrastructure\TestingSortOption.cs" />
     <Compile Include="TestingInfrastructure\TestingUpdateReactionMapping.cs" />
     <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />
     <Compile Include="ViewModel\Command\ActivateWindowTests.cs" />
@@ -130,6 +120,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WorkingFilesList.Core.Test\WorkingFilesList.Core.Test.csproj">
+      <Project>{6e9f5f41-aedd-4daf-86d5-73a0ccae1346}</Project>
+      <Name>WorkingFilesList.Core.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WorkingFilesList.Core\WorkingFilesList.Core.csproj">
       <Project>{a0c5bdb5-6398-42a9-9262-463f15fd364b}</Project>
       <Name>WorkingFilesList.Core</Name>

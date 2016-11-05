@@ -21,7 +21,7 @@ using System.Windows.Data;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
     [TestFixture]
     public class AlphabeticalSortTests

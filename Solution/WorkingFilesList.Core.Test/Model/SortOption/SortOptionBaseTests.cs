@@ -18,9 +18,9 @@
 using NUnit.Framework;
 using System.ComponentModel;
 using WorkingFilesList.Core.Model.SortOption;
-using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
+using WorkingFilesList.Core.Test.TestingInfrastructure;
 
-namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
     [TestFixture]
     public class SortOptionBaseTests

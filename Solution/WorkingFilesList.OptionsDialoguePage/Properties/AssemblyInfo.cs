@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("WorkingFilesList.OptionsDialoguePage")]
 [assembly: AssemblyDescription("Options page to complement tool window that shows a selectable list of files that are open in the editor")]
-[assembly: AssemblyProduct("WorkingFilesList.OptionsDialoguePage")]
+[assembly: AssemblyProduct("Working Files List")]
 [assembly: AssemblyCopyright("Copyright © 2016 Anthony Fung")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

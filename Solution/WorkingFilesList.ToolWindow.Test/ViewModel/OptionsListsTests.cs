@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
+using WorkingFilesList.Core.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 

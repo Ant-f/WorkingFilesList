@@ -16,45 +16,42 @@
 // limitations under the License.
 
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Windows.Data;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
 
-namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
+namespace WorkingFilesList.Core.Test.Model.SortOption
 {
     [TestFixture]
-    public class ChronologicalSortTests
+    public class ProjectReverseAlphabeticalSortTests
     {
-        private static DocumentMetadata CreateDocumentMetadata(DateTime activatedAt)
+        private static DocumentMetadata CreateDocumentMetadata(string projectDisplayName)
         {
-            var info = new DocumentMetadataInfo();
-            var metadata = new DocumentMetadata(info, string.Empty, null)
+            var info = new DocumentMetadataInfo
             {
-                ActivatedAt = activatedAt
+                ProjectDisplayName = projectDisplayName
             };
 
+            var metadata = new DocumentMetadata(info, string.Empty, null);
             return metadata;
         }
 
         [Test]
-        public void LatestTimeAppearsAtStartOfSortedList()
+        public void EndOfAlphabetAppearsAtStartOfSortedList()
         {
             // Arrange
 
-            var now = DateTime.UtcNow;
-            var before = now - TimeSpan.FromHours(1);
-            var after = now + TimeSpan.FromHours(1);
+            const string projectNameC = "C";
 
             var metadataList = new List<DocumentMetadata>
             {
-                CreateDocumentMetadata(now),
-                CreateDocumentMetadata(after),
-                CreateDocumentMetadata(before)
+                CreateDocumentMetadata("B"),
+                CreateDocumentMetadata(projectNameC),
+                CreateDocumentMetadata("A")
             };
 
-            var sortOption = new ChronologicalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
             var sortDescription = sortOption.GetSortDescription();
             var view = new ListCollectionView(metadataList);
 
@@ -67,7 +64,9 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
             view.MoveCurrentToFirst();
             var firstItem = (DocumentMetadata) view.CurrentItem;
 
-            Assert.That(firstItem.ActivatedAt, Is.EqualTo(after));
+            Assert.That(
+                firstItem.ProjectNames.DisplayName,
+                Is.EqualTo(projectNameC));
         }
 
         [Test]
@@ -75,7 +74,7 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ChronologicalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
 
             // Assert
 
@@ -87,16 +86,16 @@ namespace WorkingFilesList.ToolWindow.Test.Model.SortOption
         {
             // Arrange
 
-            var sortOption = new ChronologicalSort();
+            var sortOption = new ProjectReverseAlphabeticalSort();
 
             // Act
 
-            var isDocumentType =
-                sortOption.ApplicableType == ProjectItemType.Document;
+            var isProjectType =
+                sortOption.ApplicableType == ProjectItemType.Project;
 
             // Assert
 
-            Assert.IsTrue(isDocumentType);
+            Assert.IsTrue(isProjectType);
         }
     }
 }

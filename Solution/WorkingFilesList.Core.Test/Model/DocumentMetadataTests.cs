@@ -20,7 +20,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.ToolWindow.Test.Model
+namespace WorkingFilesList.Core.Test.Model
 {
     [TestFixture]
     public class DocumentMetadataTests
