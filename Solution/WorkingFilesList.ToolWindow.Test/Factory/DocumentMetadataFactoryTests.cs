@@ -169,18 +169,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPreHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + preHighlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + preHighlightSuffix);
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + highlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + highlightSuffix);
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPostHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + postHighlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + postHighlightSuffix);
 
             var factory = builder.CreateDocumentMetadataFactory(true);
 
@@ -191,13 +194,13 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetPreHighlight(filePathServiceOutput));
+                d.GetPreHighlight(filePathServiceOutput, It.IsAny<bool>()));
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetHighlight(filePathServiceOutput));
+                d.GetHighlight(filePathServiceOutput, It.IsAny<bool>()));
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetPostHighlight(filePathServiceOutput));
+                d.GetPostHighlight(filePathServiceOutput, It.IsAny<bool>()));
 
             var expected =
                 $"{filePathServiceOutput}{preHighlightSuffix}" +
@@ -228,18 +231,21 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPreHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + preHighlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + preHighlightSuffix);
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + highlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + highlightSuffix);
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPostHighlight(
-                    It.IsAny<string>()))
-                .Returns<string>(str => str + postHighlightSuffix);
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str + postHighlightSuffix);
 
             var factory = builder.CreateDocumentMetadataFactory(true);
 
@@ -250,13 +256,19 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
             // Assert
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetPreHighlight(filePathServiceOutput));
+                d.GetPreHighlight(
+                    filePathServiceOutput,
+                    It.IsAny<bool>()));
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetHighlight(filePathServiceOutput));
+                d.GetHighlight(
+                    filePathServiceOutput,
+                    It.IsAny<bool>()));
 
             builder.DisplayNameHighlightEvaluatorMock.Verify(d =>
-                d.GetPostHighlight(filePathServiceOutput));
+                d.GetPostHighlight(
+                    filePathServiceOutput,
+                    It.IsAny<bool>()));
 
             var expected =
                 $"{filePathServiceOutput}{preHighlightSuffix}" +
@@ -393,7 +405,8 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetHighlight(
-                    It.IsAny<string>()))
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
                 .Returns(highlight);
 
             var factory = builder.CreateDocumentMetadataFactory(true);
@@ -419,7 +432,8 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPostHighlight(
-                    It.IsAny<string>()))
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
                 .Returns(postHighlight);
 
             var factory = builder.CreateDocumentMetadataFactory(true);
@@ -445,7 +459,8 @@ namespace WorkingFilesList.ToolWindow.Test.Factory
 
             builder.DisplayNameHighlightEvaluatorMock
                 .Setup(d => d.GetPreHighlight(
-                    It.IsAny<string>()))
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
                 .Returns(preHighlight);
 
             var factory = builder.CreateDocumentMetadataFactory(true);

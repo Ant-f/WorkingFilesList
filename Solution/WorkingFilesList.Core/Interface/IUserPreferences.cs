@@ -23,6 +23,7 @@ namespace WorkingFilesList.Core.Interface
     {
         bool AssignProjectColours { get; set; }
         bool GroupByProject { get; set; }
+        bool HighlightFileName { get; set; }
         bool ShowRecentUsage { get; set; }
         bool ShowFileTypeIcons { get; set; }
         int PathSegmentCount { get; set; }

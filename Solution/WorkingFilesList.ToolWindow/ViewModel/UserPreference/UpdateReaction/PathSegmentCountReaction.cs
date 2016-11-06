@@ -46,13 +46,19 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
                     userPreferences.PathSegmentCount);
 
                 var preHighlight = _displayNameHighlightEvaluator
-                    .GetPreHighlight(displayName);
+                    .GetPreHighlight(
+                        displayName,
+                        userPreferences.HighlightFileName);
 
                 var highlight = _displayNameHighlightEvaluator
-                    .GetHighlight(displayName);
+                    .GetHighlight(
+                        displayName,
+                        userPreferences.HighlightFileName);
 
                 var postHighlight = _displayNameHighlightEvaluator
-                    .GetPostHighlight(displayName);
+                    .GetPostHighlight(
+                        displayName,
+                        userPreferences.HighlightFileName);
 
                 metadata.DisplayNamePreHighlight = preHighlight;
                 metadata.DisplayNameHighlight = highlight;

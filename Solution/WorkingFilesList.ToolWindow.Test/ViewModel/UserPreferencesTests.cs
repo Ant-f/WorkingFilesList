@@ -763,5 +763,105 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.IsTrue(propertyChangedRaised);
         }
+
+        [Test]
+        public void SettingHighlightFileNameStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool highlightFileName = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.HighlightFileName = highlightFileName;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetHighlightFileName(highlightFileName));
+        }
+
+        [Test]
+        public void HighlightFileNameValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool highlightFileName = true;
+
+            var builder = new UserPreferencesBuilder();
+            builder.StoredSettingsRepositoryMock
+                .Setup(s => s.GetHighlightFileName())
+                .Returns(highlightFileName);
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.GetHighlightFileName());
+
+            Assert.That(preferences.HighlightFileName, Is.EqualTo(highlightFileName));
+        }
+
+        [Test]
+        public void SettingHighlightFileNameToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool highlightFileName = true;
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.HighlightFileName = highlightFileName;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.HighlightFileName = highlightFileName;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingHighlightFileNameToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.HighlightFileName = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }

@@ -106,5 +106,17 @@ namespace WorkingFilesList.ToolWindow.Properties {
                 this["ShowFileTypeIcons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HighlightFileName {
+            get {
+                return ((bool)(this["HighlightFileName"]));
+            }
+            set {
+                this["HighlightFileName"] = value;
+            }
+        }
     }
 }

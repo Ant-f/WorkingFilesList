@@ -22,8 +22,13 @@ namespace WorkingFilesList.ToolWindow.Service
 {
     public class DisplayNameHighlightEvaluator : IDisplayNameHighlightEvaluator
     {
-        public string GetPreHighlight(string path)
+        public string GetPreHighlight(string path, bool highlightFileName)
         {
+            if (!highlightFileName)
+            {
+                return string.Empty;
+            }
+
             var directory = Path.GetDirectoryName(path);
 
             var preHighlight = string.IsNullOrWhiteSpace(directory)
@@ -33,14 +38,24 @@ namespace WorkingFilesList.ToolWindow.Service
             return preHighlight;
         }
 
-        public string GetHighlight(string path)
+        public string GetHighlight(string path, bool highlightFileName)
         {
+            if (!highlightFileName)
+            {
+                return path;
+            }
+
             var highlight = Path.GetFileNameWithoutExtension(path);
             return highlight;
         }
 
-        public string GetPostHighlight(string path)
+        public string GetPostHighlight(string path, bool highlightFileName)
         {
+            if (!highlightFileName)
+            {
+                return string.Empty;
+            }
+
             var postHighlight = Path.GetExtension(path);
             return postHighlight;
         }

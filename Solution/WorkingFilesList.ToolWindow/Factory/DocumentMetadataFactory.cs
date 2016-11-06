@@ -97,13 +97,19 @@ namespace WorkingFilesList.ToolWindow.Factory
             var icon = _documentIconService.GetIcon(extension);
 
             var displayNameHighlight = _displayNameHighlightEvaluator
-                .GetHighlight(displayName);
+                .GetHighlight(
+                    displayName,
+                    _userPreferences.HighlightFileName);
 
             var displayNamePostHighlight = _displayNameHighlightEvaluator
-                .GetPostHighlight(displayName);
+                .GetPostHighlight(
+                    displayName,
+                    _userPreferences.HighlightFileName);
 
             var displayNamePreHighlight = _displayNameHighlightEvaluator
-                .GetPreHighlight(displayName);
+                .GetPreHighlight(
+                    displayName,
+                    _userPreferences.HighlightFileName);
 
             var metadata = new DocumentMetadata(info, correctedCasing, icon)
             {

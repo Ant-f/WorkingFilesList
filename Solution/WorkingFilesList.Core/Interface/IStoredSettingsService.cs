@@ -31,6 +31,9 @@ namespace WorkingFilesList.Core.Interface
         bool GetGroupByProject();
         void SetGroupByProject(bool value);
 
+        bool GetHighlightFileName();
+        void SetHighlightFileName(bool value);
+
         bool GetShowRecentUsage();
         void SetShowRecentUsage(bool value);
 

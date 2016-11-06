@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            var result = evaluator.GetPreHighlight(input);
+            var result = evaluator.GetPreHighlight(input, true);
 
             // Arrange
 
@@ -52,7 +52,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            var result = evaluator.GetPreHighlight(input);
+            var result = evaluator.GetPreHighlight(input, true);
 
             // Arrange
 
@@ -71,7 +71,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            var result = evaluator.GetHighlight(input);
+            var result = evaluator.GetHighlight(input, true);
 
             // Arrange
 
@@ -90,11 +90,62 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            var result = evaluator.GetPostHighlight(input);
+            var result = evaluator.GetPostHighlight(input, true);
 
             // Arrange
 
             Assert.That(result, Is.EqualTo(extension));
+        }
+
+        [Test]
+        public void PreHighlightIsEmptyWhenHighlightFileNameIsFalse()
+        {
+            // Arrange
+
+            const string input = @"DirectoryName\fileName.extension";
+            var evaluator = new DisplayNameHighlightEvaluator();
+
+            // Act
+
+            var result = evaluator.GetPreHighlight(input, false);
+
+            // Arrange
+
+            Assert.That(result, Is.EqualTo(string.Empty));
+        }
+
+        [Test]
+        public void HighlightIsPathArgumentWhenHighlightFileNameIsFalse()
+        {
+            // Arrange
+
+            const string input = @"DirectoryName\FileName.extension";
+            var evaluator = new DisplayNameHighlightEvaluator();
+
+            // Act
+
+            var result = evaluator.GetHighlight(input, false);
+
+            // Arrange
+
+            Assert.That(result, Is.EqualTo(input));
+        }
+
+        [Test]
+        public void PostHighlightIsEmptyWhenHighlightFileNameIsFalse()
+        {
+            // Arrange
+
+            const string input = @"DirectoryName\FileName.extension";
+            var evaluator = new DisplayNameHighlightEvaluator();
+
+            // Act
+
+            var result = evaluator.GetPostHighlight(input, false);
+
+            // Arrange
+
+            Assert.That(result, Is.EqualTo(string.Empty));
         }
     }
 }

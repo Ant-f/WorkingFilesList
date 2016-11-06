@@ -106,7 +106,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
 
             highlightEvaluatorMock
-                .Setup(h => h.GetHighlight(reducedPath))
+                .Setup(h => h.GetHighlight(
+                    reducedPath,
+                    It.IsAny<bool>()))
                 .Returns(highlight);
 
             var info = new DocumentMetadataInfo();
@@ -129,7 +131,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
 
             // Assert
 
-            highlightEvaluatorMock.Verify(h => h.GetHighlight(reducedPath));
+            highlightEvaluatorMock.Verify(h => h.GetHighlight(
+                reducedPath,
+                It.IsAny<bool>()));
+
             Assert.That(metadata.DisplayNameHighlight, Is.EqualTo(highlight));
         }
 
@@ -149,7 +154,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
 
             highlightEvaluatorMock
-                .Setup(h => h.GetPostHighlight(reducedPath))
+                .Setup(h => h.GetPostHighlight(
+                    reducedPath,
+                    It.IsAny<bool>()))
                 .Returns(postHighlight);
 
             var info = new DocumentMetadataInfo();
@@ -172,7 +179,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
 
             // Assert
 
-            highlightEvaluatorMock.Verify(h => h.GetPostHighlight(reducedPath));
+            highlightEvaluatorMock.Verify(h => h.GetPostHighlight(
+                reducedPath,
+                It.IsAny<bool>()));
+
             Assert.That(metadata.DisplayNamePostHighlight, Is.EqualTo(postHighlight));
         }
 
@@ -192,7 +202,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             var highlightEvaluatorMock = new Mock<IDisplayNameHighlightEvaluator>();
 
             highlightEvaluatorMock
-                .Setup(h => h.GetPreHighlight(reducedPath))
+                .Setup(h => h.GetPreHighlight(
+                    reducedPath,
+                    It.IsAny<bool>()))
                 .Returns(preHighlight);
 
             var info = new DocumentMetadataInfo();
@@ -215,7 +227,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
 
             // Assert
 
-            highlightEvaluatorMock.Verify(h => h.GetPreHighlight(reducedPath));
+            highlightEvaluatorMock.Verify(h => h.GetPreHighlight(
+                reducedPath,
+                It.IsAny<bool>()));
+
             Assert.That(metadata.DisplayNamePreHighlight, Is.EqualTo(preHighlight));
         }
     }

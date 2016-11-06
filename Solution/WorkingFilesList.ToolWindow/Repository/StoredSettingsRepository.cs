@@ -65,6 +65,17 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
+        public bool GetHighlightFileName()
+        {
+            return Properties.Settings.Default.HighlightFileName;
+        }
+
+        public void SetHighlightFileName(bool value)
+        {
+            Properties.Settings.Default.HighlightFileName = value;
+            Properties.Settings.Default.Save();
+        }
+
         public bool GetShowRecentUsage()
         {
             return Properties.Settings.Default.ShowRecentUsage;

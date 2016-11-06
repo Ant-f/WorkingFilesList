@@ -30,6 +30,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         private bool _assignProjectColours;
         private bool _groupByProject;
+        private bool _highlightFileName;
         private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
@@ -82,6 +83,30 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                     _storedSettingsRepository.SetGroupByProject(
                         _groupByProject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should emphasize the part representing the file name
+        /// </summary>
+        public bool HighlightFileName
+        {
+            get
+            {
+                return _highlightFileName;
+            }
+
+            set
+            {
+                if (_highlightFileName != value)
+                {
+                    _highlightFileName = value;
+                    OnPropertyChanged();
+
+                    _storedSettingsRepository.SetHighlightFileName(
+                        _highlightFileName);
                 }
             }
         }
@@ -208,6 +233,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             _assignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
             _groupByProject = _storedSettingsRepository.GetGroupByProject();
+            _highlightFileName = storedSettingsRepository.GetHighlightFileName();
             _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
             _showFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
             _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();

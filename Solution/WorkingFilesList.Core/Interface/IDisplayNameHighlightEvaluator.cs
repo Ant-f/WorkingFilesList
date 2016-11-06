@@ -19,8 +19,8 @@ namespace WorkingFilesList.Core.Interface
 {
     public interface IDisplayNameHighlightEvaluator
     {
-        string GetPreHighlight(string path);
-        string GetHighlight(string path);
-        string GetPostHighlight(string path);
+        string GetPreHighlight(string path, bool highlightFileName);
+        string GetHighlight(string path, bool highlightFileName);
+        string GetPostHighlight(string path, bool highlightFileName);
     }
 }

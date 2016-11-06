@@ -54,6 +54,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkingFilesList.Core\WorkingFilesList.Core.csproj">
+      <Project>{a0c5bdb5-6398-42a9-9262-463f15fd364b}</Project>
+      <Name>WorkingFilesList.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

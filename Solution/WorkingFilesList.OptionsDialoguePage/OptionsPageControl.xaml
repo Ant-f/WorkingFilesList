@@ -20,10 +20,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WorkingFilesList.OptionsDialoguePage"
+             xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Options Page" />
+             d:DesignHeight="200" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <locator:ViewModelService x:Key="ViewModel" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Grid.Resources>
+            <Style TargetType="CheckBox">
+                <Setter Property="Margin" Value="0,2"/>
+            </Style>
+        </Grid.Resources>
+        
+        <GroupBox Header="List item appearance"
+                  Padding="0,4,0,0">
+            <StackPanel>
+                <CheckBox IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}">Show file type icons</CheckBox>
+                <CheckBox IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}">Show recent usage order</CheckBox>
+                <CheckBox IsChecked="{Binding AssignProjectColours, Mode=TwoWay}">Assign project colour</CheckBox>
+                <CheckBox IsChecked="{Binding HighlightFileName, Mode=TwoWay}">Highlight file name</CheckBox>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>
