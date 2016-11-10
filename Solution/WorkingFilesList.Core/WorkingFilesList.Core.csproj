@@ -44,6 +44,7 @@
     <Compile Include="Interface\IIntValueControl.cs" />
     <Compile Include="Interface\INormalizedUsageOrderService.cs" />
     <Compile Include="Interface\IOptionsLists.cs" />
+    <Compile Include="Interface\IOptionsPageControlFactory.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IProjectBrushes.cs" />
     <Compile Include="Interface\IProjectBrushService.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Interface\IUpdateReactionManager.cs" />
     <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />
+    <Compile Include="Interface\IUserPreferencesModelFactory.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
     <Compile Include="Model\DocumentMetadataInfo.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Model\SortOption\ProjectReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\ReverseAlphabeticalSort.cs" />
     <Compile Include="Model\SortOption\SortOptionBase.cs" />
+    <Compile Include="Model\UserPreferencesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedNotifier.cs" />
     <Compile Include="Service\Locator\ViewModelService.cs" />
@@ -85,7 +88,9 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

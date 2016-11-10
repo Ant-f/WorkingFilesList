@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.Core", "Wo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.Core.Test", "WorkingFilesList.Core.Test\WorkingFilesList.Core.Test.csproj", "{6E9F5F41-AEDD-4DAF-86D5-73A0CCAE1346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingFilesList.OptionsDialoguePage.Test", "WorkingFilesList.OptionsDialoguePage.Test\WorkingFilesList.OptionsDialoguePage.Test.csproj", "{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{6E9F5F41-AEDD-4DAF-86D5-73A0CCAE1346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E9F5F41-AEDD-4DAF-86D5-73A0CCAE1346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E9F5F41-AEDD-4DAF-86D5-73A0CCAE1346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,20 +15,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Factory;
-using WorkingFilesList.Core.Interface;
+using NUnit.Framework;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.OptionsDialoguePage.Factory;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.OptionsDialoguePage.Test.Factory
 {
-    internal class FactoryModule : NinjectModule
+    [TestFixture]
+    public class UserPreferencesModelFactoryTests
     {
-        public override void Load()
+        [Test]
+        public void CreateModelCreatesNewUserPreferencesModel()
         {
-            Kernel.Bind<IDocumentMetadataFactory>().To<DocumentMetadataFactory>().InSingletonScope();
-            Kernel.Bind<IOptionsPageControlFactory>().To<OptionsPageControlFactory>().InSingletonScope();
-            Kernel.Bind<IUserPreferencesModelFactory>().To<UserPreferencesModelFactory>().InSingletonScope();
+            // Arrange
+
+            var factory = new UserPreferencesModelFactory();
+
+            // Act
+
+            var preferences = factory.CreateModel();
+
+            // Assert
+
+            Assert.That(preferences, Is.TypeOf<UserPreferencesModel>());
         }
     }
 }

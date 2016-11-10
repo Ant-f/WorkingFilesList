@@ -15,18 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows.Controls;
+using System.Windows;
 
-namespace WorkingFilesList.OptionsDialoguePage
+namespace WorkingFilesList.Core.Interface
 {
-    /// <summary>
-    /// Interaction logic for OptionsPageControl.xaml
-    /// </summary>
-    public partial class OptionsPageControl : UserControl
+    public interface IOptionsPageControlFactory
     {
-        public OptionsPageControl()
-        {
-            InitializeComponent();
-        }
+        FrameworkElement CreateControl();
     }
 }

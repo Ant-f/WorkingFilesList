@@ -15,20 +15,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Factory;
-using WorkingFilesList.Core.Interface;
+using NUnit.Framework;
+using System.Threading;
 using WorkingFilesList.OptionsDialoguePage.Factory;
+using WorkingFilesList.OptionsDialoguePage.View;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.OptionsDialoguePage.Test.Factory
 {
-    internal class FactoryModule : NinjectModule
+    [TestFixture]
+    [Apartment(ApartmentState.STA)]
+    public class OptionsPageControlFactoryTests
     {
-        public override void Load()
+        [Test]
+        public void CreateControlReturnsOptionsPageControl()
         {
-            Kernel.Bind<IDocumentMetadataFactory>().To<DocumentMetadataFactory>().InSingletonScope();
-            Kernel.Bind<IOptionsPageControlFactory>().To<OptionsPageControlFactory>().InSingletonScope();
-            Kernel.Bind<IUserPreferencesModelFactory>().To<UserPreferencesModelFactory>().InSingletonScope();
+            // Arrange
+
+            var factory = new OptionsPageControlFactory();
+
+            // Act
+
+            var preferences = factory.CreateControl();
+
+            // Assert
+
+            Assert.That(preferences, Is.TypeOf<OptionsPageControl>());
         }
     }
 }

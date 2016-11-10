@@ -25,6 +25,7 @@ using WorkingFilesList.Core.Service.Locator;
 namespace WorkingFilesList.Test
 {
     [TestFixture]
+    [Parallelizable(ParallelScope.None)] // Uses static properties in ViewModelService
     [Apartment(ApartmentState.STA)]
     public class WorkingFilesWindowTests
     {
@@ -41,8 +42,10 @@ namespace WorkingFilesList.Test
                 Mock.Of<ICommands>(),
                 Mock.Of<IDocumentMetadataManager>(),
                 Mock.Of<IOptionsLists>(),
+                Mock.Of<IOptionsPageControlFactory>(),
                 solutionEventsServiceMock.Object,
-                Mock.Of<IUserPreferences>());
+                Mock.Of<IUserPreferences>(),
+                Mock.Of<IUserPreferencesModelFactory>());
 
             return viewModelService;
         }

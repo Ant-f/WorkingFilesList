@@ -15,20 +15,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Factory;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.OptionsDialoguePage.Factory;
+using System.Windows.Controls;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.OptionsDialoguePage.View
 {
-    internal class FactoryModule : NinjectModule
+    /// <summary>
+    /// Interaction logic for OptionsPageControl.xaml
+    /// </summary>
+    public partial class OptionsPageControl : UserControl
     {
-        public override void Load()
+        public OptionsPageControl()
         {
-            Kernel.Bind<IDocumentMetadataFactory>().To<DocumentMetadataFactory>().InSingletonScope();
-            Kernel.Bind<IOptionsPageControlFactory>().To<OptionsPageControlFactory>().InSingletonScope();
-            Kernel.Bind<IUserPreferencesModelFactory>().To<UserPreferencesModelFactory>().InSingletonScope();
+            InitializeComponent();
         }
     }
 }

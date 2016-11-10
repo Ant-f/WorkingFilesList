@@ -22,10 +22,10 @@ using Ninject;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using WorkingFilesList.Ioc;
-using WorkingFilesList.OptionsDialoguePage;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.Ioc;
+using WorkingFilesList.OptionsDialoguePage;
 
 namespace WorkingFilesList
 {
@@ -50,6 +50,7 @@ namespace WorkingFilesList
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionsPage), "Working Files List", "General", 1000, 1001, true)]
+    [ProvideProfile(typeof(OptionsPage), "Working Files List", "General", 1000, 1002, true, DescriptionResourceID = 1003)]
     [ProvideToolWindow(typeof(WorkingFilesWindow))]
     [Guid(WorkingFilesWindowPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]

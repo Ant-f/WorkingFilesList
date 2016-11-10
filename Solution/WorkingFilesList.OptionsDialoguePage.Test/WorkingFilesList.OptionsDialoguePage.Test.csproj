@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E9F5F41-AEDD-4DAF-86D5-73A0CCAE1346}</ProjectGuid>
+    <ProjectGuid>{5BD1BFAD-81A1-495E-9CDF-2BC38487F3B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorkingFilesList.Core.Test</RootNamespace>
-    <AssemblyName>WorkingFilesList.Core.Test</AssemblyName>
+    <RootNamespace>WorkingFilesList.OptionsDialoguePage.Test</RootNamespace>
+    <AssemblyName>WorkingFilesList.OptionsDialoguePage.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.5.16.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.16\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -42,6 +51,8 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -53,18 +64,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Model\DocumentMetadataTests.cs" />
-    <Compile Include="Model\SortOption\AlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ChronologicalSortTests.cs" />
-    <Compile Include="Model\SortOption\DisableSortingTests.cs" />
-    <Compile Include="Model\SortOption\ProjectAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ProjectItemTypeTests.cs" />
-    <Compile Include="Model\SortOption\ProjectReverseAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\ReverseAlphabeticalSortTests.cs" />
-    <Compile Include="Model\SortOption\SortOptionBaseTests.cs" />
-    <Compile Include="Model\UserPreferencesModelTests.cs" />
+    <Compile Include="Factory\OptionsPageControlFactoryTests.cs" />
+    <Compile Include="Factory\UserPreferencesModelFactoryTests.cs" />
+    <Compile Include="OptionsPageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestingInfrastructure\TestingSortOption.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -73,6 +76,10 @@
     <ProjectReference Include="..\WorkingFilesList.Core\WorkingFilesList.Core.csproj">
       <Project>{a0c5bdb5-6398-42a9-9262-463f15fd364b}</Project>
       <Name>WorkingFilesList.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkingFilesList.OptionsDialoguePage\WorkingFilesList.OptionsDialoguePage.csproj">
+      <Project>{006b8580-c063-4478-818b-625783dada43}</Project>
+      <Name>WorkingFilesList.OptionsDialoguePage</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -17,11 +17,25 @@
 
 using Microsoft.VisualStudio.Shell;
 using System.Windows;
+using WorkingFilesList.Core.Service.Locator;
 
 namespace WorkingFilesList.OptionsDialoguePage
 {
     public class OptionsPage : UIElementDialogPage
     {
-        protected override UIElement Child { get; } = new OptionsPageControl();
+        protected override UIElement Child { get; }
+
+        public OptionsPage()
+        {
+            var preferencesModel = ViewModelService.UserPreferencesModelFactory
+                .CreateModel();
+
+            var optionsPageControl = ViewModelService.OptionsPageControlFactory
+                .CreateControl();
+
+            optionsPageControl.DataContext = preferencesModel;
+
+            Child = optionsPageControl;
+        }
     }
 }

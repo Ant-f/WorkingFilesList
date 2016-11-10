@@ -29,8 +29,10 @@ namespace WorkingFilesList.Core.Service.Locator
         public static ICommands Commands { get; private set; }
         public static IDocumentMetadataManager DocumentMetadataManager { get; private set; }
         public static IOptionsLists OptionsLists { get; private set; }
+        public static IOptionsPageControlFactory OptionsPageControlFactory { get; private set; }
         public static ISolutionEventsService SolutionEventsService { get; private set; }
         public static IUserPreferences UserPreferences { get; private set; }
+        public static IUserPreferencesModelFactory UserPreferencesModelFactory { get; private set; }
 
         public ViewModelService()
         {
@@ -42,15 +44,19 @@ namespace WorkingFilesList.Core.Service.Locator
             ICommands commands,
             IDocumentMetadataManager documentMetadataManager,
             IOptionsLists optionsLists,
+            IOptionsPageControlFactory optionsPageControlFactory,
             ISolutionEventsService solutionEventsService,
-            IUserPreferences userPreferences)
+            IUserPreferences userPreferences,
+            IUserPreferencesModelFactory userPreferencesModelFactory)
         {
             AboutPanelService = aboutPanelService;
             Commands = commands;
             DocumentMetadataManager = documentMetadataManager;
             OptionsLists = optionsLists;
+            OptionsPageControlFactory = optionsPageControlFactory;
             SolutionEventsService = solutionEventsService;
             UserPreferences = userPreferences;
+            UserPreferencesModelFactory = userPreferencesModelFactory;
         }
     }
 }

@@ -16,18 +16,66 @@
 // limitations under the License.
 
 using System.ComponentModel;
+using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.Core.Interface
 {
     public interface IUserPreferences : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should be assigned a colour associated with its
+        /// <see cref="DocumentMetadataInfo.ProjectFullName"/>
+        /// </summary>
         bool AssignProjectColours { get; set; }
+
+        /// <summary>
+        /// Indicates whether a <see cref="GroupDescription"/> should be added
+        /// to views of <see cref="DocumentMetadata"/> collections to group
+        /// projects together
+        /// </summary>
         bool GroupByProject { get; set; }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should emphasize the part representing the file name
+        /// </summary>
         bool HighlightFileName { get; set; }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should show the order of its historical usage reletive to the
+        /// other entries on that list
+        /// </summary>
         bool ShowRecentUsage { get; set; }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should show an icon representing its file type, based on its
+        /// file extension
+        /// </summary>
         bool ShowFileTypeIcons { get; set; }
+
+        /// <summary>
+        /// The number of path segments to display, a path segment being either
+        /// a single file or directory name that makes up the full name of a file
+        /// </summary>
         int PathSegmentCount { get; set; }
+
+        /// <summary>
+        /// The selected sorting option that should be applied to entries on the
+        /// <see cref="DocumentMetadata"/> list, with respect to each entry's
+        /// displayed file path. This sort should be secondary to
+        /// <see cref="SelectedProjectSortOption"/>
+        /// </summary>
         ISortOption SelectedDocumentSortOption { get; set; }
+
+        /// <summary>
+        /// The selected sorting option that should be applied to entries on the
+        /// <see cref="DocumentMetadata"/> list, with respect to each entry's
+        /// parent project name. This sorting should be applied before
+        /// <see cref="SelectedProjectSortOption"/>
+        /// </summary>
         ISortOption SelectedProjectSortOption { get; set; }
     }
 }

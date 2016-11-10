@@ -15,19 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using WorkingFilesList.Core;
 using WorkingFilesList.Core.Interface;
-using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.ToolWindow.ViewModel
+namespace WorkingFilesList.Core.Model
 {
-    public class UserPreferences : PropertyChangedNotifier, IUserPreferences
+    public class UserPreferencesModel : PropertyChangedNotifier, IUserPreferences
     {
-        private readonly IStoredSettingsRepository _storedSettingsRepository;
-
         private bool _assignProjectColours;
         private bool _groupByProject;
         private bool _highlightFileName;
@@ -36,7 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private int _pathSegmentCount;
         private ISortOption _selectedDocumentSortOption;
         private ISortOption _selectedProjectSortOption;
-        
+
         public bool AssignProjectColours
         {
             get
@@ -50,13 +43,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _assignProjectColours = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetAssignProjectColours(
-                        _assignProjectColours);
                 }
             }
         }
-        
+
         public bool GroupByProject
         {
             get
@@ -70,13 +60,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _groupByProject = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetGroupByProject(
-                        _groupByProject);
                 }
             }
         }
-        
+
         public bool HighlightFileName
         {
             get
@@ -90,13 +77,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _highlightFileName = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetHighlightFileName(
-                        _highlightFileName);
                 }
             }
         }
-        
+
         public bool ShowRecentUsage
         {
             get
@@ -110,13 +94,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _showRecentUsage = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetShowRecentUsage(
-                        _showRecentUsage);
                 }
             }
         }
-        
+
         public bool ShowFileTypeIcons
         {
             get
@@ -130,13 +111,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _showFileTypeIcons = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetShowFileTypeIcons(
-                        _showFileTypeIcons);
                 }
             }
         }
-        
+
         public int PathSegmentCount
         {
             get
@@ -150,9 +128,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _pathSegmentCount = value;
                     OnPropertyChanged();
-
-                    _storedSettingsRepository.SetPathSegmentCount(
-                        _pathSegmentCount);
                 }
             }
         }
@@ -170,9 +145,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _selectedDocumentSortOption = value;
                     OnPropertyChanged();
-
-                    var typeString = _selectedDocumentSortOption?.ToString();
-                    _storedSettingsRepository.SetSelectedDocumentSortType(typeString);
                 }
             }
         }
@@ -190,37 +162,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 {
                     _selectedProjectSortOption = value;
                     OnPropertyChanged();
-
-                    var typeString = _selectedProjectSortOption?.ToString();
-                    _storedSettingsRepository.SetSelectedProjectSortType(typeString);
                 }
             }
-        }
-
-        public UserPreferences(
-            IStoredSettingsRepository storedSettingsRepository,
-            IList<ISortOption> sortOptions)
-        {
-            _storedSettingsRepository = storedSettingsRepository;
-
-            _assignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
-            _groupByProject = _storedSettingsRepository.GetGroupByProject();
-            _highlightFileName = storedSettingsRepository.GetHighlightFileName();
-            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
-            _showFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
-            _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
-
-            var documentSortOptionType = _storedSettingsRepository
-                .GetSelectedDocumentSortType();
-
-            _selectedDocumentSortOption = sortOptions
-                .SingleOrDefault(s => s.ToString() == documentSortOptionType);
-
-            var projectSortOptionName = _storedSettingsRepository
-                .GetSelectedProjectSortType();
-
-            _selectedProjectSortOption = sortOptions
-                .SingleOrDefault(s => s.ToString() == projectSortOptionName);
         }
     }
 }
