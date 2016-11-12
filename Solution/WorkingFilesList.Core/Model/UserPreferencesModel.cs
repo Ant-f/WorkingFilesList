@@ -43,6 +43,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _assignProjectColours = value;
                     OnPropertyChanged();
+                    OnAssignProjectColoursUpdate();
                 }
             }
         }
@@ -60,6 +61,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _groupByProject = value;
                     OnPropertyChanged();
+                    OnGroupByProjectUpdate();
                 }
             }
         }
@@ -77,6 +79,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _highlightFileName = value;
                     OnPropertyChanged();
+                    OnHighlightFileNameUpdate();
                 }
             }
         }
@@ -94,6 +97,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _showRecentUsage = value;
                     OnPropertyChanged();
+                    OnShowRecentUsageUpdate();
                 }
             }
         }
@@ -111,6 +115,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _showFileTypeIcons = value;
                     OnPropertyChanged();
+                    OnShowFileTypeIconsUpdate();
                 }
             }
         }
@@ -128,6 +133,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _pathSegmentCount = value;
                     OnPropertyChanged();
+                    OnPathSegmentCountUpdate();
                 }
             }
         }
@@ -145,6 +151,7 @@ namespace WorkingFilesList.Core.Model
                 {
                     _selectedDocumentSortOption = value;
                     OnPropertyChanged();
+                    OnSelectedDocumentSortOptionUpdate();
                 }
             }
         }
@@ -162,8 +169,41 @@ namespace WorkingFilesList.Core.Model
                 {
                     _selectedProjectSortOption = value;
                     OnPropertyChanged();
+                    OnSelectedProjectSortOptionUpdate();
                 }
             }
+        }
+
+        protected virtual void OnAssignProjectColoursUpdate()
+        {
+        }
+
+        protected virtual void OnGroupByProjectUpdate()
+        {
+        }
+
+        protected virtual void OnHighlightFileNameUpdate()
+        {
+        }
+
+        protected virtual void OnShowRecentUsageUpdate()
+        {
+        }
+
+        protected virtual void OnShowFileTypeIconsUpdate()
+        {
+        }
+
+        protected virtual void OnPathSegmentCountUpdate()
+        {
+        }
+
+        protected virtual void OnSelectedDocumentSortOptionUpdate()
+        {
+        }
+
+        protected virtual void OnSelectedProjectSortOptionUpdate()
+        {
         }
     }
 }

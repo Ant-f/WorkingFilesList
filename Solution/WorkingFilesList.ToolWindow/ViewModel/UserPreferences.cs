@@ -16,211 +16,128 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using WorkingFilesList.Core;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
-    public class UserPreferences : PropertyChangedNotifier, IUserPreferences
+    public class UserPreferences : UserPreferencesModel
     {
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
-        private bool _assignProjectColours;
-        private bool _groupByProject;
-        private bool _highlightFileName;
-        private bool _showFileTypeIcons;
-        private bool _showRecentUsage;
-        private int _pathSegmentCount;
-        private ISortOption _selectedDocumentSortOption;
-        private ISortOption _selectedProjectSortOption;
-        
-        public bool AssignProjectColours
+        private readonly bool _initializing = false;
+
+        protected override void OnAssignProjectColoursUpdate()
         {
-            get
+            if (_initializing)
             {
-                return _assignProjectColours;
+                return;
             }
 
-            set
-            {
-                if (_assignProjectColours != value)
-                {
-                    _assignProjectColours = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetAssignProjectColours(
-                        _assignProjectColours);
-                }
-            }
-        }
-        
-        public bool GroupByProject
-        {
-            get
-            {
-                return _groupByProject;
-            }
-
-            set
-            {
-                if (_groupByProject != value)
-                {
-                    _groupByProject = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetGroupByProject(
-                        _groupByProject);
-                }
-            }
-        }
-        
-        public bool HighlightFileName
-        {
-            get
-            {
-                return _highlightFileName;
-            }
-
-            set
-            {
-                if (_highlightFileName != value)
-                {
-                    _highlightFileName = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetHighlightFileName(
-                        _highlightFileName);
-                }
-            }
-        }
-        
-        public bool ShowRecentUsage
-        {
-            get
-            {
-                return _showRecentUsage;
-            }
-
-            set
-            {
-                if (_showRecentUsage != value)
-                {
-                    _showRecentUsage = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetShowRecentUsage(
-                        _showRecentUsage);
-                }
-            }
-        }
-        
-        public bool ShowFileTypeIcons
-        {
-            get
-            {
-                return _showFileTypeIcons;
-            }
-
-            set
-            {
-                if (_showFileTypeIcons != value)
-                {
-                    _showFileTypeIcons = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetShowFileTypeIcons(
-                        _showFileTypeIcons);
-                }
-            }
-        }
-        
-        public int PathSegmentCount
-        {
-            get
-            {
-                return _pathSegmentCount;
-            }
-
-            set
-            {
-                if (_pathSegmentCount != value)
-                {
-                    _pathSegmentCount = value;
-                    OnPropertyChanged();
-
-                    _storedSettingsRepository.SetPathSegmentCount(
-                        _pathSegmentCount);
-                }
-            }
+            _storedSettingsRepository.SetAssignProjectColours(
+                AssignProjectColours);
         }
 
-        public ISortOption SelectedDocumentSortOption
+        protected override void OnGroupByProjectUpdate()
         {
-            get
+            if (_initializing)
             {
-                return _selectedDocumentSortOption;
+                return;
             }
 
-            set
-            {
-                if (_selectedDocumentSortOption != value)
-                {
-                    _selectedDocumentSortOption = value;
-                    OnPropertyChanged();
-
-                    var typeString = _selectedDocumentSortOption?.ToString();
-                    _storedSettingsRepository.SetSelectedDocumentSortType(typeString);
-                }
-            }
+            _storedSettingsRepository.SetGroupByProject(GroupByProject);
         }
 
-        public ISortOption SelectedProjectSortOption
+        protected override void OnHighlightFileNameUpdate()
         {
-            get
+            if (_initializing)
             {
-                return _selectedProjectSortOption;
+                return;
             }
 
-            set
-            {
-                if (_selectedProjectSortOption != value)
-                {
-                    _selectedProjectSortOption = value;
-                    OnPropertyChanged();
+            _storedSettingsRepository.SetHighlightFileName(HighlightFileName);
+        }
 
-                    var typeString = _selectedProjectSortOption?.ToString();
-                    _storedSettingsRepository.SetSelectedProjectSortType(typeString);
-                }
+        protected override void OnShowRecentUsageUpdate()
+        {
+            if (_initializing)
+            {
+                return;
             }
+
+            _storedSettingsRepository.SetShowRecentUsage(ShowRecentUsage);
+        }
+
+        protected override void OnShowFileTypeIconsUpdate()
+        {
+            if (_initializing)
+            {
+                return;
+            }
+
+            _storedSettingsRepository.SetShowFileTypeIcons(ShowFileTypeIcons);
+        }
+
+        protected override void OnPathSegmentCountUpdate()
+        {
+            if (_initializing)
+            {
+                return;
+            }
+
+            _storedSettingsRepository.SetPathSegmentCount(PathSegmentCount);
+        }
+
+        protected override void OnSelectedDocumentSortOptionUpdate()
+        {
+            if (_initializing)
+            {
+                return;
+            }
+
+            var typeString = SelectedDocumentSortOption?.ToString();
+            _storedSettingsRepository.SetSelectedDocumentSortType(typeString);
+        }
+
+        protected override void OnSelectedProjectSortOptionUpdate()
+        {
+            if (_initializing)
+            {
+                return;
+            }
+
+            var typeString = SelectedProjectSortOption?.ToString();
+            _storedSettingsRepository.SetSelectedProjectSortType(typeString);
         }
 
         public UserPreferences(
             IStoredSettingsRepository storedSettingsRepository,
             IList<ISortOption> sortOptions)
         {
+            _initializing = true;
             _storedSettingsRepository = storedSettingsRepository;
 
-            _assignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
-            _groupByProject = _storedSettingsRepository.GetGroupByProject();
-            _highlightFileName = storedSettingsRepository.GetHighlightFileName();
-            _pathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
-            _showFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
-            _showRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
+            AssignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
+            GroupByProject = _storedSettingsRepository.GetGroupByProject();
+            HighlightFileName = storedSettingsRepository.GetHighlightFileName();
+            PathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
+            ShowFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
+            ShowRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
 
             var documentSortOptionType = _storedSettingsRepository
                 .GetSelectedDocumentSortType();
 
-            _selectedDocumentSortOption = sortOptions
+            SelectedDocumentSortOption = sortOptions
                 .SingleOrDefault(s => s.ToString() == documentSortOptionType);
 
             var projectSortOptionName = _storedSettingsRepository
                 .GetSelectedProjectSortType();
 
-            _selectedProjectSortOption = sortOptions
+            SelectedProjectSortOption = sortOptions
                 .SingleOrDefault(s => s.ToString() == projectSortOptionName);
+
+            _initializing = false;
         }
     }
 }

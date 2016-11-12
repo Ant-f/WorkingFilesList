@@ -18,6 +18,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Moq;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.Core.Test.TestingInfrastructure;
@@ -84,66 +85,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetSelectedProjectSortType());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetSelectedProjectSortType(
+                    It.IsAny<string>()),
+                    Times.Never);
+
             Assert.That(
                 preferences.SelectedProjectSortOption.DisplayName,
                 Is.EqualTo(displayName));
-        }
-
-        [Test]
-        public void SettingSelectedProjectSortOptionToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            var alphabeticalSort = new AlphabeticalSort();
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.SelectedProjectSortOption = alphabeticalSort;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.SelectedProjectSortOption = alphabeticalSort;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingSelectedProjectSortOptionToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.SelectedProjectSortOption = new AlphabeticalSort();
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.SelectedProjectSortOption = new ReverseAlphabeticalSort();
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -202,66 +151,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetSelectedDocumentSortType());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetSelectedDocumentSortType(
+                    It.IsAny<string>()),
+                    Times.Never);
+
             Assert.That(
                 preferences.SelectedDocumentSortOption.DisplayName,
                 Is.EqualTo(displayName));
-        }
-
-        [Test]
-        public void SettingSelectedDocumentSortOptionToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            var alphabeticalSort = new AlphabeticalSort();
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingSelectedDocumentSortOptionToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.SelectedDocumentSortOption = new AlphabeticalSort();
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.SelectedDocumentSortOption = new ChronologicalSort();
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -305,63 +202,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetGroupByProject());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetGroupByProject(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
             Assert.That(preferences.GroupByProject, Is.EqualTo(groupByProject));
-        }
-
-        [Test]
-        public void SettingGroupByProjectToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const bool groupByProject = true;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.GroupByProject = groupByProject;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.GroupByProject = groupByProject;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingGroupByProjectToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.GroupByProject = true;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -405,63 +251,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetShowRecentUsage());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetShowRecentUsage(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
             Assert.That(preferences.ShowRecentUsage, Is.EqualTo(showRecentUsage));
-        }
-
-        [Test]
-        public void SettingShowRecentUsageToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const bool showRecentUsage = true;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.ShowRecentUsage = showRecentUsage;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.ShowRecentUsage = showRecentUsage;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingShowRecentUsageToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.ShowRecentUsage = true;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -505,63 +300,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetAssignProjectColours());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetAssignProjectColours(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
             Assert.That(preferences.AssignProjectColours, Is.EqualTo(assignProjectColours));
-        }
-
-        [Test]
-        public void SettingAssignProjectColoursToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const bool assignProjectColours = true;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.AssignProjectColours = assignProjectColours;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.AssignProjectColours = assignProjectColours;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingAssignProjectColoursToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.AssignProjectColours = true;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -605,63 +349,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetShowFileTypeIcons());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetShowFileTypeIcons(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
             Assert.That(preferences.ShowFileTypeIcons, Is.EqualTo(showFileTypeIcons));
-        }
-
-        [Test]
-        public void SettingShowFileTypeIconsToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const bool showFileTypeIcons = true;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.ShowFileTypeIcons = showFileTypeIcons;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.ShowFileTypeIcons = showFileTypeIcons;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingShowFileTypeIconsToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.ShowFileTypeIcons = true;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -705,63 +398,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetPathSegmentCount());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetPathSegmentCount(
+                    It.IsAny<int>()),
+                    Times.Never);
+
             Assert.That(preferences.PathSegmentCount, Is.EqualTo(value));
-        }
-
-        [Test]
-        public void SettingPathSegmentCountToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const int pathSegmentCount = 7;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PathSegmentCount = pathSegmentCount;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.PathSegmentCount = pathSegmentCount;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingPathSegmentCountToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.PathSegmentCount = 7;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
 
         [Test]
@@ -805,63 +447,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.GetHighlightFileName());
 
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetHighlightFileName(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
             Assert.That(preferences.HighlightFileName, Is.EqualTo(highlightFileName));
-        }
-
-        [Test]
-        public void SettingHighlightFileNameToSameValueDoesNotRaisePropertyChanged()
-        {
-            // Arrange
-
-            const bool highlightFileName = true;
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.HighlightFileName = highlightFileName;
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.HighlightFileName = highlightFileName;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsFalse(propertyChangedRaised);
-        }
-
-        [Test]
-        public void SettingHighlightFileNameToDifferentValueRaisesPropertyChanged()
-        {
-            // Arrange
-
-            var propertyChangedRaised = false;
-
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            var handler = new PropertyChangedEventHandler((s, e) =>
-            {
-                propertyChangedRaised = true;
-            });
-
-            preferences.PropertyChanged += handler;
-
-            // Act
-
-            preferences.HighlightFileName = true;
-            preferences.PropertyChanged -= handler;
-
-            // Assert
-
-            Assert.IsTrue(propertyChangedRaised);
         }
     }
 }
