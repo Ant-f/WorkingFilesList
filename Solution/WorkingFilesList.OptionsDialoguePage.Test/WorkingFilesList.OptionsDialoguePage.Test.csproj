@@ -68,6 +68,7 @@
     <Compile Include="Factory\UserPreferencesModelFactoryTests.cs" />
     <Compile Include="OptionsPageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestingInfrastructure\ViewModelServiceInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

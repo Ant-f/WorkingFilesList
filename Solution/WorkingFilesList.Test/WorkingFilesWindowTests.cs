@@ -45,7 +45,8 @@ namespace WorkingFilesList.Test
                 Mock.Of<IOptionsPageControlFactory>(),
                 solutionEventsServiceMock.Object,
                 Mock.Of<IUserPreferences>(),
-                Mock.Of<IUserPreferencesModelFactory>());
+                Mock.Of<IUserPreferencesModelFactory>(),
+                Mock.Of<IUserPreferencesModelRepository>());
 
             return viewModelService;
         }

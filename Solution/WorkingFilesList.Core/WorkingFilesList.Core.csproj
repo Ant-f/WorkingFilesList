@@ -60,6 +60,7 @@
     <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />
     <Compile Include="Interface\IUserPreferencesModelFactory.cs" />
+    <Compile Include="Interface\IUserPreferencesModelRepository.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadata.cs" />
     <Compile Include="Model\DocumentMetadataInfo.cs" />

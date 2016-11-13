@@ -22,6 +22,7 @@ using System.Windows;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.OptionsDialoguePage.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.OptionsDialoguePage.Test
 {
@@ -49,15 +50,11 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
             var factory = Mock.Of<IUserPreferencesModelFactory>(u =>
                 u.CreateModel() == preferencesModel);
 
-            var service = new ViewModelService(
-                Mock.Of<IAboutPanelService>(),
-                Mock.Of<ICommands>(),
-                Mock.Of<IDocumentMetadataManager>(),
-                Mock.Of<IOptionsLists>(),
-                optionsPageControlFactory,
-                Mock.Of<ISolutionEventsService>(),
-                Mock.Of<IUserPreferences>(),
-                factory);
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                optionsPageControlFactory: optionsPageControlFactory,
+                userPreferencesModelFactory: factory);
 
             // Act
 
@@ -79,6 +76,62 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
             // instance
             Assert.That(optionsPage.ChildFrameworkElement.DataContext,
                 Is.EqualTo(preferencesModel));
+        }
+
+        [Test]
+        public void SettingsAreRetrievedFromRepositoryWhenLoadingFromStorage()
+        {
+            // Arrange
+
+            var preferencesModel = Mock.Of<UserPreferencesModel>();
+
+            var factory = Mock.Of<IUserPreferencesModelFactory>(u =>
+                u.CreateModel() == preferencesModel);
+
+            var repository = Mock.Of<IUserPreferencesModelRepository>();
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferencesModelFactory: factory,
+                userPreferencesModelRepository: repository);
+
+            var optionsPage = new OptionsPage();
+
+            // Act
+
+            optionsPage.LoadSettingsFromStorage();
+
+            // Assert
+
+            Mock.Get(repository).Verify(r => r.LoadInto(preferencesModel));
+        }
+
+        [Test]
+        public void SettingsAreSetInRepositoryWhenSavingToStorage()
+        {
+            // Arrange
+
+            var preferencesModel = Mock.Of<UserPreferencesModel>();
+
+            var factory = Mock.Of<IUserPreferencesModelFactory>(u =>
+                u.CreateModel() == preferencesModel);
+
+            var repository = Mock.Of<IUserPreferencesModelRepository>();
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferencesModelFactory: factory,
+                userPreferencesModelRepository: repository);
+
+            var optionsPage = new OptionsPage();
+
+            // Act
+
+            optionsPage.SaveSettingsToStorage();
+
+            // Assert
+
+            Mock.Get(repository).Verify(r => r.SaveModel(preferencesModel));
         }
     }
 }

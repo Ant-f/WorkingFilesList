@@ -75,6 +75,7 @@
     <Compile Include="Factory\DocumentMetadataFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\StoredSettingsRepositoryTests.cs" />
+    <Compile Include="Repository\UserPreferencesModelRepositoryTests.cs" />
     <Compile Include="Service\AboutPanelServiceTests.cs" />
     <Compile Include="Service\CollectionViewGeneratorTests.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluatorTests.cs" />

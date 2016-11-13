@@ -15,18 +15,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.Repository;
-
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.Core.Interface
 {
-    public class RepositoryModule : NinjectModule
+    public interface IUserPreferencesModelRepository
     {
-        public override void Load()
-        {
-            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope();
-            Kernel.Bind<IUserPreferencesModelRepository>().To<UserPreferencesModelRepository>().InSingletonScope();
-        }
+        void LoadInto(IUserPreferences model);
+        void SaveModel(IUserPreferences model);
     }
 }

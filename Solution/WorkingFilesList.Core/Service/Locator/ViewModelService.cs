@@ -33,6 +33,7 @@ namespace WorkingFilesList.Core.Service.Locator
         public static ISolutionEventsService SolutionEventsService { get; private set; }
         public static IUserPreferences UserPreferences { get; private set; }
         public static IUserPreferencesModelFactory UserPreferencesModelFactory { get; private set; }
+        public static IUserPreferencesModelRepository UserPreferencesModelRepository { get; private set; }
 
         public ViewModelService()
         {
@@ -47,7 +48,8 @@ namespace WorkingFilesList.Core.Service.Locator
             IOptionsPageControlFactory optionsPageControlFactory,
             ISolutionEventsService solutionEventsService,
             IUserPreferences userPreferences,
-            IUserPreferencesModelFactory userPreferencesModelFactory)
+            IUserPreferencesModelFactory userPreferencesModelFactory,
+            IUserPreferencesModelRepository userPreferencesModelRepository)
         {
             AboutPanelService = aboutPanelService;
             Commands = commands;
@@ -57,6 +59,7 @@ namespace WorkingFilesList.Core.Service.Locator
             SolutionEventsService = solutionEventsService;
             UserPreferences = userPreferences;
             UserPreferencesModelFactory = userPreferencesModelFactory;
+            UserPreferencesModelRepository = userPreferencesModelRepository;
         }
     }
 }

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Repository\UserPreferencesModelRepository.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
     <Compile Include="Service\DocumentIconService.cs" />
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />

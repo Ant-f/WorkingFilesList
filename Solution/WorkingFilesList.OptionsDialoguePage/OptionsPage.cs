@@ -17,25 +17,40 @@
 
 using Microsoft.VisualStudio.Shell;
 using System.Windows;
+using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Service.Locator;
 
 namespace WorkingFilesList.OptionsDialoguePage
 {
     public class OptionsPage : UIElementDialogPage
     {
+        private readonly UserPreferencesModel _preferencesModel;
+
         protected override UIElement Child { get; }
 
         public OptionsPage()
         {
-            var preferencesModel = ViewModelService.UserPreferencesModelFactory
+            _preferencesModel = ViewModelService.UserPreferencesModelFactory
                 .CreateModel();
 
             var optionsPageControl = ViewModelService.OptionsPageControlFactory
                 .CreateControl();
 
-            optionsPageControl.DataContext = preferencesModel;
+            optionsPageControl.DataContext = _preferencesModel;
 
             Child = optionsPageControl;
+        }
+
+        public override void LoadSettingsFromStorage()
+        {
+            ViewModelService.UserPreferencesModelRepository
+                .LoadInto(_preferencesModel);
+        }
+
+        public override void SaveSettingsToStorage()
+        {
+            ViewModelService.UserPreferencesModelRepository
+                .SaveModel(_preferencesModel);
         }
     }
 }
