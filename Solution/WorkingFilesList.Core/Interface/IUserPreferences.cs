@@ -44,17 +44,17 @@ namespace WorkingFilesList.Core.Interface
 
         /// <summary>
         /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
-        /// list should show the order of its historical usage reletive to the
-        /// other entries on that list
-        /// </summary>
-        bool ShowRecentUsage { get; set; }
-
-        /// <summary>
-        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
         /// list should show an icon representing its file type, based on its
         /// file extension
         /// </summary>
         bool ShowFileTypeIcons { get; set; }
+
+        /// <summary>
+        /// Indicates whether each entry on the <see cref="DocumentMetadata"/>
+        /// list should show the order of its historical usage reletive to the
+        /// other entries on that list
+        /// </summary>
+        bool ShowRecentUsage { get; set; }
 
         /// <summary>
         /// The number of path segments to display, a path segment being either
