@@ -16,6 +16,8 @@
 // limitations under the License.
 
 using Microsoft.VisualStudio.Shell;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Service.Locator;
@@ -25,6 +27,22 @@ namespace WorkingFilesList.OptionsDialoguePage
     public class OptionsPage : UIElementDialogPage
     {
         private readonly UserPreferencesModel _preferencesModel;
+
+        /// <summary>
+        /// The user preferences shown by this dialogue page are shared and can
+        /// be modified by other parts of the extension. In order to show the
+        /// most up to date settings, they need to be loaded when this page
+        /// is displayed, i.e. activated. If this is done on every activation,
+        /// it is possible for unconfirmed changes to be lost when reactivating
+        /// the page without confirming/dismissing the dialogue; this can happen
+        /// when, e.g. switching between different pages in the Options dialogue.
+        /// This flag is set to 'true' in <see cref="OnClosed"/> to indicate
+        /// that user preferences should be reloaded when next activating the page.
+        /// On the very first activation of an instance's life cycle, preferences
+        /// are read from storage, so it is not necessary for <see cref="_isClosed"/>
+        /// to have a default value of 'true'
+        /// </summary>
+        private bool _isClosed = false;
 
         protected override UIElement Child { get; }
 
@@ -41,6 +59,25 @@ namespace WorkingFilesList.OptionsDialoguePage
             Child = optionsPageControl;
         }
 
+        protected override void OnActivate(CancelEventArgs e)
+        {
+            if (_isClosed)
+            {
+                ViewModelService.UserPreferencesModelRepository
+                    .LoadInto(_preferencesModel);
+
+                _isClosed = false;
+            }
+            
+            base.OnActivate(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            _isClosed = true;
+            base.OnClosed(e);
+        }
+
         public override void LoadSettingsFromStorage()
         {
             ViewModelService.UserPreferencesModelRepository
@@ -51,6 +88,9 @@ namespace WorkingFilesList.OptionsDialoguePage
         {
             ViewModelService.UserPreferencesModelRepository
                 .SaveModel(_preferencesModel);
+
+            ViewModelService.UserPreferencesModelRepository.LoadInto(
+                ViewModelService.UserPreferences);
         }
     }
 }

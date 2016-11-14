@@ -31,11 +31,6 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
     [Apartment(ApartmentState.STA)]
     public class OptionsPageTests
     {
-        private class TestingOptionsPage : OptionsPage
-        {
-            public FrameworkElement ChildFrameworkElement => (FrameworkElement) Child;
-        }
-
         [Test]
         public void OptionsPageIsInitialized()
         {
@@ -132,6 +127,78 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
             // Assert
 
             Mock.Get(repository).Verify(r => r.SaveModel(preferencesModel));
+        }
+
+        [Test]
+        public void SettingsAreNotLoadedIfDialogueIsActivatedWithoutClosing()
+        {
+            // Arrange
+
+            var repository = Mock.Of<IUserPreferencesModelRepository>();
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferencesModelRepository: repository);
+
+            var optionsPage = new TestingOptionsPage();
+
+            // Act
+
+            optionsPage.SimulateActivate();
+
+            // Assert
+
+            Mock.Get(repository).Verify(r =>
+                r.LoadInto(It.IsAny<IUserPreferences>()),
+                Times.Never);
+        }
+
+        [Test]
+        public void SettingsAreLoadedIfDialogueIsActivatedAfterClosing()
+        {
+            // Arrange
+
+            var repository = Mock.Of<IUserPreferencesModelRepository>();
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferencesModelRepository: repository);
+
+            var optionsPage = new TestingOptionsPage();
+            optionsPage.SimulateClose();
+
+            // Act
+
+            optionsPage.SimulateActivate();
+
+            // Assert
+
+            Mock.Get(repository).Verify(r =>
+                r.LoadInto(It.IsAny<IUserPreferences>()));
+        }
+
+        [Test]
+        public void SettingsAreLoadedIntoGlobalUserPreferencesWhenSavingToStorage()
+        {
+            // Arrange
+
+            var repository = Mock.Of<IUserPreferencesModelRepository>();
+            var globalPreferences = Mock.Of<IUserPreferences>();
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferences: globalPreferences,
+                userPreferencesModelRepository: repository);
+
+            var optionsPage = new OptionsPage();
+
+            // Act
+
+            optionsPage.SaveSettingsToStorage();
+
+            // Assert
+
+            Mock.Get(repository).Verify(r => r.LoadInto(globalPreferences));
         }
     }
 }
