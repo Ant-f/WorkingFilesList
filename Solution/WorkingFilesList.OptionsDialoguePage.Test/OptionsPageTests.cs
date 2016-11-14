@@ -200,5 +200,32 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
 
             Mock.Get(repository).Verify(r => r.LoadInto(globalPreferences));
         }
+
+        [Test]
+        public void AutomationObjectIsSet()
+        {
+            // Arrange
+
+            var preferencesModel = Mock.Of<UserPreferencesModel>();
+
+            var factory = Mock.Of<IUserPreferencesModelFactory>(u =>
+                u.CreateModel() == preferencesModel);
+
+            var initializer = new ViewModelServiceInitializer();
+
+            var service = initializer.InitializeViewModelService(
+                userPreferencesModelFactory: factory);
+
+            // Act
+
+            var optionsPage = new OptionsPage();
+
+            // Assert
+
+            Mock.Get(ViewModelService.UserPreferencesModelFactory)
+                .Verify(o => o.CreateModel());
+
+            Assert.That(optionsPage.AutomationObject, Is.EqualTo(preferencesModel));
+        }
     }
 }

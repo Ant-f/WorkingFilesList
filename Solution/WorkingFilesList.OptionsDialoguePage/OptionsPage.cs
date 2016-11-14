@@ -46,6 +46,8 @@ namespace WorkingFilesList.OptionsDialoguePage
 
         protected override UIElement Child { get; }
 
+        public override object AutomationObject => _preferencesModel;
+
         public OptionsPage()
         {
             _preferencesModel = ViewModelService.UserPreferencesModelFactory
