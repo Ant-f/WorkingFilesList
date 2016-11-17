@@ -19,7 +19,7 @@ namespace WorkingFilesList.Core.Interface
 {
     public interface IUserPreferencesModelRepository
     {
-        void LoadInto(IUserPreferences model);
-        void SaveModel(IUserPreferences model);
+        void LoadInto(IUserPreferencesModel model);
+        void SaveModel(IUserPreferencesModel model);
     }
 }

@@ -15,22 +15,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Linq;
 using WorkingFilesList.Core.Interface;
-using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.Repository
 {
     public class UserPreferencesModelRepository : IUserPreferencesModelRepository
     {
-        private readonly IOptionsLists _optionsLists;
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
         public UserPreferencesModelRepository(
-            IOptionsLists optionsLists,
             IStoredSettingsRepository storedSettingsRepository)
         {
-            _optionsLists = optionsLists;
             _storedSettingsRepository = storedSettingsRepository;
         }
 
@@ -42,7 +37,7 @@ namespace WorkingFilesList.ToolWindow.Repository
         /// User preferences model that will receive previously stored property
         /// values
         /// </param>
-        public void LoadInto(IUserPreferences model)
+        public void LoadInto(IUserPreferencesModel model)
         {
             model.AssignProjectColours = _storedSettingsRepository
                 .GetAssignProjectColours();
@@ -62,19 +57,11 @@ namespace WorkingFilesList.ToolWindow.Repository
             model.PathSegmentCount = _storedSettingsRepository
                 .GetPathSegmentCount();
 
-            var selectedDocumentSort = _storedSettingsRepository
-                .GetSelectedDocumentSortType();
+            model.DocumentSortOptionName = _storedSettingsRepository
+                .GetDocumentSortOptionName();
 
-            model.SelectedDocumentSortOption = _optionsLists
-                .DocumentSortOptions?.SingleOrDefault(d =>
-                    d.DisplayName == selectedDocumentSort);
-
-            var selectedProjectSort = _storedSettingsRepository
-                .GetSelectedProjectSortType();
-
-            model.SelectedProjectSortOption = _optionsLists
-                .ProjectSortOptions?.SingleOrDefault(d =>
-                    d.DisplayName == selectedProjectSort);
+            model.ProjectSortOptionName = _storedSettingsRepository
+                .GetProjectSortOptionName();
         }
 
         /// <summary>
@@ -84,7 +71,7 @@ namespace WorkingFilesList.ToolWindow.Repository
         /// User preference model containing values with which to overwrite
         /// stored values with
         /// </param>
-        public void SaveModel(IUserPreferences model)
+        public void SaveModel(IUserPreferencesModel model)
         {
             _storedSettingsRepository.SetAssignProjectColours(model.AssignProjectColours);
             _storedSettingsRepository.SetGroupByProject(model.GroupByProject);
@@ -92,12 +79,8 @@ namespace WorkingFilesList.ToolWindow.Repository
             _storedSettingsRepository.SetShowFileTypeIcons(model.ShowFileTypeIcons);
             _storedSettingsRepository.SetShowRecentUsage(model.ShowRecentUsage);
             _storedSettingsRepository.SetPathSegmentCount(model.PathSegmentCount);
-
-            _storedSettingsRepository.SetSelectedDocumentSortType(
-                model.SelectedDocumentSortOption?.DisplayName);
-
-            _storedSettingsRepository.SetSelectedProjectSortType(
-                model.SelectedProjectSortOption?.DisplayName);
+            _storedSettingsRepository.SetDocumentSortOptionName(model.DocumentSortOptionName);
+            _storedSettingsRepository.SetProjectSortOptionName(model.ProjectSortOptionName);
         }
     }
 }

@@ -21,7 +21,6 @@ using System;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.Service;
-using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Service
 {
@@ -34,13 +33,11 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Arrange
 
             var alphabeticalSort = new AlphabeticalSort();
-            var builder = new UserPreferencesBuilder();
 
-            var preferences = builder.CreateUserPreferences();
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
-
-            preferences.SelectedProjectSortOption = Mock.Of<ISortOption>(s =>
-                s.HasSortDescription == false);
+            var preferences = Mock.Of<IUserPreferences>(p =>
+                p.DocumentSortOption == alphabeticalSort &&
+                p.ProjectSortOption == Mock.Of<ISortOption>(s =>
+                    s.HasSortDescription == false));
 
             var service = new SortOptionsService();
 
@@ -52,9 +49,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Assert
 
             // Returned collection should only contain sort option for
-            // SelectedDocumentSortOption: the ISortOption of
-            // SelectedProjectSortOption has its HasSortDescription property
-            // set to return false
+            // DocumentSortOption: ProjectSortOption.HasSortDescription is set
+            // to return false
 
             Assert.That(appliedSortOptions.Length, Is.EqualTo(1));
 
@@ -74,13 +70,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var alphabeticalSort = new AlphabeticalSort();
 
-            var builder = new UserPreferencesBuilder();
-            var preferences = builder.CreateUserPreferences();
-
-            preferences.SelectedDocumentSortOption = Mock.Of<ISortOption>(s =>
-                s.HasSortDescription == false);
-
-            preferences.SelectedProjectSortOption = alphabeticalSort;
+            var preferences = Mock.Of<IUserPreferences>(p =>
+                p.DocumentSortOption == Mock.Of<ISortOption>(s =>
+                    s.HasSortDescription == false) &&
+                p.ProjectSortOption == alphabeticalSort);
 
             var service = new SortOptionsService();
 
@@ -92,9 +85,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Assert
 
             // Returned collection should only contain sort option for
-            // SelectedProjectSortOption: the ISortOption of
-            // SelectedDocumentSortOption has its HasSortDescription property
-            // set to return false
+            // ProjectSortOption: DocumentSortOption.HasSortDescription is set
+            // to return false
 
             Assert.That(appliedSortOptions.Length, Is.EqualTo(1));
 
@@ -161,11 +153,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             var alphabeticalSort = new AlphabeticalSort();
             var projectReverseAlphabeticalSort = new ProjectReverseAlphabeticalSort();
-            var builder = new UserPreferencesBuilder();
 
-            var preferences = builder.CreateUserPreferences();
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
-            preferences.SelectedProjectSortOption = projectReverseAlphabeticalSort;
+            var preferences = Mock.Of<IUserPreferences>(p =>
+                p.DocumentSortOption == alphabeticalSort &&
+                p.ProjectSortOption == projectReverseAlphabeticalSort);
 
             var service = new SortOptionsService();
 

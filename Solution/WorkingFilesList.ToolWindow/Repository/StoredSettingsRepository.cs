@@ -32,25 +32,25 @@ namespace WorkingFilesList.ToolWindow.Repository
             Properties.Settings.Default.Save();
         }
 
-        public string GetSelectedDocumentSortType()
+        public string GetDocumentSortOptionName()
         {
-            return Properties.Settings.Default.SelectedDocumentSortType;
+            return Properties.Settings.Default.DocumentSortOptionName;
         }
 
-        public void SetSelectedDocumentSortType(string name)
+        public void SetDocumentSortOptionName(string name)
         {
-            Properties.Settings.Default.SelectedDocumentSortType = name;
+            Properties.Settings.Default.DocumentSortOptionName = name;
             Properties.Settings.Default.Save();
         }
 
-        public string GetSelectedProjectSortType()
+        public string GetProjectSortOptionName()
         {
-            return Properties.Settings.Default.SelectedProjectSortType;
+            return Properties.Settings.Default.ProjectSortOptionName;
         }
 
-        public void SetSelectedProjectSortType(string name)
+        public void SetProjectSortOptionName(string name)
         {
-            Properties.Settings.Default.SelectedProjectSortType = name;
+            Properties.Settings.Default.ProjectSortOptionName = name;
             Properties.Settings.Default.Save();
         }
 

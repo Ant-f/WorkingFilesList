@@ -69,7 +69,8 @@ namespace WorkingFilesList.Test.Ioc
 
             var excludedTypes = new List<Type>
             {
-                typeof(IIntValueControl)
+                typeof(IIntValueControl),
+                typeof(IUserPreferencesModel)
             };
 
             var assembly = Assembly.GetAssembly(typeof(IDteEventsSubscriber));

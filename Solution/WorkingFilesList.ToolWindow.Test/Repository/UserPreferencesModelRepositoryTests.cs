@@ -38,7 +38,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetAssignProjectColours() == assignProjectColours);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -60,13 +59,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool assignProjectColours = true;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.AssignProjectColours == assignProjectColours);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -90,7 +88,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetGroupByProject() == groupByProject);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -112,13 +109,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool groupByProject = true;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.GroupByProject == groupByProject);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -142,7 +138,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetHighlightFileName() == highlightFileName);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -164,13 +159,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool highlightFileName = true;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.HighlightFileName == highlightFileName);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -194,7 +188,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetShowFileTypeIcons() == showFileTypeIcons);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -216,13 +209,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool showFileTypeIcons = true;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.ShowFileTypeIcons == showFileTypeIcons);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -246,7 +238,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetShowRecentUsage() == showRecentUsage);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -268,13 +259,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool showRecentUsage = true;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.ShowRecentUsage == showRecentUsage);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -298,7 +288,6 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
                 s.GetPathSegmentCount() == pathSegmentCount);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -320,13 +309,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const int pathSegmentCount = 1;
 
-            var preferences = Mock.Of<IUserPreferences>(p =>
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
                 p.PathSegmentCount == pathSegmentCount);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                Mock.Of<IOptionsLists>(),
                 settingsRepository);
 
             // Act
@@ -340,21 +328,16 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void SelectedDocumentSortIsRestoredWhenLoadingUserPreferencesModel()
+        public void DocumentSortOptionNameIsRestoredWhenLoadingUserPreferencesModel()
         {
             // Arrange
 
-            const string documentSort = "DocumentSort";
+            const string documentSortName = "DocumentSortName";
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
-                s.GetSelectedDocumentSortType() == documentSort);
-
-            var optionsLists = Mock.Of<IOptionsLists>(o =>
-                o.DocumentSortOptions == new List<ISortOption>
-                {Mock.Of<ISortOption>(s => s.DisplayName == documentSort)});
+                s.GetDocumentSortOptionName() == documentSortName);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                optionsLists,
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -365,32 +348,23 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            Mock.Get(settingsRepository).Verify(s => s.GetSelectedDocumentSortType());
-
-            Assert.That(preferences.SelectedDocumentSortOption.DisplayName,
-                Is.EqualTo(documentSort));
+            Mock.Get(settingsRepository).Verify(s => s.GetDocumentSortOptionName());
+            Assert.That(preferences.DocumentSortOptionName, Is.EqualTo(documentSortName));
         }
 
         [Test]
-        public void SelectedDocumentSortIsStoredWhenSavingUserPreferencesModel()
+        public void DocumentSortOptionNameIsStoredWhenSavingUserPreferencesModel()
         {
             // Arrange
 
             const string documentSortName = "DocumentSortName";
 
-            var documentSort = Mock.Of<ISortOption>(s =>
-                s.DisplayName == documentSortName);
-
             var preferences = Mock.Of<IUserPreferences>(p =>
-                p.SelectedDocumentSortOption == documentSort);
+                p.DocumentSortOptionName == documentSortName);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
-            var optionsLists = Mock.Of<IOptionsLists>(o =>
-                o.DocumentSortOptions == new List<ISortOption> {documentSort});
-
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                optionsLists,
                 settingsRepository);
 
             // Act
@@ -400,7 +374,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Assert
 
             Mock.Get(settingsRepository).Verify(s =>
-                s.SetSelectedDocumentSortType(documentSortName));
+                s.SetDocumentSortOptionName(documentSortName));
         }
 
         [Test]
@@ -408,17 +382,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            const string projectSort = "ProjectSort";
+            const string projectSortName = "ProjectSortName";
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
-                s.GetSelectedProjectSortType() == projectSort);
-
-            var optionsLists = Mock.Of<IOptionsLists>(o =>
-                o.ProjectSortOptions == new List<ISortOption>
-                {Mock.Of<ISortOption>(s => s.DisplayName == projectSort)});
+                s.GetProjectSortOptionName() == projectSortName);
 
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                optionsLists,
                 settingsRepository);
 
             var preferences = new UserPreferencesModel();
@@ -429,10 +398,8 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            Mock.Get(settingsRepository).Verify(s => s.GetSelectedProjectSortType());
-
-            Assert.That(preferences.SelectedProjectSortOption.DisplayName,
-                Is.EqualTo(projectSort));
+            Mock.Get(settingsRepository).Verify(s => s.GetProjectSortOptionName());
+            Assert.That(preferences.ProjectSortOptionName, Is.EqualTo(projectSortName));
         }
 
         [Test]
@@ -442,19 +409,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const string projectSortName = "ProjectSortName";
 
-            var projectSort = Mock.Of<ISortOption>(s =>
-                s.DisplayName == projectSortName);
-
             var preferences = Mock.Of<IUserPreferences>(p =>
-                p.SelectedProjectSortOption == projectSort);
+                p.ProjectSortOptionName == projectSortName);
 
             var settingsRepository = Mock.Of<IStoredSettingsRepository>();
 
-            var optionsLists = Mock.Of<IOptionsLists>(o =>
-                o.ProjectSortOptions == new List<ISortOption> {projectSort});
-
             var preferencesModelRepository = new UserPreferencesModelRepository(
-                optionsLists,
                 settingsRepository);
 
             // Act
@@ -464,7 +424,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Assert
 
             Mock.Get(settingsRepository).Verify(s =>
-                s.SetSelectedProjectSortType(projectSortName));
+                s.SetProjectSortOptionName(projectSortName));
         }
     }
 }

@@ -46,8 +46,8 @@ namespace WorkingFilesList.ToolWindow.Service
                 // Project sort option needs to be before document sort option
                 // so that files are grouped by containing project
 
-                userPreferences.SelectedProjectSortOption,
-                userPreferences.SelectedDocumentSortOption
+                userPreferences.ProjectSortOption,
+                userPreferences.DocumentSortOption
             };
 
             var sortDescriptions = sortOptions

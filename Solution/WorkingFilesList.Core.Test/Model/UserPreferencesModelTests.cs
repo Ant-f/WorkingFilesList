@@ -30,7 +30,7 @@ namespace WorkingFilesList.Core.Test.Model
         {
             // Arrange
 
-            var alphabeticalSort = new AlphabeticalSort();
+            const string sortOptionName = "SortOptionName";
             var preferences = new UserPreferencesModel();
             var propertyChangedRaised = false;
 
@@ -39,12 +39,12 @@ namespace WorkingFilesList.Core.Test.Model
                 propertyChangedRaised = true;
             });
 
-            preferences.SelectedProjectSortOption = alphabeticalSort;
+            preferences.ProjectSortOptionName = sortOptionName;
             preferences.PropertyChanged += handler;
 
             // Act
 
-            preferences.SelectedProjectSortOption = alphabeticalSort;
+            preferences.ProjectSortOptionName = sortOptionName;
             preferences.PropertyChanged -= handler;
 
             // Assert
@@ -65,12 +65,12 @@ namespace WorkingFilesList.Core.Test.Model
                 propertyChangedRaised = true;
             });
 
-            preferences.SelectedProjectSortOption = new AlphabeticalSort();
+            preferences.ProjectSortOptionName = "SortOptionName";
             preferences.PropertyChanged += handler;
 
             // Act
 
-            preferences.SelectedProjectSortOption = new ReverseAlphabeticalSort();
+            preferences.ProjectSortOptionName = "AnotherSortOptionName";
             preferences.PropertyChanged -= handler;
 
             // Assert
@@ -83,7 +83,7 @@ namespace WorkingFilesList.Core.Test.Model
         {
             // Arrange
 
-            var alphabeticalSort = new AlphabeticalSort();
+            const string sortOptionName = "SortOptionName";
             var preferences = new UserPreferencesModel();
             var propertyChangedRaised = false;
 
@@ -92,12 +92,12 @@ namespace WorkingFilesList.Core.Test.Model
                 propertyChangedRaised = true;
             });
 
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
+            preferences.DocumentSortOptionName = sortOptionName;
             preferences.PropertyChanged += handler;
 
             // Act
 
-            preferences.SelectedDocumentSortOption = alphabeticalSort;
+            preferences.DocumentSortOptionName = sortOptionName;
             preferences.PropertyChanged -= handler;
 
             // Assert
@@ -118,12 +118,12 @@ namespace WorkingFilesList.Core.Test.Model
                 propertyChangedRaised = true;
             });
 
-            preferences.SelectedDocumentSortOption = new AlphabeticalSort();
+            preferences.DocumentSortOptionName = "SortOptionName";
             preferences.PropertyChanged += handler;
 
             // Act
 
-            preferences.SelectedDocumentSortOption = new ChronologicalSort();
+            preferences.DocumentSortOptionName = "AnotherSortOptionName";
             preferences.PropertyChanged -= handler;
 
             // Assert

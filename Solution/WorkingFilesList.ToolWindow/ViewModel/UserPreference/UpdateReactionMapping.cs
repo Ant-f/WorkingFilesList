@@ -45,12 +45,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                     updateReactions.OfType<PathSegmentCountReaction>().Single()
                 },
 
-                [nameof(IUserPreferences.SelectedDocumentSortOption)] = new IUpdateReaction[]
+                [nameof(IUserPreferences.DocumentSortOption)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<SelectedSortOptionReaction>().Single()
                 },
 
-                [nameof(IUserPreferences.SelectedProjectSortOption)] = new IUpdateReaction[]
+                [nameof(IUserPreferences.ProjectSortOption)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<SelectedSortOptionReaction>().Single()
                 },

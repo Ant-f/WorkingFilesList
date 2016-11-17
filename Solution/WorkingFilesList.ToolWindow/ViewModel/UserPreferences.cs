@@ -22,11 +22,48 @@ using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
-    public class UserPreferences : UserPreferencesModel
+    public class UserPreferences : UserPreferencesModel, IUserPreferences
     {
+        private readonly bool _initializing = false;
+        private readonly IList<ISortOption> _sortOptions;
         private readonly IStoredSettingsRepository _storedSettingsRepository;
 
-        private readonly bool _initializing = false;
+        private ISortOption _documentSortOption;
+        private ISortOption _projectSortOption;
+
+        public ISortOption DocumentSortOption
+        {
+            get
+            {
+                return _documentSortOption;
+            }
+
+            private set
+            {
+                if (_documentSortOption != value)
+                {
+                    _documentSortOption = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ISortOption ProjectSortOption
+        {
+            get
+            {
+                return _projectSortOption;
+            }
+
+            private set
+            {
+                if (_projectSortOption != value)
+                {
+                    _projectSortOption = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         protected override void OnAssignProjectColoursUpdate()
         {
@@ -89,26 +126,30 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _storedSettingsRepository.SetPathSegmentCount(PathSegmentCount);
         }
 
-        protected override void OnSelectedDocumentSortOptionUpdate()
+        protected override void OnDocumentSortOptionNameUpdate()
         {
+            DocumentSortOption = _sortOptions.FirstOrDefault(s =>
+                s.DisplayName == DocumentSortOptionName);
+
             if (_initializing)
             {
                 return;
             }
 
-            var typeString = SelectedDocumentSortOption?.ToString();
-            _storedSettingsRepository.SetSelectedDocumentSortType(typeString);
+            _storedSettingsRepository.SetDocumentSortOptionName(DocumentSortOptionName);
         }
 
-        protected override void OnSelectedProjectSortOptionUpdate()
+        protected override void OnProjectSortOptionNameUpdate()
         {
+            ProjectSortOption = _sortOptions.FirstOrDefault(s =>
+                s.DisplayName == ProjectSortOptionName);
+
             if (_initializing)
             {
                 return;
             }
 
-            var typeString = SelectedProjectSortOption?.ToString();
-            _storedSettingsRepository.SetSelectedProjectSortType(typeString);
+            _storedSettingsRepository.SetProjectSortOptionName(ProjectSortOptionName);
         }
 
         public UserPreferences(
@@ -117,6 +158,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         {
             _initializing = true;
             _storedSettingsRepository = storedSettingsRepository;
+            _sortOptions = sortOptions;
 
             AssignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
             GroupByProject = _storedSettingsRepository.GetGroupByProject();
@@ -124,18 +166,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             PathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
             ShowFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
             ShowRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
-
-            var documentSortOptionType = _storedSettingsRepository
-                .GetSelectedDocumentSortType();
-
-            SelectedDocumentSortOption = sortOptions
-                .SingleOrDefault(s => s.ToString() == documentSortOptionType);
-
-            var projectSortOptionName = _storedSettingsRepository
-                .GetSelectedProjectSortType();
-
-            SelectedProjectSortOption = sortOptions
-                .SingleOrDefault(s => s.ToString() == projectSortOptionName);
+            DocumentSortOptionName = _storedSettingsRepository.GetDocumentSortOptionName();
+            ProjectSortOptionName = _storedSettingsRepository.GetProjectSortOptionName();
 
             _initializing = false;
         }

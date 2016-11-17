@@ -149,7 +149,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
             // Assert
 
             Mock.Get(repository).Verify(r =>
-                r.LoadInto(It.IsAny<IUserPreferences>()),
+                r.LoadInto(It.IsAny<UserPreferencesModel>()),
                 Times.Never);
         }
 
@@ -174,7 +174,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
             // Assert
 
             Mock.Get(repository).Verify(r =>
-                r.LoadInto(It.IsAny<IUserPreferences>()));
+                r.LoadInto(It.IsAny<UserPreferencesModel>()));
         }
 
         [Test]
@@ -198,7 +198,8 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
 
             // Assert
 
-            Mock.Get(repository).Verify(r => r.LoadInto(globalPreferences));
+            Mock.Get(repository).Verify(r =>
+                r.LoadInto(globalPreferences));
         }
 
         [Test]

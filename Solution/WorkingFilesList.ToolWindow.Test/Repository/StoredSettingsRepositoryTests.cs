@@ -16,6 +16,7 @@
 // limitations under the License.
 
 using NUnit.Framework;
+using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.ToolWindow.Repository;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
@@ -85,11 +86,10 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            // Value is WorkingFilesList.ToolWindow.Properties.Settings.Default.SelectedDocumentSortType
-            const string defaultValue = "WorkingFilesList.ToolWindow.Model.SortOption.AlphabeticalSort";
+            var defaultValue = new AlphabeticalSort().DisplayName;
 
             var repository = new StoredSettingsRepository();
-            repository.SetSelectedDocumentSortType("Testing.SortingOption");
+            repository.SetDocumentSortOptionName("Testing.SortingOption");
 
             // Act
 
@@ -97,7 +97,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetSelectedDocumentSortType();
+            var storedValue = repository.GetDocumentSortOptionName();
             Assert.That(storedValue, Is.EqualTo(defaultValue));
         }
 
@@ -111,13 +111,13 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetSelectedDocumentSortType(name);
+            repository.SetDocumentSortOptionName(name);
 
             // Assert
 
             ReloadData();
 
-            var storedValue = repository.GetSelectedDocumentSortType();
+            var storedValue = repository.GetDocumentSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
         }
 
@@ -126,11 +126,10 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            // Value is WorkingFilesList.ToolWindow.Properties.Settings.Default.SelectedProjectSortType
-            const string defaultValue = "WorkingFilesList.ToolWindow.Model.SortOption.DisableSorting";
+            var defaultValue = new DisableSorting().DisplayName;
 
             var repository = new StoredSettingsRepository();
-            repository.SetSelectedProjectSortType("Testing.SortOption");
+            repository.SetProjectSortOptionName("Testing.SortOption");
 
             // Act
 
@@ -138,7 +137,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetSelectedProjectSortType();
+            var storedValue = repository.GetProjectSortOptionName();
             Assert.That(storedValue, Is.EqualTo(defaultValue));
         }
 
@@ -152,13 +151,13 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Act
 
-            repository.SetSelectedProjectSortType(name);
+            repository.SetProjectSortOptionName(name);
 
             // Assert
 
             ReloadData();
 
-            var storedValue = repository.GetSelectedProjectSortType();
+            var storedValue = repository.GetProjectSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
         }
 

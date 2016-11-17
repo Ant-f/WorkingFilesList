@@ -22,11 +22,11 @@ namespace WorkingFilesList.Core.Interface
         int GetPathSegmentCount();
         void SetPathSegmentCount(int count);
 
-        string GetSelectedDocumentSortType();
-        void SetSelectedDocumentSortType(string name);
+        string GetDocumentSortOptionName();
+        void SetDocumentSortOptionName(string name);
 
-        string GetSelectedProjectSortType();
-        void SetSelectedProjectSortType(string name);
+        string GetProjectSortOptionName();
+        void SetProjectSortOptionName(string name);
 
         bool GetGroupByProject();
         void SetGroupByProject(bool value);

@@ -54,7 +54,8 @@
                      DataContext="{Binding UserPreferences}">
             <ToolBar Background="Transparent">
                 <ComboBox ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
-                          SelectedItem="{Binding SelectedProjectSortOption}"
+                          SelectedValue="{Binding ProjectSortOptionName}"
+                          SelectedValuePath="DisplayName"
                           ToolTip="Project Name Sort"
                           Width="60">
                     
@@ -66,7 +67,8 @@
                 </ComboBox>
 
                 <ComboBox ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"
-                          SelectedItem="{Binding SelectedDocumentSortOption}"
+                          SelectedValue="{Binding DocumentSortOptionName}"
+                          SelectedValuePath="DisplayName"
                           ToolTip="File Name Sort"
                           Width="60">
 

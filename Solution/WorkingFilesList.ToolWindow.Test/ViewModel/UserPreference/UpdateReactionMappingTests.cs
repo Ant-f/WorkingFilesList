@@ -55,11 +55,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             typeof(PathSegmentCountReaction))]
 
         [TestCase(
-            nameof(IUserPreferences.SelectedDocumentSortOption),
+            nameof(IUserPreferences.DocumentSortOption),
             typeof(SelectedSortOptionReaction))]
 
         [TestCase(
-            nameof(IUserPreferences.SelectedProjectSortOption),
+            nameof(IUserPreferences.ProjectSortOption),
             typeof(SelectedSortOptionReaction))]
 
         [TestCase(

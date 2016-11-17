@@ -30,29 +30,50 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
     public class UserPreferencesTests
     {
         [Test]
-        public void SettingSelectedProjectSortOptionStoresNewValueDisplayNameInRepository()
+        public void SettingProjectSortOptionNameStoresNewValueInRepository()
         {
             // Arrange
 
-            var option = new AlphabeticalSort();
+            const string sortOptionName = "SortOptionName";
 
             var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
 
             // Act
 
-            preferences.SelectedProjectSortOption = option;
+            preferences.ProjectSortOptionName = sortOptionName;
 
             // Verify
 
-            var typeString = option.ToString();
-
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedProjectSortType(typeString));
+                .Verify(r => r.SetProjectSortOptionName(sortOptionName));
         }
 
         [Test]
-        public void SelectedProjectSortOptionIsRestoredOnInstanceCreation()
+        public void SettingProjectSortOptionNameSetsProjectSortOption()
+        {
+            // Arrange
+
+            var option = new AlphabeticalSort();
+
+            var builder = new UserPreferencesBuilder
+            {
+                SortOptions = new ISortOption[] {option}
+            };
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.ProjectSortOptionName = option.DisplayName;
+
+            // Verify
+
+            Assert.That(preferences.ProjectSortOption, Is.EqualTo(option));
+        }
+
+        [Test]
+        public void ProjectSortOptionNameIsRestoredOnInstanceCreation()
         {
             // Arrange
 
@@ -70,11 +91,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 }
             };
 
-            var typeString = builder.SortOptions[0].ToString();
-
             builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedProjectSortType())
-                .Returns(typeString);
+                .Setup(s => s.GetProjectSortOptionName())
+                .Returns(displayName);
 
             // Act
 
@@ -83,42 +102,61 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetSelectedProjectSortType());
+                .Verify(s => s.GetProjectSortOptionName());
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.SetSelectedProjectSortType(
+                .Verify(s => s.SetProjectSortOptionName(
                     It.IsAny<string>()),
                     Times.Never);
 
-            Assert.That(
-                preferences.SelectedProjectSortOption.DisplayName,
-                Is.EqualTo(displayName));
+            Assert.That(preferences.ProjectSortOptionName, Is.EqualTo(displayName));
         }
 
         [Test]
-        public void SettingSelectedDocumentSortOptionStoresNewValueDisplayNameInRepository()
+        public void SettingDocumentSortOptionNameStoresNewValueInRepository()
         {
             // Arrange
 
-            var option = new ChronologicalSort();
+            const string sortOptionName = "SortOptionName";
 
             var builder = new UserPreferencesBuilder();
             var preferences = builder.CreateUserPreferences();
 
             // Act
 
-            preferences.SelectedDocumentSortOption = option;
+            preferences.DocumentSortOptionName = sortOptionName;
 
             // Verify
 
-            var typeString = option.ToString();
-
             builder.StoredSettingsRepositoryMock
-                .Verify(r => r.SetSelectedDocumentSortType(typeString));
+                .Verify(r => r.SetDocumentSortOptionName(sortOptionName));
         }
 
         [Test]
-        public void SelectedDocumentSortOptionIsRestoredOnInstanceCreation()
+        public void SettingDocumentSortOptionNameSetsDocumentSortOption()
+        {
+            // Arrange
+
+            var option = new ChronologicalSort();
+
+            var builder = new UserPreferencesBuilder
+            {
+                SortOptions = new ISortOption[] {option}
+            };
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.DocumentSortOptionName = option.DisplayName;
+
+            // Verify
+
+            Assert.That(preferences.DocumentSortOption, Is.EqualTo(option));
+        }
+
+        [Test]
+        public void DocumentSortOptionNameIsRestoredOnInstanceCreation()
         {
             // Arrange
 
@@ -136,11 +174,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 }
             };
 
-            var typeString = builder.SortOptions[0].ToString();
-
             builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetSelectedDocumentSortType())
-                .Returns(typeString);
+                .Setup(s => s.GetDocumentSortOptionName())
+                .Returns(displayName);
 
             // Act
 
@@ -149,16 +185,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetSelectedDocumentSortType());
+                .Verify(s => s.GetDocumentSortOptionName());
 
             builder.StoredSettingsRepositoryMock
-                .Verify(s => s.SetSelectedDocumentSortType(
+                .Verify(s => s.SetDocumentSortOptionName(
                     It.IsAny<string>()),
                     Times.Never);
 
-            Assert.That(
-                preferences.SelectedDocumentSortOption.DisplayName,
-                Is.EqualTo(displayName));
+            Assert.That(preferences.DocumentSortOptionName, Is.EqualTo(displayName));
         }
 
         [Test]

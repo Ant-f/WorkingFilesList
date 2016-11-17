@@ -654,19 +654,26 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
+            const string displayName = "DisplayName";
             const string propertyName = "PropertyName";
             const ListSortDirection sortDirection = ListSortDirection.Descending;
 
             var builder = new DocumentMetadataManagerBuilder();
+
+            builder.UserPreferencesBuilder.SortOptions = new List<ISortOption>
+            {
+                new TestingSortOption(
+                    displayName,
+                    propertyName,
+                    sortDirection,
+                    ProjectItemType.Document)
+            };
+
             var manager = builder.CreateDocumentMetadataManager();
 
             // Act
 
-            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
-                "Display Name",
-                propertyName,
-                sortDirection,
-                ProjectItemType.Document);
+            builder.UserPreferences.DocumentSortOptionName = displayName;
 
             // Assert
 
@@ -683,25 +690,41 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            var builder = new DocumentMetadataManagerBuilder();
-            var manager = builder.CreateDocumentMetadataManager();
+            const string defaultSortOption = "DefaultSortOption";
+            const string propertyName = "PropertyName";
+            const string sortOption1 = "SortOption1";
+            const string sortOption2 = "SortOption2";
+            const ListSortDirection direction = ListSortDirection.Descending;
+            const ProjectItemType applicableType = ProjectItemType.Document;
 
-            builder.UserPreferences.SelectedProjectSortOption = Mock.Of<ISortOption>(s =>
-                s.HasSortDescription == false);
+            var builder = new DocumentMetadataManagerBuilder();
+
+            builder.UserPreferencesBuilder.SortOptions = new[]
+            {
+                Mock.Of<ISortOption>(s =>
+                    s.DisplayName == defaultSortOption &&
+                    s.HasSortDescription == false),
+
+                new TestingSortOption(
+                    sortOption1,
+                    propertyName,
+                    direction,
+                    applicableType),
+
+                new TestingSortOption(
+                    sortOption2,
+                    propertyName,
+                    direction,
+                    applicableType)
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+            builder.UserPreferences.ProjectSortOptionName = defaultSortOption;
 
             // Act
 
-            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
-                "Display Name",
-                "PropertyName",
-                ListSortDirection.Descending,
-                ProjectItemType.Document);
-
-            builder.UserPreferences.SelectedDocumentSortOption = new TestingSortOption(
-                "Display Name 2",
-                "PropertyName",
-                ListSortDirection.Descending,
-                ProjectItemType.Document);
+            builder.UserPreferences.DocumentSortOptionName = sortOption1;
+            builder.UserPreferences.DocumentSortOptionName = sortOption2;
 
             // Assert
 

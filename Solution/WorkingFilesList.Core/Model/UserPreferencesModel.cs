@@ -19,7 +19,7 @@ using WorkingFilesList.Core.Interface;
 
 namespace WorkingFilesList.Core.Model
 {
-    public class UserPreferencesModel : PropertyChangedNotifier, IUserPreferences
+    public class UserPreferencesModel : PropertyChangedNotifier, IUserPreferencesModel
     {
         private bool _assignProjectColours;
         private bool _groupByProject;
@@ -27,8 +27,8 @@ namespace WorkingFilesList.Core.Model
         private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
-        private ISortOption _selectedDocumentSortOption;
-        private ISortOption _selectedProjectSortOption;
+        private string _documentSortOptionName;
+        private string _projectSortOptionName;
 
         public bool AssignProjectColours
         {
@@ -138,38 +138,38 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
-        public ISortOption SelectedDocumentSortOption
+        public string DocumentSortOptionName
         {
             get
             {
-                return _selectedDocumentSortOption;
+                return _documentSortOptionName;
             }
 
             set
             {
-                if (_selectedDocumentSortOption != value)
+                if (_documentSortOptionName != value)
                 {
-                    _selectedDocumentSortOption = value;
+                    _documentSortOptionName = value;
                     OnPropertyChanged();
-                    OnSelectedDocumentSortOptionUpdate();
+                    OnDocumentSortOptionNameUpdate();
                 }
             }
         }
 
-        public ISortOption SelectedProjectSortOption
+        public string ProjectSortOptionName
         {
             get
             {
-                return _selectedProjectSortOption;
+                return _projectSortOptionName;
             }
 
             set
             {
-                if (_selectedProjectSortOption != value)
+                if (_projectSortOptionName != value)
                 {
-                    _selectedProjectSortOption = value;
+                    _projectSortOptionName = value;
                     OnPropertyChanged();
-                    OnSelectedProjectSortOptionUpdate();
+                    OnProjectSortOptionNameUpdate();
                 }
             }
         }
@@ -198,11 +198,11 @@ namespace WorkingFilesList.Core.Model
         {
         }
 
-        protected virtual void OnSelectedDocumentSortOptionUpdate()
+        protected virtual void OnDocumentSortOptionNameUpdate()
         {
         }
 
-        protected virtual void OnSelectedProjectSortOptionUpdate()
+        protected virtual void OnProjectSortOptionNameUpdate()
         {
         }
     }
