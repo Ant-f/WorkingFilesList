@@ -154,21 +154,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         public UserPreferences(
             IStoredSettingsRepository storedSettingsRepository,
-            IList<ISortOption> sortOptions)
+            IList<ISortOption> sortOptions,
+            IUserPreferencesModelRepository userPreferencesModelRepository)
         {
             _initializing = true;
             _storedSettingsRepository = storedSettingsRepository;
             _sortOptions = sortOptions;
-
-            AssignProjectColours = _storedSettingsRepository.GetAssignProjectColours();
-            GroupByProject = _storedSettingsRepository.GetGroupByProject();
-            HighlightFileName = storedSettingsRepository.GetHighlightFileName();
-            PathSegmentCount = _storedSettingsRepository.GetPathSegmentCount();
-            ShowFileTypeIcons = _storedSettingsRepository.GetShowFileTypeIcons();
-            ShowRecentUsage = _storedSettingsRepository.GetShowRecentUsage();
-            DocumentSortOptionName = _storedSettingsRepository.GetDocumentSortOptionName();
-            ProjectSortOptionName = _storedSettingsRepository.GetProjectSortOptionName();
-
+            userPreferencesModelRepository.LoadInto(this);
             _initializing = false;
         }
     }

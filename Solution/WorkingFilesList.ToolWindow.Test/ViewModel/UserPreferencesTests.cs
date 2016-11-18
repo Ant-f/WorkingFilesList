@@ -79,21 +79,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             const string displayName = "DisplayName";
 
-            var builder = new UserPreferencesBuilder
-            {
-                SortOptions = new List<ISortOption>
-                {
-                    new TestingSortOption(
-                        displayName,
-                        null,
-                        ListSortDirection.Ascending,
-                        ProjectItemType.Project)
-                }
-            };
+            var builder = new UserPreferencesBuilder();
 
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetProjectSortOptionName())
-                .Returns(displayName);
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.ProjectSortOptionName = displayName;
+                });
 
             // Act
 
@@ -101,8 +94,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetProjectSortOptionName());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetProjectSortOptionName(
@@ -162,21 +156,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             const string displayName = "DisplayName";
 
-            var builder = new UserPreferencesBuilder
-            {
-                SortOptions = new List<ISortOption>
-                {
-                    new TestingSortOption(
-                        displayName,
-                        null,
-                        ListSortDirection.Ascending,
-                        ProjectItemType.Document)
-                }
-            };
+            var builder = new UserPreferencesBuilder();
 
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetDocumentSortOptionName())
-                .Returns(displayName);
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.DocumentSortOptionName = displayName;
+                });
 
             // Act
 
@@ -184,8 +171,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetDocumentSortOptionName());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetDocumentSortOptionName(
@@ -223,9 +211,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const bool groupByProject = true;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetGroupByProject())
-                .Returns(groupByProject);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.GroupByProject = groupByProject;
+                });
 
             // Act
 
@@ -233,8 +225,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetGroupByProject());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetGroupByProject(
@@ -272,9 +265,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const bool showRecentUsage = true;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetShowRecentUsage())
-                .Returns(showRecentUsage);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.ShowRecentUsage = showRecentUsage;
+                });
 
             // Act
 
@@ -282,8 +279,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetShowRecentUsage());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetShowRecentUsage(
@@ -321,9 +319,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const bool assignProjectColours = true;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetAssignProjectColours())
-                .Returns(assignProjectColours);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.AssignProjectColours = assignProjectColours;
+                });
 
             // Act
 
@@ -331,8 +333,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetAssignProjectColours());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetAssignProjectColours(
@@ -370,9 +373,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const bool showFileTypeIcons = true;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetShowFileTypeIcons())
-                .Returns(showFileTypeIcons);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.ShowFileTypeIcons = showFileTypeIcons;
+                });
 
             // Act
 
@@ -380,8 +387,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetShowFileTypeIcons());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetShowFileTypeIcons(
@@ -419,9 +427,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const int value = 47;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetPathSegmentCount())
-                .Returns(value);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.PathSegmentCount = value;
+                });
 
             // Act
 
@@ -429,8 +441,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetPathSegmentCount());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetPathSegmentCount(
@@ -468,9 +481,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const bool highlightFileName = true;
 
             var builder = new UserPreferencesBuilder();
-            builder.StoredSettingsRepositoryMock
-                .Setup(s => s.GetHighlightFileName())
-                .Returns(highlightFileName);
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.HighlightFileName = highlightFileName;
+                });
 
             // Act
 
@@ -478,8 +495,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            builder.StoredSettingsRepositoryMock
-                .Verify(s => s.GetHighlightFileName());
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
 
             builder.StoredSettingsRepositoryMock
                 .Verify(s => s.SetHighlightFileName(

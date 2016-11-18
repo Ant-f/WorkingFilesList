@@ -29,6 +29,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public Mock<IStoredSettingsRepository> StoredSettingsRepositoryMock { get; }
             = new Mock<IStoredSettingsRepository>();
 
+        public Mock<IUserPreferencesModelRepository> UserPreferencesModelRepositoryMock { get; }
+            = new Mock<IUserPreferencesModelRepository>();
+
         /// <summary>
         /// Create and return a new <see cref="UserPreferences"/>, configured
         /// with the properties available in this builder instance
@@ -45,7 +48,8 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             var preferences = new UserPreferences(
                 StoredSettingsRepositoryMock.Object,
-                SortOptions);
+                SortOptions,
+                UserPreferencesModelRepositoryMock.Object);
 
             return preferences;
         }
