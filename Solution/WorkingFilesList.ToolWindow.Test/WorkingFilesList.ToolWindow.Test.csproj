@@ -111,9 +111,6 @@
     <Compile Include="ViewModel\UserPreference\UpdateReaction\ShowRecentUsageReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionManagerTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReactionMappingTests.cs" />
-    <Compile Include="View\Controls\Command\DecrementNumericUpDownValueTests.cs" />
-    <Compile Include="View\Controls\Command\IncrementNumericUpDownValueTests.cs" />
-    <Compile Include="View\Controls\NumericUpDownTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestingData\PathCasingRestorerTestFile.txt">

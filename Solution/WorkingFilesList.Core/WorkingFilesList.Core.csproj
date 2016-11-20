@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Command\DecrementNumericUpDownValue.cs" />
+    <Compile Include="Controls\Command\IncrementNumericUpDownValue.cs" />
+    <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Interface\IAboutPanelService.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
     <Compile Include="Interface\ICommands.cs" />
@@ -94,6 +97,16 @@
     <Reference Include="System" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Theme\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\NumericUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,6 +23,7 @@
              xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              xmlns:controls="clr-namespace:WorkingFilesList.ToolWindow.View.Controls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:coreControls="clr-namespace:WorkingFilesList.Core.Controls;assembly=WorkingFilesList.Core"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -31,10 +32,12 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WorkingFilesList.Core;component/Theme/NumericUpDown.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBox.xaml"/>
-                <ResourceDictionary Source="Theme/NumericUpDown.xaml"/>
                 <ResourceDictionary Source="Theme/ProgressBar.xaml"/>
+                <ResourceDictionary Source="Theme/RepeatButton.xaml"/>
                 <ResourceDictionary Source="Theme/Separator.xaml"/>
+                <ResourceDictionary Source="Theme/TextBox.xaml"/>
                 <ResourceDictionary Source="Theme/ToggleButton.xaml"/>
                 <ResourceDictionary Source="Theme/ToolBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -103,12 +106,22 @@
 
                 <Separator />
 
-                <controls:NumericUpDown Focusable="False"
-                                        Minimum="1"
-                                        ToolTip="File Name Segments"
-                                        Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Width="40">
-                </controls:NumericUpDown>
+                <coreControls:NumericUpDown Focusable="False"
+                                            Minimum="1"
+                                            ToolTip="File Name Segments"
+                                            Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="40">
+                    <coreControls:NumericUpDown.Resources>
+                        <!-- Declare styles for controls within the NumericUpDown template:
+                        these styles should not be given a key or they will not be used.
+                        Styles are not applied within the NumericUpDown template, as a
+                        different appearance is required when used within the Options
+                        dialogue page -->
+                        
+                        <Style BasedOn="{StaticResource ToolWindowTextBox}" TargetType="{x:Type TextBox}"/>
+                        <Style BasedOn="{StaticResource ToolWindowRepeatButton}" TargetType="{x:Type RepeatButton}"/>
+                    </coreControls:NumericUpDown.Resources>
+                </coreControls:NumericUpDown>
 
                 <Separator />
 

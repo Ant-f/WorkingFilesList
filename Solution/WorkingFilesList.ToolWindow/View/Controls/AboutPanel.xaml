@@ -22,7 +22,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="100" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,17 +32,8 @@
             <locator:ViewModelService x:Key="ViewModel" />
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid DataContext="{StaticResource ViewModel}" Margin="5">
-        <Grid.Resources>
-            <Style BasedOn="{StaticResource ToolWindowTextBox}" TargetType="TextBox">
-                <Setter Property="AcceptsReturn" Value="True" />
-                <Setter Property="IsReadOnly" Value="True" />
-                <Setter Property="TextWrapping" Value="Wrap" />
-                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
-            </Style>
-        </Grid.Resources>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32" />
             <ColumnDefinition />
@@ -60,10 +51,15 @@
             <TextBlock FontWeight="Bold" Text="Copyright © 2016 Anthony Fung" />
         </StackPanel>
 
-        <TextBox Grid.Column="0"
+        <TextBox AcceptsReturn="True"
+                 Grid.Column="0"
                  Grid.ColumnSpan="2"
                  Grid.Row="1"
-                 Text="{Binding AboutPanelService.AboutText, Mode=OneWay}">
+                 IsReadOnly="True"
+                 Style="{StaticResource ToolWindowTextBox}"
+                 Text="{Binding AboutPanelService.AboutText, Mode=OneWay}"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto">
         </TextBox>
     </Grid>
 </UserControl>

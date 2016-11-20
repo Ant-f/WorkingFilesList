@@ -19,7 +19,7 @@ using System;
 using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 
-namespace WorkingFilesList.ToolWindow.View.Controls.Command
+namespace WorkingFilesList.Core.Controls.Command
 {
     /// <summary>
     /// <see cref="ICommand"/> that increments the <see cref="IIntValueControl.Value"/>

@@ -100,9 +100,6 @@
     <Compile Include="View\Controls\AboutPanel.xaml.cs">
       <DependentUpon>AboutPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\Command\DecrementNumericUpDownValue.cs" />
-    <Compile Include="View\Controls\Command\IncrementNumericUpDownValue.cs" />
-    <Compile Include="View\Controls\NumericUpDown.cs" />
     <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>
@@ -119,11 +116,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Theme\General.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Theme\ToolBar.xaml">
+    <Page Include="View\Theme\RepeatButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -131,7 +124,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Theme\RepeatButton.xaml">
+    <Page Include="View\Theme\ToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -171,12 +164,6 @@
   <ItemGroup>
     <Resource Include="View\Icon\ProjectColours.png" />
     <Resource Include="View\Icon\ShowRecentUsage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="View\Theme\NumericUpDown.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Icon\WorkingFilesList32.png" />

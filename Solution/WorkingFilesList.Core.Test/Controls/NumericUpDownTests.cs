@@ -17,9 +17,9 @@
 
 using NUnit.Framework;
 using System.Threading;
-using WorkingFilesList.ToolWindow.View.Controls;
+using WorkingFilesList.Core.Controls;
 
-namespace WorkingFilesList.ToolWindow.Test.View.Controls
+namespace WorkingFilesList.Core.Test.Controls
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]

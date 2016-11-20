@@ -18,11 +18,11 @@
 using Moq;
 using NUnit.Framework;
 using System.Threading;
+using WorkingFilesList.Core.Controls;
+using WorkingFilesList.Core.Controls.Command;
 using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.View.Controls;
-using WorkingFilesList.ToolWindow.View.Controls.Command;
 
-namespace WorkingFilesList.ToolWindow.Test.View.Controls.Command
+namespace WorkingFilesList.Core.Test.Controls.Command
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]

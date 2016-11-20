@@ -20,7 +20,7 @@
                     xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="General.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/WorkingFilesList.Core;component/Theme/General.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}">

@@ -17,10 +17,10 @@
 
 using NUnit.Framework;
 using System.Threading;
-using WorkingFilesList.ToolWindow.View.Controls;
-using WorkingFilesList.ToolWindow.View.Controls.Command;
+using WorkingFilesList.Core.Controls;
+using WorkingFilesList.Core.Controls.Command;
 
-namespace WorkingFilesList.ToolWindow.Test.View.Controls.Command
+namespace WorkingFilesList.Core.Test.Controls.Command
 {
     [TestFixture]
     [Apartment(ApartmentState.STA)]
