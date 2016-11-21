@@ -25,11 +25,12 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.TestingInfrastructure
     {
         public ViewModelService InitializeViewModelService(
             IAboutPanelService aboutPanelService = null,
-            ICommands commands = null,
+            IDialoguePageCommands dialoguePageCommands = null,
             IDocumentMetadataManager documentMetadataManager = null,
             IOptionsLists optionsLists = null,
             IOptionsPageControlFactory optionsPageControlFactory = null,
             ISolutionEventsService solutionEventsService = null,
+            IToolWindowCommands toolWindowCommands = null,
             IUserPreferences userPreferences = null,
             IUserPreferencesModelFactory userPreferencesModelFactory = null,
             IUserPreferencesModelRepository userPreferencesModelRepository = null)
@@ -41,11 +42,12 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.TestingInfrastructure
 
             var service = new ViewModelService(
                 aboutPanelService ?? Mock.Of<IAboutPanelService>(),
-                commands ?? Mock.Of<ICommands>(),
+                dialoguePageCommands ?? Mock.Of<IDialoguePageCommands>(),
                 documentMetadataManager ?? Mock.Of<IDocumentMetadataManager>(),
                 optionsLists ?? repository.OneOf<IOptionsLists>(),
                 optionsPageControlFactory ?? repository.OneOf<IOptionsPageControlFactory>(),
                 solutionEventsService ?? Mock.Of<ISolutionEventsService>(),
+                toolWindowCommands ?? Mock.Of<IToolWindowCommands>(),
                 userPreferences ?? Mock.Of<IUserPreferences>(),
                 userPreferencesModelFactory ?? Mock.Of<IUserPreferencesModelFactory>(),
                 userPreferencesModelRepository ?? Mock.Of<IUserPreferencesModelRepository>());

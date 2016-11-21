@@ -17,6 +17,8 @@
 
 using Ninject.Modules;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.OptionsDialoguePage.Interface;
+using WorkingFilesList.OptionsDialoguePage.Service;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
@@ -35,6 +37,7 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IFilePathService>().To<FilePathService>().InSingletonScope();
             Kernel.Bind<INormalizedUsageOrderService>().To<NormalizedUsageOrderService>().InSingletonScope();
             Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
+            Kernel.Bind<IProcessStarter>().To<ProcessStarter>().InSingletonScope();
             Kernel.Bind<IProjectBrushService>().To<ProjectBrushService>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
             Kernel.Bind<ISolutionEventsService>().To<SolutionEventsService>().InSingletonScope();

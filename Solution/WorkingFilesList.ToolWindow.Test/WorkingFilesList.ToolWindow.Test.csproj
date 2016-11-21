@@ -103,6 +103,7 @@
     <Compile Include="ViewModel\Command\OpenTestFileTests.cs" />
     <Compile Include="ViewModel\DocumentMetadataManagerTests.cs" />
     <Compile Include="ViewModel\OptionsListsTests.cs" />
+    <Compile Include="ViewModel\ToolWindowCommandsTests.cs" />
     <Compile Include="ViewModel\UserPreferencesTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\AssignProjectColoursReactionTests.cs" />
     <Compile Include="ViewModel\UserPreference\UpdateReaction\GroupByProjectReactionTests.cs" />

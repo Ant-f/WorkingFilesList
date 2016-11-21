@@ -82,7 +82,7 @@
     <Compile Include="Service\PathCasingRestorer.cs" />
     <Compile Include="Service\SortOptionsService.cs" />
     <Compile Include="Service\TimeProvider.cs" />
-    <Compile Include="ViewModel\Commands.cs" />
+    <Compile Include="ViewModel\ToolWindowCommands.cs" />
     <Compile Include="ViewModel\Command\ActivateWindow.cs" />
     <Compile Include="ViewModel\Command\CloseDocument.cs" />
     <Compile Include="ViewModel\DocumentMetadataManager.cs" />

@@ -15,25 +15,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Moq;
+using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.ViewModel.Command;
+using WorkingFilesList.OptionsDialoguePage.Interface;
+using WorkingFilesList.OptionsDialoguePage.ViewModel;
+using WorkingFilesList.OptionsDialoguePage.ViewModel.Command;
 
-namespace WorkingFilesList.ToolWindow.ViewModel
+namespace WorkingFilesList.OptionsDialoguePage.Test.ViewModel
 {
-    public class Commands : ICommands
+    [TestFixture]
+    public class DialoguePageCommandsTests
     {
-        public ICommand ActivateWindow { get; }
-        public ICommand CloseDocument { get; }
-        public ICommand OpenTestFile { get; }
-
-        public Commands(IList<ICommand> commandCollection)
+        [Test]
+        public void AllCommandsAreAssigned()
         {
-            ActivateWindow = commandCollection.OfType<ActivateWindow>().Single();
-            CloseDocument = commandCollection.OfType<CloseDocument>().Single();
-            OpenTestFile = commandCollection.OfType<OpenTestFile>().Single();
+            // Arrange
+
+            var navigate = new Navigate(Mock.Of<IProcessStarter>());
+
+            var commandList = new List<ICommand>
+            {
+                navigate
+            };
+
+            // Act
+
+            var commands = new DialoguePageCommands(commandList);
+
+            // Assert
+
+            Assert.That(commands.Navigate, Is.EqualTo(navigate));
         }
     }
 }

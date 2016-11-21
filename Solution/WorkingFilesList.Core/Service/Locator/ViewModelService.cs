@@ -26,11 +26,12 @@ namespace WorkingFilesList.Core.Service.Locator
     public class ViewModelService
     {
         public static IAboutPanelService AboutPanelService { get; private set; }
-        public static ICommands Commands { get; private set; }
+        public static IDialoguePageCommands DialoguePageCommands { get; private set; }
         public static IDocumentMetadataManager DocumentMetadataManager { get; private set; }
         public static IOptionsLists OptionsLists { get; private set; }
         public static IOptionsPageControlFactory OptionsPageControlFactory { get; private set; }
         public static ISolutionEventsService SolutionEventsService { get; private set; }
+        public static IToolWindowCommands ToolWindowCommands { get; private set; }
         public static IUserPreferences UserPreferences { get; private set; }
         public static IUserPreferencesModelFactory UserPreferencesModelFactory { get; private set; }
         public static IUserPreferencesModelRepository UserPreferencesModelRepository { get; private set; }
@@ -42,21 +43,23 @@ namespace WorkingFilesList.Core.Service.Locator
 
         public ViewModelService(
             IAboutPanelService aboutPanelService,
-            ICommands commands,
+            IDialoguePageCommands dialoguePageCommands,
             IDocumentMetadataManager documentMetadataManager,
             IOptionsLists optionsLists,
             IOptionsPageControlFactory optionsPageControlFactory,
             ISolutionEventsService solutionEventsService,
+            IToolWindowCommands toolWindowCommands,
             IUserPreferences userPreferences,
             IUserPreferencesModelFactory userPreferencesModelFactory,
             IUserPreferencesModelRepository userPreferencesModelRepository)
         {
             AboutPanelService = aboutPanelService;
-            Commands = commands;
+            DialoguePageCommands = dialoguePageCommands;
             DocumentMetadataManager = documentMetadataManager;
             OptionsLists = optionsLists;
             OptionsPageControlFactory = optionsPageControlFactory;
             SolutionEventsService = solutionEventsService;
+            ToolWindowCommands = toolWindowCommands;
             UserPreferences = userPreferences;
             UserPreferencesModelFactory = userPreferencesModelFactory;
             UserPreferencesModelRepository = userPreferencesModelRepository;

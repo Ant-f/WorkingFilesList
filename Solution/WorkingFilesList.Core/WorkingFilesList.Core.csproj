@@ -35,7 +35,7 @@
     <Compile Include="Controls\NumericUpDown.cs" />
     <Compile Include="Interface\IAboutPanelService.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
-    <Compile Include="Interface\ICommands.cs" />
+    <Compile Include="Interface\IDialoguePageCommands.cs" />
     <Compile Include="Interface\IDisplayNameHighlightEvaluator.cs" />
     <Compile Include="Interface\IDisplayOrderContainer.cs" />
     <Compile Include="Interface\IDocumentIconService.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\ITestFileNameEvaluator.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
+    <Compile Include="Interface\IToolWindowCommands.cs" />
     <Compile Include="Interface\IUpdateReaction.cs" />
     <Compile Include="Interface\IUpdateReactionManager.cs" />
     <Compile Include="Interface\IUpdateReactionMapping.cs" />

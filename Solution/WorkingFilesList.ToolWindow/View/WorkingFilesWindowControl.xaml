@@ -299,17 +299,17 @@
                         </Button.Template>
 
                         <Button.InputBindings>
-                            <MouseBinding Command="{Binding Commands.ActivateWindow, Source={StaticResource ViewModel}}"
+                            <MouseBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
                                           CommandParameter="{Binding .}"
                                           Gesture="LeftClick" >
                             </MouseBinding>
 
-                            <MouseBinding Command="{Binding Commands.CloseDocument, Source={StaticResource ViewModel}}"
+                            <MouseBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
                                           CommandParameter="{Binding .}"
                                           Gesture="MiddleClick">
                             </MouseBinding>
 
-                            <MouseBinding Command="{Binding Commands.OpenTestFile, Source={StaticResource ViewModel}}"
+                            <MouseBinding Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
                                           CommandParameter="{Binding .}"
                                           Gesture="RightClick">
                             </MouseBinding>

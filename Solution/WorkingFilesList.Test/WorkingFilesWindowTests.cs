@@ -39,11 +39,12 @@ namespace WorkingFilesList.Test
             // Call constructor to assign service/view-model objects
             var viewModelService = new ViewModelService(
                 Mock.Of<IAboutPanelService>(),
-                Mock.Of<ICommands>(),
+                Mock.Of<IDialoguePageCommands>(),
                 Mock.Of<IDocumentMetadataManager>(),
                 Mock.Of<IOptionsLists>(),
                 Mock.Of<IOptionsPageControlFactory>(),
                 solutionEventsServiceMock.Object,
+                Mock.Of<IToolWindowCommands>(),
                 Mock.Of<IUserPreferences>(),
                 Mock.Of<IUserPreferencesModelFactory>(),
                 Mock.Of<IUserPreferencesModelRepository>());

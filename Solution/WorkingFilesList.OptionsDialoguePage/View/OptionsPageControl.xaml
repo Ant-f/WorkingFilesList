@@ -23,7 +23,7 @@
              xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              xmlns:coreControls="clr-namespace:WorkingFilesList.Core.Controls;assembly=WorkingFilesList.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="400">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -65,6 +65,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <GroupBox Header="List item appearance"
@@ -147,5 +148,23 @@
                 </ComboBox>
             </Grid>
         </GroupBox>
+
+        <TextBlock Grid.Row="2" VerticalAlignment="Bottom">
+            <Run>Learn more about</Run>
+                
+            <Hyperlink Command="{Binding DialoguePageCommands.Navigate, Source={StaticResource ViewModel}}"
+                       CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"
+                       NavigateUri="https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList">
+                Working Files List
+            </Hyperlink>
+                
+            <Run>or view on</Run>
+                
+            <Hyperlink Command="{Binding DialoguePageCommands.Navigate, Source={StaticResource ViewModel}}"
+                       CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"
+                       NavigateUri="https://github.com/Ant-f/WorkingFilesList">
+                GitHub
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 </UserControl>

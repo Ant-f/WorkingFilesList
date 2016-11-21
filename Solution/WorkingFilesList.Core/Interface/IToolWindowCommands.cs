@@ -19,7 +19,7 @@ using System.Windows.Input;
 
 namespace WorkingFilesList.Core.Interface
 {
-    public interface ICommands
+    public interface IToolWindowCommands
     {
         ICommand ActivateWindow { get; }
         ICommand CloseDocument { get; }

@@ -76,6 +76,7 @@
     <Compile Include="Model\SortOption\SortOptionBaseTests.cs" />
     <Compile Include="Model\UserPreferencesModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Locator\ViewModelServiceTests.cs" />
     <Compile Include="TestingInfrastructure\TestingSortOption.cs" />
   </ItemGroup>
   <ItemGroup>
