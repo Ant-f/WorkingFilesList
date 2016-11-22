@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

@@ -18,6 +18,7 @@
 using System;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {

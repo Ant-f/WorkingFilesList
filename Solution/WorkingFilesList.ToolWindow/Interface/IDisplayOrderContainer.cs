@@ -15,12 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EnvDTE;
+using System;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IProjectItemsEventsService
+    public interface IDisplayOrderContainer
     {
-        void ItemRenamed(ProjectItem projectItem, string oldName);
+        Type[] DisplayOrder { get; }
     }
 }

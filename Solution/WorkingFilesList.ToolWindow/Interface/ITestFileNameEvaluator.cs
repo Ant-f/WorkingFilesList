@@ -15,12 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface ITimeProvider
+    public interface ITestFileNameEvaluator
     {
-        DateTime UtcNow { get; }
+        string EvaluateTestFileName(string fileName);
     }
 }

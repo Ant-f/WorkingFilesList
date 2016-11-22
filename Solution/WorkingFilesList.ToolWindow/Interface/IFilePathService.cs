@@ -15,12 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using WorkingFilesList.Core.Model;
-
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDocumentMetadataEqualityService
+    public interface IFilePathService
     {
-        bool Compare(DocumentMetadataInfo info, DocumentMetadata metadata);
+        string ReducePath(string fullName, int pathSegmentCount);
     }
 }

@@ -22,6 +22,7 @@ using Ninject.MockingKernel.Moq;
 using NUnit.Framework;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.Test
 {

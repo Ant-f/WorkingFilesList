@@ -15,13 +15,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections;
-using System.ComponentModel;
+using EnvDTE;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface ICollectionViewGenerator
+    public interface IWindowEventsService
     {
-        ICollectionView CreateView(IList items);
+        void WindowActivated(Window gotFocus, Window lostFocus);
+        void WindowClosing(Window window);
+        void WindowCreated(Window window);
     }
 }

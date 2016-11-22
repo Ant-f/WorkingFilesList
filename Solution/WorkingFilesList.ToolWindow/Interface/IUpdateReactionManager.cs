@@ -15,10 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace WorkingFilesList.Core.Interface
+using System.ComponentModel;
+
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IPathCasingRestorer
+    public interface IUpdateReactionManager
     {
-        string RestoreCasing(string fullName);
+        void Initialize(ICollectionView view);
     }
 }

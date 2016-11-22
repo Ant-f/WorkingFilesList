@@ -16,9 +16,10 @@
 // limitations under the License.
 
 using Ninject.Modules;
-using WorkingFilesList.ToolWindow.Factory;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.OptionsDialoguePage.Factory;
+using WorkingFilesList.ToolWindow.Factory;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.Ioc.Modules
 {

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows.Controls;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {

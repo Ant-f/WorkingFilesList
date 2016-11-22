@@ -15,14 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel;
+using System.Collections.Generic;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IUpdateReaction
+    public interface IUpdateReactionMapping
     {
-        void UpdateCollection(
-            ICollectionView view,
-            IUserPreferences userPreferences);
+        IDictionary<string, IEnumerable<IUpdateReaction>> MappingTable { get; }
     }
 }

@@ -15,12 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IUpdateReactionMapping
+    public interface IDisplayNameHighlightEvaluator
     {
-        IDictionary<string, IEnumerable<IUpdateReaction>> MappingTable { get; }
+        string GetPreHighlight(string path, bool highlightFileName);
+        string GetHighlight(string path, bool highlightFileName);
+        string GetPostHighlight(string path, bool highlightFileName);
     }
 }

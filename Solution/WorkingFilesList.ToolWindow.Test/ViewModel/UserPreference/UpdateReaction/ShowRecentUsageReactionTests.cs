@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction;
 
 namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReaction

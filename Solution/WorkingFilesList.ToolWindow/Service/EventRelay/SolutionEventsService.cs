@@ -21,6 +21,7 @@ using System;
 using System.IO;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {

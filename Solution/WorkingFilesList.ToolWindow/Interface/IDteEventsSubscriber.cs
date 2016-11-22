@@ -15,14 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EnvDTE;
+using EnvDTE80;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IWindowEventsService
+    public interface IDteEventsSubscriber
     {
-        void WindowActivated(Window gotFocus, Window lostFocus);
-        void WindowClosing(Window window);
-        void WindowCreated(Window window);
+        void SubscribeTo(Events2 dteEvents);
     }
 }

@@ -16,7 +16,7 @@
 // limitations under the License.
 
 using System;
-using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

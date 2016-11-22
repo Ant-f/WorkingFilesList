@@ -17,9 +17,9 @@
 
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.ToolWindow.Test.Repository

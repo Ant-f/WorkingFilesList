@@ -15,12 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDisplayOrderContainer
+    public interface IPathCasingRestorer
     {
-        Type[] DisplayOrder { get; }
+        string RestoreCasing(string fullName);
     }
 }

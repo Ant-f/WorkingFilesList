@@ -15,10 +15,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace WorkingFilesList.Core.Interface
+using System.Windows.Media;
+
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface ITestFileNameEvaluator
+    public interface IProjectBrushes
     {
-        string EvaluateTestFileName(string fileName);
+        Brush GenericBrush { get; }
+        Brush[] ProjectSpecificBrushes { get; }
     }
 }

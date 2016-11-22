@@ -15,15 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using WorkingFilesList.Core.Model;
+using EnvDTE;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface INormalizedUsageOrderService
+    public interface IProjectItemsEventsService
     {
-        void SetUsageOrder(
-            IList<DocumentMetadata> metadataCollection,
-            IUserPreferences userPreferences);
+        void ItemRenamed(ProjectItem projectItem, string oldName);
     }
 }

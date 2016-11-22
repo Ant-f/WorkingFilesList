@@ -15,12 +15,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel;
+using System;
+using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IUpdateReactionManager
+    public interface IDocumentMetadataFactory
     {
-        void Initialize(ICollectionView view);
+        DocumentMetadata Create(DocumentMetadataInfo info);
+        DocumentMetadata Create(DocumentMetadataInfo info, DateTime activatedAt);
     }
 }

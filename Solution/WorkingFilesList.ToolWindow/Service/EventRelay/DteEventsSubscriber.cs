@@ -18,6 +18,7 @@
 using EnvDTE;
 using EnvDTE80;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service.EventRelay
 {

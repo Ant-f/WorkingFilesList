@@ -15,12 +15,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using WorkingFilesList.Core.Interface;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDocumentIconService
+    public interface IUpdateReaction
     {
-        BitmapSource GetIcon(string fileExtension);
+        void UpdateCollection(
+            ICollectionView view,
+            IUserPreferences userPreferences);
     }
 }

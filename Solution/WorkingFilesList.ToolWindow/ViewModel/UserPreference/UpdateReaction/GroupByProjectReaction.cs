@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 {

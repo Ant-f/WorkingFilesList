@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.UserPreference;
 

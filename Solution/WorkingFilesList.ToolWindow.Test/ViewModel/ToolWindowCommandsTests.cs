@@ -20,7 +20,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Windows.Input;
-using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 

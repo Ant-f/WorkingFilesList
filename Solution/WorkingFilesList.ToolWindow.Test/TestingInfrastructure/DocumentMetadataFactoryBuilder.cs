@@ -16,8 +16,9 @@
 // limitations under the License.
 
 using Moq;
-using WorkingFilesList.ToolWindow.Factory;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Factory;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure

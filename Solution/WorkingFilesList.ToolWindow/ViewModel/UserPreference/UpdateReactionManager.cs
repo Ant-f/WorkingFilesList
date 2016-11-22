@@ -18,6 +18,7 @@
 using System.ComponentModel;
 using System.Linq;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
 {

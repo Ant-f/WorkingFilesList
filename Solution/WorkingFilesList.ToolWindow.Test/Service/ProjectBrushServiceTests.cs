@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.Linq;
 using System.Windows.Media;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 
 namespace WorkingFilesList.ToolWindow.Test.Service

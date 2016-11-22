@@ -26,6 +26,7 @@ using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
 using WorkingFilesList.Ioc;
 using WorkingFilesList.OptionsDialoguePage;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList
 {

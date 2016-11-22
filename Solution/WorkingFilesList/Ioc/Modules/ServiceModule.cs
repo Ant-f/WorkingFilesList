@@ -19,6 +19,7 @@ using Ninject.Modules;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.OptionsDialoguePage.Interface;
 using WorkingFilesList.OptionsDialoguePage.Service;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 

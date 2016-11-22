@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

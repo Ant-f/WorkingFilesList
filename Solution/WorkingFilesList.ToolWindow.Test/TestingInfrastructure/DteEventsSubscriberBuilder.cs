@@ -18,6 +18,7 @@
 using EnvDTE;
 using Moq;
 using WorkingFilesList.Core.Interface;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service.EventRelay;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure

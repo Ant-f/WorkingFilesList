@@ -15,12 +15,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace WorkingFilesList.Core.Interface
+using System.Collections.Generic;
+using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Model;
+
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IDisplayNameHighlightEvaluator
+    public interface INormalizedUsageOrderService
     {
-        string GetPreHighlight(string path, bool highlightFileName);
-        string GetHighlight(string path, bool highlightFileName);
-        string GetPostHighlight(string path, bool highlightFileName);
+        void SetUsageOrder(
+            IList<DocumentMetadata> metadataCollection,
+            IUserPreferences userPreferences);
     }
 }

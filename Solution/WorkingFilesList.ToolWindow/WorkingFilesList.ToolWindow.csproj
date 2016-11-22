@@ -57,6 +57,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
+    <Compile Include="Interface\ICollectionViewGenerator.cs" />
+    <Compile Include="Interface\IDisplayNameHighlightEvaluator.cs" />
+    <Compile Include="Interface\IDisplayOrderContainer.cs" />
+    <Compile Include="Interface\IDocumentIconService.cs" />
+    <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
+    <Compile Include="Interface\IDocumentMetadataFactory.cs" />
+    <Compile Include="Interface\IDteEventsSubscriber.cs" />
+    <Compile Include="Interface\IFilePathService.cs" />
+    <Compile Include="Interface\INormalizedUsageOrderService.cs" />
+    <Compile Include="Interface\IPathCasingRestorer.cs" />
+    <Compile Include="Interface\IProjectBrushes.cs" />
+    <Compile Include="Interface\IProjectBrushService.cs" />
+    <Compile Include="Interface\IProjectItemsEventsService.cs" />
+    <Compile Include="Interface\IStoredSettingsService.cs" />
+    <Compile Include="Interface\ITestFileNameEvaluator.cs" />
+    <Compile Include="Interface\ITimeProvider.cs" />
+    <Compile Include="Interface\IUpdateReaction.cs" />
+    <Compile Include="Interface\IUpdateReactionManager.cs" />
+    <Compile Include="Interface\IUpdateReactionMapping.cs" />
+    <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Repository\UserPreferencesModelRepository.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
     <Compile Include="Service\DocumentIconService.cs" />

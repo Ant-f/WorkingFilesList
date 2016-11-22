@@ -23,6 +23,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {

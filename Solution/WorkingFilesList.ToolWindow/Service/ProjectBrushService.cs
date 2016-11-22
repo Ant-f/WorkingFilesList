@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {

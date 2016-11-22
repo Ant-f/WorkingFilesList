@@ -16,12 +16,14 @@
 // limitations under the License.
 
 using System.Windows.Media;
+using WorkingFilesList.Core.Interface;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IProjectBrushes
+    public interface IProjectBrushService
     {
-        Brush GenericBrush { get; }
-        Brush[] ProjectSpecificBrushes { get; }
+        Brush GetBrush(string id, IUserPreferences userPreferences);
+        void ClearBrushIdCollection();
+        void UpdateBrushId(string oldId, string newId);
     }
 }

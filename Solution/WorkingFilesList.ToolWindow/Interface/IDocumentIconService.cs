@@ -15,14 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public interface IProjectBrushService
+    public interface IDocumentIconService
     {
-        Brush GetBrush(string id, IUserPreferences userPreferences);
-        void ClearBrushIdCollection();
-        void UpdateBrushId(string oldId, string newId);
+        BitmapSource GetIcon(string fileExtension);
     }
 }
