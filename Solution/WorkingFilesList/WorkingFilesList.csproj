@@ -64,6 +64,12 @@
     <Compile Include="WorkingFilesWindowPackage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram\EventRelayServices.cd" />
+    <None Include="ClassDiagram\Models.cd" />
+    <None Include="ClassDiagram\NumericUpDown.cd" />
+    <None Include="ClassDiagram\Services.cd" />
+    <None Include="ClassDiagram\UpdateReactions.cd" />
+    <None Include="ClassDiagram\ViewModel.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

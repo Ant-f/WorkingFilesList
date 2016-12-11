@@ -6,36 +6,24 @@
   <Comment CommentText="Class diagram showing the classes used for the NumericUpDown control">
     <Position X="0.5" Y="4.229" Height="0.719" Width="3.065" />
   </Comment>
-  <Class Name="WorkingFilesList.ToolWindow.View.Controls.NumericUpDown">
-    <Position X="4" Y="2.25" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAQAAAAAAAAQAAEAEAAAAACACAAgAAAAAAA=</HashCode>
-      <FileName>View\Controls\NumericUpDown.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="WorkingFilesList.ToolWindow.View.Controls.Command.DecrementNumericUpDownValue">
+  <Class Name="WorkingFilesList.Core.Controls.Command.DecrementNumericUpDownValue">
     <Position X="7" Y="0.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>View\Controls\Command\DecrementNumericUpDownValue.cs</FileName>
-    </TypeIdentifier>
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="WorkingFilesList.ToolWindow.View.Controls.Command.IncrementNumericUpDownValue">
+  <Class Name="WorkingFilesList.Core.Controls.Command.IncrementNumericUpDownValue">
     <Position X="7" Y="2.75" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>View\Controls\Command\IncrementNumericUpDownValue.cs</FileName>
-    </TypeIdentifier>
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="WorkingFilesList.ToolWindow.Interface.IIntValueControl">
+  <Class Name="WorkingFilesList.Core.Controls.NumericUpDown">
+    <Position X="4" Y="2.25" Width="2.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="WorkingFilesList.Core.Interface.IIntValueControl">
     <Position X="4" Y="0.5" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Interface\IIntValueControl.cs</FileName>
-    </TypeIdentifier>
+    <TypeIdentifier />
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

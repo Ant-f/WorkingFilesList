@@ -3,60 +3,44 @@
   <Comment CommentText="Working Files List&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright © 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at&#xD;&#xA;   &#xD;&#xA;    http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;   &#xD;&#xA;Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.">
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
-  <Class Name="WorkingFilesList.ToolWindow.Service.Locator.ViewModelService">
-    <Position X="4" Y="0.5" Width="2.25" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAgAAQAAAAKAAAAAIAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
-      <FileName>Service\Locator\ViewModelService.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="WorkingFilesList.ToolWindow.ViewModel.Commands">
-    <Position X="9.25" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ViewModel\Commands.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.DocumentMetadataManager">
-    <Position X="6.5" Y="0.5" Width="2.5" />
+    <Position X="6.75" Y="0.75" Width="2.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
-    <TypeIdentifier>
-      <HashCode>AgIAAACAAgAIAAJAAAACAAAIAAAAAAAAIAAAAgAAAAA=</HashCode>
-      <FileName>ViewModel\DocumentMetadataManager.cs</FileName>
-    </TypeIdentifier>
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.OptionsLists">
-    <Position X="9.25" Y="2.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AABAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ViewModel\OptionsLists.cs</FileName>
-    </TypeIdentifier>
+    <Position X="9.5" Y="3" Width="2.25" />
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.UserPreferences">
-    <Position X="11.75" Y="0.5" Width="2.25" />
+    <Position X="12" Y="0.75" Width="2.25" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
-    <TypeIdentifier>
-      <HashCode>BABAAAAgEAAACAAAQAAACgAAQABCAAAAAAAAAAAABgA=</HashCode>
-      <FileName>ViewModel\UserPreferences.cs</FileName>
-    </TypeIdentifier>
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WorkingFilesList.ToolWindow.ViewModel.DisplayOrderContainer">
-    <Position X="11.75" Y="3.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ViewModel\DisplayOrderContainer.cs</FileName>
-    </TypeIdentifier>
+    <Position X="12" Y="4.5" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WorkingFilesList.ToolWindow.ViewModel.ToolWindowCommands">
+    <Position X="9.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WorkingFilesList.Core.Service.Locator.ViewModelService">
+    <Position X="4" Y="0.75" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="WorkingFilesList.OptionsDialoguePage.ViewModel.DialoguePageCommands">
+    <Position X="9.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
