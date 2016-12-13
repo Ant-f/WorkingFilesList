@@ -125,7 +125,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <DesignData Include="Design\DesignTimeData\DesignDocumentMetadata.xaml">
+    <DesignData Include="DesignTimeData\DesignDocumentMetadata.xaml">
       <SubType>Designer</SubType>
     </DesignData>
     <Page Include="View\Controls\AboutPanel.xaml">

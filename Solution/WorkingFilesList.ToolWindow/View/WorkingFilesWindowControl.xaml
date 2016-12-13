@@ -135,7 +135,7 @@
 
         <!--Active Documents-->
         <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
-                      d:DataContext="{d:DesignData Source=/Design/DesignTimeData/DesignDocumentMetadata.xaml}"
+                      d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
                       IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
