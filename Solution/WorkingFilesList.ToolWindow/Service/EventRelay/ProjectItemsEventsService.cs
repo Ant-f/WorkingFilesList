@@ -16,6 +16,8 @@
 // limitations under the License.
 
 using EnvDTE;
+using Microsoft.VisualStudio;
+using System;
 using System.IO;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Interface;
@@ -38,8 +40,19 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
         public void ItemRenamed(ProjectItem projectItem, string oldName)
         {
-            if (projectItem?.Document != null)
+            if (projectItem == null)
             {
+                return;
+            }
+
+            if (IsKind(projectItem, VSConstants.GUID_ItemType_PhysicalFile))
+            {
+                // Document can be null if file has been moved outside of Visual Studio
+                if (projectItem.Document == null)
+                {
+                    return;
+                }
+
                 var directoryName = Path.GetDirectoryName(
                     projectItem.Document.FullName);
 
@@ -51,6 +64,20 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                     projectItem.Document.FullName,
                     oldFullName);
             }
+            else if (IsKind(projectItem, VSConstants.GUID_ItemType_PhysicalFolder))
+            {
+                _documentMetadataManager.Synchronize(
+                    projectItem.DTE.Documents,
+                    true);
+            }
+        }
+        
+        private static bool IsKind(ProjectItem item, Guid typeGuid)
+        {
+            Guid itemKindGuid;
+            var success = Guid.TryParse(item.Kind, out itemKindGuid);
+            var isMatch = success && itemKindGuid == typeGuid;
+            return isMatch;
         }
     }
 }

@@ -15,7 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using EnvDTE;
+using Microsoft.VisualStudio;
 using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Core.Interface;
@@ -26,6 +28,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
     [TestFixture]
     public class ProjectItemsEventsServiceTests
     {
+        private static string CreateKindString(Guid kind)
+        {
+            var kindString = $"{{{kind}}}";
+            return kindString;
+        }
+
         [Test]
         public void RenamingDocumentCallsDocumentMetadataManager()
         {
@@ -36,7 +44,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             var projectItem = Mock.Of<ProjectItem>(p =>
                 p.Document == Mock.Of<Document>(d =>
-                    d.FullName == "NewName"));
+                    d.FullName == "NewName") &&
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFile));
 
             // Act
 
@@ -50,6 +59,28 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void RenamingProjectItemWithUnparsableKindDoesNotThrowException()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Kind == "UnparsableKind");
+
+            // Act, Assert
+
+            Assert.DoesNotThrow(() =>
+                service.ItemRenamed(projectItem, "OldName"));
+
+            metadataManagerMock.Verify(m => m.UpdateFullName(
+                It.IsAny<string>(),
+                It.IsAny<string>()),
+                Times.Never);
+        }
+
+        [Test]
         public void RenamingNullDocumentProjectItemDoesNotCallDocumentMetadataManager()
         {
             // Arrange
@@ -57,7 +88,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var metadataManagerMock = new Mock<IDocumentMetadataManager>();
             var service = new ProjectItemsEventsService(metadataManagerMock.Object);
 
-            var projectItem = Mock.Of<ProjectItem>();
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFile));
 
             // Act
 
@@ -88,7 +120,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             var projectItem = Mock.Of<ProjectItem>(p =>
                 p.Document == Mock.Of<Document>(d =>
-                    d.FullName == newFullName));
+                    d.FullName == newFullName) &&
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFile));
 
             // Act
 
@@ -99,6 +132,31 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             metadataManagerMock.Verify(m => m.UpdateFullName(
                 newFullName,
                 expectedOldName));
+        }
+
+        [Test]
+        public void SynchronizeIsCalledWhenProjectItemTypeIsPhysicalFolder()
+        {
+            // Arrange
+
+            var documents = Mock.Of<Documents>();
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManager);
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.DTE == Mock.Of<DTE>(dte =>
+                    dte.Documents == documents) &&
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFolder));
+
+            // Act
+
+            service.ItemRenamed(projectItem, "OldName");
+
+            // Assert
+
+            Mock.Get(metadataManager).Verify(m => m.Synchronize(
+                documents,
+                true));
         }
     }
 }
