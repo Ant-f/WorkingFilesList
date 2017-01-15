@@ -15,21 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Repository;
+using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.ToolWindow.Interface
 {
-    public class RepositoryModule : NinjectModule
+    public interface ISettingsStoreService
     {
-        public override void Load()
-        {
-            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope()
-                .WithConstructorArgument("settingsCollectionNameRoot", nameof(WorkingFilesWindowPackage));
-
-            Kernel.Bind<IUserPreferencesModelRepository>().To<UserPreferencesModelRepository>().InSingletonScope();
-        }
+        SettingsStoreContainer GetWritableSettingsStore();
     }
 }

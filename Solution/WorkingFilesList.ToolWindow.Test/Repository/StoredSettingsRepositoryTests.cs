@@ -15,41 +15,69 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Moq;
 using NUnit.Framework;
-using WorkingFilesList.Core.Model.SortOption;
+using System;
+using Microsoft.VisualStudio.Settings;
+using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Model;
 using WorkingFilesList.ToolWindow.Repository;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.ToolWindow.Test.Repository
 {
-    [TestFixture, Explicit]
+    [TestFixture]
     public class StoredSettingsRepositoryTests
     {
-        /// <summary>
-        /// Reload stored Settings data. This method is implementation-specific,
-        /// as it doesn't seem possible to simulate accessing the stored value
-        /// across multiple sessions otherwise
-        /// </summary>
-        private static void ReloadData()
-        {
-            WorkingFilesList.ToolWindow.Properties.Settings.Default.Reload();
-        }
+        private const string CollectionNameRoot = "CollectionName";
+        private const string CollectionName = CollectionNameRoot + @"\Settings";
 
-        [SetUp, OneTimeTearDown]
-        public void ResetStoredData()
+        private static StoredSettingsRepository CreateStoredSettingsRepository()
         {
-            CommonMethods.ResetStoredRepositoryData();
+            var service = Mock.Of<ISettingsStoreService>(s =>
+                s.GetWritableSettingsStore() == new SettingsStoreContainer(
+                    Mock.Of<IDisposable>(),
+                    new InMemorySettingsStore()));
+
+            var repository = new StoredSettingsRepository(service, CollectionName);
+            return repository;
         }
 
         [Test]
-        public void PathSegmentCountCanBeReset()
+        public void SettingsCollectionIsCreatedWhenCreatingRepositoryInstance()
         {
             // Arrange
 
-            const int defaultValue = 1;
+            var settingsStore = Mock.Of<WritableSettingsStore>();
 
-            var repository = new StoredSettingsRepository();
-            repository.SetPathSegmentCount(7);
+            var service = Mock.Of<ISettingsStoreService>(s =>
+                s.GetWritableSettingsStore() == new SettingsStoreContainer(
+                    Mock.Of<IDisposable>(),
+                    settingsStore));
+
+            // Act
+
+            var repository = new StoredSettingsRepository(service, CollectionNameRoot);
+
+            // Assert
+
+            Mock.Get(settingsStore).Verify(s => s.CreateCollection(
+                It.Is<string>(name => name == CollectionName)));
+        }
+
+        [Test]
+        public void ResetDeletesSettingsCollection()
+        {
+            // Arrange
+
+            var settingsStore = Mock.Of<WritableSettingsStore>();
+
+            var service = Mock.Of<ISettingsStoreService>(s =>
+                s.GetWritableSettingsStore() == new SettingsStoreContainer(
+                    Mock.Of<IDisposable>(),
+                    settingsStore));
+
+            var repository = new StoredSettingsRepository(service, CollectionNameRoot);
 
             // Act
 
@@ -57,8 +85,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            var storedValue = repository.GetPathSegmentCount();
-            Assert.That(storedValue, Is.EqualTo(defaultValue));
+            Mock.Get(settingsStore).Verify(s => s.DeleteCollection(
+                It.Is<string>(name => name == CollectionName)));
+        }
+
+        [Test]
+        public void GetPathSegmentCountReturnsDefaultValueIfNoStoredValueExists()
+        {
+            // Arrange
+
+            var repository = CreateStoredSettingsRepository();
+
+            // Act
+
+            var value = repository.GetPathSegmentCount();
+
+            // Assert
+
+            Assert.That(value, Is.EqualTo(1));
         }
 
         [Test]
@@ -67,7 +111,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const int pathSegmentCount = 7;
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -75,30 +119,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetPathSegmentCount();
             Assert.That(storedValue, Is.EqualTo(pathSegmentCount));
         }
 
         [Test]
-        public void SelectedDocumentSortTypeCanBeReset()
+        public void GetDocumentSortOptionNameReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            var defaultValue = new AlphabeticalSort().DisplayName;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetDocumentSortOptionName("Testing.SortingOption");
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetDocumentSortOptionName();
 
             // Assert
 
-            var storedValue = repository.GetDocumentSortOptionName();
-            Assert.That(storedValue, Is.EqualTo(defaultValue));
+            Assert.That(value, Is.EqualTo("A-Z"));
         }
 
         [Test]
@@ -107,7 +145,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const string name = "Name";
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -115,30 +153,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetDocumentSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
         }
 
         [Test]
-        public void SelectedProjectSortTypeCanBeReset()
+        public void GetProjectSortOptionNameReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            var defaultValue = new DisableSorting().DisplayName;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetProjectSortOptionName("Testing.SortOption");
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetProjectSortOptionName();
 
             // Assert
 
-            var storedValue = repository.GetProjectSortOptionName();
-            Assert.That(storedValue, Is.EqualTo(defaultValue));
+            Assert.That(value, Is.EqualTo("None"));
         }
 
         [Test]
@@ -147,7 +179,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const string name = "Name";
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -155,30 +187,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetProjectSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
         }
 
         [Test]
-        public void GroupByProjectCanBeReset()
+        public void GetGroupByProjectReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            const bool defaultGroupByProject = false;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetGroupByProject(true);
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetGroupByProject();
 
             // Assert
 
-            var storedValue = repository.GetGroupByProject();
-            Assert.That(storedValue, Is.EqualTo(defaultGroupByProject));
+            Assert.IsFalse(value);
         }
 
         [Test]
@@ -187,7 +213,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool groupByProject = true;
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -195,30 +221,58 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetGroupByProject();
             Assert.That(storedValue, Is.EqualTo(groupByProject));
         }
 
         [Test]
-        public void ShowRecentUsageCanBeReset()
+        public void GetHighlightFileNameReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            const bool defaultShowRecentUsage = false;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetShowRecentUsage(true);
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetHighlightFileName();
 
             // Assert
 
-            var storedValue = repository.GetShowRecentUsage();
-            Assert.That(storedValue, Is.EqualTo(defaultShowRecentUsage));
+            Assert.IsTrue(value);
+        }
+
+        [Test]
+        public void HighlightFileNameCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool highlightFileName = false;
+            var repository = CreateStoredSettingsRepository();
+
+            // Act
+
+            repository.SetHighlightFileName(highlightFileName);
+
+            // Assert
+
+            var storedValue = repository.GetHighlightFileName();
+            Assert.That(storedValue, Is.EqualTo(highlightFileName));
+        }
+
+        [Test]
+        public void GetShowRecentUsageReturnsDefaultValueIfNoStoredValueExists()
+        {
+            // Arrange
+
+            var repository = CreateStoredSettingsRepository();
+
+            // Act
+
+            var value = repository.GetShowRecentUsage();
+
+            // Assert
+
+            Assert.IsFalse(value);
         }
 
         [Test]
@@ -227,7 +281,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool showRecentUsage = true;
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -235,30 +289,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetShowRecentUsage();
             Assert.That(storedValue, Is.EqualTo(showRecentUsage));
         }
 
         [Test]
-        public void AssignProjectColoursCanBeReset()
+        public void GetAssignProjectColoursReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            const bool defaultAssignProjectColours = false;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetAssignProjectColours(true);
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetAssignProjectColours();
 
             // Assert
 
-            var storedValue = repository.GetAssignProjectColours();
-            Assert.That(storedValue, Is.EqualTo(defaultAssignProjectColours));
+            Assert.IsFalse(value);
         }
 
         [Test]
@@ -267,7 +315,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool assignProjectColours = true;
-            var repository = new StoredSettingsRepository();
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
@@ -275,30 +323,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             // Assert
 
-            ReloadData();
-
             var storedValue = repository.GetAssignProjectColours();
             Assert.That(storedValue, Is.EqualTo(assignProjectColours));
         }
 
         [Test]
-        public void ShowFileTypeIconsCanBeReset()
+        public void GetShowFileTypeIconsReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange
 
-            const bool defaultShowFileTypeIcons = true;
-
-            var repository = new StoredSettingsRepository();
-            repository.SetShowFileTypeIcons(false);
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
-            repository.Reset();
+            var value = repository.GetShowFileTypeIcons();
 
             // Assert
 
-            var storedValue = repository.GetShowFileTypeIcons();
-            Assert.That(storedValue, Is.EqualTo(defaultShowFileTypeIcons));
+            Assert.IsTrue(value);
         }
 
         [Test]
@@ -306,16 +348,14 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            const bool showFileTypeIcons = true;
-            var repository = new StoredSettingsRepository();
+            const bool showFileTypeIcons = false;
+            var repository = CreateStoredSettingsRepository();
 
             // Act
 
             repository.SetShowFileTypeIcons(showFileTypeIcons);
 
             // Assert
-
-            ReloadData();
 
             var storedValue = repository.GetShowFileTypeIcons();
             Assert.That(storedValue, Is.EqualTo(showFileTypeIcons));

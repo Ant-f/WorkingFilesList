@@ -15,21 +15,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.Core.Interface;
+using Microsoft.VisualStudio.Settings;
+using Moq;
+using System;
 using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Repository;
+using WorkingFilesList.ToolWindow.Model;
+using WorkingFilesList.ToolWindow.Service;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.Test.TestingInfrastructure
 {
-    public class RepositoryModule : NinjectModule
+    /// <summary>
+    /// Use when testing resolution of IoC bindings for interfaces.
+    /// <see cref="SettingsStoreService"/> contains logic that will throw
+    /// exceptions when using mocks.
+    /// </summary>
+    internal class SettingsStoreServiceStub : ISettingsStoreService
     {
-        public override void Load()
+        public SettingsStoreContainer GetWritableSettingsStore()
         {
-            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope()
-                .WithConstructorArgument("settingsCollectionNameRoot", nameof(WorkingFilesWindowPackage));
+            var container = new SettingsStoreContainer(
+                Mock.Of<IDisposable>(),
+                Mock.Of<WritableSettingsStore>());
 
-            Kernel.Bind<IUserPreferencesModelRepository>().To<UserPreferencesModelRepository>().InSingletonScope();
+            return container;
         }
     }
 }

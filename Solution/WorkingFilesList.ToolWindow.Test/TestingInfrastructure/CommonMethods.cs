@@ -59,15 +59,5 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             return windowsMock.Object;
         }
-
-        /// <summary>
-        /// Implementation-specific method of resetting data previously stored
-        /// by a <see cref="StoredSettingsRepository"/>. For use in setup/tear
-        /// down methods for tests that rely on a default state for stored data.
-        /// </summary>
-        public static void ResetStoredRepositoryData()
-        {
-            WorkingFilesList.ToolWindow.Properties.Settings.Default.Reset();
-        }
     }
 }

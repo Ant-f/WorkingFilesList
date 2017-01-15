@@ -15,103 +15,236 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Repository
 {
     public class StoredSettingsRepository : IStoredSettingsRepository
     {
+        private const int DefaultPathSegmentCount = 1;
+        private const string DefaultDocumentSortOptionName = "A-Z";
+        private const string DefaultProjectSortOptionName = "None";
+        private const bool DefaultGroupByProject = false;
+        private const bool DefaultShowRecentUsage = false;
+        private const bool DefaultAssignProjectColours = false;
+        private const bool DefaultShowFileTypeIcons = true;
+        private const bool DefaultHighlightFileName = true;
+
+        private readonly ISettingsStoreService _settingsStoreService;
+        private readonly string _settingsCollectionName;
+
+        public StoredSettingsRepository(
+            ISettingsStoreService settingsStoreService,
+            string settingsCollectionNameRoot)
+        {
+            _settingsStoreService = settingsStoreService;
+            _settingsCollectionName = $"{settingsCollectionNameRoot}\\Settings";
+
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.CreateCollection(_settingsCollectionName);
+            }
+        }
+
         public int GetPathSegmentCount()
         {
-            return Properties.Settings.Default.PathSegmentCount;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var count = service.SettingsStore.GetInt32(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.PathSegmentCount),
+                    DefaultPathSegmentCount);
+
+                return count;
+            }
         }
 
         public void SetPathSegmentCount(int count)
         {
-            Properties.Settings.Default.PathSegmentCount = count;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetInt32(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.PathSegmentCount),
+                    count);
+            }
         }
 
         public string GetDocumentSortOptionName()
         {
-            return Properties.Settings.Default.DocumentSortOptionName;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var name = service.SettingsStore.GetString(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.DocumentSortOptionName),
+                    DefaultDocumentSortOptionName);
+
+                return name;
+            }
         }
 
         public void SetDocumentSortOptionName(string name)
         {
-            Properties.Settings.Default.DocumentSortOptionName = name;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetString(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.DocumentSortOptionName),
+                    name);
+            }
         }
 
         public string GetProjectSortOptionName()
         {
-            return Properties.Settings.Default.ProjectSortOptionName;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var name = service.SettingsStore.GetString(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ProjectSortOptionName),
+                    DefaultProjectSortOptionName);
+
+                return name;
+            }
         }
 
         public void SetProjectSortOptionName(string name)
         {
-            Properties.Settings.Default.ProjectSortOptionName = name;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetString(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ProjectSortOptionName),
+                    name);
+            }
         }
 
         public bool GetGroupByProject()
         {
-            return Properties.Settings.Default.GroupByProject;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var groupByProject = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.GroupByProject),
+                    DefaultGroupByProject);
+
+                return groupByProject;
+            }
         }
 
         public void SetGroupByProject(bool value)
         {
-            Properties.Settings.Default.GroupByProject = value;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.GroupByProject),
+                    value);
+            }
         }
 
         public bool GetHighlightFileName()
         {
-            return Properties.Settings.Default.HighlightFileName;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var highlight = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.HighlightFileName),
+                    DefaultHighlightFileName);
+
+                return highlight;
+            }
         }
 
         public void SetHighlightFileName(bool value)
         {
-            Properties.Settings.Default.HighlightFileName = value;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.HighlightFileName),
+                    value);
+            }
         }
 
         public bool GetShowRecentUsage()
         {
-            return Properties.Settings.Default.ShowRecentUsage;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var showRecentUsage = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowRecentUsage),
+                    DefaultShowRecentUsage);
+
+                return showRecentUsage;
+            }
         }
 
         public void SetShowRecentUsage(bool value)
         {
-            Properties.Settings.Default.ShowRecentUsage = value;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowRecentUsage),
+                    value);
+            }
         }
 
         public bool GetAssignProjectColours()
         {
-            return Properties.Settings.Default.AssignProjectColours;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var assignProjectColours = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.AssignProjectColours),
+                    DefaultAssignProjectColours);
+
+                return assignProjectColours;
+            }
         }
 
         public void SetAssignProjectColours(bool value)
         {
-            Properties.Settings.Default.AssignProjectColours = value;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.AssignProjectColours),
+                    value);
+            }
         }
 
         public bool GetShowFileTypeIcons()
         {
-            return Properties.Settings.Default.ShowFileTypeIcons;
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                var showFileTypeIcons = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowFileTypeIcons),
+                    DefaultShowFileTypeIcons);
+
+                return showFileTypeIcons;
+            }
         }
 
         public void SetShowFileTypeIcons(bool value)
         {
-            Properties.Settings.Default.ShowFileTypeIcons = value;
-            Properties.Settings.Default.Save();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowFileTypeIcons),
+                    value);
+            }
         }
 
         public void Reset()
         {
-            Properties.Settings.Default.Reset();
+            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            {
+                service.SettingsStore.DeleteCollection(_settingsCollectionName);
+            }
         }
     }
 }

@@ -28,9 +28,9 @@ using System.Windows;
 using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Ioc;
+using WorkingFilesList.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
-using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Test.Ioc
 {
@@ -42,19 +42,11 @@ namespace WorkingFilesList.Test.Ioc
         /// <see cref="Uri"/> instances in <see cref="DocumentIconService"/>
         /// are in the pack URI format. Creating a <see cref="FrameworkElement"/>
         /// initializes enough of the framework to enable reading pack URIs.
-        /// 
-        /// Stored data should be reset by calling
-        /// <see cref="CommonMethods.ResetStoredRepositoryData"/> before
-        /// attempting to resolve an <see cref="IUserPreferences"/> instance. As
-        /// the constructor attempts to identify an <see cref="ISortOption"/> by
-        /// <see cref="ISortOption.DisplayName"/> from stored data, the test may
-        /// erroneously fail otherwise.
         /// </summary>
         [OneTimeSetUp]
         public void Setup()
         {
             new FrameworkElement();
-            CommonMethods.ResetStoredRepositoryData();
         }
         
         [Test]
@@ -63,11 +55,16 @@ namespace WorkingFilesList.Test.Ioc
             var factory = new NinjectKernelFactory();
             var kernel = factory.CreateKernel(Mock.Of<DTE2>());
 
+            // Requires actual DTE2 implementation: see class-level comment for
+            // SettingsStoreServiceStub class
+            kernel.Rebind<ISettingsStoreService>().To<SettingsStoreServiceStub>();
+
             var typesToResolve = new List<Type>
             {
                 typeof(ICommand)
             };
 
+            // IoC bindings not defined
             var excludedTypes = new List<Type>
             {
                 typeof(IIntValueControl),

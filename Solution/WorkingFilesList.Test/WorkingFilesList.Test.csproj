@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Ioc\NinjectContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestingInfrastructure\SettingsStoreServiceStub.cs" />
     <Compile Include="WorkingFilesWindowPackageTests.cs" />
     <Compile Include="WorkingFilesWindowTests.cs" />
   </ItemGroup>

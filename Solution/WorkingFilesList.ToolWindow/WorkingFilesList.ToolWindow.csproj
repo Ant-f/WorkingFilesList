@@ -46,6 +46,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -71,6 +72,7 @@
     <Compile Include="Interface\IProjectBrushes.cs" />
     <Compile Include="Interface\IProjectBrushService.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
+    <Compile Include="Interface\ISettingsStoreService.cs" />
     <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\ITestFileNameEvaluator.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Interface\IUpdateReactionManager.cs" />
     <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
+    <Compile Include="Model\SettingsStoreContainer.cs" />
     <Compile Include="Repository\UserPreferencesModelRepository.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
     <Compile Include="Service\DocumentIconService.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
+    <Compile Include="Service\SettingsStoreService.cs" />
     <Compile Include="Service\TestFileNameEvaluator.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />

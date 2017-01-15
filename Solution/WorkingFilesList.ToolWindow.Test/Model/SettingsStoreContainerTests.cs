@@ -15,21 +15,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Ninject.Modules;
-using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.Interface;
-using WorkingFilesList.ToolWindow.Repository;
+using Microsoft.VisualStudio.Settings;
+using Moq;
+using NUnit.Framework;
+using System;
+using WorkingFilesList.ToolWindow.Model;
 
-namespace WorkingFilesList.Ioc.Modules
+namespace WorkingFilesList.ToolWindow.Test.Model
 {
-    public class RepositoryModule : NinjectModule
+    [TestFixture]
+    public class SettingsStoreContainerTests
     {
-        public override void Load()
+        [Test]
+        public void DisposeDisposesServiceProvider()
         {
-            Kernel.Bind<IStoredSettingsRepository>().To<StoredSettingsRepository>().InSingletonScope()
-                .WithConstructorArgument("settingsCollectionNameRoot", nameof(WorkingFilesWindowPackage));
+            // Arrange
 
-            Kernel.Bind<IUserPreferencesModelRepository>().To<UserPreferencesModelRepository>().InSingletonScope();
+            var serviceProvider = Mock.Of<IDisposable>();
+            var writableSettingsStore = Mock.Of<WritableSettingsStore>();
+
+            // Act
+
+            using (new SettingsStoreContainer(serviceProvider, writableSettingsStore))
+            {
+                // Intentionally empty
+            }
+
+            // Assert
+
+            Mock.Get(serviceProvider).Verify(s => s.Dispose());
         }
     }
 }
