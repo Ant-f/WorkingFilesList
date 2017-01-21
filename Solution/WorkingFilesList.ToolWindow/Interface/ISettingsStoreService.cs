@@ -21,6 +21,6 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface ISettingsStoreService
     {
-        SettingsStoreContainer GetWritableSettingsStore();
+        SettingsStoreContainer GetSettingsStore(bool readOnly);
     }
 }

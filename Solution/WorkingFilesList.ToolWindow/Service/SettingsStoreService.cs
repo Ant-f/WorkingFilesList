@@ -34,13 +34,14 @@ namespace WorkingFilesList.ToolWindow.Service
             _dte2 = dte2;
         }
 
-        public SettingsStoreContainer GetWritableSettingsStore()
+        public SettingsStoreContainer GetSettingsStore(bool readOnly)
         {
             var serviceProvider = new ServiceProvider((IServiceProvider) _dte2);
             var settingsManager = new ShellSettingsManager(serviceProvider);
 
-            var settingsStore = settingsManager.GetWritableSettingsStore(
-                SettingsScope.UserSettings);
+            var settingsStore = readOnly
+                ? settingsManager.GetReadOnlySettingsStore(SettingsScope.UserSettings)
+                : settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
 
             var container = new SettingsStoreContainer(serviceProvider, settingsStore);
             return container;

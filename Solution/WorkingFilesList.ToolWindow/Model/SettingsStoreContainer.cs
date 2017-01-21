@@ -29,11 +29,11 @@ namespace WorkingFilesList.ToolWindow.Model
     {
         private readonly IDisposable _serviceProvider;
 
-        public WritableSettingsStore SettingsStore { get; }
+        public SettingsStore SettingsStore { get; }
 
         public SettingsStoreContainer(
             IDisposable serviceProvider,
-            WritableSettingsStore settingsStore)
+            SettingsStore settingsStore)
         {
             _serviceProvider = serviceProvider;
             SettingsStore = settingsStore;

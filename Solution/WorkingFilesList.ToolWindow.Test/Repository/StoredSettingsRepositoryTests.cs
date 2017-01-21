@@ -32,37 +32,29 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         private const string CollectionNameRoot = "CollectionName";
         private const string CollectionName = CollectionNameRoot + @"\Settings";
 
-        private static StoredSettingsRepository CreateStoredSettingsRepository()
+        private static StoredSettingsRepository CreateStoredSettingsRepository(
+            out InMemorySettingsStore settingsStore,
+            out ISettingsStoreService settingsStoreService)
         {
-            var service = Mock.Of<ISettingsStoreService>(s =>
-                s.GetWritableSettingsStore() == new SettingsStoreContainer(
-                    Mock.Of<IDisposable>(),
-                    new InMemorySettingsStore()));
+            var store = new InMemorySettingsStore();
+            var serviceMock = new Mock<ISettingsStoreService>();
 
-            var repository = new StoredSettingsRepository(service, CollectionName);
+            serviceMock
+                .Setup(s => s.GetSettingsStore(It.IsAny<bool>()))
+                .Returns<bool>(isReadOnly =>
+                {
+                    store.IsReadOnly = isReadOnly;
+                    return new SettingsStoreContainer(Mock.Of<IDisposable>(), store);
+                });
+
+            settingsStoreService = serviceMock.Object;
+            settingsStore = store;
+
+            var repository = new StoredSettingsRepository(
+                settingsStoreService,
+                CollectionNameRoot);
+
             return repository;
-        }
-
-        [Test]
-        public void SettingsCollectionIsCreatedWhenCreatingRepositoryInstance()
-        {
-            // Arrange
-
-            var settingsStore = Mock.Of<WritableSettingsStore>();
-
-            var service = Mock.Of<ISettingsStoreService>(s =>
-                s.GetWritableSettingsStore() == new SettingsStoreContainer(
-                    Mock.Of<IDisposable>(),
-                    settingsStore));
-
-            // Act
-
-            var repository = new StoredSettingsRepository(service, CollectionNameRoot);
-
-            // Assert
-
-            Mock.Get(settingsStore).Verify(s => s.CreateCollection(
-                It.Is<string>(name => name == CollectionName)));
         }
 
         [Test]
@@ -73,7 +65,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var settingsStore = Mock.Of<WritableSettingsStore>();
 
             var service = Mock.Of<ISettingsStoreService>(s =>
-                s.GetWritableSettingsStore() == new SettingsStoreContainer(
+                s.GetSettingsStore(false) == new SettingsStoreContainer(
                     Mock.Of<IDisposable>(),
                     settingsStore));
 
@@ -94,13 +86,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetPathSegmentCount();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.That(value, Is.EqualTo(1));
         }
@@ -111,13 +111,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const int pathSegmentCount = 7;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetPathSegmentCount(pathSegmentCount);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetPathSegmentCount();
             Assert.That(storedValue, Is.EqualTo(pathSegmentCount));
@@ -128,13 +139,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetDocumentSortOptionName();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.That(value, Is.EqualTo("A-Z"));
         }
@@ -145,13 +164,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const string name = "Name";
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetDocumentSortOptionName(name);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetDocumentSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
@@ -162,13 +192,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetProjectSortOptionName();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.That(value, Is.EqualTo("None"));
         }
@@ -179,13 +217,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const string name = "Name";
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetProjectSortOptionName(name);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetProjectSortOptionName();
             Assert.That(storedValue, Is.EqualTo(name));
@@ -196,13 +245,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetGroupByProject();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.IsFalse(value);
         }
@@ -213,13 +270,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool groupByProject = true;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetGroupByProject(groupByProject);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetGroupByProject();
             Assert.That(storedValue, Is.EqualTo(groupByProject));
@@ -230,13 +298,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetHighlightFileName();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.IsTrue(value);
         }
@@ -247,13 +323,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool highlightFileName = false;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetHighlightFileName(highlightFileName);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetHighlightFileName();
             Assert.That(storedValue, Is.EqualTo(highlightFileName));
@@ -264,13 +351,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetShowRecentUsage();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.IsFalse(value);
         }
@@ -281,13 +376,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool showRecentUsage = true;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetShowRecentUsage(showRecentUsage);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetShowRecentUsage();
             Assert.That(storedValue, Is.EqualTo(showRecentUsage));
@@ -298,13 +404,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetAssignProjectColours();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.IsFalse(value);
         }
@@ -315,13 +429,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool assignProjectColours = true;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetAssignProjectColours(assignProjectColours);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetAssignProjectColours();
             Assert.That(storedValue, Is.EqualTo(assignProjectColours));
@@ -332,13 +457,21 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            var repository = CreateStoredSettingsRepository();
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             var value = repository.GetShowFileTypeIcons();
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
 
             Assert.IsTrue(value);
         }
@@ -349,13 +482,24 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             // Arrange
 
             const bool showFileTypeIcons = false;
-            var repository = CreateStoredSettingsRepository();
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
 
             // Act
 
             repository.SetShowFileTypeIcons(showFileTypeIcons);
 
             // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
 
             var storedValue = repository.GetShowFileTypeIcons();
             Assert.That(storedValue, Is.EqualTo(showFileTypeIcons));

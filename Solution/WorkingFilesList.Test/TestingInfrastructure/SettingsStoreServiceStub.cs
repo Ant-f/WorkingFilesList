@@ -31,11 +31,11 @@ namespace WorkingFilesList.Test.TestingInfrastructure
     /// </summary>
     internal class SettingsStoreServiceStub : ISettingsStoreService
     {
-        public SettingsStoreContainer GetWritableSettingsStore()
+        public SettingsStoreContainer GetSettingsStore(bool readOnly)
         {
             var container = new SettingsStoreContainer(
                 Mock.Of<IDisposable>(),
-                Mock.Of<WritableSettingsStore>());
+                Mock.Of<SettingsStore>());
 
             return container;
         }

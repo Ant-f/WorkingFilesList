@@ -15,6 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microsoft.VisualStudio.Settings;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Interface;
 
@@ -40,16 +41,11 @@ namespace WorkingFilesList.ToolWindow.Repository
         {
             _settingsStoreService = settingsStoreService;
             _settingsCollectionName = $"{settingsCollectionNameRoot}\\Settings";
-
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
-            {
-                service.SettingsStore.CreateCollection(_settingsCollectionName);
-            }
         }
 
         public int GetPathSegmentCount()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var count = service.SettingsStore.GetInt32(
                     _settingsCollectionName,
@@ -62,9 +58,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetPathSegmentCount(int count)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetInt32(
+                var store = (WritableSettingsStore) service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetInt32(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.PathSegmentCount),
                     count);
@@ -73,7 +72,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public string GetDocumentSortOptionName()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var name = service.SettingsStore.GetString(
                     _settingsCollectionName,
@@ -86,9 +85,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetDocumentSortOptionName(string name)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetString(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetString(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.DocumentSortOptionName),
                     name);
@@ -97,7 +99,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public string GetProjectSortOptionName()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var name = service.SettingsStore.GetString(
                     _settingsCollectionName,
@@ -110,9 +112,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetProjectSortOptionName(string name)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetString(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetString(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ProjectSortOptionName),
                     name);
@@ -121,7 +126,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public bool GetGroupByProject()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var groupByProject = service.SettingsStore.GetBoolean(
                     _settingsCollectionName,
@@ -134,9 +139,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetGroupByProject(bool value)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetBoolean(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.GroupByProject),
                     value);
@@ -145,7 +153,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public bool GetHighlightFileName()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var highlight = service.SettingsStore.GetBoolean(
                     _settingsCollectionName,
@@ -158,9 +166,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetHighlightFileName(bool value)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetBoolean(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.HighlightFileName),
                     value);
@@ -169,7 +180,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public bool GetShowRecentUsage()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var showRecentUsage = service.SettingsStore.GetBoolean(
                     _settingsCollectionName,
@@ -182,9 +193,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetShowRecentUsage(bool value)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetBoolean(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ShowRecentUsage),
                     value);
@@ -193,7 +207,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public bool GetAssignProjectColours()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var assignProjectColours = service.SettingsStore.GetBoolean(
                     _settingsCollectionName,
@@ -206,9 +220,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetAssignProjectColours(bool value)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetBoolean(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.AssignProjectColours),
                     value);
@@ -217,7 +234,7 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public bool GetShowFileTypeIcons()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(true))
             {
                 var showFileTypeIcons = service.SettingsStore.GetBoolean(
                     _settingsCollectionName,
@@ -230,9 +247,12 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void SetShowFileTypeIcons(bool value)
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.SetBoolean(
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ShowFileTypeIcons),
                     value);
@@ -241,9 +261,10 @@ namespace WorkingFilesList.ToolWindow.Repository
 
         public void Reset()
         {
-            using (var service = _settingsStoreService.GetWritableSettingsStore())
+            using (var service = _settingsStoreService.GetSettingsStore(false))
             {
-                service.SettingsStore.DeleteCollection(_settingsCollectionName);
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.DeleteCollection(_settingsCollectionName);
             }
         }
     }

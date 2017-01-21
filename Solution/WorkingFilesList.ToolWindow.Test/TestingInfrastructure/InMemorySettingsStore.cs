@@ -18,6 +18,7 @@
 using Microsoft.VisualStudio.Settings;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using WorkingFilesList.ToolWindow.Repository;
 
@@ -31,6 +32,16 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
     {
         private readonly Dictionary<string, Dictionary<string, object>> _settingsStore
             = new Dictionary<string, Dictionary<string, object>>();
+
+        public ReadOnlyDictionary<string, Dictionary<string, object>> SettingsStore { get; }
+        public bool IsReadOnly { get; set; }
+
+        public InMemorySettingsStore()
+        {
+            SettingsStore =
+                new ReadOnlyDictionary<string, Dictionary<string, object>>(
+                    _settingsStore);
+        }
 
         private T Get<T>(string collectionPath, string propertyName, T defaultValue)
         {
@@ -155,11 +166,21 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
         public override void SetBoolean(string collectionPath, string propertyName, bool value)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             _settingsStore[collectionPath][propertyName] = value;
         }
 
         public override void SetInt32(string collectionPath, string propertyName, int value)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             _settingsStore[collectionPath][propertyName] = value;
         }
 
@@ -180,6 +201,11 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
         public override void SetString(string collectionPath, string propertyName, string value)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             _settingsStore[collectionPath][propertyName] = value;
         }
 
@@ -190,6 +216,11 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
         public override void CreateCollection(string collectionPath)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             _settingsStore[collectionPath] = new Dictionary<string, object>();
         }
 
