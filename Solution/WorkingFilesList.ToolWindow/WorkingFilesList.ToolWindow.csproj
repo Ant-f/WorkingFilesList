@@ -73,7 +73,6 @@
     <Compile Include="Interface\IProjectBrushService.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
     <Compile Include="Interface\ISettingsStoreService.cs" />
-    <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\ITestFileNameEvaluator.cs" />
     <Compile Include="Interface\ITimeProvider.cs" />
     <Compile Include="Interface\IUpdateReaction.cs" />

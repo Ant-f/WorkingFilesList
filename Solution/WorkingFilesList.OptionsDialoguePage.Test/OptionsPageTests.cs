@@ -130,7 +130,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
         }
 
         [Test]
-        public void SettingsAreNotLoadedIfDialogueIsActivatedWithoutClosing()
+        public void SettingsAreNotLoadedIntoDialogueIfDialogueIsActivatedWithoutClosing()
         {
             // Arrange
 
@@ -154,7 +154,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
         }
 
         [Test]
-        public void SettingsAreLoadedIfDialogueIsActivatedAfterClosing()
+        public void SettingsAreLoadedIntoDialogueIfDialogueIsActivatedAfterClosing()
         {
             // Arrange
 
@@ -178,7 +178,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
         }
 
         [Test]
-        public void SettingsAreLoadedIntoGlobalUserPreferencesWhenSavingToStorage()
+        public void SettingsAreLoadedIntoGlobalUserPreferencesWhenClosingDialogue()
         {
             // Arrange
 
@@ -190,11 +190,11 @@ namespace WorkingFilesList.OptionsDialoguePage.Test
                 userPreferences: globalPreferences,
                 userPreferencesModelRepository: repository);
 
-            var optionsPage = new OptionsPage();
+            var optionsPage = new TestingOptionsPage();
 
             // Act
 
-            optionsPage.SaveSettingsToStorage();
+            optionsPage.SimulateClose();
 
             // Assert
 

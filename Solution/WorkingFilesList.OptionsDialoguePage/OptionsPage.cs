@@ -78,6 +78,9 @@ namespace WorkingFilesList.OptionsDialoguePage
         {
             _isClosed = true;
             base.OnClosed(e);
+
+            ViewModelService.UserPreferencesModelRepository.LoadInto(
+                ViewModelService.UserPreferences);
         }
 
         public override void LoadSettingsFromStorage()
@@ -90,9 +93,6 @@ namespace WorkingFilesList.OptionsDialoguePage
         {
             ViewModelService.UserPreferencesModelRepository
                 .SaveModel(_preferencesModel);
-
-            ViewModelService.UserPreferencesModelRepository.LoadInto(
-                ViewModelService.UserPreferences);
         }
     }
 }

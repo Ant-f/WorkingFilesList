@@ -38,6 +38,7 @@
     </Compile>
     <Compile Include="Service\ProcessStarter.cs" />
     <Compile Include="ViewModel\Command\Navigate.cs" />
+    <Compile Include="ViewModel\Command\ResetSettings.cs" />
     <Compile Include="ViewModel\DialoguePageCommands.cs" />
     <Compile Include="View\OptionsPageControl.xaml.cs">
       <DependentUpon>OptionsPageControl.xaml</DependentUpon>

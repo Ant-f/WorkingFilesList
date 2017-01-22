@@ -22,5 +22,6 @@ namespace WorkingFilesList.Core.Interface
     public interface IDialoguePageCommands
     {
         ICommand Navigate { get; }
+        ICommand ResetSettings { get; }
     }
 }

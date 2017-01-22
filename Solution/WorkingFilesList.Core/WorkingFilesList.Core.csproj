@@ -42,6 +42,7 @@
     <Compile Include="Interface\ISolutionEventsService.cs" />
     <Compile Include="Interface\ISortOption.cs" />
     <Compile Include="Interface\ISortOptionsService.cs" />
+    <Compile Include="Interface\IStoredSettingsService.cs" />
     <Compile Include="Interface\IToolWindowCommands.cs" />
     <Compile Include="Interface\IUserPreferencesModel.cs" />
     <Compile Include="Interface\IUserPreferences.cs" />

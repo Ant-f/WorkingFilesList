@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="TestingInfrastructure\ViewModelServiceInitializer.cs" />
     <Compile Include="ViewModel\Command\NavigateTests.cs" />
+    <Compile Include="ViewModel\Command\ResetSettingsTests.cs" />
     <Compile Include="ViewModel\DialoguePageCommandsTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace WorkingFilesList.ToolWindow.Interface
+namespace WorkingFilesList.Core.Interface
 {
     public interface IStoredSettingsRepository
     {

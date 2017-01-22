@@ -26,10 +26,12 @@ namespace WorkingFilesList.OptionsDialoguePage.ViewModel
     public class DialoguePageCommands : IDialoguePageCommands
     {
         public ICommand Navigate { get; }
+        public ICommand ResetSettings { get; }
 
         public DialoguePageCommands(IList<ICommand> commandCollection)
         {
             Navigate = commandCollection.OfType<Navigate>().Single();
+            ResetSettings = commandCollection.OfType<ResetSettings>().Single();
         }
     }
 }

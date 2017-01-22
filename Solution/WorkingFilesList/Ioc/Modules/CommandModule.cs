@@ -39,6 +39,7 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IToolWindowCommands>().To<ToolWindowCommands>().InSingletonScope();
 
             Kernel.Bind<ICommand>().To<Navigate>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<ResetSettings>().InSingletonScope();
             Kernel.Bind<IDialoguePageCommands>().To<DialoguePageCommands>().InSingletonScope();
         }
     }

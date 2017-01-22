@@ -19,6 +19,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Windows.Input;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.OptionsDialoguePage.Interface;
 using WorkingFilesList.OptionsDialoguePage.ViewModel;
 using WorkingFilesList.OptionsDialoguePage.ViewModel.Command;
@@ -35,9 +36,14 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.ViewModel
 
             var navigate = new Navigate(Mock.Of<IProcessStarter>());
 
+            var resetSettings = new ResetSettings(
+                Mock.Of<IStoredSettingsRepository>(),
+                Mock.Of<IUserPreferencesModelRepository>());
+
             var commandList = new List<ICommand>
             {
-                navigate
+                navigate,
+                resetSettings
             };
 
             // Act
@@ -47,6 +53,7 @@ namespace WorkingFilesList.OptionsDialoguePage.Test.ViewModel
             // Assert
 
             Assert.That(commands.Navigate, Is.EqualTo(navigate));
+            Assert.That(commands.ResetSettings, Is.EqualTo(resetSettings));
         }
     }
 }
