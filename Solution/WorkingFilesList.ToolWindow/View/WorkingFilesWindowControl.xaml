@@ -33,6 +33,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/WorkingFilesList.Core;component/Theme/NumericUpDown.xaml"/>
+                <ResourceDictionary Source="Theme/Button.xaml"/>
                 <ResourceDictionary Source="Theme/ComboBox.xaml"/>
                 <ResourceDictionary Source="Theme/ProgressBar.xaml"/>
                 <ResourceDictionary Source="Theme/RepeatButton.xaml"/>
@@ -287,10 +288,40 @@
                                         <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
                                         <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
                                     </StackPanel>
+
+                                    <StackPanel x:Name="DocumentItemCommandButtons"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal"
+                                                Visibility="Collapsed">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Margin" Value="0,-1,0,0" />
+                                                <Setter Property="Stretch" Value="None" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        
+                                        <Button x:Name="TestsButton"
+                                                Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                                CommandParameter="{Binding .}"
+                                                Style="{StaticResource DocumentItemCommandButton}"
+                                                ToolTip="Open Tests File (Shortcut: Right-Click)">
+                                            <Image Source="Icon/test_16xMD.png" />
+                                        </Button>
+
+                                        <Button x:Name="CloseButton"
+                                                Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                                CommandParameter="{Binding .}"
+                                                Style="{StaticResource DocumentItemCommandButton}"
+                                                ToolTip="Close File (Shortcut: Middle-Click)">
+                                            <Image Source="Icon/Close_8x_16x.png" />
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
 
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="DocumentItemCommandButtons" Property="Visibility" Value="Visible"/>
                                         <Setter TargetName="MouseOverBackground" Property="Visibility" Value="Visible"/>
                                         <Setter TargetName="MouseOverBorder" Property="BorderThickness" Value="1"/>
                                     </Trigger>
