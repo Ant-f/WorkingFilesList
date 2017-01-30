@@ -12,7 +12,7 @@ After building the project (using the Release build configuration as
 appropriate), navigate to the output directory and launch
 `WorkingFilesList.vsix` to add the extension to Visual Studio.
 
-Alternatively, you can download a copy from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51);
+Alternatively, you can download a copy from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList);
 or from within Visual Studio by searching for `working files list` in
 [**Tools**] -> [**Extensions and Updates**]
 
@@ -25,7 +25,7 @@ the menu bar.
 
 [Wiki](https://github.com/Ant-f/WorkingFilesList/wiki)
 
-[Visual Studio Gallery Page](https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51)
+[Visual Studio Marketplace Page](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList)
 
 ## License
 
