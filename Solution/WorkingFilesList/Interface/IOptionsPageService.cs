@@ -15,15 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows.Input;
+using System;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.Interface
 {
-    public interface IToolWindowCommands
+    public interface IOptionsPageService
     {
-        ICommand ActivateWindow { get; }
-        ICommand CloseDocument { get; }
-        ICommand OpenOptionsPage { get; }
-        ICommand OpenTestFile { get; }
+        void ShowOptionPage(Type optionsPageType);
     }
 }

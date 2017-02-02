@@ -27,12 +27,14 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     {
         public ICommand ActivateWindow { get; }
         public ICommand CloseDocument { get; }
+        public ICommand OpenOptionsPage { get; }
         public ICommand OpenTestFile { get; }
 
         public ToolWindowCommands(IList<ICommand> commandCollection)
         {
             ActivateWindow = commandCollection.OfType<ActivateWindow>().Single();
             CloseDocument = commandCollection.OfType<CloseDocument>().Single();
+            OpenOptionsPage = commandCollection.OfType<OpenOptionsPage>().Single();
             OpenTestFile = commandCollection.OfType<OpenTestFile>().Single();
         }
     }

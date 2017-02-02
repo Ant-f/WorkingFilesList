@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Interface\IOptionsPageService.cs" />
     <Compile Include="Ioc\Modules\CommandModule.cs" />
     <Compile Include="Ioc\Modules\FactoryModule.cs" />
     <Compile Include="Ioc\NinjectKernelFactory.cs" />

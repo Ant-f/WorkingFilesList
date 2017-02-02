@@ -21,12 +21,16 @@ using Microsoft.VisualStudio.Shell;
 using Ninject;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.Interface;
 using WorkingFilesList.Ioc;
 using WorkingFilesList.OptionsDialoguePage;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.ViewModel.Command;
 
 namespace WorkingFilesList
 {
@@ -55,7 +59,7 @@ namespace WorkingFilesList
     [ProvideToolWindow(typeof(WorkingFilesWindow))]
     [Guid(WorkingFilesWindowPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class WorkingFilesWindowPackage : Package
+    public sealed class WorkingFilesWindowPackage : Package, IOptionsPageService
     {
         private IKernel _kernel;
 
@@ -93,7 +97,7 @@ namespace WorkingFilesList
             var kernelFactory = new NinjectKernelFactory();
             _kernel = kernelFactory.CreateKernel(dte2);
 
-            InitializeServices(_kernel);
+            InitializeServices(_kernel, this);
         }
 
         #endregion
@@ -102,13 +106,25 @@ namespace WorkingFilesList
         /// Initialize <see cref="WorkingFilesList.ToolWindow"/> services and
         /// view model objects
         /// </summary>
-        public void InitializeServices(IKernel kernel)
+        public void InitializeServices(
+            IKernel kernel,
+            IOptionsPageService optionsPageService)
         {
             var dte2 = kernel.Get<DTE2>();
 
-            var events2 = (Events2)dte2.Events;
+            var events2 = (Events2) dte2.Events;
             var subscriber = kernel.Get<IDteEventsSubscriber>();
             subscriber.SubscribeTo(events2);
+
+            // Subscribe to OpenOptionsPage.OptionsPageRequested
+
+            var commands = kernel.GetAll<ICommand>();
+            var openOptionsPage = commands.OfType<OpenOptionsPage>().Single();
+
+            openOptionsPage.OptionsPageRequested += (s, e) =>
+            {
+                optionsPageService.ShowOptionPage(typeof(OptionsPage));
+            };
 
             // Inject properties by resolving a ViewModelService instance
 

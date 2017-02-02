@@ -90,6 +90,7 @@
     <Compile Include="Service\SettingsStoreService.cs" />
     <Compile Include="Service\TestFileNameEvaluator.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
+    <Compile Include="ViewModel\Command\OpenOptionsPage.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\StoredSettingsRepository.cs" />

@@ -15,15 +15,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Windows.Input;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.ViewModel.Command
 {
-    public interface IToolWindowCommands
+    public class OpenOptionsPage : ICommand
     {
-        ICommand ActivateWindow { get; }
-        ICommand CloseDocument { get; }
-        ICommand OpenOptionsPage { get; }
-        ICommand OpenTestFile { get; }
+        #pragma warning disable 67
+        // ICommand interface member is only used by XAML
+        public event EventHandler CanExecuteChanged;
+        #pragma warning restore 67
+
+        public event EventHandler OptionsPageRequested;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            OptionsPageRequested?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

@@ -41,11 +41,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 Mock.Of<DTE2>(),
                 Mock.Of<ITestFileNameEvaluator>());
 
+            var openOptionsPage = new OpenOptionsPage();
+
             var commandList = new List<ICommand>
             {
                 activateWindow,
                 closeDocument,
-                openTestFile
+                openTestFile,
+                openOptionsPage
             };
 
             // Act
@@ -56,6 +59,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(commands.ActivateWindow, Is.EqualTo(activateWindow));
             Assert.That(commands.CloseDocument, Is.EqualTo(closeDocument));
+            Assert.That(commands.OpenOptionsPage, Is.EqualTo(openOptionsPage));
             Assert.That(commands.OpenTestFile, Is.EqualTo(openTestFile));
         }
     }

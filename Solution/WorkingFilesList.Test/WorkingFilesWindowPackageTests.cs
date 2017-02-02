@@ -20,9 +20,13 @@ using EnvDTE80;
 using Moq;
 using Ninject.MockingKernel.Moq;
 using NUnit.Framework;
+using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.Interface;
+using WorkingFilesList.OptionsDialoguePage;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.ViewModel.Command;
 
 namespace WorkingFilesList.Test
 {
@@ -38,16 +42,19 @@ namespace WorkingFilesList.Test
             var kernel = new MoqMockingKernel();
 
             var events2 = Mock.Of<Events2>();
-
             var dte2 = Mock.Of<DTE2>(d => d.Events == events2);
+
             kernel.Bind<DTE2>().ToConstant(dte2);
+            kernel.Bind<ICommand>().ToMethod(context => Mock.Of<OpenOptionsPage>());
 
             var subscriberMock = new Mock<IDteEventsSubscriber>();
             kernel.Bind<IDteEventsSubscriber>().ToConstant(subscriberMock.Object);
 
             // Act
 
-            package.InitializeServices(kernel);
+            package.InitializeServices(
+                kernel,
+                Mock.Of<IOptionsPageService>());
 
             // Assert
 
@@ -74,6 +81,8 @@ namespace WorkingFilesList.Test
             var dte2 = Mock.Of<DTE2>(d => d.Events == events2);
             kernel.Bind<DTE2>().ToConstant(dte2);
 
+            kernel.Bind<ICommand>().ToMethod(context => Mock.Of<OpenOptionsPage>());
+
             kernel.Bind<ViewModelService>().ToMethod(context =>
             {
                 serviceResolved = true;
@@ -82,7 +91,9 @@ namespace WorkingFilesList.Test
 
             // Act
 
-            package.InitializeServices(kernel);
+            package.InitializeServices(
+                kernel,
+                Mock.Of<IOptionsPageService>());
 
             // Assert
 
@@ -104,6 +115,7 @@ namespace WorkingFilesList.Test
                 d.Documents == documents);
 
             kernel.Bind<DTE2>().ToConstant(dte2);
+            kernel.Bind<ICommand>().ToMethod(context => Mock.Of<OpenOptionsPage>());
 
             var subscriberMock = new Mock<IDteEventsSubscriber>();
             kernel.Bind<IDteEventsSubscriber>().ToConstant(subscriberMock.Object);
@@ -113,11 +125,37 @@ namespace WorkingFilesList.Test
 
             // Act
 
-            package.InitializeServices(kernel);
+            package.InitializeServices(
+                kernel,
+                Mock.Of<IOptionsPageService>());
 
             // Assert
 
             managerMock.Verify(m => m.Synchronize(documents, true));
+        }
+
+        [Test]
+        public void ShowOptionsPageIsInvokedOnExecutingOpenOptionsPageAfterInitializingServices()
+        {
+            // Arrange
+
+            var openOptionsPage = new OpenOptionsPage();
+            var optionsPageService = Mock.Of<IOptionsPageService>();
+
+            var kernel = new MoqMockingKernel();
+            kernel.Bind<ICommand>().ToConstant(openOptionsPage);
+
+            var package = new WorkingFilesWindowPackage();
+            package.InitializeServices(kernel, optionsPageService);
+
+            // Act
+
+            openOptionsPage.Execute(null);
+
+            // Assert
+
+            Mock.Get(optionsPageService).Verify(o => o.ShowOptionPage(
+                typeof(OptionsPage)));
         }
     }
 }
