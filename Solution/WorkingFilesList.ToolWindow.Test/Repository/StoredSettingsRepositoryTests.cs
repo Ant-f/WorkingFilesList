@@ -261,7 +261,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             Mock.Get(settingsStoreService).Verify(s =>
                 s.GetSettingsStore(true));
 
-            Assert.IsFalse(value);
+            Assert.IsTrue(value);
         }
 
         [Test]
@@ -367,7 +367,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             Mock.Get(settingsStoreService).Verify(s =>
                 s.GetSettingsStore(true));
 
-            Assert.IsFalse(value);
+            Assert.IsTrue(value);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             Mock.Get(settingsStoreService).Verify(s =>
                 s.GetSettingsStore(true));
 
-            Assert.IsFalse(value);
+            Assert.IsTrue(value);
         }
 
         [Test]

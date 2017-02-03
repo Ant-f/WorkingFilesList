@@ -26,9 +26,9 @@ namespace WorkingFilesList.ToolWindow.Repository
         private const int DefaultPathSegmentCount = 1;
         private const string DefaultDocumentSortOptionName = "A-Z";
         private const string DefaultProjectSortOptionName = "None";
-        private const bool DefaultGroupByProject = false;
-        private const bool DefaultShowRecentUsage = false;
-        private const bool DefaultAssignProjectColours = false;
+        private const bool DefaultGroupByProject = true;
+        private const bool DefaultShowRecentUsage = true;
+        private const bool DefaultAssignProjectColours = true;
         private const bool DefaultShowFileTypeIcons = true;
         private const bool DefaultHighlightFileName = true;
 
