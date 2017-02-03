@@ -264,7 +264,12 @@ namespace WorkingFilesList.ToolWindow.Repository
             using (var service = _settingsStoreService.GetSettingsStore(false))
             {
                 var store = (WritableSettingsStore)service.SettingsStore;
-                store.DeleteCollection(_settingsCollectionName);
+                var collectionExists = store.CollectionExists(_settingsCollectionName);
+
+                if (collectionExists)
+                {
+                    store.DeleteCollection(_settingsCollectionName);
+                }
             }
         }
     }

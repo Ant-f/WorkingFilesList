@@ -58,11 +58,12 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
-        public void ResetDeletesSettingsCollection()
+        public void ResetDeletesExistingSettingsCollection()
         {
             // Arrange
 
-            var settingsStore = Mock.Of<WritableSettingsStore>();
+            var settingsStore = Mock.Of<WritableSettingsStore>(s =>
+                s.CollectionExists(It.IsAny<string>()) == true);
 
             var service = Mock.Of<ISettingsStoreService>(s =>
                 s.GetSettingsStore(false) == new SettingsStoreContainer(
@@ -79,6 +80,31 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             Mock.Get(settingsStore).Verify(s => s.DeleteCollection(
                 It.Is<string>(name => name == CollectionName)));
+        }
+
+        [Test]
+        public void ResetDoesNotAttemptToDeleteNonExistentSettingsCollection()
+        {
+            // Arrange
+
+            var settingsStore = Mock.Of<WritableSettingsStore>(s =>
+                s.CollectionExists(It.IsAny<string>()) == false);
+
+            var service = Mock.Of<ISettingsStoreService>(s =>
+                s.GetSettingsStore(false) == new SettingsStoreContainer(
+                    Mock.Of<IDisposable>(),
+                    settingsStore));
+
+            var repository = new StoredSettingsRepository(service, CollectionNameRoot);
+
+            // Act
+
+            repository.Reset();
+
+            // Assert
+
+            Mock.Get(settingsStore).Verify(s => s.DeleteCollection(It.IsAny<string>()),
+                Times.Never);
         }
 
         [Test]
