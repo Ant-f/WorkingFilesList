@@ -173,13 +173,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Icon\GroupByProject.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Icon\ProjectColours.png" />
-    <Resource Include="View\Icon\ShowRecentUsage.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="View\Icon\WorkingFilesList32.png" />
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +195,6 @@
     <Resource Include="Service\DocumentIcon\WPFPage_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Icon\ShowFileTypeIcons.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Service\DocumentIcon\TextFile_16x.png" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Icon\Close_8x_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Icon\Settings_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

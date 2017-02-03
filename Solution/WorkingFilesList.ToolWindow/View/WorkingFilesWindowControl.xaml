@@ -62,7 +62,7 @@
                           SelectedValuePath="DisplayName"
                           ToolTip="Project Name Sort"
                           Width="60">
-                    
+
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DisplayName}"/>
@@ -82,28 +82,6 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-
-                <Separator />
-                
-                <ToggleButton IsChecked="{Binding GroupByProject, Mode=TwoWay}"
-                              ToolTip="Group By Project">
-                    <Image Source="Icon/GroupByProject.png" />
-                </ToggleButton>
-
-                <ToggleButton IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}"
-                              ToolTip="Show Recent Usage">
-                    <Image Source="Icon/ShowRecentUsage.png" />
-                </ToggleButton>
-
-                <ToggleButton IsChecked="{Binding AssignProjectColours, Mode=TwoWay}"
-                              ToolTip="Assign Project Colours">
-                    <Image Source="Icon/ProjectColours.png" />
-                </ToggleButton>
-
-                <ToggleButton IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}"
-                              ToolTip="File Type Icons">
-                    <Image Source="Icon/ShowFileTypeIcons.png" />
-                </ToggleButton>
 
                 <Separator />
 
@@ -126,6 +104,12 @@
 
                 <Separator />
 
+                <Button Command="{Binding ToolWindowCommands.OpenOptionsPage, Source={StaticResource ViewModel}}"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        ToolTip="Options">
+                    <Image Source="Icon/Settings_16x.png" />
+                </Button>
+                
                 <ToggleButton x:Name="AboutButton"
                               x:FieldModifier="private"
                               ToolTip="Extension Information">
