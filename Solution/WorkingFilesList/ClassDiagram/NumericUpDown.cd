@@ -4,7 +4,10 @@
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
   <Comment CommentText="Class diagram showing the classes used for the NumericUpDown control">
-    <Position X="0.5" Y="4.229" Height="0.719" Width="3.065" />
+    <Position X="0.5" Y="4.042" Height="0.719" Width="3.065" />
+  </Comment>
+  <Comment CommentText="Classes at v1.0">
+    <Position X="0.5" Y="4.948" Height="0.291" Width="3.075" />
   </Comment>
   <Class Name="WorkingFilesList.Core.Controls.Command.DecrementNumericUpDownValue">
     <Position X="7" Y="0.5" Width="2.5" />

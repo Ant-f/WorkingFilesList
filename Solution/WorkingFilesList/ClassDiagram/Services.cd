@@ -3,12 +3,15 @@
   <Comment CommentText="Working Files List&#xD;&#xA;Visual Studio extension tool window that shows a selectable list of files that are open in the editor&#xD;&#xA;Copyright © 2016 Anthony Fung&#xD;&#xA;&#xD;&#xA;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at&#xD;&#xA;   &#xD;&#xA;    http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;   &#xD;&#xA;Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.">
     <Position X="0.5" Y="0.5" Height="3.365" Width="3.075" />
   </Comment>
+  <Comment CommentText="Classes at v1.0">
+    <Position X="0.5" Y="4.073" Height="0.291" Width="3.075" />
+  </Comment>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ITimeProvider">
-    <Position X="8.5" Y="4.5" Width="1.5" />
+    <Position X="13" Y="4.25" Width="1.5" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IPathCasingRestorer">
-    <Position X="8.25" Y="2.5" Width="1.75" />
+    <Position X="10.25" Y="2.5" Width="1.75" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ICollectionViewGenerator">
@@ -20,7 +23,7 @@
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectBrushService">
-    <Position X="10.25" Y="2.5" Width="1.75" />
+    <Position X="14" Y="2.5" Width="1.75" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.INormalizedUsageOrderService">
@@ -32,7 +35,7 @@
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.Core.Interface.ISortOptionsService">
-    <Position X="3.75" Y="4.5" Width="2.25" />
+    <Position X="8.25" Y="4.25" Width="2.25" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.Core.Interface.IAboutPanelService">
@@ -44,7 +47,7 @@
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.ITestFileNameEvaluator">
-    <Position X="6.25" Y="4.5" Width="2" />
+    <Position X="10.75" Y="4.25" Width="2" />
     <TypeIdentifier />
   </Interface>
   <Interface Name="WorkingFilesList.ToolWindow.Interface.IDocumentIconService">
@@ -54,6 +57,25 @@
   <Interface Name="WorkingFilesList.OptionsDialoguePage.Interface.IProcessStarter">
     <Position X="12.25" Y="2.5" Width="1.5" />
     <TypeIdentifier />
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IProjectItemsEventsService">
+    <Position X="3.75" Y="4.25" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.ISettingsStoreService">
+    <Position X="6.25" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="WorkingFilesList.ToolWindow.Interface.IWindowEventsService">
+    <Position X="14.75" Y="4.25" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="WorkingFilesList.Interface.IOptionsPageService">
+    <Position X="8.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Interface\IOptionsPageService.cs</FileName>
+    </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
