@@ -2,7 +2,7 @@
 
 Copyright © 2016 Anthony Fung
 
-Working Files List is a Visual Studio 2015 extension. It adds a tool window
+Working Files List is a Visual Studio 2015/2017 extension. It adds a tool window
 that shows a vertically stacked list of documents that have been opened in the
 editor, with the ability to group and sort entries.
 
