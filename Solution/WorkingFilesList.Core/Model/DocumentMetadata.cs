@@ -26,6 +26,7 @@ namespace WorkingFilesList.Core.Model
     public class DocumentMetadata : PropertyChangedNotifier
     {
         private bool _isActive;
+        private bool _isPinned;
         private Brush _projectBrush;
         private double _usageOrder;
         private string _displayNameHighlight;
@@ -167,6 +168,26 @@ namespace WorkingFilesList.Core.Model
                 if (_isActive != value)
                 {
                     _isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether this document is pinned
+        /// </summary>
+        public bool IsPinned
+        {
+            get
+            {
+                return _isPinned;
+            }
+
+            set
+            {
+                if (_isPinned != value)
+                {
+                    _isPinned = value;
                     OnPropertyChanged();
                 }
             }

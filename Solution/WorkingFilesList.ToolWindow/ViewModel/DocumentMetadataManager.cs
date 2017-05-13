@@ -44,6 +44,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private string _activatedDocument;
 
         public ICollectionView ActiveDocumentMetadata { get; }
+        public ObservableCollection<DocumentMetadata> PinnedDocumentMetadata { get; }
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
@@ -58,6 +59,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             ActiveDocumentMetadata = collectionViewGenerator.CreateView(
                 _activeDocumentMetadata);
+
+            PinnedDocumentMetadata = new ObservableCollection<DocumentMetadata>();
 
             _documentMetadataEqualityService = documentMetadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
@@ -247,6 +250,29 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 _normalizedUsageOrderService.SetUsageOrder(
                     _activeDocumentMetadata,
                     _userPreferences);
+            }
+        }
+
+        /// <summary>
+        /// Inverts the value of <see cref="DocumentMetadata.IsPinned"/> for
+        /// <paramref name="metadata"/>, and adds/removes it to/from
+        /// <see cref="PinnedDocumentMetadata"/> accordingly
+        /// </summary>
+        /// <param name="metadata">
+        /// <see cref="DocumentMetadata"/> to update
+        /// <see cref="DocumentMetadata.IsPinned"/> for
+        /// </param>
+        public void TogglePinnedStatus(DocumentMetadata metadata)
+        {
+            metadata.IsPinned = !metadata.IsPinned;
+
+            if (metadata.IsPinned)
+            {
+                PinnedDocumentMetadata.Add(metadata);
+            }
+            else
+            {
+                PinnedDocumentMetadata.Remove(metadata);
             }
         }
     }

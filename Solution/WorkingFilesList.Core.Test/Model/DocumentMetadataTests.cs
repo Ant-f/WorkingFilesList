@@ -429,5 +429,66 @@ namespace WorkingFilesList.Core.Test.Model
             var expected = $"{preHighlight}{highlight}{postHighlight}";
             Assert.That(metadata.DisplayName, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void SettingIsPinnedToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool isPinned = true;
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsPinned = isPinned
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.IsPinned = isPinned;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingIsPinnedToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsPinned = true
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.IsPinned = false;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }

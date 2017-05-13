@@ -1085,5 +1085,90 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].ActivatedAt, Is.EqualTo(firstActivationTime));
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TogglePinnedStatusInvertsIsPinned(bool initialIsPinned)
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var metadata = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null)
+            {
+                IsPinned = initialIsPinned
+            };
+            
+            // Act
+
+            manager.TogglePinnedStatus(metadata);
+
+            // Assert
+
+            Assert.That(metadata.IsPinned, Is.EqualTo(!initialIsPinned));
+        }
+
+        [Test]
+        public void TogglingIsPinnedToTrueAddsMetadataToPinnedDocumentMetadata()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsPinned = false
+            };
+
+            // Act
+
+            manager.TogglePinnedStatus(metadata);
+
+            // Assert
+
+            var collection = manager.PinnedDocumentMetadata;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
+        }
+
+        [Test]
+        public void TogglingIsPinnedToFalseRemovesMetadataFromPinnedDocumentMetadata()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsPinned = false
+            };
+
+            manager.TogglePinnedStatus(metadata);
+
+            // Act
+
+            manager.TogglePinnedStatus(metadata);
+
+            // Assert
+
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(metadata));
+        }
     }
 }
