@@ -33,11 +33,16 @@ namespace WorkingFilesList.Ioc.Modules
     {
         public override void Load()
         {
+            // Tool window commands
+
             Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
             Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
             Kernel.Bind<ICommand>().To<OpenOptionsPage>().InSingletonScope();
             Kernel.Bind<ICommand>().To<OpenTestFile>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<ToggleIsPinned>().InSingletonScope();
             Kernel.Bind<IToolWindowCommands>().To<ToolWindowCommands>().InSingletonScope();
+
+            // Dialogue page commands
 
             Kernel.Bind<ICommand>().To<Navigate>().InSingletonScope();
             Kernel.Bind<ICommand>().To<ResetSettings>().InSingletonScope();

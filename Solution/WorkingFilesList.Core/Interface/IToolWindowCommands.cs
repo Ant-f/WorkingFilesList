@@ -25,5 +25,6 @@ namespace WorkingFilesList.Core.Interface
         ICommand CloseDocument { get; }
         ICommand OpenOptionsPage { get; }
         ICommand OpenTestFile { get; }
+        ICommand ToggleIsPinned { get; }
     }
 }

@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         public ICommand CloseDocument { get; }
         public ICommand OpenOptionsPage { get; }
         public ICommand OpenTestFile { get; }
+        public ICommand ToggleIsPinned { get; }
 
         public ToolWindowCommands(IList<ICommand> commandCollection)
         {
@@ -36,6 +37,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             CloseDocument = commandCollection.OfType<CloseDocument>().Single();
             OpenOptionsPage = commandCollection.OfType<OpenOptionsPage>().Single();
             OpenTestFile = commandCollection.OfType<OpenTestFile>().Single();
+            ToggleIsPinned = commandCollection.OfType<ToggleIsPinned>().Single();
         }
     }
 }

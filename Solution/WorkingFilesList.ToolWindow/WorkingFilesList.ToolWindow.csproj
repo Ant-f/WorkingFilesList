@@ -89,6 +89,7 @@
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="Service\SettingsStoreService.cs" />
     <Compile Include="Service\TestFileNameEvaluator.cs" />
+    <Compile Include="ViewModel\Command\ToggleIsPinned.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\Command\OpenOptionsPage.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
