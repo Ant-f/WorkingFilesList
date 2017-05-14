@@ -38,6 +38,15 @@ namespace WorkingFilesList.ToolWindow.View
 
         private void ActiveDocumentsScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            // Pinned and unpinned items are displayed in different ScrollViewer
+            // instances. This is so that pinned items can always be in view even
+            // when there are many unpinned items and vertical scrolling is
+            // necessary.
+
+            // The two ScrollViewer instances should scroll horizontally as one.
+            // This event handler updates the horizontal scroll of the pinned items
+            // ScrollViewer, to the offset of the unpinned items ScrollViewer.
+
             // ReSharper disable CompareOfFloatsByEqualityOperator
             // Any non-zero values should update scroll offset
 

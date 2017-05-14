@@ -121,6 +121,7 @@
     <Compile Include="View\Controls\AboutPanel.xaml.cs">
       <DependentUpon>AboutPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\DragDropButton.cs" />
     <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>

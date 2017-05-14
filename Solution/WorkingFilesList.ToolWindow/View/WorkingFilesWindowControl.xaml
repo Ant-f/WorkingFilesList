@@ -59,7 +59,7 @@
             <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
 
             <DataTemplate x:Key="DocumentMetadataItem" DataType="{x:Type model:DocumentMetadata}">
-                <Button>
+                <controls:DragDropButton>
                     <Button.Template>
                         <ControlTemplate>
                             <Grid Background="Transparent"
@@ -215,10 +215,10 @@
                                       Gesture="LeftDoubleClick">
                         </MouseBinding>
                     </Button.InputBindings>
-                </Button>
+                </controls:DragDropButton>
             </DataTemplate>
 
-            <Style x:Key="DocumentMetadataItemsControl" TargetType="{x:Type ItemsControl}">
+            <Style TargetType="{x:Type ItemsControl}">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="ItemTemplate" Value="{StaticResource DocumentMetadataItem}"/>
                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -304,77 +304,90 @@
         </ToolBarTray>
 
         <!--Pinned Documents-->
-        <ItemsControl DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
-                      d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
-                      Grid.Row="1"
-                      ItemsSource="{Binding Mode=OneWay}"
-                      Margin="{StaticResource DocumentMetadataGroupMargin}">
-
-            <ItemsControl.Style>
-                <Style BasedOn="{StaticResource DocumentMetadataItemsControl}" TargetType="ItemsControl">
+        <Grid DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
+              d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
+              Grid.Row="1"
+              Margin="{StaticResource DocumentMetadataGroupMargin}">
+            
+            <Grid.Resources>
+                <Style TargetType="controls:DragDropButton">
+                    <Setter Property="AllowDragAndDrop" Value="True"/>
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.Style>
+                <Style TargetType="Grid">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Count}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ItemsControl.Style>
+            </Grid.Style>
 
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
-                                      Loaded="PinnedDocumentsScrollViewerLoaded">
-                            <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        
+            <ItemsControl ItemsSource="{Binding Mode=OneWay}">
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                          Loaded="PinnedDocumentsScrollViewerLoaded">
+                                <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>
+        </Grid>
+
         <!--Active Documents-->
-        <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
-                      d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
-                      Grid.Row="2"
-                      ItemsSource="{Binding Mode=OneWay}"
-                      Style="{StaticResource DocumentMetadataItemsControl}">
+        <Grid DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
+              d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
+              Grid.Row="2">
+            
+            <Grid.Resources>
+                <Style TargetType="controls:DragDropButton">
+                    <Setter Property="AllowDragAndDrop" Value="False"/>
+                </Style>
+            </Grid.Resources>
 
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                      ScrollChanged="ActiveDocumentsScrollChanged">
-                            <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ItemsControl.Template>
+            <ItemsControl ItemsSource="{Binding Mode=OneWay}">
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          ScrollChanged="ActiveDocumentsScrollChanged">
+                                <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
 
-            <ItemsControl.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <StackPanel>
-                                            <TextBlock FontStyle="Italic"
-                                                       Opacity="{StaticResource InactiveItemOpacity}"
-                                                       Text="{Binding Name.DisplayName}">
-                                            </TextBlock>
+                <ItemsControl.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <StackPanel>
+                                                <TextBlock FontStyle="Italic"
+                                                           Opacity="{StaticResource InactiveItemOpacity}"
+                                                           Text="{Binding Name.DisplayName}">
+                                                </TextBlock>
 
-                                            <Separator Opacity="{StaticResource InactiveItemOpacity}" Margin="0,2" />
+                                                <Separator Opacity="{StaticResource InactiveItemOpacity}" Margin="0,2" />
 
-                                            <ItemsPresenter Margin="{StaticResource DocumentMetadataGroupMargin}" />
-                                        </StackPanel>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
-            </ItemsControl.GroupStyle>
-        </ItemsControl>
+                                                <ItemsPresenter Margin="{StaticResource DocumentMetadataGroupMargin}" />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ItemsControl.GroupStyle>
+            </ItemsControl>
+        </Grid>
 
         <controls:AboutPanel Grid.Row="1" Grid.RowSpan="2">
             <controls:AboutPanel.Style>
