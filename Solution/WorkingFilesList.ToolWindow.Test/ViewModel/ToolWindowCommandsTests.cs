@@ -20,6 +20,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Windows.Input;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
@@ -42,13 +43,15 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 Mock.Of<ITestFileNameEvaluator>());
 
             var openOptionsPage = new OpenOptionsPage();
+            var toggleIsPinned = new ToggleIsPinned(Mock.Of<IDocumentMetadataManager>());
 
             var commandList = new List<ICommand>
             {
                 activateWindow,
                 closeDocument,
                 openTestFile,
-                openOptionsPage
+                openOptionsPage,
+                toggleIsPinned
             };
 
             // Act
@@ -61,6 +64,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(commands.CloseDocument, Is.EqualTo(closeDocument));
             Assert.That(commands.OpenOptionsPage, Is.EqualTo(openOptionsPage));
             Assert.That(commands.OpenTestFile, Is.EqualTo(openTestFile));
+            Assert.That(commands.ToggleIsPinned, Is.EqualTo(toggleIsPinned));
         }
     }
 }
