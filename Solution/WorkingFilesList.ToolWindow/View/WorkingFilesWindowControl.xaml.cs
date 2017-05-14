@@ -15,6 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Windows;
+
 namespace WorkingFilesList.ToolWindow.View
 {
     using System.Windows.Controls;
@@ -24,12 +26,38 @@ namespace WorkingFilesList.ToolWindow.View
     /// </summary>
     public partial class WorkingFilesWindowControl : UserControl
     {
+        private ScrollViewer _pinnedDocumentsScrollViewer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkingFilesWindowControl"/> class.
         /// </summary>
         public WorkingFilesWindowControl()
         {
             this.InitializeComponent();
+        }
+
+        private void ActiveDocumentsScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
+            // Any non-zero values should update scroll offset
+
+            var updateHorizontalOffset =
+                _pinnedDocumentsScrollViewer != null &&
+                e.HorizontalChange != 0 &&
+                _pinnedDocumentsScrollViewer.HorizontalOffset != e.HorizontalOffset;
+
+            // ReSharper restore CompareOfFloatsByEqualityOperator
+
+            if (updateHorizontalOffset)
+            {
+                _pinnedDocumentsScrollViewer.ScrollToHorizontalOffset(
+                    e.HorizontalOffset);
+            }
+        }
+
+        private void PinnedDocumentsScrollViewerLoaded(object sender, RoutedEventArgs e)
+        {
+            _pinnedDocumentsScrollViewer = (ScrollViewer) sender;
         }
     }
 }

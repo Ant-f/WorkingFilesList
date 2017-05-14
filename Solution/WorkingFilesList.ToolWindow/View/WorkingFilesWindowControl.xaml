@@ -24,6 +24,7 @@
              xmlns:controls="clr-namespace:WorkingFilesList.ToolWindow.View.Controls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:coreControls="clr-namespace:WorkingFilesList.Core.Controls;assembly=WorkingFilesList.Core"
+             xmlns:model="clr-namespace:WorkingFilesList.Core.Model;assembly=WorkingFilesList.Core"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -50,8 +51,189 @@
     <Grid DataContext="{StaticResource ViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
+
+            <DataTemplate x:Key="DocumentMetadataItem" DataType="{x:Type model:DocumentMetadata}">
+                <Button>
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Grid Background="Transparent"
+                                  ToolTip="{Binding CorrectedFullName}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Border x:Name="MouseOverBackground"
+                                        Background="{Binding ProjectBrush}"
+                                        Grid.ColumnSpan="2"
+                                        IsHitTestVisible="False"
+                                        Margin="0,1"
+                                        Opacity="0.1"
+                                        Visibility="Collapsed">
+                                </Border>
+
+                                <ProgressBar BorderBrush="{Binding ProjectBrush}"
+                                             Foreground="{Binding ProjectBrush}"
+                                             Grid.ColumnSpan="2"
+                                             IsHitTestVisible="False"
+                                             Maximum="1"
+                                             Minimum="0"
+                                             Value="{Binding UsageOrder}">
+                                </ProgressBar>
+
+                                <Border x:Name="MouseOverBorder"
+                                        BorderBrush="{Binding ProjectBrush}"
+                                        BorderThickness="0"
+                                        Grid.ColumnSpan="2"
+                                        IsHitTestVisible="False"
+                                        Opacity="0.7">
+                                </Border>
+
+                                <Image Grid.Column="0"
+                                       HorizontalAlignment="Center"
+                                       IsHitTestVisible="False"
+                                       Margin="0,0,5,0"
+                                       Source="{Binding Icon}"
+                                       Stretch="None"
+                                       VerticalAlignment="Center">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <StackPanel Grid.Column="1"
+                                            IsHitTestVisible="False"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+                                    <StackPanel.Resources>
+                                        <Style x:Key="BaseTextBlock" TargetType="{x:Type TextBlock}">
+                                            <Setter Property="FontWeight" Value="Normal"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
+                                        </Style>
+
+                                        <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                            <Setter Property="Opacity" Value="0.45"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+
+                                        <Style x:Key="HighlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                            <Setter Property="Opacity" Value="0.65"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <TextBlock Text="{Binding DisplayNamePreHighlight}" Style="{StaticResource LowlightedText}"/>
+                                    <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
+                                    <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
+                                </StackPanel>
+
+                                <StackPanel x:Name="DocumentItemCommandButtons"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal"
+                                            Visibility="Collapsed">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Margin" Value="0,-1,0,0" />
+                                            <Setter Property="Stretch" Value="None" />
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <Button x:Name="TestsButton"
+                                            Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource DocumentItemCommandButton}"
+                                            ToolTip="Open Tests File (Shortcut: Right-Click)">
+                                        <Image Source="Icon/test_16xMD.png" />
+                                    </Button>
+
+                                    <Button x:Name="CloseButton"
+                                            Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource DocumentItemCommandButton}"
+                                            ToolTip="Close File (Shortcut: Middle-Click)">
+                                        <Image Source="Icon/Close_8x_16x.png" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="DocumentItemCommandButtons" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="MouseOverBackground" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="MouseOverBorder" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <Button.InputBindings>
+                        <MouseBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
+                                      CommandParameter="{Binding}"
+                                      Gesture="LeftClick" >
+                        </MouseBinding>
+
+                        <MouseBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                      CommandParameter="{Binding}"
+                                      Gesture="MiddleClick">
+                        </MouseBinding>
+
+                        <MouseBinding Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                      CommandParameter="{Binding}"
+                                      Gesture="RightClick">
+                        </MouseBinding>
+
+                        <MouseBinding Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
+                                      CommandParameter="{Binding}"
+                                      Gesture="LeftDoubleClick">
+                        </MouseBinding>
+                    </Button.InputBindings>
+                </Button>
+            </DataTemplate>
+
+            <Style TargetType="{x:Type ItemsControl}">
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="ItemTemplate" Value="{StaticResource DocumentMetadataItem}"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsChecked, ElementName=AboutButton}" Value="False">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            
+            <Style TargetType="ScrollViewer">
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            </Style>
+        </Grid.Resources>
 
         <!--User Preferences-->
         <ToolBarTray Background="{DynamicResource VsBrush.CommandBarGradient}"
@@ -118,33 +300,35 @@
             </ToolBar>
         </ToolBarTray>
 
-        <!--Active Documents-->
-        <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
+        <!--Pinned Documents-->
+        <ItemsControl DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
                       d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
-                      IsTabStop="False"
                       ItemsSource="{Binding Mode=OneWay}">
-            <ItemsControl.Resources>
-                <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
-            </ItemsControl.Resources>
-            
-            <ItemsControl.Style>
-                <Style TargetType="{x:Type ItemsControl}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=AboutButton}" Value="False">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ItemsControl.Style>
-            
+
             <ItemsControl.Template>
                 <ControlTemplate>
                     <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
-                        <ScrollViewer Focusable="False"
-                                      HorizontalScrollBarVisibility="Auto"
-                                      VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                      Loaded="PinnedDocumentsScrollViewerLoaded">
+                            <ItemsPresenter Margin="2,0,0,0" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
+        
+        <!--Active Documents-->
+        <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
+                      d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
+                      Grid.Row="2"
+                      ItemsSource="{Binding Mode=OneWay}">
+
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                      ScrollChanged="ActiveDocumentsScrollChanged">
                             <ItemsPresenter Margin="2,0,0,0" />
                         </ScrollViewer>
                     </Border>
@@ -175,166 +359,9 @@
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
             </ItemsControl.GroupStyle>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button>
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Grid Background="Transparent"
-                                      ToolTip="{Binding CorrectedFullName}">
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border x:Name="MouseOverBackground"
-                                            Background="{Binding ProjectBrush}"
-                                            Grid.ColumnSpan="2"
-                                            IsHitTestVisible="False"
-                                            Margin="0,1"
-                                            Opacity="0.1"
-                                            Visibility="Collapsed">
-                                    </Border>
-                                    
-                                    <ProgressBar BorderBrush="{Binding ProjectBrush}"
-                                                 Foreground="{Binding ProjectBrush}"
-                                                 Grid.ColumnSpan="2"
-                                                 IsHitTestVisible="False"
-                                                 Maximum="1"
-                                                 Minimum="0"
-                                                 Value="{Binding UsageOrder}">
-                                    </ProgressBar>
-
-                                    <Border x:Name="MouseOverBorder"
-                                            BorderBrush="{Binding ProjectBrush}"
-                                            BorderThickness="0"
-                                            Grid.ColumnSpan="2"
-                                            IsHitTestVisible="False"
-                                            Opacity="0.7">
-                                    </Border>
-
-                                    <Image Grid.Column="0"
-                                           HorizontalAlignment="Center"
-                                           IsHitTestVisible="False"
-                                           Margin="0,0,5,0"
-                                           Source="{Binding Icon}"
-                                           Stretch="None"
-                                           VerticalAlignment="Center">
-                                        <Image.Style>
-                                            <Style TargetType="{x:Type Image}">
-                                                <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                        <Setter Property="Opacity" Value="1"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
-
-                                    <StackPanel Grid.Column="1"
-                                                IsHitTestVisible="False"
-                                                Orientation="Horizontal"
-                                                VerticalAlignment="Center">
-                                        <StackPanel.Resources>
-                                            <Style x:Key="BaseTextBlock" TargetType="{x:Type TextBlock}">
-                                                <Setter Property="FontWeight" Value="Normal"/>
-                                                <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
-                                            </Style>
-
-                                            <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                                <Setter Property="Opacity" Value="0.45"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-
-                                            <Style x:Key="HighlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                                <Setter Property="Opacity" Value="0.65"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                        <Setter Property="Opacity" Value="1"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </StackPanel.Resources>
-
-                                        <TextBlock Text="{Binding DisplayNamePreHighlight}" Style="{StaticResource LowlightedText}"/>
-                                        <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
-                                        <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
-                                    </StackPanel>
-
-                                    <StackPanel x:Name="DocumentItemCommandButtons"
-                                                Grid.Column="1"
-                                                HorizontalAlignment="Right"
-                                                Orientation="Horizontal"
-                                                Visibility="Collapsed">
-                                        <StackPanel.Resources>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Margin" Value="0,-1,0,0" />
-                                                <Setter Property="Stretch" Value="None" />
-                                            </Style>
-                                        </StackPanel.Resources>
-                                        
-                                        <Button x:Name="TestsButton"
-                                                Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
-                                                CommandParameter="{Binding .}"
-                                                Style="{StaticResource DocumentItemCommandButton}"
-                                                ToolTip="Open Tests File (Shortcut: Right-Click)">
-                                            <Image Source="Icon/test_16xMD.png" />
-                                        </Button>
-
-                                        <Button x:Name="CloseButton"
-                                                Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
-                                                CommandParameter="{Binding .}"
-                                                Style="{StaticResource DocumentItemCommandButton}"
-                                                ToolTip="Close File (Shortcut: Middle-Click)">
-                                            <Image Source="Icon/Close_8x_16x.png" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="DocumentItemCommandButtons" Property="Visibility" Value="Visible"/>
-                                        <Setter TargetName="MouseOverBackground" Property="Visibility" Value="Visible"/>
-                                        <Setter TargetName="MouseOverBorder" Property="BorderThickness" Value="1"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-
-                        <Button.InputBindings>
-                            <MouseBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
-                                          CommandParameter="{Binding .}"
-                                          Gesture="LeftClick" >
-                            </MouseBinding>
-
-                            <MouseBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
-                                          CommandParameter="{Binding .}"
-                                          Gesture="MiddleClick">
-                            </MouseBinding>
-
-                            <MouseBinding Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
-                                          CommandParameter="{Binding .}"
-                                          Gesture="RightClick">
-                            </MouseBinding>
-                        </Button.InputBindings>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <controls:AboutPanel Grid.Row="1">
+        <controls:AboutPanel Grid.Row="1" Grid.RowSpan="2">
             <controls:AboutPanel.Style>
                 <Style TargetType="{x:Type controls:AboutPanel}">
                     <Setter Property="Visibility" Value="Collapsed"/>

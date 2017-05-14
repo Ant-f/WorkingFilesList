@@ -16,6 +16,7 @@
 // limitations under the License.
 
 using EnvDTE;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using WorkingFilesList.Core.Model;
 
@@ -24,6 +25,7 @@ namespace WorkingFilesList.Core.Interface
     public interface IDocumentMetadataManager
     {
         ICollectionView ActiveDocumentMetadata { get; }
+        ObservableCollection<DocumentMetadata> PinnedDocumentMetadata { get; }
 
         void Activate(string fullName);
         void Add(DocumentMetadataInfo info);
