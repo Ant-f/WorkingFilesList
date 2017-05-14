@@ -218,7 +218,7 @@
                 </Button>
             </DataTemplate>
 
-            <Style TargetType="{x:Type ItemsControl}">
+            <Style x:Key="DocumentMetadataItemsControl" TargetType="{x:Type ItemsControl}">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="ItemTemplate" Value="{StaticResource DocumentMetadataItem}"/>
                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -233,6 +233,9 @@
                 <Setter Property="Focusable" Value="False"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
             </Style>
+
+            <Thickness x:Key="DocumentMetadataItemsPresenterMargin" Left="2" Right="2"/>
+            <Thickness x:Key="DocumentMetadataGroupMargin" Bottom="10"/>
         </Grid.Resources>
 
         <!--User Preferences-->
@@ -304,14 +307,25 @@
         <ItemsControl DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
                       d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="1"
-                      ItemsSource="{Binding Mode=OneWay}">
+                      ItemsSource="{Binding Mode=OneWay}"
+                      Margin="{StaticResource DocumentMetadataGroupMargin}">
+
+            <ItemsControl.Style>
+                <Style BasedOn="{StaticResource DocumentMetadataItemsControl}" TargetType="ItemsControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.Style>
 
             <ItemsControl.Template>
                 <ControlTemplate>
                     <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                                       Loaded="PinnedDocumentsScrollViewerLoaded">
-                            <ItemsPresenter Margin="2,0,0,0" />
+                            <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -322,14 +336,15 @@
         <ItemsControl DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
                       d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
                       Grid.Row="2"
-                      ItemsSource="{Binding Mode=OneWay}">
+                      ItemsSource="{Binding Mode=OneWay}"
+                      Style="{StaticResource DocumentMetadataItemsControl}">
 
             <ItemsControl.Template>
                 <ControlTemplate>
                     <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
                         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                       ScrollChanged="ActiveDocumentsScrollChanged">
-                            <ItemsPresenter Margin="2,0,0,0" />
+                            <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -350,7 +365,7 @@
 
                                             <Separator Opacity="{StaticResource InactiveItemOpacity}" Margin="0,2" />
 
-                                            <ItemsPresenter Margin="0,0,0,10" />
+                                            <ItemsPresenter Margin="{StaticResource DocumentMetadataGroupMargin}" />
                                         </StackPanel>
                                     </ControlTemplate>
                                 </Setter.Value>
