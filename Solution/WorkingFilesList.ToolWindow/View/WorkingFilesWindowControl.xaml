@@ -330,7 +330,7 @@
                     <ControlTemplate>
                         <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
                             <ScrollViewer HorizontalScrollBarVisibility="Hidden"
-                                          Loaded="PinnedDocumentsScrollViewerLoaded">
+                                          controls:HorizontalScrollSync.Role="Replica">
                                 <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
                             </ScrollViewer>
                         </Border>
@@ -355,7 +355,7 @@
                     <ControlTemplate>
                         <Border Background="{DynamicResource VsBrush.ToolWindowBackground}">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          ScrollChanged="ActiveDocumentsScrollChanged">
+                                          controls:HorizontalScrollSync.Role="Primary">
                                 <ItemsPresenter Margin="{StaticResource DocumentMetadataItemsPresenterMargin}" />
                             </ScrollViewer>
                         </Border>

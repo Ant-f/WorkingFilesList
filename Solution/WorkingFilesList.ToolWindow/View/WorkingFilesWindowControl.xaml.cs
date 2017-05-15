@@ -15,60 +15,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Windows;
-using WorkingFilesList.Core.Service.Locator;
-using WorkingFilesList.ToolWindow.Model;
-
 namespace WorkingFilesList.ToolWindow.View
 {
     using System.Windows.Controls;
+    using Core.Service.Locator;
+    using Model;
 
     /// <summary>
     /// Interaction logic for WorkingFilesWindowControl.
     /// </summary>
     public partial class WorkingFilesWindowControl : UserControl
     {
-        private ScrollViewer _pinnedDocumentsScrollViewer;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkingFilesWindowControl"/> class.
         /// </summary>
         public WorkingFilesWindowControl()
         {
             this.InitializeComponent();
-        }
-
-        private void ActiveDocumentsScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            // Pinned and unpinned items are displayed in different ScrollViewer
-            // instances. This is so that pinned items can always be in view even
-            // when there are many unpinned items and vertical scrolling is
-            // necessary.
-
-            // The two ScrollViewer instances should scroll horizontally as one.
-            // This event handler updates the horizontal scroll of the pinned items
-            // ScrollViewer, to the offset of the unpinned items ScrollViewer.
-
-            // ReSharper disable CompareOfFloatsByEqualityOperator
-            // Any non-zero values should update scroll offset
-
-            var updateHorizontalOffset =
-                _pinnedDocumentsScrollViewer != null &&
-                e.HorizontalChange != 0 &&
-                _pinnedDocumentsScrollViewer.HorizontalOffset != e.HorizontalOffset;
-
-            // ReSharper restore CompareOfFloatsByEqualityOperator
-
-            if (updateHorizontalOffset)
-            {
-                _pinnedDocumentsScrollViewer.ScrollToHorizontalOffset(
-                    e.HorizontalOffset);
-            }
-        }
-
-        private void PinnedDocumentsScrollViewerLoaded(object sender, RoutedEventArgs e)
-        {
-            _pinnedDocumentsScrollViewer = (ScrollViewer) sender;
         }
 
         private void DragDropButtonMetadataDragDrop(

@@ -80,6 +80,7 @@
     <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
     <Compile Include="Model\DocumentMetadataDragEventArgs.cs" />
+    <Compile Include="Model\HorizontalScrollSyncRole.cs" />
     <Compile Include="Model\SettingsStoreContainer.cs" />
     <Compile Include="Repository\UserPreferencesModelRepository.cs" />
     <Compile Include="Service\AboutPanelService.cs" />
@@ -123,6 +124,7 @@
       <DependentUpon>AboutPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\DragDropButton.cs" />
+    <Compile Include="View\Controls\HorizontalScrollSync.cs" />
     <Compile Include="View\WorkingFilesWindowControl.xaml.cs">
       <DependentUpon>WorkingFilesWindowControl.xaml</DependentUpon>
     </Compile>
