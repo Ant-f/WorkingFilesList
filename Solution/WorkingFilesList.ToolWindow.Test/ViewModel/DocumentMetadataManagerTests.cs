@@ -1170,5 +1170,40 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(metadata));
         }
+
+        [Test]
+        public void MovePinnedItemUpdatesItemOrder()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var info1 = new DocumentMetadataInfo {FullName = "FullName1"};
+            var info2 = new DocumentMetadataInfo {FullName = "FullName2"};
+            var info3 = new DocumentMetadataInfo {FullName = "FullName3"};
+
+            var metadata1 = new DocumentMetadata(info1, string.Empty, null);
+            var metadata2 = new DocumentMetadata(info2, string.Empty, null);
+            var metadata3 = new DocumentMetadata(info3, string.Empty, null);
+
+            manager.TogglePinnedStatus(metadata1);
+            manager.TogglePinnedStatus(metadata2);
+            manager.TogglePinnedStatus(metadata3);
+
+            // Act
+
+            manager.MovePinnedItem(metadata3, metadata1);
+
+            // Assert
+
+            var collection = manager.PinnedDocumentMetadata;
+
+            Assert.That(collection.Count, Is.EqualTo(3));
+
+            Assert.That(collection[0].FullName, Is.EqualTo(info3.FullName));
+            Assert.That(collection[1].FullName, Is.EqualTo(info1.FullName));
+            Assert.That(collection[2].FullName, Is.EqualTo(info2.FullName));
+        }
     }
 }

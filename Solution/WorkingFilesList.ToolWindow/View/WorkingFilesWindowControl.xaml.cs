@@ -16,6 +16,8 @@
 // limitations under the License.
 
 using System.Windows;
+using WorkingFilesList.Core.Service.Locator;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.View
 {
@@ -67,6 +69,15 @@ namespace WorkingFilesList.ToolWindow.View
         private void PinnedDocumentsScrollViewerLoaded(object sender, RoutedEventArgs e)
         {
             _pinnedDocumentsScrollViewer = (ScrollViewer) sender;
+        }
+
+        private void DragDropButtonMetadataDragDrop(
+            object sender,
+            DocumentMetadataDragEventArgs e)
+        {
+            ViewModelService.DocumentMetadataManager.MovePinnedItem(
+                e.DragSource,
+                e.DropTarget);
         }
     }
 }

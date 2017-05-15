@@ -15,23 +15,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EnvDTE;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System;
 using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.Core.Interface
+namespace WorkingFilesList.ToolWindow.Model
 {
-    public interface IDocumentMetadataManager
+    public class DocumentMetadataDragEventArgs : EventArgs
     {
-        ICollectionView ActiveDocumentMetadata { get; }
-        ObservableCollection<DocumentMetadata> PinnedDocumentMetadata { get; }
+        public DocumentMetadata DropTarget { get; }
+        public DocumentMetadata DragSource { get; }
 
-        void Activate(string fullName);
-        void Add(DocumentMetadataInfo info);
-        void UpdateFullName(string newName, string oldName);
-        void Synchronize(Documents documents, bool setUsageOrder);
-        void TogglePinnedStatus(DocumentMetadata metadata);
-        void MovePinnedItem(DocumentMetadata itemToMove, DocumentMetadata targetLocation);
+        public DocumentMetadataDragEventArgs(
+            DocumentMetadata dropTarget,
+            DocumentMetadata dragSource)
+        {
+            DropTarget = dropTarget;
+            DragSource = dragSource;
+        }
     }
 }

@@ -15,10 +15,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.View.Controls
 {
@@ -48,6 +50,8 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         /// unrelated drag-and-drop operation that moves across this button
         /// </summary>
         private bool _isDragSource = false;
+
+        public event EventHandler<DocumentMetadataDragEventArgs> MetadataDragDrop;
 
         private void SetDragDropMoveEffect(DragEventArgs e)
         {
@@ -79,8 +83,13 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         protected override void OnPreviewDrop(DragEventArgs e)
         {
             base.OnPreviewDrop(e);
+            var dragSource = e.Data.GetData(typeof(DocumentMetadata));
 
-            var metadata = e.Data.GetData(typeof(DocumentMetadata));
+            var args = new DocumentMetadataDragEventArgs(
+                (DocumentMetadata) DataContext,
+                (DocumentMetadata) dragSource);
+            
+            MetadataDragDrop?.Invoke(this, args);
             e.Handled = true;
         }
 

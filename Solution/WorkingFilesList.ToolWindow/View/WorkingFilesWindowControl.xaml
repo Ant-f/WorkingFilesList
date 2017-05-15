@@ -59,7 +59,7 @@
             <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
 
             <DataTemplate x:Key="DocumentMetadataItem" DataType="{x:Type model:DocumentMetadata}">
-                <controls:DragDropButton>
+                <controls:DragDropButton MetadataDragDrop="DragDropButtonMetadataDragDrop">
                     <Button.Template>
                         <ControlTemplate>
                             <Grid Background="Transparent"

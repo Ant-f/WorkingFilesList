@@ -79,6 +79,7 @@
     <Compile Include="Interface\IUpdateReactionManager.cs" />
     <Compile Include="Interface\IUpdateReactionMapping.cs" />
     <Compile Include="Interface\IWindowEventsService.cs" />
+    <Compile Include="Model\DocumentMetadataDragEventArgs.cs" />
     <Compile Include="Model\SettingsStoreContainer.cs" />
     <Compile Include="Repository\UserPreferencesModelRepository.cs" />
     <Compile Include="Service\AboutPanelService.cs" />

@@ -275,5 +275,22 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 PinnedDocumentMetadata.Remove(metadata);
             }
         }
+
+        /// <summary>
+        /// Move an item in <see cref="PinnedDocumentMetadata"/>, reordering
+        /// the collection
+        /// </summary>
+        /// <param name="itemToMove">The item to move</param>
+        /// <param name="targetLocation">Item that currently occupies the index
+        /// where <paramref name="itemToMove"/> should be moved to</param>
+        public void MovePinnedItem(
+            DocumentMetadata itemToMove,
+            DocumentMetadata targetLocation)
+        {
+            var oldIndex = PinnedDocumentMetadata.IndexOf(itemToMove);
+            var newIndex = PinnedDocumentMetadata.IndexOf(targetLocation);
+
+            PinnedDocumentMetadata.Move(oldIndex, newIndex);
+        }
     }
 }
