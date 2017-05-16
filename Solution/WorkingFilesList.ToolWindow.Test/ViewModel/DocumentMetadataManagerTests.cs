@@ -906,30 +906,17 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     (IList<DocumentMetadata>) metadataCollection,
                     It.IsAny<IUserPreferences>()));
         }
-
-        /// <summary>
-        /// There are certain conditions where <see cref="Document"/> provides
-        /// <see cref="Document.FullName"/> in lower case. When a project item
-        /// is renamed, its full name is provided with the correct casing. In
-        /// order for the names to match, it needs to be compared against
-        /// <see cref="DocumentMetadata.CorrectedFullName"/>
-        /// </summary>
+        
         [Test]
-        public void UpdateFullNameMatchesOldNameWithCorrectedFullName()
+        public void UpdateFullNameMatchesOldNameWithFullName()
         {
             // Arrange
 
             const string oldName = "OldName";
             const string newName = "NewName";
-            const string correctedOldName = "CorrectedOldName";
 
             var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
-
-            metadataFactoryBuilder.PathCasingRestorerMock
-                .Setup(p => p.RestoreCasing(It.IsAny<string>()))
-                .Returns(correctedOldName);
-
-            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(false);
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(true);
 
             var metadataManagerBuilder = new DocumentMetadataManagerBuilder
             {
@@ -951,7 +938,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.UpdateFullName(newName, correctedOldName);
+            manager.UpdateFullName(newName, oldName);
 
             // Assert
 
