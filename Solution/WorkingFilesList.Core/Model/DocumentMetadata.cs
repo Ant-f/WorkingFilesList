@@ -25,10 +25,12 @@ namespace WorkingFilesList.Core.Model
 {
     public class DocumentMetadata : PropertyChangedNotifier
     {
+        public const int UnpinnedIndexValue = -2;
+
         private bool _isActive;
-        private bool _isPinned;
         private Brush _projectBrush;
         private double _usageOrder;
+        private int _isPinned;
         private string _displayNameHighlight;
         private string _displayNamePostHighlight;
         private string _displayNamePreHighlight;
@@ -173,10 +175,12 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
+        public bool IsPinned => PinIndex > UnpinnedIndexValue;
+
         /// <summary>
-        /// Indicates whether this document is pinned
+        /// Index of pinned document in displayed list
         /// </summary>
-        public bool IsPinned
+        public int PinIndex
         {
             get
             {
@@ -226,6 +230,7 @@ namespace WorkingFilesList.Core.Model
             CorrectedFullName = correctedFullName;
             FullName = info.FullName;
             Icon = icon;
+            PinIndex = UnpinnedIndexValue;
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,

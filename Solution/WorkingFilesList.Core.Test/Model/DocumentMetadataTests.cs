@@ -26,6 +26,44 @@ namespace WorkingFilesList.Core.Test.Model
     public class DocumentMetadataTests
     {
         [Test]
+        public void PinIndexIsMinusTwoOnCreation()
+        {
+            // Arrange, Act
+
+            var metadata = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null);
+
+            // Assert
+
+            Assert.That(metadata.PinIndex, Is.EqualTo(-2));
+        }
+
+        [TestCase(-2, false)]
+        [TestCase(0, true)]
+        [TestCase(1, true)]
+        [TestCase(5, true)]
+        [TestCase(12, true)]
+        public void IsPinnedCorrespondsToPinIndex(int pinIndex, bool expectedIsPinned)
+        {
+            // Arrange
+
+            var metadata = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null);
+
+            // Act
+
+            metadata.PinIndex = pinIndex;
+
+            // Assert
+
+            Assert.That(metadata.IsPinned, Is.EqualTo(expectedIsPinned));
+        }
+
+        [Test]
         public void SettingDisplayNamePreHighlightToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
@@ -431,17 +469,17 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingIsPinnedToSameValueDoesNotRaisePropertyChanged()
+        public void SettingPinIndexToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
-            const bool isPinned = true;
+            const int pinIndex = 3;
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                IsPinned = isPinned
+                PinIndex = pinIndex
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -453,7 +491,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.IsPinned = isPinned;
+            metadata.PinIndex = pinIndex;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -462,7 +500,7 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingIsPinnedToDifferentValueRaisesPropertyChanged()
+        public void SettingPinIndexToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -471,7 +509,7 @@ namespace WorkingFilesList.Core.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                IsPinned = true
+                PinIndex = 3
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -483,7 +521,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.IsPinned = false;
+            metadata.PinIndex = 7;
             metadata.PropertyChanged -= handler;
 
             // Assert

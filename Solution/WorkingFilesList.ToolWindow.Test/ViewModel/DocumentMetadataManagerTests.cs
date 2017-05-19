@@ -478,16 +478,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             manager.Synchronize(documents, false);
 
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
-
-            var document2 = collection.Single(m => m.FullName == document2Name);
-
             // Act
 
             manager.UpdateFullName(document1NewName, document1OldName);
 
             // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             Assert.That(
                 collection.SingleOrDefault(m => m.FullName == document1OldName),
@@ -501,9 +499,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 collection.SingleOrDefault(m => m.FullName == document2Name),
                 Is.Not.Null);
 
-            Assert.That(
-                document2.FullName,
-                Is.EqualTo(document2Name));
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.That(document2.FullName, Is.EqualTo(document2Name));
         }
 
         [Test]
@@ -734,7 +731,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void ActivateRefreshesDocumentMetadataView()
+        public void ActivateRefreshesDocumentMetadataViews()
         {
             // Arrange
 
@@ -746,17 +743,21 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             var documents = CreateDocuments(documentMockList);
-
-            var collectionViewMock = new Mock<ICollectionView>
-            {
-                DefaultValue = DefaultValue.Mock
-            };
-
+            var collectionViewMocks = new List<Mock<ICollectionView>>();
             var generatorMock = new Mock<ICollectionViewGenerator>();
 
             generatorMock
                 .Setup(c => c.CreateView(It.IsAny<IList>()))
-                .Returns(collectionViewMock.Object);
+                .Returns<IList>(data =>
+                {
+                    var viewMock = new Mock<ICollectionView>
+                    {
+                        DefaultValue = DefaultValue.Mock
+                    };
+
+                    collectionViewMocks.Add(viewMock);
+                    return viewMock.Object;
+                });
 
             var mappingTable = new Dictionary<string, IEnumerable<IUpdateReaction>>();
             var mapping = new TestingUpdateReactionMapping(mappingTable);
@@ -776,7 +777,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            collectionViewMock.Verify(c => c.Refresh());
+            // ActiveDocumentMetadata, PinnedDocumentMetadata
+            Assert.That(collectionViewMocks.Count, Is.EqualTo(2));
+
+            collectionViewMocks[0].Verify(c => c.Refresh());
+            collectionViewMocks[1].Verify(c => c.Refresh());
         }
 
         [Test]
@@ -1073,89 +1078,182 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(collection[0].ActivatedAt, Is.EqualTo(firstActivationTime));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void TogglePinnedStatusInvertsIsPinned(bool initialIsPinned)
+        [Test]
+        public void PinnedDocumentMetadataContainsMetadataWithPinIndexGreaterThanMinusTwo()
         {
             // Arrange
 
+            var documentMockList = new List<Document>
+            {
+                CreateDocument("document1"),
+                CreateDocument("document2"),
+                CreateDocument("document3")
+            };
+
+            var documents = CreateDocuments(documentMockList);
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
-            var metadata = new DocumentMetadata(
+            manager.Synchronize(documents, false);
+
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var document1Metadata = activeMetadataCollection[0];
+            document1Metadata.PinIndex = 0;
+
+            var document2Metadata = activeMetadataCollection[1];
+            document2Metadata.PinIndex = 2;
+
+            var document3Metadata = activeMetadataCollection[2];
+
+            // Act
+
+            manager.PinnedDocumentMetadata.Refresh();
+
+            // Assert
+
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document1Metadata));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2Metadata));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document3Metadata));
+        }
+
+        [Test]
+        public void TogglePinnedStatusSetsPinIndexToDoublePinnedItemCountWhenPinningItem()
+        {
+            // Arrange
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument("document1"),
+                CreateDocument("document2")
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            manager.Synchronize(documents, false);
+
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var document1Metadata = activeMetadataCollection[0];
+            var document2Metadata = activeMetadataCollection[1];
+
+            // Act
+
+            manager.TogglePinnedStatus(document2Metadata);
+            manager.TogglePinnedStatus(document1Metadata);
+
+            // Assert
+
+            Assert.That(document1Metadata.PinIndex, Is.EqualTo(2));
+            Assert.That(document2Metadata.PinIndex, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TogglePinnedStatusSetsPinIndexToMinusTwoWhenUnpinningItem()
+        {
+            // Arrange
+
+            var documentMockList = new List<Document>
+            {
+                CreateDocument("document1")
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            manager.Synchronize(documents, false);
+
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var document1Metadata = activeMetadataCollection[0];
+            document1Metadata.PinIndex = 8;
+
+            // Act
+
+            manager.TogglePinnedStatus(document1Metadata);
+
+            // Assert
+
+            Assert.That(document1Metadata.PinIndex, Is.EqualTo(-2));
+        }
+
+        [Test]
+        public void TogglePinnedStatusRefreshesPinnedDocumentMetadataWhenPinningItem()
+        {
+            // Arrange
+
+            var viewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = Mock.Of<ICollectionViewGenerator>(c =>
+                    c.CreateView(It.IsAny<IList>()) == viewMock.Object),
+
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var documentMetadata = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null);
+
+            // Act
+
+            manager.TogglePinnedStatus(documentMetadata);
+
+            // Assert
+
+            viewMock.Verify(v => v.Refresh());
+            Assert.That(documentMetadata.PinIndex, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TogglePinnedStatusRefreshesPinnedDocumentMetadataWhenUnpinningItem()
+        {
+            // Arrange
+
+            var viewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = Mock.Of<ICollectionViewGenerator>(c =>
+                    c.CreateView(It.IsAny<IList>()) == viewMock.Object),
+
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var documentMetadata = new DocumentMetadata(
                 new DocumentMetadataInfo(),
                 string.Empty,
                 null)
             {
-                IsPinned = initialIsPinned
-            };
-            
-            // Act
-
-            manager.TogglePinnedStatus(metadata);
-
-            // Assert
-
-            Assert.That(metadata.IsPinned, Is.EqualTo(!initialIsPinned));
-        }
-
-        [Test]
-        public void TogglingIsPinnedToTrueAddsMetadataToPinnedDocumentMetadata()
-        {
-            // Arrange
-
-            var builder = new DocumentMetadataManagerBuilder();
-            var manager = builder.CreateDocumentMetadataManager();
-
-            var info = new DocumentMetadataInfo
-            {
-                FullName = "FullName"
-            };
-
-            var metadata = new DocumentMetadata(info, string.Empty, null)
-            {
-                IsPinned = false
+                PinIndex = 8
             };
 
             // Act
 
-            manager.TogglePinnedStatus(metadata);
+            manager.TogglePinnedStatus(documentMetadata);
 
             // Assert
 
-            var collection = manager.PinnedDocumentMetadata;
-
-            Assert.That(collection.Count, Is.EqualTo(1));
-            Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
-        }
-
-        [Test]
-        public void TogglingIsPinnedToFalseRemovesMetadataFromPinnedDocumentMetadata()
-        {
-            // Arrange
-
-            var builder = new DocumentMetadataManagerBuilder();
-            var manager = builder.CreateDocumentMetadataManager();
-
-            var info = new DocumentMetadataInfo
-            {
-                FullName = "FullName"
-            };
-
-            var metadata = new DocumentMetadata(info, string.Empty, null)
-            {
-                IsPinned = false
-            };
-
-            manager.TogglePinnedStatus(metadata);
-
-            // Act
-
-            manager.TogglePinnedStatus(metadata);
-
-            // Assert
-
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(metadata));
+            viewMock.Verify(v => v.Refresh());
+            Assert.That(documentMetadata.PinIndex, Is.EqualTo(-2));
         }
 
         [Test]
@@ -1163,20 +1261,32 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
+            var documentMockList = new List<Document>
+            {
+                CreateDocument("document1"),
+                CreateDocument("document2"),
+                CreateDocument("document3"),
+                CreateDocument("document4")
+            };
+
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
+            var documents = CreateDocuments(documentMockList);
 
-            var info1 = new DocumentMetadataInfo {FullName = "FullName1"};
-            var info2 = new DocumentMetadataInfo {FullName = "FullName2"};
-            var info3 = new DocumentMetadataInfo {FullName = "FullName3"};
+            manager.Synchronize(documents, false);
 
-            var metadata1 = new DocumentMetadata(info1, string.Empty, null);
-            var metadata2 = new DocumentMetadata(info2, string.Empty, null);
-            var metadata3 = new DocumentMetadata(info3, string.Empty, null);
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
-            manager.TogglePinnedStatus(metadata1);
-            manager.TogglePinnedStatus(metadata2);
-            manager.TogglePinnedStatus(metadata3);
+            var metadata1 = activeMetadataCollection[0];
+            var metadata2 = activeMetadataCollection[1];
+            var metadata3 = activeMetadataCollection[2];
+            var metadata4 = activeMetadataCollection[3];
+
+            foreach (var metadata in activeMetadataCollection)
+            {
+                manager.TogglePinnedStatus(metadata);
+            }
 
             // Act
 
@@ -1184,13 +1294,28 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            var collection = manager.PinnedDocumentMetadata;
+            var expectedOrder = new[]
+            {
+                metadata3, metadata1, metadata2, metadata4
+            };
 
-            Assert.That(collection.Count, Is.EqualTo(3));
+            const string separator = ", ";
 
-            Assert.That(collection[0].FullName, Is.EqualTo(info3.FullName));
-            Assert.That(collection[1].FullName, Is.EqualTo(info1.FullName));
-            Assert.That(collection[2].FullName, Is.EqualTo(info2.FullName));
+            var expectedOrderNames = string.Join(
+                separator,
+                expectedOrder.Select(m => m.FullName));
+
+            var actualOrderNames = string.Join(
+                separator,
+                manager.PinnedDocumentMetadata.Cast<DocumentMetadata>().Select(m =>
+                    m.FullName));
+
+            Assert.That(actualOrderNames, Is.EqualTo(expectedOrderNames));
+
+            Assert.That(metadata1.PinIndex, Is.EqualTo(2));
+            Assert.That(metadata2.PinIndex, Is.EqualTo(4));
+            Assert.That(metadata3.PinIndex, Is.EqualTo(0));
+            Assert.That(metadata4.PinIndex, Is.EqualTo(6));
         }
     }
 }

@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 {
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
+        private readonly ICollectionViewGenerator _collectionViewGenerator;
         private readonly IDocumentMetadataEqualityService _documentMetadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
@@ -44,7 +45,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private string _activatedDocument;
 
         public ICollectionView ActiveDocumentMetadata { get; }
-        public ObservableCollection<DocumentMetadata> PinnedDocumentMetadata { get; }
+        public ICollectionView PinnedDocumentMetadata { get; }
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
@@ -56,11 +57,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             IUserPreferences userPreferences)
         {
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
+            _collectionViewGenerator = collectionViewGenerator;
 
-            ActiveDocumentMetadata = collectionViewGenerator.CreateView(
+            ActiveDocumentMetadata = _collectionViewGenerator.CreateView(
                 _activeDocumentMetadata);
 
-            PinnedDocumentMetadata = new ObservableCollection<DocumentMetadata>();
+            PinnedDocumentMetadata = InitializePinnedDocumentMetadata();
 
             _documentMetadataEqualityService = documentMetadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
@@ -69,6 +71,31 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _userPreferences = userPreferences;
 
             updateReactionManager.Initialize(ActiveDocumentMetadata);
+        }
+
+        private ICollectionView InitializePinnedDocumentMetadata()
+        {
+            var view = _collectionViewGenerator.CreateView(
+                _activeDocumentMetadata);
+
+            var pinIndexSortDescription = new SortDescription(
+                nameof(DocumentMetadata.PinIndex),
+                ListSortDirection.Ascending);
+
+            view.SortDescriptions.Add(pinIndexSortDescription);
+
+            view.Filter += obj =>
+            {
+                var metadata = obj as DocumentMetadata;
+
+                var include =
+                    metadata != null &&
+                    metadata.IsPinned;
+
+                return include;
+            };
+
+            return view;
         }
 
         /// <summary>
@@ -126,6 +153,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _userPreferences);
 
                 ActiveDocumentMetadata.Refresh();
+                PinnedDocumentMetadata.Refresh();
             }
         }
 
@@ -264,16 +292,20 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </param>
         public void TogglePinnedStatus(DocumentMetadata metadata)
         {
-            metadata.IsPinned = !metadata.IsPinned;
-
             if (metadata.IsPinned)
             {
-                PinnedDocumentMetadata.Add(metadata);
+                metadata.PinIndex = DocumentMetadata.UnpinnedIndexValue;
             }
             else
             {
-                PinnedDocumentMetadata.Remove(metadata);
+                var pinnedItems = _activeDocumentMetadata.Count(m => m.IsPinned);
+
+                // Set to double, so that an intermediate value is available
+                // when re-ordering items
+                metadata.PinIndex = pinnedItems * 2;
             }
+
+            PinnedDocumentMetadata.Refresh();
         }
 
         /// <summary>
@@ -287,10 +319,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             DocumentMetadata itemToMove,
             DocumentMetadata targetLocation)
         {
-            var oldIndex = PinnedDocumentMetadata.IndexOf(itemToMove);
-            var newIndex = PinnedDocumentMetadata.IndexOf(targetLocation);
+            itemToMove.PinIndex = targetLocation.PinIndex - 1;
+            PinnedDocumentMetadata.Refresh();
 
-            PinnedDocumentMetadata.Move(oldIndex, newIndex);
+            var index = 0;
+
+            foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
+            {
+                metadata.PinIndex = index * 2;
+                index++;
+            }
         }
     }
 }
