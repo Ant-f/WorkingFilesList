@@ -528,5 +528,44 @@ namespace WorkingFilesList.Core.Test.Model
 
             Assert.IsTrue(propertyChangedRaised);
         }
+
+        [TestCase(0, 2, false)]
+        [TestCase(-2, -2, false)]
+        [TestCase(2, -2, true)]
+        [TestCase(-2, 2, true)]
+        public void SettingPinIndexRaisesIsPinnedPropertyChanged(
+            int initialPinIndex,
+            int newPinIndex,
+            bool shouldRaisePropertyChanged)
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                PinIndex = initialPinIndex
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                if (e.PropertyName == nameof(DocumentMetadata.IsPinned))
+                {
+                    propertyChangedRaised = true;
+                }
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.PinIndex = newPinIndex;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.That(propertyChangedRaised, Is.EqualTo(shouldRaisePropertyChanged));
+        }
     }
 }

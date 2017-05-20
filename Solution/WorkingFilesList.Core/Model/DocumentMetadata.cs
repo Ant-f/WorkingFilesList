@@ -28,9 +28,10 @@ namespace WorkingFilesList.Core.Model
         public const int UnpinnedIndexValue = -2;
 
         private bool _isActive;
+        private bool _isPinned;
         private Brush _projectBrush;
         private double _usageOrder;
-        private int _isPinned;
+        private int _pinIndex;
         private string _displayNameHighlight;
         private string _displayNamePostHighlight;
         private string _displayNamePreHighlight;
@@ -175,7 +176,21 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
-        public bool IsPinned => PinIndex > UnpinnedIndexValue;
+        public bool IsPinned
+        {
+            get
+            {
+                return _isPinned;
+            }
+            private set
+            {
+                if (_isPinned != value)
+                {
+                    _isPinned = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Index of pinned document in displayed list
@@ -184,16 +199,18 @@ namespace WorkingFilesList.Core.Model
         {
             get
             {
-                return _isPinned;
+                return _pinIndex;
             }
 
             set
             {
-                if (_isPinned != value)
+                if (_pinIndex != value)
                 {
-                    _isPinned = value;
+                    _pinIndex = value;
                     OnPropertyChanged();
                 }
+
+                IsPinned = EvaluateIsPinned(_pinIndex);
             }
         }
 
@@ -235,6 +252,11 @@ namespace WorkingFilesList.Core.Model
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,
                 info.ProjectFullName);
+        }
+
+        private static bool EvaluateIsPinned(int pinIndex)
+        {
+            return pinIndex > UnpinnedIndexValue;
         }
     }
 }

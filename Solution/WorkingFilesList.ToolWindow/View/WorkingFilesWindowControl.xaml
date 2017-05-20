@@ -28,7 +28,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="360">
+             d:DesignHeight="160" d:DesignWidth="360">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -96,6 +96,7 @@
                                         Opacity="0.7">
                                 </Border>
 
+                                <!--File Icon-->
                                 <Image Grid.Column="0"
                                        HorizontalAlignment="Center"
                                        IsHitTestVisible="False"
@@ -119,6 +120,7 @@
                                     </Image.Style>
                                 </Image>
 
+                                <!--File Name-->
                                 <StackPanel Grid.Column="1"
                                             IsHitTestVisible="False"
                                             Orientation="Horizontal"
@@ -154,6 +156,7 @@
                                     <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
                                 </StackPanel>
 
+                                <!--Mouse-Over Button Panel-->
                                 <StackPanel x:Name="DocumentItemCommandButtons"
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
@@ -182,6 +185,26 @@
                                         <Image Source="Icon/Close_8x_16x.png" />
                                     </Button>
                                 </StackPanel>
+
+                                <!--Pinned Indicator-->
+                                <Border x:Name="PinnedIndicator"
+                                        Background="{Binding ProjectBrush}"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Left"
+                                        Margin="-2,1,0,1"
+                                        Width="2">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
                             </Grid>
 
                             <ControlTemplate.Triggers>
@@ -189,6 +212,7 @@
                                     <Setter TargetName="DocumentItemCommandButtons" Property="Visibility" Value="Visible"/>
                                     <Setter TargetName="MouseOverBackground" Property="Visibility" Value="Visible"/>
                                     <Setter TargetName="MouseOverBorder" Property="BorderThickness" Value="1"/>
+                                    <Setter TargetName="PinnedIndicator" Property="Margin" Value="-2,0,0,0"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
