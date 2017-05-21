@@ -54,22 +54,38 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            var option = new AlphabeticalSort();
+            const string displayName = "DisplayName";
+
+            var documentSort = new TestingSortOption(
+                displayName,
+                string.Empty,
+                ListSortDirection.Ascending,
+                ProjectItemType.Document);
+
+            var projectSort = new TestingSortOption(
+                displayName,
+                string.Empty,
+                ListSortDirection.Ascending,
+                ProjectItemType.Project);
 
             var builder = new UserPreferencesBuilder
             {
-                SortOptions = new ISortOption[] {option}
+                SortOptions = new ISortOption[]
+                {
+                    documentSort,
+                    projectSort
+                }
             };
 
             var preferences = builder.CreateUserPreferences();
 
             // Act
 
-            preferences.ProjectSortOptionName = option.DisplayName;
+            preferences.ProjectSortOptionName = displayName;
 
             // Verify
 
-            Assert.That(preferences.ProjectSortOption, Is.EqualTo(option));
+            Assert.That(preferences.ProjectSortOption, Is.EqualTo(projectSort));
         }
 
         [Test]
@@ -131,22 +147,38 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            var option = new ChronologicalSort();
+            const string displayName = "DisplayName";
+
+            var documentSort = new TestingSortOption(
+                displayName,
+                string.Empty,
+                ListSortDirection.Ascending,
+                ProjectItemType.Document);
+
+            var projectSort = new TestingSortOption(
+                displayName,
+                string.Empty,
+                ListSortDirection.Ascending,
+                ProjectItemType.Project);
 
             var builder = new UserPreferencesBuilder
             {
-                SortOptions = new ISortOption[] {option}
+                SortOptions = new ISortOption[]
+                {
+                    projectSort,
+                    documentSort
+                }
             };
 
             var preferences = builder.CreateUserPreferences();
 
             // Act
 
-            preferences.DocumentSortOptionName = option.DisplayName;
+            preferences.DocumentSortOptionName = displayName;
 
             // Verify
 
-            Assert.That(preferences.DocumentSortOption, Is.EqualTo(option));
+            Assert.That(preferences.DocumentSortOption, Is.EqualTo(documentSort));
         }
 
         [Test]

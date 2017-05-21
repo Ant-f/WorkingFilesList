@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
-using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.Core.Model.SortOption;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
@@ -130,7 +130,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         protected override void OnDocumentSortOptionNameUpdate()
         {
             DocumentSortOption = _sortOptions.FirstOrDefault(s =>
-                s.DisplayName == DocumentSortOptionName);
+                s.DisplayName == DocumentSortOptionName &&
+                s.ApplicableType == ProjectItemType.Document);
 
             if (_initializing)
             {
@@ -143,7 +144,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         protected override void OnProjectSortOptionNameUpdate()
         {
             ProjectSortOption = _sortOptions.FirstOrDefault(s =>
-                s.DisplayName == ProjectSortOptionName);
+                s.DisplayName == ProjectSortOptionName &&
+                s.ApplicableType == ProjectItemType.Project);
 
             if (_initializing)
             {
