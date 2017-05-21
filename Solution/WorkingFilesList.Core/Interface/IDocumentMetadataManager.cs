@@ -21,16 +21,13 @@ using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.Core.Interface
 {
-    public interface IDocumentMetadataManager
+    public interface IDocumentMetadataManager : IPinnedMetadataManager
     {
         ICollectionView ActiveDocumentMetadata { get; }
-        ICollectionView PinnedDocumentMetadata { get; }
 
         void Activate(string fullName);
         void Add(DocumentMetadataInfo info);
         void UpdateFullName(string newName, string oldName);
         void Synchronize(Documents documents, bool setUsageOrder);
-        void TogglePinnedStatus(DocumentMetadata metadata);
-        void MovePinnedItem(DocumentMetadata itemToMove, DocumentMetadata targetLocation);
     }
 }

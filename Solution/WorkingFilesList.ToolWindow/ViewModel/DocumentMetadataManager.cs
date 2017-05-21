@@ -282,33 +282,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
-        /// Inverts the value of <see cref="DocumentMetadata.IsPinned"/> for
-        /// <paramref name="metadata"/>, and adds/removes it to/from
-        /// <see cref="PinnedDocumentMetadata"/> accordingly
-        /// </summary>
-        /// <param name="metadata">
-        /// <see cref="DocumentMetadata"/> to update
-        /// <see cref="DocumentMetadata.IsPinned"/> for
-        /// </param>
-        public void TogglePinnedStatus(DocumentMetadata metadata)
-        {
-            if (metadata.IsPinned)
-            {
-                metadata.PinIndex = DocumentMetadata.UnpinnedIndexValue;
-            }
-            else
-            {
-                var pinnedItems = _activeDocumentMetadata.Count(m => m.IsPinned);
-
-                // Set to double, so that an intermediate value is available
-                // when re-ordering items
-                metadata.PinIndex = pinnedItems * 2;
-            }
-
-            PinnedDocumentMetadata.Refresh();
-        }
-
-        /// <summary>
         /// Move an item in <see cref="PinnedDocumentMetadata"/>, reordering
         /// the collection
         /// </summary>
@@ -335,6 +308,33 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 metadata.PinIndex = index * 2;
                 index++;
             }
+        }
+
+        /// <summary>
+        /// Inverts the value of <see cref="DocumentMetadata.IsPinned"/> for
+        /// <paramref name="metadata"/>, and adds/removes it to/from
+        /// <see cref="PinnedDocumentMetadata"/> accordingly
+        /// </summary>
+        /// <param name="metadata">
+        /// <see cref="DocumentMetadata"/> to update
+        /// <see cref="DocumentMetadata.IsPinned"/> for
+        /// </param>
+        public void TogglePinnedStatus(DocumentMetadata metadata)
+        {
+            if (metadata.IsPinned)
+            {
+                metadata.PinIndex = DocumentMetadata.UnpinnedIndexValue;
+            }
+            else
+            {
+                var pinnedItems = _activeDocumentMetadata.Count(m => m.IsPinned);
+
+                // Set to double, so that an intermediate value is available
+                // when re-ordering items
+                metadata.PinIndex = pinnedItems * 2;
+            }
+
+            PinnedDocumentMetadata.Refresh();
         }
     }
 }

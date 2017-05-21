@@ -19,6 +19,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Model;
 
@@ -45,13 +46,23 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             set => SetValue(AllowDragAndDropProperty, value);
         }
 
+        public static readonly DependencyProperty PinnedMetadataManagerProperty =
+            DependencyProperty.Register(
+                "PinnedMetadataManager",
+                typeof(IPinnedMetadataManager),
+                typeof(DragDropButton));
+
+        public IPinnedMetadataManager PinnedMetadataManager
+        {
+            get => (IPinnedMetadataManager)GetValue(PinnedMetadataManagerProperty);
+            set => SetValue(PinnedMetadataManagerProperty, value);
+        }
+
         /// <summary>
         /// Used to ensure that a drag operation is not triggered as part of an
         /// unrelated drag-and-drop operation that moves across this button
         /// </summary>
         private bool _isDragSource = false;
-
-        public event EventHandler<DocumentMetadataDragEventArgs> MetadataDragDrop;
 
         private void SetDragDropMoveEffect(DragEventArgs e)
         {
@@ -85,11 +96,10 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             base.OnPreviewDrop(e);
             var dragSource = e.Data.GetData(typeof(DocumentMetadata));
 
-            var args = new DocumentMetadataDragEventArgs(
-                (DocumentMetadata) DataContext,
-                (DocumentMetadata) dragSource);
-            
-            MetadataDragDrop?.Invoke(this, args);
+            PinnedMetadataManager?.MovePinnedItem(
+                (DocumentMetadata) dragSource,
+                (DocumentMetadata) DataContext);
+
             e.Handled = true;
         }
 

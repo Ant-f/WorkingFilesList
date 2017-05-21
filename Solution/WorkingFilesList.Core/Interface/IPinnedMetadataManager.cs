@@ -15,22 +15,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using System.ComponentModel;
 using WorkingFilesList.Core.Model;
 
-namespace WorkingFilesList.ToolWindow.Model
+namespace WorkingFilesList.Core.Interface
 {
-    public class DocumentMetadataDragEventArgs : EventArgs
+    public interface IPinnedMetadataManager
     {
-        public DocumentMetadata DropTarget { get; }
-        public DocumentMetadata DragSource { get; }
+        ICollectionView PinnedDocumentMetadata { get; }
 
-        public DocumentMetadataDragEventArgs(
-            DocumentMetadata dropTarget,
-            DocumentMetadata dragSource)
-        {
-            DropTarget = dropTarget;
-            DragSource = dragSource;
-        }
+        void MovePinnedItem(DocumentMetadata itemToMove, DocumentMetadata targetLocation);
+        void TogglePinnedStatus(DocumentMetadata metadata);
     }
 }

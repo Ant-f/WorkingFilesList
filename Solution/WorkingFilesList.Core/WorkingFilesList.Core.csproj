@@ -40,6 +40,7 @@
     <Compile Include="Interface\IIntValueControl.cs" />
     <Compile Include="Interface\IOptionsLists.cs" />
     <Compile Include="Interface\IOptionsPageControlFactory.cs" />
+    <Compile Include="Interface\IPinnedMetadataManager.cs" />
     <Compile Include="Interface\ISolutionEventsService.cs" />
     <Compile Include="Interface\ISortOption.cs" />
     <Compile Include="Interface\ISortOptionsService.cs" />

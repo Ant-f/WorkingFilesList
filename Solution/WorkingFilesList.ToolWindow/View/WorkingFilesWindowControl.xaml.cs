@@ -18,8 +18,6 @@
 namespace WorkingFilesList.ToolWindow.View
 {
     using System.Windows.Controls;
-    using Core.Service.Locator;
-    using Model;
 
     /// <summary>
     /// Interaction logic for WorkingFilesWindowControl.
@@ -32,15 +30,6 @@ namespace WorkingFilesList.ToolWindow.View
         public WorkingFilesWindowControl()
         {
             this.InitializeComponent();
-        }
-
-        private void DragDropButtonMetadataDragDrop(
-            object sender,
-            DocumentMetadataDragEventArgs e)
-        {
-            ViewModelService.DocumentMetadataManager.MovePinnedItem(
-                e.DragSource,
-                e.DropTarget);
         }
     }
 }
