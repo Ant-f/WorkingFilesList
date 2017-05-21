@@ -1371,5 +1371,45 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(metadata3.PinIndex, Is.EqualTo(2));
             Assert.That(metadata4.PinIndex, Is.EqualTo(6));
         }
+
+        [Test]
+        public void MovePinnedItemDoesNotRefreshViewWhenSourceAndTargetSharePinIndex()
+        {
+            // Arrange
+
+            const int pinIndex = 4;
+
+            var viewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = Mock.Of<ICollectionViewGenerator>(c =>
+                    c.CreateView(It.IsAny<IList>()) == viewMock.Object),
+
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var metadata = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null)
+            {
+                PinIndex = pinIndex
+            };
+
+            // Act
+
+            manager.MovePinnedItem(metadata, metadata);
+
+            // Assert
+
+            viewMock.Verify(v => v.Refresh(), Times.Never);
+            Assert.That(metadata.PinIndex, Is.EqualTo(pinIndex));
+        }
     }
 }

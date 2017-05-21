@@ -319,6 +319,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             DocumentMetadata itemToMove,
             DocumentMetadata targetLocation)
         {
+            if (itemToMove.PinIndex == targetLocation.PinIndex)
+            {
+                return;
+            }
+
             var offset = itemToMove.PinIndex > targetLocation.PinIndex ? -1 : 1;
             itemToMove.PinIndex = targetLocation.PinIndex + offset;
             PinnedDocumentMetadata.Refresh();
