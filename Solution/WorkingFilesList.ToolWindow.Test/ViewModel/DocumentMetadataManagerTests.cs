@@ -52,6 +52,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             return document;
         }
 
+        private static IList<Document> CreateDocumentList(params string[] fullNames)
+        {
+            var documents = fullNames.Select(f => CreateDocument(f)).ToList();
+            return documents;
+        }
+
         [Test]
         public void AddAppendsDocumentMetadataToListIfFullPathDoesNotExist()
         {
@@ -1257,20 +1263,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void MovePinnedItemUpdatesItemOrder()
+        public void MovePinnedItemUpdatesItemOrderWhenMovingItemsUpwards()
         {
             // Arrange
 
-            var documentMockList = new List<Document>
-            {
-                CreateDocument("document1"),
-                CreateDocument("document2"),
-                CreateDocument("document3"),
-                CreateDocument("document4")
-            };
-
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
+            var documentMockList = CreateDocumentList("d1", "d2", "d3", "d4");
             var documents = CreateDocuments(documentMockList);
 
             manager.Synchronize(documents, false);
@@ -1315,6 +1314,61 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(metadata1.PinIndex, Is.EqualTo(2));
             Assert.That(metadata2.PinIndex, Is.EqualTo(4));
             Assert.That(metadata3.PinIndex, Is.EqualTo(0));
+            Assert.That(metadata4.PinIndex, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void MovePinnedItemUpdatesItemOrderWhenMovingItemsDownwards()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            var documentMockList = CreateDocumentList("d1", "d2", "d3", "d4");
+            var documents = CreateDocuments(documentMockList);
+
+            manager.Synchronize(documents, false);
+
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata1 = activeMetadataCollection[0];
+            var metadata2 = activeMetadataCollection[1];
+            var metadata3 = activeMetadataCollection[2];
+            var metadata4 = activeMetadataCollection[3];
+
+            foreach (var metadata in activeMetadataCollection)
+            {
+                manager.TogglePinnedStatus(metadata);
+            }
+
+            // Act
+
+            manager.MovePinnedItem(metadata1, metadata3);
+
+            // Assert
+
+            var expectedOrder = new[]
+            {
+                metadata2, metadata3, metadata1, metadata4
+            };
+
+            const string separator = ", ";
+
+            var expectedOrderNames = string.Join(
+                separator,
+                expectedOrder.Select(m => m.FullName));
+
+            var actualOrderNames = string.Join(
+                separator,
+                manager.PinnedDocumentMetadata.Cast<DocumentMetadata>().Select(m =>
+                    m.FullName));
+
+            Assert.That(actualOrderNames, Is.EqualTo(expectedOrderNames));
+
+            Assert.That(metadata1.PinIndex, Is.EqualTo(4));
+            Assert.That(metadata2.PinIndex, Is.EqualTo(0));
+            Assert.That(metadata3.PinIndex, Is.EqualTo(2));
             Assert.That(metadata4.PinIndex, Is.EqualTo(6));
         }
     }
