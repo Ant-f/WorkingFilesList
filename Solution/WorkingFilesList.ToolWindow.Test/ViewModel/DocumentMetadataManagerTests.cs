@@ -960,6 +960,109 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(collection[0].FullName, Is.EqualTo(newName));
         }
 
+        [Test]
+        public void UpdateFullNameAssignsProjectDisplayName()
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+            const string projectDisplayName = "ProjectDisplayName";
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder();
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = oldName,
+                ProjectDisplayName = projectDisplayName
+            };
+
+            var oldMetadata = new DocumentMetadata(info, string.Empty, null);
+            collection.Add(oldMetadata);
+
+            // Act
+
+            manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].ProjectNames.DisplayName, Is.EqualTo(projectDisplayName));
+        }
+
+        [Test]
+        public void UpdateFullNameAssignsProjectFullName()
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+            const string projectFullName = "ProjectFullName";
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder();
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = oldName,
+                ProjectFullName = projectFullName
+            };
+
+            var oldMetadata = new DocumentMetadata(info, string.Empty, null);
+            collection.Add(oldMetadata);
+
+            // Act
+
+            manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].ProjectNames.FullName, Is.EqualTo(projectFullName));
+        }
+
+        [Test]
+        public void UpdateFullNameAssignsPinOrder()
+        {
+            // Arrange
+
+            const int pinOrder = 6;
+            const string oldName = "OldName";
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder();
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = oldName
+            };
+
+            var oldMetadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                PinOrder = pinOrder
+            };
+
+            collection.Add(oldMetadata);
+
+            // Act
+
+            manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.That(collection[0].PinOrder, Is.EqualTo(pinOrder));
+            Assert.IsTrue(collection[0].IsPinned);
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void SynchronizeUsesNormalizedUsageOrderService(bool setUsageOrder)

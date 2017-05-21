@@ -195,6 +195,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                         info,
                         _activeDocumentMetadata[i].ActivatedAt);
 
+                    newMetadata.PinOrder = existingMetadata.PinOrder;
                     _activeDocumentMetadata[i] = newMetadata;
 
                     _normalizedUsageOrderService.SetUsageOrder(
