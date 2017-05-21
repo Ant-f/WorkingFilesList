@@ -78,11 +78,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             var view = _collectionViewGenerator.CreateView(
                 _activeDocumentMetadata);
 
-            var pinIndexSortDescription = new SortDescription(
-                nameof(DocumentMetadata.PinIndex),
+            var pinOrderSortDescription = new SortDescription(
+                nameof(DocumentMetadata.PinOrder),
                 ListSortDirection.Ascending);
 
-            view.SortDescriptions.Add(pinIndexSortDescription);
+            view.SortDescriptions.Add(pinOrderSortDescription);
 
             view.Filter += obj =>
             {
@@ -292,20 +292,20 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             DocumentMetadata itemToMove,
             DocumentMetadata targetLocation)
         {
-            if (itemToMove.PinIndex == targetLocation.PinIndex)
+            if (itemToMove.PinOrder == targetLocation.PinOrder)
             {
                 return;
             }
 
-            var offset = itemToMove.PinIndex > targetLocation.PinIndex ? -1 : 1;
-            itemToMove.PinIndex = targetLocation.PinIndex + offset;
+            var offset = itemToMove.PinOrder > targetLocation.PinOrder ? -1 : 1;
+            itemToMove.PinOrder = targetLocation.PinOrder + offset;
             PinnedDocumentMetadata.Refresh();
 
             var index = 0;
 
             foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
             {
-                metadata.PinIndex = index * 2;
+                metadata.PinOrder = index * 2;
                 index++;
             }
         }
@@ -323,7 +323,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         {
             if (metadata.IsPinned)
             {
-                metadata.PinIndex = DocumentMetadata.UnpinnedIndexValue;
+                metadata.PinOrder = DocumentMetadata.UnpinnedOrderValue;
             }
             else
             {
@@ -331,7 +331,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 // Set to double, so that an intermediate value is available
                 // when re-ordering items
-                metadata.PinIndex = pinnedItems * 2;
+                metadata.PinOrder = pinnedItems * 2;
             }
 
             PinnedDocumentMetadata.Refresh();

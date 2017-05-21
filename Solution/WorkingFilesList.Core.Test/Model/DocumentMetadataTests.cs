@@ -26,7 +26,7 @@ namespace WorkingFilesList.Core.Test.Model
     public class DocumentMetadataTests
     {
         [Test]
-        public void PinIndexIsMinusTwoOnCreation()
+        public void PinOrderIsMinusTwoOnCreation()
         {
             // Arrange, Act
 
@@ -37,7 +37,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Assert
 
-            Assert.That(metadata.PinIndex, Is.EqualTo(-2));
+            Assert.That(metadata.PinOrder, Is.EqualTo(-2));
         }
 
         [TestCase(-2, false)]
@@ -45,7 +45,7 @@ namespace WorkingFilesList.Core.Test.Model
         [TestCase(1, true)]
         [TestCase(5, true)]
         [TestCase(12, true)]
-        public void IsPinnedCorrespondsToPinIndex(int pinIndex, bool expectedIsPinned)
+        public void IsPinnedCorrespondsToPinOrder(int pinOrder, bool expectedIsPinned)
         {
             // Arrange
 
@@ -56,7 +56,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.PinIndex = pinIndex;
+            metadata.PinOrder = pinOrder;
 
             // Assert
 
@@ -469,17 +469,17 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingPinIndexToSameValueDoesNotRaisePropertyChanged()
+        public void SettingPinOrderToSameValueDoesNotRaisePropertyChanged()
         {
             // Arrange
 
-            const int pinIndex = 3;
+            const int pinOrder = 3;
             var propertyChangedRaised = false;
 
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                PinIndex = pinIndex
+                PinOrder = pinOrder
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -491,7 +491,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.PinIndex = pinIndex;
+            metadata.PinOrder = pinOrder;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -500,7 +500,7 @@ namespace WorkingFilesList.Core.Test.Model
         }
 
         [Test]
-        public void SettingPinIndexToDifferentValueRaisesPropertyChanged()
+        public void SettingPinOrderToDifferentValueRaisesPropertyChanged()
         {
             // Arrange
 
@@ -509,7 +509,7 @@ namespace WorkingFilesList.Core.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                PinIndex = 3
+                PinOrder = 3
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -521,7 +521,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.PinIndex = 7;
+            metadata.PinOrder = 7;
             metadata.PropertyChanged -= handler;
 
             // Assert
@@ -533,9 +533,9 @@ namespace WorkingFilesList.Core.Test.Model
         [TestCase(-2, -2, false)]
         [TestCase(2, -2, true)]
         [TestCase(-2, 2, true)]
-        public void SettingPinIndexRaisesIsPinnedPropertyChanged(
-            int initialPinIndex,
-            int newPinIndex,
+        public void SettingPinOrderRaisesIsPinnedPropertyChanged(
+            int initialPinOrder,
+            int newPinOrder,
             bool shouldRaisePropertyChanged)
         {
             // Arrange
@@ -545,7 +545,7 @@ namespace WorkingFilesList.Core.Test.Model
             var info = new DocumentMetadataInfo();
             var metadata = new DocumentMetadata(info, string.Empty, null)
             {
-                PinIndex = initialPinIndex
+                PinOrder = initialPinOrder
             };
 
             var handler = new PropertyChangedEventHandler((s, e) =>
@@ -560,7 +560,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            metadata.PinIndex = newPinIndex;
+            metadata.PinOrder = newPinOrder;
             metadata.PropertyChanged -= handler;
 
             // Assert

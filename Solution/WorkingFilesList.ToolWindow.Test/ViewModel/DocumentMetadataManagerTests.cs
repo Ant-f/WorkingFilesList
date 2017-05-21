@@ -1085,7 +1085,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void PinnedDocumentMetadataContainsMetadataWithPinIndexGreaterThanMinusTwo()
+        public void PinnedDocumentMetadataContainsMetadataWithPinOrderGreaterThanMinusTwo()
         {
             // Arrange
 
@@ -1106,10 +1106,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document1Metadata = activeMetadataCollection[0];
-            document1Metadata.PinIndex = 0;
+            document1Metadata.PinOrder = 0;
 
             var document2Metadata = activeMetadataCollection[1];
-            document2Metadata.PinIndex = 2;
+            document2Metadata.PinOrder = 2;
 
             var document3Metadata = activeMetadataCollection[2];
 
@@ -1125,7 +1125,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void TogglePinnedStatusSetsPinIndexToDoublePinnedItemCountWhenPinningItem()
+        public void TogglePinnedStatusSetsPinOrderToDoublePinnedItemCountWhenPinningItem()
         {
             // Arrange
 
@@ -1154,12 +1154,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            Assert.That(document1Metadata.PinIndex, Is.EqualTo(2));
-            Assert.That(document2Metadata.PinIndex, Is.EqualTo(0));
+            Assert.That(document1Metadata.PinOrder, Is.EqualTo(2));
+            Assert.That(document2Metadata.PinOrder, Is.EqualTo(0));
         }
 
         [Test]
-        public void TogglePinnedStatusSetsPinIndexToMinusTwoWhenUnpinningItem()
+        public void TogglePinnedStatusSetsPinOrderToMinusTwoWhenUnpinningItem()
         {
             // Arrange
 
@@ -1178,7 +1178,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             var document1Metadata = activeMetadataCollection[0];
-            document1Metadata.PinIndex = 8;
+            document1Metadata.PinOrder = 8;
 
             // Act
 
@@ -1186,7 +1186,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
-            Assert.That(document1Metadata.PinIndex, Is.EqualTo(-2));
+            Assert.That(document1Metadata.PinOrder, Is.EqualTo(-2));
         }
 
         [Test]
@@ -1221,7 +1221,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             viewMock.Verify(v => v.Refresh());
-            Assert.That(documentMetadata.PinIndex, Is.EqualTo(0));
+            Assert.That(documentMetadata.PinOrder, Is.EqualTo(0));
         }
 
         [Test]
@@ -1249,7 +1249,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 string.Empty,
                 null)
             {
-                PinIndex = 8
+                PinOrder = 8
             };
 
             // Act
@@ -1259,7 +1259,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             viewMock.Verify(v => v.Refresh());
-            Assert.That(documentMetadata.PinIndex, Is.EqualTo(-2));
+            Assert.That(documentMetadata.PinOrder, Is.EqualTo(-2));
         }
 
         [Test]
@@ -1311,10 +1311,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(actualOrderNames, Is.EqualTo(expectedOrderNames));
 
-            Assert.That(metadata1.PinIndex, Is.EqualTo(2));
-            Assert.That(metadata2.PinIndex, Is.EqualTo(4));
-            Assert.That(metadata3.PinIndex, Is.EqualTo(0));
-            Assert.That(metadata4.PinIndex, Is.EqualTo(6));
+            Assert.That(metadata1.PinOrder, Is.EqualTo(2));
+            Assert.That(metadata2.PinOrder, Is.EqualTo(4));
+            Assert.That(metadata3.PinOrder, Is.EqualTo(0));
+            Assert.That(metadata4.PinOrder, Is.EqualTo(6));
         }
 
         [Test]
@@ -1366,18 +1366,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(actualOrderNames, Is.EqualTo(expectedOrderNames));
 
-            Assert.That(metadata1.PinIndex, Is.EqualTo(4));
-            Assert.That(metadata2.PinIndex, Is.EqualTo(0));
-            Assert.That(metadata3.PinIndex, Is.EqualTo(2));
-            Assert.That(metadata4.PinIndex, Is.EqualTo(6));
+            Assert.That(metadata1.PinOrder, Is.EqualTo(4));
+            Assert.That(metadata2.PinOrder, Is.EqualTo(0));
+            Assert.That(metadata3.PinOrder, Is.EqualTo(2));
+            Assert.That(metadata4.PinOrder, Is.EqualTo(6));
         }
 
         [Test]
-        public void MovePinnedItemDoesNotRefreshViewWhenSourceAndTargetSharePinIndex()
+        public void MovePinnedItemDoesNotRefreshViewWhenSourceAndTargetSharePinOrder()
         {
             // Arrange
 
-            const int pinIndex = 4;
+            const int pinOrder = 4;
 
             var viewMock = new Mock<ICollectionView>
             {
@@ -1399,7 +1399,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 string.Empty,
                 null)
             {
-                PinIndex = pinIndex
+                PinOrder = pinOrder
             };
 
             // Act
@@ -1409,7 +1409,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             viewMock.Verify(v => v.Refresh(), Times.Never);
-            Assert.That(metadata.PinIndex, Is.EqualTo(pinIndex));
+            Assert.That(metadata.PinOrder, Is.EqualTo(pinOrder));
         }
     }
 }

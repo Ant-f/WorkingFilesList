@@ -25,13 +25,16 @@ namespace WorkingFilesList.Core.Model
 {
     public class DocumentMetadata : PropertyChangedNotifier
     {
-        public const int UnpinnedIndexValue = -2;
+        /// <summary>
+        /// Value for <see cref="PinOrder"/> denoting that this item is not pinned
+        /// </summary>
+        public const int UnpinnedOrderValue = -2;
 
         private bool _isActive;
         private bool _isPinned;
         private Brush _projectBrush;
         private double _usageOrder;
-        private int _pinIndex;
+        private int _pinOrder;
         private string _displayNameHighlight;
         private string _displayNamePostHighlight;
         private string _displayNamePreHighlight;
@@ -193,24 +196,27 @@ namespace WorkingFilesList.Core.Model
         }
 
         /// <summary>
-        /// Index of pinned document in displayed list
+        /// Value representing relative ordering of pinned document in displayed
+        /// list. The actual value (when above <see cref="UnpinnedOrderValue"/>)
+        /// is not important; only its relative value, when compared with other
+        /// <see cref="DocumentMetadata"/> instances, is
         /// </summary>
-        public int PinIndex
+        public int PinOrder
         {
             get
             {
-                return _pinIndex;
+                return _pinOrder;
             }
 
             set
             {
-                if (_pinIndex != value)
+                if (_pinOrder != value)
                 {
-                    _pinIndex = value;
+                    _pinOrder = value;
                     OnPropertyChanged();
                 }
 
-                IsPinned = EvaluateIsPinned(_pinIndex);
+                IsPinned = EvaluateIsPinned(_pinOrder);
             }
         }
 
@@ -247,16 +253,16 @@ namespace WorkingFilesList.Core.Model
             CorrectedFullName = correctedFullName;
             FullName = info.FullName;
             Icon = icon;
-            PinIndex = UnpinnedIndexValue;
+            PinOrder = UnpinnedOrderValue;
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,
                 info.ProjectFullName);
         }
 
-        private static bool EvaluateIsPinned(int pinIndex)
+        private static bool EvaluateIsPinned(int pinOrder)
         {
-            return pinIndex > UnpinnedIndexValue;
+            return pinOrder > UnpinnedOrderValue;
         }
     }
 }
