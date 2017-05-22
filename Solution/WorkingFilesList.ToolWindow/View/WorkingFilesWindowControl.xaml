@@ -59,336 +59,356 @@
             <system:Double x:Key="InactiveItemOpacity">0.65</system:Double>
 
             <DataTemplate x:Key="DocumentMetadataItem" DataType="{x:Type model:DocumentMetadata}">
-                <controls:DragDropButton PinnedMetadataManager="{Binding DocumentMetadataManager, Source={StaticResource ViewModel}}">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Grid Background="Transparent"
-                                  ToolTip="{Binding CorrectedFullName}">
+                <DataTemplate.Resources>
+                    <Duration x:Key="AnimationDuration">0:0:0.15</Duration>
+                    <KeyTime x:Key="AnimationDurationKeyTime">0:0:0.15</KeyTime>
+                    <QuadraticEase x:Key="TriggerEnterEasingFunction" EasingMode="EaseOut"/>
+                    <QuadraticEase x:Key="TriggerExitEasingFunction" EasingMode="EaseIn"/>
+                </DataTemplate.Resources>
+                
+                <Grid>
+                    <controls:DragDropButton PinnedMetadataManager="{Binding DocumentMetadataManager, Source={StaticResource ViewModel}}">
+                        <controls:DragDropButton.Template>
+                            <ControlTemplate>
+                                <Grid Background="Transparent" ToolTip="{Binding CorrectedFullName}">
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-                                <Border x:Name="MouseOverBackground"
-                                        Background="{Binding ProjectBrush}"
-                                        Focusable="False"
-                                        Grid.ColumnSpan="2"
-                                        IsHitTestVisible="False"
-                                        Margin="0,1"
-                                        Opacity="0"
-                                        Visibility="Collapsed">
-                                </Border>
-
-                                <ProgressBar BorderBrush="{Binding ProjectBrush}"
-                                             Focusable="False"
-                                             Foreground="{Binding ProjectBrush}"
-                                             Grid.ColumnSpan="2"
-                                             IsHitTestVisible="False"
-                                             Maximum="1"
-                                             Minimum="0"
-                                             Value="{Binding UsageOrder}">
-                                </ProgressBar>
-
-                                <Border x:Name="MouseOverBorder"
-                                        BorderBrush="{Binding ProjectBrush}"
-                                        BorderThickness="1"
-                                        Focusable="False"
-                                        Grid.ColumnSpan="2"
-                                        IsHitTestVisible="False"
-                                        Opacity="0"
-                                        Visibility="Collapsed">
-                                </Border>
-
-                                <!--File Icon-->
-                                <Image Focusable="False"
-                                       Grid.Column="0"
-                                       HorizontalAlignment="Center"
-                                       IsHitTestVisible="False"
-                                       Margin="0,0,5,0"
-                                       Source="{Binding Icon}"
-                                       Stretch="None"
-                                       VerticalAlignment="Center">
-                                    <Image.Style>
-                                        <Style TargetType="{x:Type Image}">
-                                            <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                    <Setter Property="Opacity" Value="1"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-
-                                <!--File Name-->
-                                <StackPanel Focusable="False"
-                                            Grid.Column="1"
+                                    <Border x:Name="MouseOverBackground"
+                                            Background="{Binding ProjectBrush}"
+                                            Focusable="False"
+                                            Grid.ColumnSpan="2"
                                             IsHitTestVisible="False"
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center">
-                                    <StackPanel.Resources>
-                                        <Style x:Key="BaseTextBlock" TargetType="{x:Type TextBlock}">
-                                            <Setter Property="FontWeight" Value="Normal"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
-                                        </Style>
+                                            Margin="0,1"
+                                            Opacity="0"
+                                            Visibility="Collapsed">
+                                    </Border>
 
-                                        <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                            <Setter Property="Opacity" Value="0.45"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
+                                    <ProgressBar BorderBrush="{Binding ProjectBrush}"
+                                                 Focusable="False"
+                                                 Foreground="{Binding ProjectBrush}"
+                                                 Grid.Column="0"
+                                                 Grid.ColumnSpan="2"
+                                                 IsHitTestVisible="False"
+                                                 Maximum="1"
+                                                 Minimum="0"
+                                                 Value="{Binding UsageOrder}">
+                                    </ProgressBar>
 
-                                        <Style x:Key="HighlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                            <Setter Property="Opacity" Value="0.65"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                    <Setter Property="Opacity" Value="1"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Resources>
+                                    <Border x:Name="MouseOverBorder"
+                                            BorderBrush="{Binding ProjectBrush}"
+                                            BorderThickness="1"
+                                            Focusable="False"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            IsHitTestVisible="False"
+                                            Opacity="0"
+                                            Visibility="Collapsed">
+                                    </Border>
 
-                                    <TextBlock Text="{Binding DisplayNamePreHighlight}" Style="{StaticResource LowlightedText}"/>
-                                    <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
-                                    <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
-                                </StackPanel>
+                                    <!--File Icon-->
+                                    <Image Focusable="False"
+                                           Grid.Column="0"
+                                           HorizontalAlignment="Center"
+                                           IsHitTestVisible="False"
+                                           Margin="0,0,5,0"
+                                           Source="{Binding Icon}"
+                                           Stretch="None"
+                                           VerticalAlignment="Center">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Opacity" Value="{StaticResource InactiveItemOpacity}"/>
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding UserPreferences.ShowFileTypeIcons, Source={StaticResource ViewModel}}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
 
-                                <!--Mouse-Over Button Panel-->
-                                <StackPanel x:Name="DocumentItemCommandButtons"
+                                    <!--File Name-->
+                                    <StackPanel Focusable="False"
+                                                Grid.Column="1"
+                                                IsHitTestVisible="False"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style x:Key="BaseTextBlock" TargetType="{x:Type TextBlock}">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource VsBrush.ToolWindowText}"/>
+                                            </Style>
+
+                                            <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                                <Setter Property="Opacity" Value="0.45"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                            <Style x:Key="HighlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
+                                                <Setter Property="Opacity" Value="0.65"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Resources>
+
+                                        <TextBlock Text="{Binding DisplayNamePreHighlight}" Style="{StaticResource LowlightedText}"/>
+                                        <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
+                                        <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
+                                    </StackPanel>
+
+                                    <!--Pinned Indicator-->
+                                    <Border x:Name="PinnedIndicator"
+                                            Background="{Binding ProjectBrush}"
+                                            Focusable="False"
                                             Grid.Column="1"
                                             HorizontalAlignment="Right"
+                                            IsHitTestVisible="False"
+                                            Margin="0,1,0,1"
                                             Opacity="0"
-                                            Orientation="Horizontal"
-                                            Visibility="Collapsed">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="Button" BasedOn="{StaticResource DocumentItemCommandButton}"/>
+                                            Visibility="Collapsed"
+                                            Width="2">
+                                    </Border>
+                                </Grid>
 
-                                        <Style TargetType="Image">
-                                            <Setter Property="Margin" Value="0,-1,0,0" />
-                                            <Setter Property="Stretch" Value="None" />
-                                        </Style>
-                                    </StackPanel.Resources>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="MouseOverBackground">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0.1">
+                                                    </DoubleAnimation>
 
-                                    <Button x:Name="PinButton"
-                                            Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
-                                            CommandParameter="{Binding}"
-                                            ToolTip="Pin (Shortcut: Double-Click)">
-                                        <Image Source="Icon/PushpinUnpin_16xMD.png" RenderTransformOrigin="0.5, 0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="PinImageRotateTransform" Angle="0"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </Button>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
 
-                                    <Button x:Name="TestsButton"
-                                            Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
-                                            CommandParameter="{Binding}"
-                                            ToolTip="Open Tests File (Shortcut: Right-Click)">
-                                        <Image Source="Icon/test_16xMD.png" />
-                                    </Button>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="MouseOverBorder">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0.7">
+                                                    </DoubleAnimation>
 
-                                    <Button x:Name="CloseButton"
-                                            Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
-                                            CommandParameter="{Binding}"
-                                            ToolTip="Close File (Shortcut: Middle-Click)">
-                                        <Image Source="Icon/Close_8x_16x.png" />
-                                    </Button>
-                                </StackPanel>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
 
-                                <!--Pinned Indicator-->
-                                <Border x:Name="PinnedIndicator"
-                                        Background="{Binding ProjectBrush}"
-                                        Focusable="False"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        IsHitTestVisible="False"
-                                        Margin="0,1,0,1"
-                                        Opacity="0"
-                                        Visibility="Collapsed"
-                                        Width="2">
-                                </Border>
-                            </Grid>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="MouseOverBackground">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0">
+                                                    </DoubleAnimation>
 
-                            <ControlTemplate.Resources>
-                                <Duration x:Key="AnimationDuration">0:0:0.15</Duration>
-                                <KeyTime x:Key="AnimationDurationKeyTime">0:0:0.15</KeyTime>
-                                <QuadraticEase x:Key="TriggerEnterEasingFunction" EasingMode="EaseOut"/>
-                                <QuadraticEase x:Key="TriggerExitEasingFunction" EasingMode="EaseIn"/>
-                            </ControlTemplate.Resources>
-                            
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="DocumentItemCommandButtons">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="1">
-                                                </DoubleAnimation>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="MouseOverBorder">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0">
+                                                    </DoubleAnimation>
 
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="MouseOverBackground">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.1">
-                                                </DoubleAnimation>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                        
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="MouseOverBorder">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.7">
-                                                </DoubleAnimation>
+                                    <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="PinnedIndicator">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="1">
+                                                    </DoubleAnimation>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
 
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="DocumentItemCommandButtons">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0">
-                                                </DoubleAnimation>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard TargetName="PinnedIndicator">
+                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0">
+                                                    </DoubleAnimation>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </controls:DragDropButton.Template>
 
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="MouseOverBackground">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0">
-                                                </DoubleAnimation>
+                        <Button.InputBindings>
+                            <MouseBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
+                                          CommandParameter="{Binding}"
+                                          Gesture="LeftClick">
+                            </MouseBinding>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                        
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="MouseOverBorder">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0">
-                                                </DoubleAnimation>
+                            <MouseBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                          CommandParameter="{Binding}"
+                                          Gesture="MiddleClick">
+                            </MouseBinding>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
-                                
-                                <DataTrigger Binding="{Binding IsPinned}" Value="True">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="PinnedIndicator">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="1">
-                                                </DoubleAnimation>
+                            <MouseBinding Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                          CommandParameter="{Binding}"
+                                          Gesture="RightClick">
+                            </MouseBinding>
 
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                 Storyboard.TargetName="PinImageRotateTransform"
-                                                                 Storyboard.TargetProperty="Angle"
-                                                                 To="-90">
-                                                </DoubleAnimation>
+                            <MouseBinding Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
+                                          CommandParameter="{Binding}"
+                                          Gesture="LeftDoubleClick">
+                            </MouseBinding>
+                        </Button.InputBindings>
+                    </controls:DragDropButton>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
+                    <!--Mouse-Over Button Panel-->
+                    <StackPanel x:Name="DocumentItemCommandButtons"
+                                HorizontalAlignment="Right"
+                                Opacity="0"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource DocumentItemCommandButton}"/>
 
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard TargetName="PinnedIndicator">
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0">
-                                                </DoubleAnimation>
+                            <Style TargetType="Image">
+                                <Setter Property="Margin" Value="0,-1,0,0" />
+                                <Setter Property="Stretch" Value="None" />
+                            </Style>
+                        </StackPanel.Resources>
 
-                                                <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                 EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                 Storyboard.TargetName="PinImageRotateTransform"
-                                                                 Storyboard.TargetProperty="Angle"
-                                                                 To="0">
-                                                </DoubleAnimation>
+                        <Button x:Name="PinButton"
+                                Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Pin (Shortcut: Double-Click)">
+                            <Image Source="Icon/PushpinUnpin_16xMD.png" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform x:Name="PinImageRotateTransform" Angle="0"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Button>
 
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
+                        <Button x:Name="TestsButton"
+                                Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Open Tests File (Shortcut: Right-Click)">
+                            <Image Source="Icon/test_16xMD.png" />
+                        </Button>
 
-                    <Button.InputBindings>
-                        <MouseBinding Command="{Binding ToolWindowCommands.ActivateWindow, Source={StaticResource ViewModel}}"
-                                      CommandParameter="{Binding}"
-                                      Gesture="LeftClick" >
-                        </MouseBinding>
+                        <Button x:Name="CloseButton"
+                                Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
+                                CommandParameter="{Binding}"
+                                ToolTip="Close File (Shortcut: Middle-Click)">
+                            <Image Source="Icon/Close_8x_16x.png" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
-                        <MouseBinding Command="{Binding ToolWindowCommands.CloseDocument, Source={StaticResource ViewModel}}"
-                                      CommandParameter="{Binding}"
-                                      Gesture="MiddleClick">
-                        </MouseBinding>
+                <DataTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="DocumentItemCommandButtons">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1">
+                                    </DoubleAnimation>
 
-                        <MouseBinding Command="{Binding ToolWindowCommands.OpenTestFile, Source={StaticResource ViewModel}}"
-                                      CommandParameter="{Binding}"
-                                      Gesture="RightClick">
-                        </MouseBinding>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
 
-                        <MouseBinding Command="{Binding ToolWindowCommands.ToggleIsPinned, Source={StaticResource ViewModel}}"
-                                      CommandParameter="{Binding}"
-                                      Gesture="LeftDoubleClick">
-                        </MouseBinding>
-                    </Button.InputBindings>
-                </controls:DragDropButton>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="DocumentItemCommandButtons">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+
+                    <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="PinImageRotateTransform" TargetProperty="Angle">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     To="-90">
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard TargetName="PinImageRotateTransform" TargetProperty="Angle">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     To="0">
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
             </DataTemplate>
 
             <Style TargetType="{x:Type ItemsControl}">
