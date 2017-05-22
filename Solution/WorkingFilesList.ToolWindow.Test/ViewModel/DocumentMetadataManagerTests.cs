@@ -1366,6 +1366,36 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void TogglePinnedStatusUpdatesItemOrderWhenUnpinningItem()
+        {
+            // Arrange
+
+            var documentMockList = CreateDocumentList("d1", "d2");
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            manager.Synchronize(documents, false);
+
+            var activeMetadataCollection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata1 = activeMetadataCollection[0];
+            metadata1.PinOrder = 0;
+
+            var metadata2 = activeMetadataCollection[1];
+            metadata2.PinOrder = 2;
+
+            // Act
+
+            manager.TogglePinnedStatus(metadata1);
+
+            // Assert
+
+            Assert.That(metadata2.PinOrder, Is.EqualTo(0));
+        }
+
+        [Test]
         public void MovePinnedItemUpdatesItemOrderWhenMovingItemsUpwards()
         {
             // Arrange

@@ -301,14 +301,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             var offset = itemToMove.PinOrder > targetLocation.PinOrder ? -1 : 1;
             itemToMove.PinOrder = targetLocation.PinOrder + offset;
             PinnedDocumentMetadata.Refresh();
-
-            var index = 0;
-
-            foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
-            {
-                metadata.PinOrder = index * 2;
-                index++;
-            }
+            AssignPinnedDocumentMetadataPinOrder();
         }
 
         /// <summary>
@@ -336,6 +329,18 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             }
 
             PinnedDocumentMetadata.Refresh();
+            AssignPinnedDocumentMetadataPinOrder();
+        }
+
+        private void AssignPinnedDocumentMetadataPinOrder()
+        {
+            var index = 0;
+
+            foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
+            {
+                metadata.PinOrder = index * 2;
+                index++;
+            }
         }
     }
 }
