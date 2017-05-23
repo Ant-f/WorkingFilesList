@@ -330,8 +330,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             var offset = itemToMove.PinOrder > targetLocation.PinOrder ? -1 : 1;
             itemToMove.PinOrder = targetLocation.PinOrder + offset;
-            PinnedDocumentMetadata.Refresh();
-            AssignPinnedDocumentMetadataPinOrder();
+            RefreshPinnedDocumentMetadataAndAssignPinOrder();
         }
 
         /// <summary>
@@ -358,12 +357,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 metadata.PinOrder = pinnedItems * 2;
             }
 
-            PinnedDocumentMetadata.Refresh();
-            AssignPinnedDocumentMetadataPinOrder();
+            RefreshPinnedDocumentMetadataAndAssignPinOrder();
         }
 
-        private void AssignPinnedDocumentMetadataPinOrder()
+        private void RefreshPinnedDocumentMetadataAndAssignPinOrder()
         {
+            PinnedDocumentMetadata.Refresh();
+
+            // Assign PinOrder for each DocumentMetadata, based on the order
+            // presented in the refreshed view
+
             var index = 0;
 
             foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
