@@ -308,6 +308,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     _activeDocumentMetadata,
                     _userPreferences);
             }
+
+            ActiveDocumentMetadata.Refresh();
         }
 
         /// <summary>

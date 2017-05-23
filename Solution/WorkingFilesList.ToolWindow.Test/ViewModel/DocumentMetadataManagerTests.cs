@@ -1194,6 +1194,41 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.That(setUsageOrderInvoked, Is.EqualTo(setUsageOrder));
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SynchronizeRefreshesActiveDocumentMetadata(bool setUsageOrder)
+        {
+            // Arrange
+
+            var viewMock = new Mock<ICollectionView>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = Mock.Of<ICollectionViewGenerator>(c =>
+                    c.CreateView(It.IsAny<IList>()) == viewMock.Object),
+
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var documentsMock = new Mock<Documents>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            // Act
+
+            manager.Synchronize(documentsMock.Object, setUsageOrder);
+
+            // Assert
+
+            Mock.Get(manager.ActiveDocumentMetadata).Verify(a => a.Refresh());
+        }
+
         [Test]
         public void UpdateFullNameSetsUsageOrder()
         {
