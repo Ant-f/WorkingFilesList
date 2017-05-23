@@ -59,9 +59,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _activeDocumentMetadata = new ObservableCollection<DocumentMetadata>();
             _collectionViewGenerator = collectionViewGenerator;
 
-            ActiveDocumentMetadata = _collectionViewGenerator.CreateView(
-                _activeDocumentMetadata);
-
+            ActiveDocumentMetadata = InitializeActiveDocumentMetadata();
             PinnedDocumentMetadata = InitializePinnedDocumentMetadata();
 
             _documentMetadataEqualityService = documentMetadataEqualityService;
@@ -71,6 +69,25 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _userPreferences = userPreferences;
 
             updateReactionManager.Initialize(ActiveDocumentMetadata);
+        }
+
+        private ICollectionView InitializeActiveDocumentMetadata()
+        {
+            var view = _collectionViewGenerator.CreateView(
+                _activeDocumentMetadata);
+
+            view.Filter += obj =>
+            {
+                var metadata = obj as DocumentMetadata;
+
+                var include =
+                    metadata != null &&
+                    metadata.HasWindow;
+
+                return include;
+            };
+
+            return view;
         }
 
         private ICollectionView InitializePinnedDocumentMetadata()
@@ -100,21 +117,25 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         /// <summary>
         /// Adds the provided name to <see cref="ActiveDocumentMetadata"/> if
-        /// not already present. Does nothing otherwise.
+        /// not already present. Sets <see cref="DocumentMetadata.HasWindow"/>
+        /// to true
         /// </summary>
         /// <param name="info">
         /// Information about the document's full name and containing project
         /// </param>
         public void Add(DocumentMetadataInfo info)
         {
-            var metadataExists = _activeDocumentMetadata.Any(m =>
+            var metadata = _activeDocumentMetadata.FirstOrDefault(m =>
                 _documentMetadataEqualityService.Compare(info, m));
 
-            if (!metadataExists)
+            if (metadata == null)
             {
-                var metadata = _documentMetadataFactory.Create(info);
+                metadata = _documentMetadataFactory.Create(info);
                 _activeDocumentMetadata.Add(metadata);
             }
+
+            metadata.HasWindow = true;
+            ActiveDocumentMetadata.Refresh();
         }
 
         /// <summary>
@@ -269,8 +290,15 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 if (removeMetadata)
                 {
-                    _activeDocumentMetadata.RemoveAt(i);
-                    i--;
+                    if (_activeDocumentMetadata[i].IsPinned)
+                    {
+                        _activeDocumentMetadata[i].HasWindow = false;
+                    }
+                    else
+                    {
+                        _activeDocumentMetadata.RemoveAt(i);
+                        i--;
+                    }
                 }
             }
 

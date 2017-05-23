@@ -85,6 +85,32 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void AddSetsHasWindowTrueWhenAppendingDocumentMetadataToList()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.Add(info);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.IsTrue(collection[0].HasWindow);
+        }
+
+        [Test]
         public void AddDoesNotAppendDocumentMetadataToListIfFullPathAlreadyExist()
         {
             // Arrange
@@ -109,6 +135,36 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(collection.Count, Is.EqualTo(1));
             Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
+        }
+
+        [Test]
+        public void AddSetsHasWindowTrueWhenInvokedWithExistingDocumentMetadata()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+            metadata.HasWindow = false;
+
+            // Act
+            
+            manager.Add(info);
+
+            // Assert
+
+            Assert.That(collection.Single(), Is.EqualTo(metadata));
+            Assert.IsTrue(metadata.HasWindow);
         }
 
         [Test]
@@ -195,6 +251,46 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(remove, Is.Null);
             Assert.That(retain, Is.Not.Null);
+        }
+
+        [Test]
+        public void SynchronizeSetsHasWindowFalseForPinnedItemsCorrespondingToRemovedDocuments()
+        {
+            // Arrange
+
+            const string remove = "Remove";
+            const string retain = "Retain";
+
+            var documentMockList = CreateDocumentList(remove, retain);
+            var documents = CreateDocuments(documentMockList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Synchronize to set two items in the document metadata service
+            // metadata list
+
+            manager.Synchronize(documents, false);
+
+            // Synchronizing with the updated list should remove one item
+            var updatedDocumentMockList = CreateDocumentList(retain);
+            var updatedDocuments = CreateDocuments(updatedDocumentMockList);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var removed = collection.Single(m => m.FullName == remove);
+            manager.TogglePinnedStatus(removed);
+
+            var retained = collection.Single(m => m.FullName == retain);
+
+            // Act
+
+            manager.Synchronize(updatedDocuments, false);
+
+            // Assert
+
+            Assert.IsFalse(removed.HasWindow);
+            Assert.IsTrue(retained.HasWindow);
         }
 
         [Test]
@@ -1543,6 +1639,151 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             viewMock.Verify(v => v.Refresh(), Times.Never);
             Assert.That(metadata.PinOrder, Is.EqualTo(pinOrder));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PinnedDocumentMetadataIncludesMetadataWithAllHasWindowValues(
+            bool hasWindow)
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+            manager.TogglePinnedStatus(metadata);
+
+            // Act
+
+            metadata.HasWindow = hasWindow;
+            manager.PinnedDocumentMetadata.Refresh();
+
+            // Assert
+
+            var pinnedMetadata = manager.PinnedDocumentMetadata
+                .Cast<DocumentMetadata>().Single();
+
+            Assert.AreEqual(metadata, pinnedMetadata);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PinnedDocumentMetadataIncludesOnlyMetadataWhereIsPinnedIsTrue(
+            bool isPinned)
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+
+            // Act
+
+            if (isPinned)
+            {
+                manager.TogglePinnedStatus(metadata);
+            }
+
+            manager.PinnedDocumentMetadata.Refresh();
+
+            // Assert
+
+            var exists = manager.PinnedDocumentMetadata
+                .Cast<DocumentMetadata>().Contains(metadata);
+
+            Assert.AreEqual(isPinned, exists);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ActiveDocumentMetadataIncludesMetadataWithAllIsPinnedValues(
+            bool isPinned)
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+
+            // Act
+
+            if (isPinned)
+            {
+                manager.TogglePinnedStatus(metadata);
+            }
+
+            manager.ActiveDocumentMetadata.Refresh();
+
+            // Assert
+
+            var activeMetadata = manager.ActiveDocumentMetadata
+                .Cast<DocumentMetadata>().Single();
+
+            Assert.AreEqual(metadata, activeMetadata);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ActiveDocumentMetadataIncludesOnlyMetadataWhereHasWindowIsTrue(
+            bool hasWindow)
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+
+            // Act
+
+            metadata.HasWindow = hasWindow;
+            manager.ActiveDocumentMetadata.Refresh();
+
+            // Assert
+
+            var exists = manager.ActiveDocumentMetadata
+                .Cast<DocumentMetadata>().Contains(metadata);
+
+            Assert.AreEqual(hasWindow, exists);
         }
     }
 }

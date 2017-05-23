@@ -30,6 +30,7 @@ namespace WorkingFilesList.Core.Model
         /// </summary>
         public const int UnpinnedOrderValue = -2;
 
+        private bool _hasWindow;
         private bool _isActive;
         private bool _isPinned;
         private Brush _projectBrush;
@@ -158,6 +159,27 @@ namespace WorkingFilesList.Core.Model
         /// Full path and name of document file, as reported by the <see cref="DTE"/>
         /// </summary>
         public string FullName { get; }
+
+        /// <summary>
+        /// Indicates whether this document has an open, though not necessarily
+        /// active, editor window
+        /// </summary>
+        public bool HasWindow
+        {
+            get
+            {
+                return _hasWindow;
+            }
+
+            set
+            {
+                if (_hasWindow != value)
+                {
+                    _hasWindow = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Indicates whether this document is active/has focus
