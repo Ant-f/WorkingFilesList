@@ -52,6 +52,28 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void ClosingSolutionClearsMetadataCollection()
+        {
+            // Arrange
+
+            var documentMetadataManager = Mock.Of<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                documentMetadataManager,
+                Mock.Of<IProjectBrushService>());
+
+            // Act
+
+            service.AfterClosing();
+
+            // Assert
+
+            Mock.Get(documentMetadataManager).Verify(d =>
+                d.Clear());
+        }
+
+        [Test]
         public void RenamingProjectUpdatesBrushIdWithNewAndOldProjectNames()
         {
             // Arrange

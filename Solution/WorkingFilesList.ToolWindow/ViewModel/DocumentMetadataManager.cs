@@ -179,6 +179,14 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
+        /// Remove all referenced <see cref="DocumentMetadata"/> instances
+        /// </summary>
+        public void Clear()
+        {
+            _activeDocumentMetadata.Clear();
+        }
+
+        /// <summary>
         /// Replaces the specified document metadata item with another that
         /// reflects the updated full name. Does not alter the value of
         /// <see cref="DocumentMetadata.ActivatedAt"/>

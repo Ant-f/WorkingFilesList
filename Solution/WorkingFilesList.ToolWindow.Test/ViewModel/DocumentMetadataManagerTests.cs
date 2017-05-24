@@ -1820,5 +1820,35 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.AreEqual(hasWindow, exists);
         }
+
+        [Test]
+        public void ClearRemovesAllMetadata()
+        {
+            // Arrange
+
+            var documentList = CreateDocumentList("d1", "d2");
+            var documents = CreateDocuments(documentList);
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Synchronize(documents, false);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            manager.TogglePinnedStatus(collection[1]);
+
+            manager.ActiveDocumentMetadata.Refresh();
+            manager.PinnedDocumentMetadata.Refresh();
+
+            // Act
+
+            manager.Clear();
+
+            // Assert
+
+            Assert.IsEmpty(manager.ActiveDocumentMetadata);
+            Assert.IsEmpty(manager.PinnedDocumentMetadata);
+            Assert.IsEmpty(collection);
+        }
     }
 }

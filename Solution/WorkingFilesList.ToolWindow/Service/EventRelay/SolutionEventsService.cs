@@ -45,6 +45,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
         public void AfterClosing()
         {
+            _documentMetadataManager.Clear();
             _projectBrushService.ClearBrushIdCollection();
             RaiseSolutionNameChanged(string.Empty);
         }
