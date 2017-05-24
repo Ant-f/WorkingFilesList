@@ -67,47 +67,41 @@
                 </DataTemplate.Resources>
                 
                 <Grid>
+                    <Border x:Name="MouseOverBackground"
+                            Background="{Binding ProjectBrush}"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            Margin="0,1"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                    </Border>
+
+                    <ProgressBar BorderBrush="{Binding ProjectBrush}"
+                                 Focusable="False"
+                                 Foreground="{Binding ProjectBrush}"
+                                 IsHitTestVisible="False"
+                                 Maximum="1"
+                                 Minimum="0"
+                                 Value="{Binding UsageOrder}">
+                    </ProgressBar>
+
+                    <Border x:Name="MouseOverBorder"
+                            BorderBrush="{Binding ProjectBrush}"
+                            BorderThickness="1"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                    </Border>
+                    
                     <controls:DragDropButton PinnedMetadataManager="{Binding DocumentMetadataManager, Source={StaticResource ViewModel}}">
                         <controls:DragDropButton.Template>
                             <ControlTemplate>
                                 <Grid Background="Transparent" ToolTip="{Binding CorrectedFullName}">
-                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-
-                                    <Border x:Name="MouseOverBackground"
-                                            Background="{Binding ProjectBrush}"
-                                            Focusable="False"
-                                            Grid.ColumnSpan="2"
-                                            IsHitTestVisible="False"
-                                            Margin="0,1"
-                                            Opacity="0"
-                                            Visibility="Collapsed">
-                                    </Border>
-
-                                    <ProgressBar BorderBrush="{Binding ProjectBrush}"
-                                                 Focusable="False"
-                                                 Foreground="{Binding ProjectBrush}"
-                                                 Grid.Column="0"
-                                                 Grid.ColumnSpan="2"
-                                                 IsHitTestVisible="False"
-                                                 Maximum="1"
-                                                 Minimum="0"
-                                                 Value="{Binding UsageOrder}">
-                                    </ProgressBar>
-
-                                    <Border x:Name="MouseOverBorder"
-                                            BorderBrush="{Binding ProjectBrush}"
-                                            BorderThickness="1"
-                                            Focusable="False"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            IsHitTestVisible="False"
-                                            Opacity="0"
-                                            Visibility="Collapsed">
-                                    </Border>
 
                                     <!--File Icon-->
                                     <Image Focusable="False"
@@ -170,118 +164,7 @@
                                         <TextBlock Text="{Binding DisplayNameHighlight}" Style="{StaticResource HighlightedText}"/>
                                         <TextBlock Text="{Binding DisplayNamePostHighlight}" Style="{StaticResource LowlightedText}"/>
                                     </StackPanel>
-
-                                    <!--Pinned Indicator-->
-                                    <Border x:Name="PinnedIndicator"
-                                            Background="{Binding ProjectBrush}"
-                                            Focusable="False"
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Right"
-                                            IsHitTestVisible="False"
-                                            Margin="0,1,0,1"
-                                            Opacity="0"
-                                            Visibility="Collapsed"
-                                            Width="2">
-                                    </Border>
                                 </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="MouseOverBackground">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="0.1">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="MouseOverBorder">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="0.7">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-
-                                        <Trigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="MouseOverBackground">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="0">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="MouseOverBorder">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="0">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.ExitActions>
-                                    </Trigger>
-
-                                    <DataTrigger Binding="{Binding IsPinned}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="PinnedIndicator">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="1">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard TargetName="PinnedIndicator">
-                                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
-                                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     To="0">
-                                                    </DoubleAnimation>
-
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </controls:DragDropButton.Template>
 
@@ -308,6 +191,18 @@
                         </Button.InputBindings>
                     </controls:DragDropButton>
 
+                    <!--Pinned Indicator-->
+                    <Border x:Name="PinnedIndicator"
+                            Background="{Binding ProjectBrush}"
+                            Focusable="False"
+                            HorizontalAlignment="Right"
+                            IsHitTestVisible="False"
+                            Margin="0,1"
+                            Opacity="0"
+                            Visibility="Collapsed"
+                            Width="2">
+                    </Border>
+                    
                     <!--Mouse-Over Button Panel-->
                     <StackPanel x:Name="DocumentItemCommandButtons"
                                 HorizontalAlignment="Right"
@@ -366,11 +261,67 @@
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="MouseOverBackground">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0.1">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="MouseOverBorder">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0.7">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
                         </Trigger.EnterActions>
 
                         <Trigger.ExitActions>
                             <BeginStoryboard>
                                 <Storyboard TargetName="DocumentItemCommandButtons">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="MouseOverBackground">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="MouseOverBorder">
                                     <DoubleAnimation Duration="{StaticResource AnimationDuration}"
                                                      EasingFunction="{StaticResource TriggerExitEasingFunction}"
                                                      Storyboard.TargetProperty="Opacity"
@@ -395,6 +346,20 @@
                                     </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="PinnedIndicator">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerEnterEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
                         </DataTrigger.EnterActions>
 
                         <DataTrigger.ExitActions>
@@ -404,6 +369,20 @@
                                                      EasingFunction="{StaticResource TriggerExitEasingFunction}"
                                                      To="0">
                                     </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                            <BeginStoryboard>
+                                <Storyboard TargetName="PinnedIndicator">
+                                    <DoubleAnimation Duration="{StaticResource AnimationDuration}"
+                                                     EasingFunction="{StaticResource TriggerExitEasingFunction}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0">
+                                    </DoubleAnimation>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="{StaticResource AnimationDurationKeyTime}" Value="{x:Static Visibility.Collapsed}"/>
+                                    </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
