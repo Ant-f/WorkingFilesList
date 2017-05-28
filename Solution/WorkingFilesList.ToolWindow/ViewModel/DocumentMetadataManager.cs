@@ -224,6 +224,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                         info,
                         _activeDocumentMetadata[i].ActivatedAt);
 
+                    newMetadata.HasWindow = existingMetadata.HasWindow;
                     newMetadata.PinOrder = existingMetadata.PinOrder;
                     _activeDocumentMetadata[i] = newMetadata;
 

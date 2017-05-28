@@ -1222,6 +1222,42 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
         [TestCase(true)]
         [TestCase(false)]
+        public void UpdateFullNameAssignsHasWindow(bool hasWindow)
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder();
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = oldName
+            };
+
+            var oldMetadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                HasWindow = hasWindow
+            };
+
+            collection.Add(oldMetadata);
+
+            // Act
+
+            manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            Assert.That(collection.Count, Is.EqualTo(1));
+            Assert.AreEqual(hasWindow, collection[0].HasWindow);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
         public void SynchronizeUsesNormalizedUsageOrderService(bool setUsageOrder)
         {
             // Arrange
