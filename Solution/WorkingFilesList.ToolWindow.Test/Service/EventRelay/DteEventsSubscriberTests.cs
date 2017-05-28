@@ -165,6 +165,31 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void SubscribesToItemRemoved()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            var projectItem = Mock.Of<ProjectItem>();
+
+            // Act
+
+            mocks.ProjectItemsEventsMock.Raise(p =>
+                p.ItemRemoved += null,
+                projectItem);
+
+            // Assert
+
+            builder.ProjectItemsEventsServiceMock.Verify(p =>
+                p.ItemRemoved(projectItem));
+        }
+
+        [Test]
         public void SubscribesToAfterClosing()
         {
             // Arrange

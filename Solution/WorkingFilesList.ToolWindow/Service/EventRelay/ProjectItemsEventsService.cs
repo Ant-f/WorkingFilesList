@@ -38,6 +38,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             _documentMetadataManager = documentMetadataManager;
         }
 
+        public void ItemRemoved(ProjectItem projectItem)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ItemRenamed(ProjectItem projectItem, string oldName)
         {
             if (projectItem == null)

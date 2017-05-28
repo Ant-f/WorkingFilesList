@@ -65,6 +65,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             _windowEvents.WindowClosing += WindowEventsWindowClosing;
             _windowEvents.WindowCreated += WindowEventsWindowCreated;
             
+            _projectItemsEvents.ItemRemoved += ProjectItemsEventsItemRemoved;
             _projectItemsEvents.ItemRenamed += ProjectItemsEventsItemRenamed;
 
             _solutionEvents.AfterClosing += SolutionEventsAfterClosing;
@@ -85,6 +86,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private void WindowEventsWindowCreated(Window window)
         {
             _windowEventsService.WindowCreated(window);
+        }
+
+        private void ProjectItemsEventsItemRemoved(ProjectItem projectItem)
+        {
+            _projectItemsEventsService.ItemRemoved(projectItem);
         }
 
         private void ProjectItemsEventsItemRenamed(ProjectItem projectItem, string oldName)

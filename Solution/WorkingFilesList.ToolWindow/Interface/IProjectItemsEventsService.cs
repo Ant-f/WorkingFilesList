@@ -21,6 +21,7 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IProjectItemsEventsService
     {
+        void ItemRemoved(ProjectItem projectItem);
         void ItemRenamed(ProjectItem projectItem, string oldName);
     }
 }
