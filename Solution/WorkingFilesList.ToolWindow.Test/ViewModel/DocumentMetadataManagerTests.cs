@@ -254,7 +254,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
-        public void SynchronizeSetsHasWindowFalseForPinnedItemsCorrespondingToRemovedDocuments()
+        public void SynchronizeSetsHasWindowFalseForPinnedItemsCorrespondingToExistingRemovedDocuments()
         {
             // Arrange
 
@@ -262,7 +262,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const string retain = "Retain";
 
             var documentMockList = CreateDocumentList(remove, retain);
-            var documents = CreateDocuments(documentMockList);
+
+            var documents = Mock.Of<Documents>(d =>
+                d.GetEnumerator() == documentMockList.GetEnumerator() &&
+                d.DTE.Solution.FindProjectItem(remove) == Mock.Of<ProjectItem>());
+
             var builder = new DocumentMetadataManagerBuilder();
             var manager = builder.CreateDocumentMetadataManager();
 
@@ -273,7 +277,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Synchronizing with the updated list should remove one item
             var updatedDocumentMockList = CreateDocumentList(retain);
-            var updatedDocuments = CreateDocuments(updatedDocumentMockList);
+
+            var updatedDocuments = Mock.Of<Documents>(d =>
+                d.GetEnumerator() == updatedDocumentMockList.GetEnumerator() &&
+                d.DTE.Solution.FindProjectItem(remove) == Mock.Of<ProjectItem>());
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
@@ -289,7 +296,61 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Assert
 
+            Assert.IsTrue(collection.Contains(removed));
+            Assert.IsTrue(collection.Contains(retained));
+
             Assert.IsFalse(removed.HasWindow);
+            Assert.IsTrue(retained.HasWindow);
+        }
+
+        [Test]
+        public void SynchronizeRemovesPinnedItemsCorrespondingToNonExistentRemovedDocuments()
+        {
+            // Arrange
+
+            const string remove = "Remove";
+            const string retain = "Retain";
+
+            var documentMockList = CreateDocumentList(remove, retain);
+
+            var documents = Mock.Of<Documents>(d =>
+                d.GetEnumerator() == documentMockList.GetEnumerator() &&
+                d.DTE == Mock.Of<DTE>(dte =>
+                    dte.Solution == Mock.Of<Solution>()));
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Synchronize to set two items in the document metadata service
+            // metadata list
+
+            manager.Synchronize(documents, false);
+
+            // Synchronizing with the updated list should remove one item
+            var updatedDocumentMockList = CreateDocumentList(retain);
+
+            var updatedDocuments = Mock.Of<Documents>(d =>
+                d.GetEnumerator() == updatedDocumentMockList.GetEnumerator() &&
+                d.DTE == Mock.Of<DTE>(dte =>
+                    dte.Solution == Mock.Of<Solution>()));
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var removed = collection.Single(m => m.FullName == remove);
+            manager.TogglePinnedStatus(removed);
+
+            var retained = collection.Single(m => m.FullName == retain);
+
+            // Act
+
+            manager.Synchronize(updatedDocuments, false);
+
+            // Assert
+
+            Assert.IsFalse(collection.Contains(removed));
+            Assert.IsTrue(collection.Contains(retained));
+
             Assert.IsTrue(retained.HasWindow);
         }
 

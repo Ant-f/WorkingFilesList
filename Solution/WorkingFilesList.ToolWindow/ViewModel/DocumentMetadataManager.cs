@@ -292,17 +292,27 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
-                var removeMetadata = documentsInfoSet.All(info =>
-                    !_documentMetadataEqualityService.Compare(
+                var foundInDocumentInfoSet = documentsInfoSet.Any(info =>
+                    _documentMetadataEqualityService.Compare(
                         info, _activeDocumentMetadata[i]));
 
-                if (removeMetadata)
+                if (!foundInDocumentInfoSet)
                 {
+                    var removeMetadata = true;
+
                     if (_activeDocumentMetadata[i].IsPinned)
                     {
-                        _activeDocumentMetadata[i].HasWindow = false;
+                        var foundInSolution = documents.DTE.Solution.FindProjectItem(
+                            _activeDocumentMetadata[i].FullName) != null;
+
+                        if (foundInSolution)
+                        {
+                            _activeDocumentMetadata[i].HasWindow = false;
+                            removeMetadata = false;
+                        }
                     }
-                    else
+
+                    if (removeMetadata)
                     {
                         _activeDocumentMetadata.RemoveAt(i);
                         i--;
