@@ -38,20 +38,21 @@ namespace WorkingFilesList.ToolWindow.Service
         /// Find the existing <see cref="ProjectItem"/> associated with the
         /// provided file name
         /// </summary>
-        /// <param name="fullName">Full file name of item to find</param>
+        /// <param name="itemName">Name of project item to find</param>
         /// <returns>
         /// The <see cref="ProjectItem"/> associated with the provided file name,
         /// if it exists, and the actual file it references exists
         /// </returns>
-        public ProjectItem FindProjectItem(string fullName)
+        public ProjectItem FindProjectItem(string itemName)
         {
             // Method is difficult to unit test: File.Exists cannot be mocked
 
             ProjectItem itemToReturn = null;
-            var projectItem = _dte2.Solution.FindProjectItem(fullName);
+            var projectItem = _dte2.Solution.FindProjectItem(itemName);
 
             if (projectItem != null)
             {
+                var fullName = projectItem.FileNames[1];
                 var exists = File.Exists(fullName);
 
                 if (exists)

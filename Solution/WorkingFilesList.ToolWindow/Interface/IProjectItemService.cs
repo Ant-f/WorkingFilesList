@@ -21,6 +21,6 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IProjectItemService
     {
-        ProjectItem FindProjectItem(string fullName);
+        ProjectItem FindProjectItem(string itemName);
     }
 }
