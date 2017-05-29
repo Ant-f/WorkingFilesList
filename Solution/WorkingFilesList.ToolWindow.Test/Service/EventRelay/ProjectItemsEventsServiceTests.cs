@@ -131,7 +131,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
         [TestCase(false)]
         [TestCase(true)]
-        public void MetadataIsSynchronizedIfRenamingDocumentFails(bool renameSuccess)
+        public void MetadataIsSynchronizedDependingOnRenamingItemSuccess(bool renameSuccess)
         {
             // Arrange
 
@@ -160,6 +160,38 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 : Times.Once();
 
             Mock.Get(metadataManager).Verify(m => m.Synchronize(documents, true), times);
+        }
+
+        [Test]
+        public void MetadataIsSynchronizedIfRenamingDocumentFails()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+
+            metadataManagerMock
+                .Setup(m => m.UpdateFullName(
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                .Throws<Exception>();
+
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+            var documents = Mock.Of<Documents>();
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Document == Mock.Of<Document>(d =>
+                    d.FullName == "NewName") &&
+                p.DTE == Mock.Of<DTE>(d => d.Documents == documents) &&
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFile));
+
+            // Act, Assert
+
+            Assert.DoesNotThrow(() =>
+                service.ItemRenamed(projectItem, "OldName"));
+
+            metadataManagerMock.Verify(m =>
+                m.Synchronize(documents, true),
+                Times.Once);
         }
 
         [Test]

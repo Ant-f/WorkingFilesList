@@ -65,9 +65,18 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                     ? Path.Combine(directoryName, oldName)
                     : oldName;
 
-                var updated = _documentMetadataManager.UpdateFullName(
-                    projectItem.Document.FullName,
-                    oldFullName);
+                bool updated;
+
+                try
+                {
+                    updated = _documentMetadataManager.UpdateFullName(
+                        projectItem.Document.FullName,
+                        oldFullName);
+                }
+                catch (Exception)
+                {
+                    updated = false;
+                }
 
                 if (!updated)
                 {
