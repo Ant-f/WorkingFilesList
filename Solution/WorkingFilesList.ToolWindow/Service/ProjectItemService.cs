@@ -22,6 +22,9 @@ using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
+    // ReSharper disable ClassNeverInstantiated.Global
+    // Class is bound in singleton scope in IoC
+
     public class ProjectItemService : IProjectItemService
     {
         private readonly DTE2 _dte2;
@@ -60,4 +63,6 @@ namespace WorkingFilesList.ToolWindow.Service
             return itemToReturn;
         }
     }
+
+    // ReSharper restore ClassNeverInstantiated.Global
 }
