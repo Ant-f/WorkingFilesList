@@ -195,13 +195,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <param name="oldName">
         /// Full path and name of the document file that was renamed
         /// </param>
-        public void UpdateFullName(string newName, string oldName)
+        /// <returns>true if a metadata item was updated, false otherwise</returns>
+        public bool UpdateFullName(string newName, string oldName)
         {
+            var match = false;
+
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
                 var existingMetadata = _activeDocumentMetadata[i];
 
-                var match = string.CompareOrdinal(
+                match = string.CompareOrdinal(
                     existingMetadata.FullName,
                     oldName) == 0;
 
@@ -233,6 +236,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                     break;
                 }
             }
+
+            return match;
         }
 
         /// <summary>

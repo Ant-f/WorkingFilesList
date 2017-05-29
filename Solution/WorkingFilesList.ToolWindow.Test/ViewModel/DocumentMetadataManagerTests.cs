@@ -1415,6 +1415,62 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void UpdateFullNameReturnsFalseIfMetadataNotUpdated()
+        {
+            // Arrange
+
+            var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(true);
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factory
+            };
+
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+            var documentMockList = CreateDocumentList();
+            var documents = CreateDocuments(documentMockList);
+            manager.Synchronize(documents, false);
+
+            // Act
+
+            var updated = manager.UpdateFullName("NewName", "NonExistentName");
+
+            // Assert
+
+            Assert.IsFalse(updated);
+        }
+
+        [Test]
+        public void UpdateFullNameReturnsTrueIfMetadataUpdated()
+        {
+            // Arrange
+
+            const string oldName = "OldName";
+
+            var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(true);
+
+            var metadataManagerBuilder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factory
+            };
+
+            var manager = metadataManagerBuilder.CreateDocumentMetadataManager();
+            var documentMockList = CreateDocumentList(oldName);
+            var documents = CreateDocuments(documentMockList);
+            manager.Synchronize(documents, false);
+
+            // Act
+
+            var updated = manager.UpdateFullName("NewName", oldName);
+
+            // Assert
+
+            Assert.IsTrue(updated);
+        }
+
+        [Test]
         public void AlreadyActiveDocumentIsNotReactivated()
         {
             // Arrange

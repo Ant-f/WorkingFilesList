@@ -65,9 +65,16 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                     ? Path.Combine(directoryName, oldName)
                     : oldName;
 
-                _documentMetadataManager.UpdateFullName(
+                var updated = _documentMetadataManager.UpdateFullName(
                     projectItem.Document.FullName,
                     oldFullName);
+
+                if (!updated)
+                {
+                    _documentMetadataManager.Synchronize(
+                        projectItem.DTE.Documents,
+                        true);
+                }
             }
             else if (IsKind(projectItem, VSConstants.GUID_ItemType_PhysicalFolder))
             {
@@ -79,8 +86,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         
         private static bool IsKind(ProjectItem item, Guid typeGuid)
         {
-            Guid itemKindGuid;
-            var success = Guid.TryParse(item.Kind, out itemKindGuid);
+            var success = Guid.TryParse(item.Kind, out Guid itemKindGuid);
             var isMatch = success && itemKindGuid == typeGuid;
             return isMatch;
         }

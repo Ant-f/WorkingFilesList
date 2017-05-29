@@ -61,8 +61,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         {
             // Arrange
 
-            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
-            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+            var metadataManager = Mock.Of<IDocumentMetadataManager>(m =>
+                m.UpdateFullName(
+                    It.IsAny<string>(),
+                    It.IsAny<string>()) == true);
+
+            var service = new ProjectItemsEventsService(metadataManager);
 
             var projectItem = Mock.Of<ProjectItem>(p =>
                 p.Document == Mock.Of<Document>(d =>
@@ -75,7 +79,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.UpdateFullName(
+            Mock.Get(metadataManager).Verify(m => m.UpdateFullName(
                 It.IsAny<string>(),
                 It.IsAny<string>()));
         }
@@ -125,6 +129,39 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 Times.Never);
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void MetadataIsSynchronizedIfRenamingDocumentFails(bool renameSuccess)
+        {
+            // Arrange
+
+            var metadataManager = Mock.Of<IDocumentMetadataManager>(m =>
+                m.UpdateFullName(
+                    It.IsAny<string>(),
+                    It.IsAny<string>()) == renameSuccess);
+
+            var service = new ProjectItemsEventsService(metadataManager);
+            var documents = Mock.Of<Documents>();
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.Document == Mock.Of<Document>(d =>
+                    d.FullName == "NewName") &&
+                p.DTE == Mock.Of<DTE>(d => d.Documents == documents) &&
+                p.Kind == CreateKindString(VSConstants.GUID_ItemType_PhysicalFile));
+
+            // Act
+
+            service.ItemRenamed(projectItem, "OldName");
+
+            // Assert
+
+            var times = renameSuccess
+                ? Times.Never()
+                : Times.Once();
+
+            Mock.Get(metadataManager).Verify(m => m.Synchronize(documents, true), times);
+        }
+
         [Test]
         public void OldNameIsConverterToFullName()
         {
@@ -137,8 +174,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             const string newFullName = path + newFileName;
             const string expectedOldName = path + oldFileName;
 
-            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
-            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+            var metadataManager = Mock.Of<IDocumentMetadataManager>(m =>
+                m.UpdateFullName(
+                    It.IsAny<string>(),
+                    It.IsAny<string>()) == true);
+
+            var service = new ProjectItemsEventsService(metadataManager);
 
             var projectItem = Mock.Of<ProjectItem>(p =>
                 p.Document == Mock.Of<Document>(d =>
@@ -151,7 +192,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             // Assert
 
-            metadataManagerMock.Verify(m => m.UpdateFullName(
+            Mock.Get(metadataManager).Verify(m => m.UpdateFullName(
                 newFullName,
                 expectedOldName));
         }
