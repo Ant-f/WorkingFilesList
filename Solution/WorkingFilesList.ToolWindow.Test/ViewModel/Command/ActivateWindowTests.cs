@@ -106,5 +106,52 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
 
             dteMock.Verify(d => d.Documents, Times.Never);
         }
+
+        [Test]
+        public void ExecuteFindsProjectItemAndOpensWindowIfNoDocumentWindowExists()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "DocumentName"
+            };
+
+            var window = Mock.Of<Window>();
+            var windowsMock = CreateWindows(new List<Window>());
+            var documentMockList = new List<Document>
+            {
+                Mock.Of<Document>(d =>
+                    d.FullName == info.FullName &&
+                    d.Windows == windowsMock)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+
+            var solution = Mock.Of<Solution>(s =>
+                s.FindProjectItem(info.FullName) == Mock.Of<ProjectItem>(p =>
+                    p.Open(Constants.vsViewKindPrimary) == window));
+
+            var dte2 = Mock.Of<DTE2>(d =>
+                d.Documents == documents &&
+                d.Solution == solution);
+
+            var builder = new DocumentMetadataFactoryBuilder();
+            var factory = builder.CreateDocumentMetadataFactory(true);
+            var metadata = factory.Create(info);
+
+            var command = new ActivateWindow(dte2);
+
+            // Act
+
+            command.Execute(metadata);
+
+            // Assert
+
+            Mock.Get(solution).Verify(s =>
+                s.FindProjectItem(info.FullName));
+
+            Mock.Get(window).Verify(w => w.Activate());
+        }
     }
 }

@@ -51,6 +51,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
                 return;
             }
 
+            Window window = null;
+
             foreach (var itm in _dte2.Documents)
             {
                 var document = (Document) itm;
@@ -64,13 +66,20 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
                     var enumerator = document.Windows.GetEnumerator();
                     if (enumerator.MoveNext())
                     {
-                        var window = (Window) enumerator.Current;
-                        window.Activate();
+                        window = (Window)enumerator.Current;
                     }
-                    
+
                     break;
                 }
             }
+
+            if (window == null)
+            {
+                var item = _dte2.Solution.FindProjectItem(metadata.FullName);
+                window = item?.Open();
+            }
+
+            window?.Activate();
         }
     }
 }
