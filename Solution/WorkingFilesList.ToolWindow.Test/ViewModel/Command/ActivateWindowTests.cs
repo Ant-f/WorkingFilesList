@@ -20,6 +20,7 @@ using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
@@ -152,6 +153,55 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
                 s.FindProjectItem(info.FullName));
 
             Mock.Get(window).Verify(w => w.Activate());
+        }
+
+        [Test]
+        public void ExecuteDoesNotThrowExceptionIfFileNotFound()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "DocumentName"
+            };
+
+            var windowsMock = CreateWindows(new List<Window>());
+            var documentMockList = new List<Document>
+            {
+                Mock.Of<Document>(d =>
+                    d.FullName == info.FullName &&
+                    d.Windows == windowsMock)
+            };
+
+            var documents = CreateDocuments(documentMockList);
+            var projectItemMock = new Mock<ProjectItem>();
+
+            projectItemMock
+                .Setup(p => p.Open(It.IsAny<string>()))
+                .Throws(new IOException());
+
+            var solution = Mock.Of<Solution>(s =>
+                s.FindProjectItem(info.FullName) == projectItemMock.Object);
+
+            var dte2 = Mock.Of<DTE2>(d =>
+                d.Documents == documents &&
+                d.Solution == solution);
+
+            var builder = new DocumentMetadataFactoryBuilder();
+            var factory = builder.CreateDocumentMetadataFactory(true);
+            var metadata = factory.Create(info);
+
+            var command = new ActivateWindow(dte2);
+
+            // Act, Assert
+
+            Assert.DoesNotThrow(() => command.Execute(metadata));
+
+            Mock.Get(solution).Verify(s =>
+                s.FindProjectItem(info.FullName));
+
+            projectItemMock.Verify(p =>
+                p.Open(It.IsAny<string>()));
         }
     }
 }

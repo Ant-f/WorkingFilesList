@@ -18,6 +18,7 @@
 using EnvDTE;
 using EnvDTE80;
 using System;
+using System.IO;
 using System.Windows.Input;
 using WorkingFilesList.Core.Model;
 
@@ -76,7 +77,17 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
             if (window == null)
             {
                 var item = _dte2.Solution.FindProjectItem(metadata.FullName);
-                window = item?.Open();
+
+                try
+                {
+                    window = item?.Open();
+                }
+                catch (IOException)
+                {
+                    // IOException can be thrown if trying to open item that
+                    // appears to exist in Solution Explorer, but has been moved
+                    // by an external application
+                }
             }
 
             window?.Activate();
