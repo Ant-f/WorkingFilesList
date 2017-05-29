@@ -262,10 +262,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             const string retain = "Retain";
 
             var documentMockList = CreateDocumentList(remove, retain);
-
-            var documents = Mock.Of<Documents>(d =>
-                d.GetEnumerator() == documentMockList.GetEnumerator() &&
-                d.DTE.Solution.FindProjectItem(remove) == Mock.Of<ProjectItem>());
+            var documents = CreateDocuments(documentMockList);
 
             var builder = new DocumentMetadataManagerBuilder();
 
@@ -281,11 +278,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             manager.Synchronize(documents, false);
 
             // Synchronizing with the updated list should remove one item
-            var updatedDocumentMockList = CreateDocumentList(retain);
-
-            var updatedDocuments = Mock.Of<Documents>(d =>
-                d.GetEnumerator() == updatedDocumentMockList.GetEnumerator() &&
-                d.DTE.Solution.FindProjectItem(remove) == Mock.Of<ProjectItem>());
+            var updatedDocumentList = CreateDocumentList(retain);
+            var updatedDocuments = CreateDocuments(updatedDocumentList);
 
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;

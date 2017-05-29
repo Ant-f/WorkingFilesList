@@ -43,7 +43,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             var closeDocument = new CloseDocument(Mock.Of<DTE2>());
 
             var openTestFile = new OpenTestFile(
-                Mock.Of<DTE2>(),
+                Mock.Of<IProjectItemService>(),
                 Mock.Of<ITestFileNameEvaluator>());
 
             var openOptionsPage = new OpenOptionsPage();
