@@ -127,6 +127,7 @@
     <Compile Include="Interface\IPathCasingRestorer.cs" />
     <Compile Include="Interface\IProjectBrushes.cs" />
     <Compile Include="Interface\IProjectBrushService.cs" />
+    <Compile Include="Interface\IProjectItemService.cs" />
     <Compile Include="Interface\IProjectItemsEventsService.cs" />
     <Compile Include="Interface\ISettingsStoreService.cs" />
     <Compile Include="Interface\ITestFileNameEvaluator.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
+    <Compile Include="Service\ProjectItemService.cs" />
     <Compile Include="Service\SettingsStoreService.cs" />
     <Compile Include="Service\TestFileNameEvaluator.cs" />
     <Compile Include="ViewModel\Command\ToggleIsPinned.cs" />

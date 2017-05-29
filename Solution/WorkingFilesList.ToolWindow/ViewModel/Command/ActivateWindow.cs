@@ -20,22 +20,31 @@ using EnvDTE80;
 using System;
 using System.IO;
 using System.Windows.Input;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel.Command
 {
     public class ActivateWindow : ICommand
     {
         private readonly DTE2 _dte2;
+        private readonly IDocumentMetadataManager _documentMetadataManager;
+        private readonly IProjectItemService _projectItemService;
 
         #pragma warning disable 67
         // ICommand interface member is only used by XAML
         public event EventHandler CanExecuteChanged;
         #pragma warning restore 67
 
-        public ActivateWindow(DTE2 dte2)
+        public ActivateWindow(
+            DTE2 dte2,
+            IDocumentMetadataManager documentMetadataManager,
+            IProjectItemService projectItemService)
         {
             _dte2 = dte2;
+            _documentMetadataManager = documentMetadataManager;
+            _projectItemService = projectItemService;
         }
 
         public bool CanExecute(object parameter)
@@ -76,21 +85,18 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
 
             if (window == null)
             {
-                var item = _dte2.Solution.FindProjectItem(metadata.FullName);
-
-                try
-                {
-                    window = item?.Open();
-                }
-                catch (IOException)
-                {
-                    // IOException can be thrown if trying to open item that
-                    // appears to exist in Solution Explorer, but has been moved
-                    // by an external application
-                }
+                var item = _projectItemService.FindProjectItem(metadata.FullName);
+                window = item?.Open();
             }
 
-            window?.Activate();
+            if (window == null)
+            {
+                _documentMetadataManager.Synchronize(_dte2.Documents, true);
+            }
+            else
+            {
+                window.Activate();
+            }
         }
     }
 }

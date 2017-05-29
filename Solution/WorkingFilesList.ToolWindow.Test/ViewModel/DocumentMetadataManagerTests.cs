@@ -268,6 +268,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 d.DTE.Solution.FindProjectItem(remove) == Mock.Of<ProjectItem>());
 
             var builder = new DocumentMetadataManagerBuilder();
+
+            builder.ProjectItemServiceMock
+                .Setup(p => p.FindProjectItem(It.IsAny<string>()))
+                .Returns(Mock.Of<ProjectItem>());
+
             var manager = builder.CreateDocumentMetadataManager();
 
             // Synchronize to set two items in the document metadata service
@@ -1074,7 +1079,56 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     (IList<DocumentMetadata>) metadataCollection,
                     It.IsAny<IUserPreferences>()));
         }
-        
+
+        [Test]
+        public void ActivateAssignsUsageOrderAfterRemovingMetadataForSameItem()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "DocumentName"
+            };
+
+            var generatorMock = new Mock<ICollectionViewGenerator>
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var mappingTable = new Dictionary<string, IEnumerable<IUpdateReaction>>();
+            var mapping = new TestingUpdateReactionMapping(mappingTable);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = generatorMock.Object,
+                UpdateReactionMapping = mapping
+            };
+
+            // add item and activate for the first time
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+            manager.Activate(info.FullName);
+
+            // remove item
+            var emptyDocuments = CreateDocuments(new List<Document>());
+            manager.Synchronize(emptyDocuments, false);
+
+            // add item again
+            manager.Add(info);
+            builder.NormalizedUsageOrderServiceMock.ResetCalls();
+
+            // Act
+
+            manager.Activate(info.FullName);
+
+            // Assert
+
+            builder.NormalizedUsageOrderServiceMock
+                .Verify(n => n.SetUsageOrder(
+                    It.IsAny<IList<DocumentMetadata>>(),
+                    It.IsAny<IUserPreferences>()));
+        }
+
         [Test]
         public void UpdateFullNameMatchesOldNameWithFullName()
         {

@@ -21,7 +21,9 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
@@ -31,12 +33,25 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
     [TestFixture]
     public class ActivateWindowTests
     {
+        private static ActivateWindow CreateActivateWindow(
+            DTE2 dte2 = null,
+            IDocumentMetadataManager documentMetadataManager = null,
+            IProjectItemService projectItemService = null)
+        {
+            var command = new ActivateWindow(
+                dte2 ?? Mock.Of<DTE2>(),
+                documentMetadataManager ?? Mock.Of<IDocumentMetadataManager>(),
+                projectItemService ?? Mock.Of<IProjectItemService>());
+
+            return command;
+        }
+
         [Test]
         public void CanExecuteReturnsTrue()
         {
             // Arrange
 
-            var command = new ActivateWindow(Mock.Of<DTE2>());
+            var command = CreateActivateWindow();
 
             // Act
 
@@ -78,7 +93,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
             var factory = builder.CreateDocumentMetadataFactory(true);
             var metadata = factory.Create(info);
 
-            var command = new ActivateWindow(dte2);
+            var command = CreateActivateWindow(dte2);
 
             // Act
 
@@ -97,7 +112,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
             var dteMock = new Mock<DTE2>();
             dteMock.Setup(d => d.Documents).Returns<Documents>(null);
 
-            var command = new ActivateWindow(dteMock.Object);
+            var command = CreateActivateWindow(dteMock.Object);
 
             // Act
 
@@ -129,19 +144,20 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
 
             var documents = CreateDocuments(documentMockList);
 
-            var solution = Mock.Of<Solution>(s =>
-                s.FindProjectItem(info.FullName) == Mock.Of<ProjectItem>(p =>
-                    p.Open(Constants.vsViewKindPrimary) == window));
-
-            var dte2 = Mock.Of<DTE2>(d =>
-                d.Documents == documents &&
-                d.Solution == solution);
-
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
             var metadata = factory.Create(info);
 
-            var command = new ActivateWindow(dte2);
+            var dte2 = Mock.Of<DTE2>(d =>
+                d.Documents == documents);
+
+            var projectItemService = Mock.Of<IProjectItemService>(s =>
+                s.FindProjectItem(info.FullName) == Mock.Of<ProjectItem>(p =>
+                    p.Open(Constants.vsViewKindPrimary) == window));
+
+            var command = CreateActivateWindow(
+                dte2: dte2,
+                projectItemService: projectItemService);
 
             // Act
 
@@ -149,14 +165,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
 
             // Assert
 
-            Mock.Get(solution).Verify(s =>
+            Mock.Get(projectItemService).Verify(s =>
                 s.FindProjectItem(info.FullName));
 
             Mock.Get(window).Verify(w => w.Activate());
         }
 
         [Test]
-        public void ExecuteDoesNotThrowExceptionIfFileNotFound()
+        public void ExecuteSynchronizesDocumentsIfNoWindowActivated()
         {
             // Arrange
 
@@ -165,43 +181,28 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
                 FullName = "DocumentName"
             };
 
-            var windowsMock = CreateWindows(new List<Window>());
-            var documentMockList = new List<Document>
-            {
-                Mock.Of<Document>(d =>
-                    d.FullName == info.FullName &&
-                    d.Windows == windowsMock)
-            };
-
+            var documentMockList = new List<Document>();
             var documents = CreateDocuments(documentMockList);
-            var projectItemMock = new Mock<ProjectItem>();
-
-            projectItemMock
-                .Setup(p => p.Open(It.IsAny<string>()))
-                .Throws(new IOException());
-
-            var solution = Mock.Of<Solution>(s =>
-                s.FindProjectItem(info.FullName) == projectItemMock.Object);
 
             var dte2 = Mock.Of<DTE2>(d =>
                 d.Documents == documents &&
-                d.Solution == solution);
+                d.Solution == Mock.Of<Solution>());
 
             var builder = new DocumentMetadataFactoryBuilder();
             var factory = builder.CreateDocumentMetadataFactory(true);
             var metadata = factory.Create(info);
 
-            var command = new ActivateWindow(dte2);
+            var documentMetadataManager = Mock.Of<IDocumentMetadataManager>();
+            var command = CreateActivateWindow(dte2, documentMetadataManager);
 
-            // Act, Assert
+            // Act
 
-            Assert.DoesNotThrow(() => command.Execute(metadata));
+            command.Execute(metadata);
 
-            Mock.Get(solution).Verify(s =>
-                s.FindProjectItem(info.FullName));
+            // Assert
 
-            projectItemMock.Verify(p =>
-                p.Open(It.IsAny<string>()));
+            Mock.Get(documentMetadataManager).Verify(d =>
+                d.Synchronize(documents, true));
         }
     }
 }

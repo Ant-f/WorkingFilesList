@@ -35,7 +35,11 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             // Arrange
 
-            var activateWindow = new ActivateWindow(Mock.Of<DTE2>());
+            var activateWindow = new ActivateWindow(
+                Mock.Of<DTE2>(),
+                Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IProjectItemService>());
+
             var closeDocument = new CloseDocument(Mock.Of<DTE2>());
 
             var openTestFile = new OpenTestFile(

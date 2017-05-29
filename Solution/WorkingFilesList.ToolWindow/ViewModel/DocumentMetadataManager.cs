@@ -33,16 +33,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IDocumentMetadataEqualityService _documentMetadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
+        private readonly IProjectItemService _projectItemService;
         private readonly ITimeProvider _timeProvider;
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
-
-        /// <summary>
-        /// Full name of the document file last activated, i.e. the single
-        /// <see cref="DocumentMetadata"/> in <see cref="_activeDocumentMetadata"/>
-        /// for which <see cref="DocumentMetadata.IsActive"/> is true
-        /// </summary>
-        private string _activatedDocument;
 
         public ICollectionView ActiveDocumentMetadata { get; }
         public ICollectionView PinnedDocumentMetadata { get; }
@@ -52,6 +46,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             IDocumentMetadataEqualityService documentMetadataEqualityService,
             IDocumentMetadataFactory documentMetadataFactory,
             INormalizedUsageOrderService normalizedUsageOrderService,
+            IProjectItemService projectItemService,
             ITimeProvider timeProvider,
             IUpdateReactionManager updateReactionManager,
             IUserPreferences userPreferences)
@@ -65,6 +60,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _documentMetadataEqualityService = documentMetadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
             _normalizedUsageOrderService = normalizedUsageOrderService;
+            _projectItemService = projectItemService;
             _timeProvider = timeProvider;
             _userPreferences = userPreferences;
 
@@ -147,7 +143,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// <param name="fullName">Full path and name of document file</param>
         public void Activate(string fullName)
         {
-            if (fullName == _activatedDocument)
+            var activatedDocument = _activeDocumentMetadata.FirstOrDefault(m =>
+                m.IsActive)?.FullName;
+
+            if (fullName == activatedDocument)
             {
                 return;
             }
@@ -160,7 +159,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 if (metadata.IsActive)
                 {
-                    _activatedDocument = metadata.FullName;
                     var utcNow = _timeProvider.UtcNow;
                     metadata.ActivatedAt = utcNow;
                     activated = true;
@@ -303,10 +301,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                     if (_activeDocumentMetadata[i].IsPinned)
                     {
-                        var foundInSolution = documents.DTE.Solution.FindProjectItem(
+                        var exists = _projectItemService.FindProjectItem(
                             _activeDocumentMetadata[i].FullName) != null;
 
-                        if (foundInSolution)
+                        if (exists)
                         {
                             _activeDocumentMetadata[i].HasWindow = false;
                             removeMetadata = false;

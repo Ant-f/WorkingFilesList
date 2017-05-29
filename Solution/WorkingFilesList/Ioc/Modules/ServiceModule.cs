@@ -40,6 +40,7 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
             Kernel.Bind<IProcessStarter>().To<ProcessStarter>().InSingletonScope();
             Kernel.Bind<IProjectBrushService>().To<ProjectBrushService>().InSingletonScope();
+            Kernel.Bind<IProjectItemService>().To<ProjectItemService>().InSingletonScope();
             Kernel.Bind<IProjectItemsEventsService>().To<ProjectItemsEventsService>().InSingletonScope();
             Kernel.Bind<ISettingsStoreService>().To<SettingsStoreService>().InSingletonScope();
             Kernel.Bind<ISolutionEventsService>().To<SolutionEventsService>().InSingletonScope();

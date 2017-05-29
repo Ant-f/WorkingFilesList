@@ -54,6 +54,9 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public Mock<INormalizedUsageOrderService> NormalizedUsageOrderServiceMock { get; }
             = new Mock<INormalizedUsageOrderService>();
 
+        public Mock<IProjectItemService> ProjectItemServiceMock { get; }
+            = new Mock<IProjectItemService>();
+
         public Mock<ITimeProvider> TimeProviderMock { get; }
             = new Mock<ITimeProvider>();
 
@@ -122,6 +125,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
                 DocumentMetadataEqualityService ?? new DocumentMetadataEqualityService(),
                 DocumentMetadataFactory,
                 NormalizedUsageOrderServiceMock.Object,
+                ProjectItemServiceMock.Object,
                 TimeProviderMock.Object,
                 UpdateReactionManager,
                 UserPreferences);
