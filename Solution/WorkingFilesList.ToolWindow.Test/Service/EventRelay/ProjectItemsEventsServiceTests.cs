@@ -35,6 +35,28 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void RemovingItemSynchronizesDocumentMetadata()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new ProjectItemsEventsService(metadataManagerMock.Object);
+            var documents = Mock.Of<Documents>();
+
+            var projectItem = Mock.Of<ProjectItem>(p =>
+                p.DTE == Mock.Of<DTE>(dte =>
+                    dte.Documents == documents));
+
+            // Act
+
+            service.ItemRemoved(projectItem);
+
+            // Assert
+
+            metadataManagerMock.Verify(m => m.Synchronize(documents, true));
+        }
+
+        [Test]
         public void RenamingDocumentCallsDocumentMetadataManager()
         {
             // Arrange

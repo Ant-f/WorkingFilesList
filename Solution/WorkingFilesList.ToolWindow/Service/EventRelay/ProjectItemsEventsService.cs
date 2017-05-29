@@ -40,7 +40,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
         public void ItemRemoved(ProjectItem projectItem)
         {
-            throw new NotImplementedException();
+            _documentMetadataManager.Synchronize(projectItem.DTE.Documents, true);
         }
 
         public void ItemRenamed(ProjectItem projectItem, string oldName)
