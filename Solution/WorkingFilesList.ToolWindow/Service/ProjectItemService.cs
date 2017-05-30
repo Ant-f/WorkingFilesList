@@ -17,21 +17,21 @@
 
 using EnvDTE;
 using EnvDTE80;
-using System.IO;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.Service
 {
-    // ReSharper disable ClassNeverInstantiated.Global
-    // Class is bound in singleton scope in IoC
-
     public class ProjectItemService : IProjectItemService
     {
         private readonly DTE2 _dte2;
+        private readonly IFileExistenceChecker _fileExistenceChecker;
 
-        public ProjectItemService(DTE2 dte2)
+        public ProjectItemService(
+            DTE2 dte2,
+            IFileExistenceChecker fileExistenceChecker)
         {
             _dte2 = dte2;
+            _fileExistenceChecker = fileExistenceChecker;
         }
 
         /// <summary>
@@ -45,15 +45,13 @@ namespace WorkingFilesList.ToolWindow.Service
         /// </returns>
         public ProjectItem FindProjectItem(string itemName)
         {
-            // Method is difficult to unit test: File.Exists cannot be mocked
-
             ProjectItem itemToReturn = null;
             var projectItem = _dte2.Solution.FindProjectItem(itemName);
 
             if (projectItem != null)
             {
                 var fullName = projectItem.FileNames[1];
-                var exists = File.Exists(fullName);
+                var exists = _fileExistenceChecker.FileExists(fullName);
 
                 if (exists)
                 {
@@ -64,6 +62,4 @@ namespace WorkingFilesList.ToolWindow.Service
             return itemToReturn;
         }
     }
-
-    // ReSharper restore ClassNeverInstantiated.Global
 }

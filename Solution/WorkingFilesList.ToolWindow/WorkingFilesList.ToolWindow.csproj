@@ -122,6 +122,7 @@
     <Compile Include="Interface\IDocumentMetadataEqualityService.cs" />
     <Compile Include="Interface\IDocumentMetadataFactory.cs" />
     <Compile Include="Interface\IDteEventsSubscriber.cs" />
+    <Compile Include="Interface\IFileExistenceChecker.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
     <Compile Include="Interface\INormalizedUsageOrderService.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Service\DocumentMetadataEqualityService.cs" />
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
+    <Compile Include="Service\FileExistenceChecker.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="Service\ProjectItemService.cs" />
     <Compile Include="Service\SettingsStoreService.cs" />
