@@ -22,5 +22,6 @@ namespace WorkingFilesList.ToolWindow.Interface
     public interface IDocumentMetadataEqualityService
     {
         bool Compare(DocumentMetadataInfo info, DocumentMetadata metadata);
+        bool Compare(string name1, string name2);
     }
 }

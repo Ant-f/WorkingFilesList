@@ -30,7 +30,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
         private readonly ICollectionViewGenerator _collectionViewGenerator;
-        private readonly IDocumentMetadataEqualityService _documentMetadataEqualityService;
+        private readonly IDocumentMetadataEqualityService _metadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
         private readonly IProjectItemService _projectItemService;
@@ -43,7 +43,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
-            IDocumentMetadataEqualityService documentMetadataEqualityService,
+            IDocumentMetadataEqualityService metadataEqualityService,
             IDocumentMetadataFactory documentMetadataFactory,
             INormalizedUsageOrderService normalizedUsageOrderService,
             IProjectItemService projectItemService,
@@ -57,7 +57,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             ActiveDocumentMetadata = InitializeActiveDocumentMetadata();
             PinnedDocumentMetadata = InitializePinnedDocumentMetadata();
 
-            _documentMetadataEqualityService = documentMetadataEqualityService;
+            _metadataEqualityService = metadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;
             _normalizedUsageOrderService = normalizedUsageOrderService;
             _projectItemService = projectItemService;
@@ -122,7 +122,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         public void Add(DocumentMetadataInfo info)
         {
             var metadata = _activeDocumentMetadata.FirstOrDefault(m =>
-                _documentMetadataEqualityService.Compare(info, m));
+                _metadataEqualityService.Compare(info, m));
 
             if (metadata == null)
             {
@@ -155,7 +155,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             foreach (var metadata in _activeDocumentMetadata)
             {
-                metadata.IsActive = string.CompareOrdinal(metadata.FullName, fullName) == 0;
+                metadata.IsActive = _metadataEqualityService.Compare(
+                    metadata.FullName,
+                    fullName);
 
                 if (metadata.IsActive)
                 {
@@ -204,9 +206,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             {
                 var existingMetadata = _activeDocumentMetadata[i];
 
-                match = string.CompareOrdinal(
+                match = _metadataEqualityService.Compare(
                     existingMetadata.FullName,
-                    oldName) == 0;
+                    oldName);
 
                 if (match)
                 {
@@ -297,7 +299,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             for (int i = 0; i < _activeDocumentMetadata.Count; i++)
             {
                 var foundInDocumentInfoSet = documentsInfoSet.Any(info =>
-                    _documentMetadataEqualityService.Compare(
+                    _metadataEqualityService.Compare(
                         info, _activeDocumentMetadata[i]));
 
                 if (!foundInDocumentInfoSet)

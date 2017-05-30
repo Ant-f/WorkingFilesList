@@ -48,6 +48,37 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             Assert.IsTrue(isEqual);
         }
 
+        [Test]
+        public void ComparePerformsCaseInsensitiveMatchForInfoProperties()
+        {
+            // Arrange
+
+            var infoLower = new DocumentMetadataInfo
+            {
+                FullName = "fullname",
+                ProjectDisplayName = "projectdisplayname",
+                ProjectFullName = "projectfullname"
+            };
+
+            var infoUpper = new DocumentMetadataInfo
+            {
+                FullName = "FULLNAME",
+                ProjectDisplayName = "PROJECTDISPLAYNAME",
+                ProjectFullName = "PROJECTFULLNAME"
+            };
+
+            var metadata = new DocumentMetadata(infoLower, null, null);
+            var service = new DocumentMetadataEqualityService();
+
+            // Act
+
+            var isEqual = service.Compare(infoUpper, metadata);
+
+            // Assert
+
+            Assert.IsTrue(isEqual);
+        }
+
         [TestCase(true, false, false)]
         [TestCase(true, true, false)]
         [TestCase(false, true, false)]
@@ -114,6 +145,28 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             // Assert
 
             Assert.IsFalse(isEqual);
+        }
+
+        [TestCase("FileName", "FileName", true)]
+        [TestCase("FileName", "filename", true)]
+        [TestCase("FileName", "FILENAME", true)]
+        [TestCase("FileName", "AnotherFileName", false)]
+        public void CompareIsCaseInsensitive(
+            string str1,
+            string str2,
+            bool shouldBeEqual)
+        {
+            // Arrange
+
+            var service = new DocumentMetadataEqualityService();
+
+            // Act
+
+            var equal = service.Compare(str1, str2);
+
+            // Assert
+
+            Assert.AreEqual(shouldBeEqual, equal);
         }
     }
 }

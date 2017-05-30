@@ -37,10 +37,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             var activateWindow = new ActivateWindow(
                 Mock.Of<DTE2>(),
+                Mock.Of<IDocumentMetadataEqualityService>(),
                 Mock.Of<IDocumentMetadataManager>(),
                 Mock.Of<IProjectItemService>());
 
-            var closeDocument = new CloseDocument(Mock.Of<DTE2>());
+            var closeDocument = new CloseDocument(
+                Mock.Of<DTE2>(),
+                Mock.Of<IDocumentMetadataEqualityService>());
 
             var openTestFile = new OpenTestFile(
                 Mock.Of<IProjectItemService>(),

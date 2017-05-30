@@ -15,6 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 
@@ -41,9 +42,25 @@ namespace WorkingFilesList.ToolWindow.Service
         public bool Compare(DocumentMetadataInfo info, DocumentMetadata metadata)
         {
             var isEqual =
-                info.FullName == metadata.FullName &&
-                info.ProjectDisplayName == metadata.ProjectNames.DisplayName &&
-                info.ProjectFullName == metadata.ProjectNames.FullName;
+                Compare(info.FullName, metadata.FullName) &&
+                Compare(info.ProjectDisplayName, metadata.ProjectNames.DisplayName) &&
+                Compare(info.ProjectFullName, metadata.ProjectNames.FullName);
+
+            return isEqual;
+        }
+
+        /// <summary>
+        /// Perform comparison of file names
+        /// </summary>
+        /// <param name="name1">Name to compare against <paramref name="name2"/></param>
+        /// <param name="name2">Name to compare against <paramref name="name1"/></param>
+        /// <returns>true if both parameters are considered equal, false otherwise</returns>
+        public bool Compare(string name1, string name2)
+        {
+            var isEqual = string.Compare(
+                name1,
+                name2,
+                StringComparison.OrdinalIgnoreCase) == 0;
 
             return isEqual;
         }

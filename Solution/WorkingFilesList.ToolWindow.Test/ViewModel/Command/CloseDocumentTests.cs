@@ -21,6 +21,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using WorkingFilesList.Core.Model;
+using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
@@ -35,7 +36,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
         {
             // Arrange
 
-            var command = new CloseDocument(Mock.Of<DTE2>());
+            var command = new CloseDocument(
+                Mock.Of<DTE2>(),
+                new DocumentMetadataEqualityService());
 
             // Act
 
@@ -73,7 +76,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
             var factory = builder.CreateDocumentMetadataFactory(true);
             var metadata = factory.Create(info);
 
-            var command = new CloseDocument(dte2Mock.Object);
+            var command = new CloseDocument(
+                dte2Mock.Object,
+                new DocumentMetadataEqualityService());
 
             // Act
 
@@ -92,7 +97,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
             var dteMock = new Mock<DTE2>();
             dteMock.Setup(d => d.Documents).Returns<Documents>(null);
 
-            var command = new CloseDocument(dteMock.Object);
+            var command = new CloseDocument(
+                dteMock.Object,
+                new DocumentMetadataEqualityService());
 
             // Act
 

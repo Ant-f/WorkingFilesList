@@ -29,6 +29,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
     public class ActivateWindow : ICommand
     {
         private readonly DTE2 _dte2;
+        private readonly IDocumentMetadataEqualityService _metadataEqualityService;
         private readonly IDocumentMetadataManager _documentMetadataManager;
         private readonly IProjectItemService _projectItemService;
 
@@ -39,10 +40,12 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
 
         public ActivateWindow(
             DTE2 dte2,
+            IDocumentMetadataEqualityService metadataEqualityService,
             IDocumentMetadataManager documentMetadataManager,
             IProjectItemService projectItemService)
         {
             _dte2 = dte2;
+            _metadataEqualityService = metadataEqualityService;
             _documentMetadataManager = documentMetadataManager;
             _projectItemService = projectItemService;
         }
@@ -67,9 +70,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel.Command
             {
                 var document = (Document) itm;
 
-                var match = string.CompareOrdinal(
+                var match = _metadataEqualityService.Compare(
                     document.FullName,
-                    metadata.FullName) == 0;
+                    metadata.FullName);
 
                 if (match)
                 {

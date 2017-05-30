@@ -24,6 +24,7 @@ using System.IO;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
+using WorkingFilesList.ToolWindow.Service;
 using WorkingFilesList.ToolWindow.Test.TestingInfrastructure;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
 using static WorkingFilesList.ToolWindow.Test.TestingInfrastructure.CommonMethods;
@@ -40,6 +41,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.Command
         {
             var command = new ActivateWindow(
                 dte2 ?? Mock.Of<DTE2>(),
+                new DocumentMetadataEqualityService(),
                 documentMetadataManager ?? Mock.Of<IDocumentMetadataManager>(),
                 projectItemService ?? Mock.Of<IProjectItemService>());
 
