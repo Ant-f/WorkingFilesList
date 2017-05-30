@@ -141,7 +141,7 @@
                                             </Style>
 
                                             <Style x:Key="LowlightedText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlock}">
-                                                <Setter Property="Opacity" Value="0.45"/>
+                                                <Setter Property="Opacity" Value="0.25"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                                                         <Setter Property="FontWeight" Value="Bold"/>
