@@ -51,6 +51,11 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference
                     updateReactions.OfType<SelectedSortOptionReaction>().Single()
                 },
 
+                [nameof(IUserPreferences.HighlightFileName)] = new IUpdateReaction[]
+                {
+                    updateReactions.OfType<PathSegmentCountReaction>().Single()
+                },
+
                 [nameof(IUserPreferences.ProjectSortOption)] = new IUpdateReaction[]
                 {
                     updateReactions.OfType<SelectedSortOptionReaction>().Single()

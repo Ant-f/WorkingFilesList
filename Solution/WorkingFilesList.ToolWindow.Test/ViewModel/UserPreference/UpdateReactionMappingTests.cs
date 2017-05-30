@@ -68,6 +68,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             typeof(GroupByProjectReaction))]
 
         [TestCase(
+            nameof(IUserPreferences.HighlightFileName),
+            typeof(PathSegmentCountReaction))]
+
+        [TestCase(
             nameof(IUserPreferences.ShowRecentUsage),
             typeof(ShowRecentUsageReaction))]
 
