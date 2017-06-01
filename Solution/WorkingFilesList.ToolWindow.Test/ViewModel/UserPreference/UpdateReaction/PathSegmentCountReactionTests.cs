@@ -80,6 +80,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
                 DefaultValue = DefaultValue.Mock
             };
 
+            collectionViewMock
+                .Setup(c => c.SourceCollection)
+                .Returns(new List<DocumentMetadata>());
+
             // Act
 
             updateReaction.UpdateCollection(
@@ -233,6 +237,66 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
                 It.IsAny<bool>()));
 
             Assert.That(metadata.DisplayNamePreHighlight, Is.EqualTo(preHighlight));
+        }
+
+        [Test]
+        public void CollectionUpdateUpdatesAllItemsInCollectionViewSource()
+        {
+            // Arrange
+
+            const string highlight = "Highlight";
+
+            var highlightEvaluator = Mock.Of<IDisplayNameHighlightEvaluator>(d =>
+                d.GetHighlight(
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()) == highlight);
+
+            var updateReaction = new PathSegmentCountReaction(
+                highlightEvaluator,
+                Mock.Of<IFilePathService>());
+
+            var info = new DocumentMetadataInfo();
+
+            var includeInView = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsActive = false
+            };
+
+            var excludeFromView = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsActive = false
+            };
+
+            var list = new List<DocumentMetadata>
+            {
+                includeInView,
+                excludeFromView
+            };
+
+            var view = new ListCollectionView(list)
+            {
+                Filter = obj =>
+                {
+                    // Use IsActive as indication of being included in filter
+                    // in this test
+
+                    var metadata = (DocumentMetadata) obj;
+                    metadata.IsActive = metadata == includeInView;
+                    return metadata.IsActive;
+                }
+            };
+
+            // Act
+
+            updateReaction.UpdateCollection(view, Mock.Of<IUserPreferences>());
+
+            // Assert
+
+            Assert.AreEqual(highlight, includeInView.DisplayNameHighlight);
+            Assert.AreEqual(highlight, excludeFromView.DisplayNameHighlight);
+
+            Assert.IsTrue(includeInView.IsActive);
+            Assert.IsFalse(excludeFromView.IsActive);
         }
     }
 }

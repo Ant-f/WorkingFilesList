@@ -37,7 +37,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
         }
 
         [Test]
-        public void UpdateCollectionAssignsBrushToEachItem()
+        public void UpdateCollectionAssignsBrushToEachItemInCollectionViewSource()
         {
             // Arrange
 
@@ -49,7 +49,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
                     It.IsAny<IUserPreferences>()) == brush);
 
             var preferences = Mock.Of<IUserPreferences>();
-
             var updateReaction = new AssignProjectColoursReaction(service);
 
             var metadataCollection = new[]
@@ -59,7 +58,18 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
                 CreateDocumentMetadata()
             };
 
-            var view = new ListCollectionView(metadataCollection);
+            var view = new ListCollectionView(metadataCollection)
+            {
+                Filter = obj =>
+                {
+                    // Use IsActive as indication of being included in filter
+                    // in this test
+
+                    var metadata = (DocumentMetadata)obj;
+                    metadata.IsActive = metadata == metadataCollection[0];
+                    return metadata.IsActive;
+                }
+            };
 
             // Act
 
@@ -70,6 +80,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference.UpdateReacti
             Assert.That(metadataCollection[0].ProjectBrush, Is.EqualTo(brush));
             Assert.That(metadataCollection[1].ProjectBrush, Is.EqualTo(brush));
             Assert.That(metadataCollection[2].ProjectBrush, Is.EqualTo(brush));
+
+            Assert.IsTrue(metadataCollection[0].IsActive);
+            Assert.IsFalse(metadataCollection[1].IsActive);
+            Assert.IsFalse(metadataCollection[2].IsActive);
         }
     }
 }

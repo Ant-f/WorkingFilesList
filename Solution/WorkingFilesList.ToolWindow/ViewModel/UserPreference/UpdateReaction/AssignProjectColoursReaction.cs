@@ -15,8 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
@@ -37,7 +37,9 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
             ICollectionView view,
             IUserPreferences userPreferences)
         {
-            foreach (var metadata in view.Cast<DocumentMetadata>())
+            var collection = (IList<DocumentMetadata>) view.SourceCollection;
+
+            foreach (var metadata in collection)
             {
                 var brush = _projectBrushService.GetBrush(
                     metadata.ProjectNames.FullName,
@@ -45,7 +47,6 @@ namespace WorkingFilesList.ToolWindow.ViewModel.UserPreference.UpdateReaction
 
                 metadata.ProjectBrush = brush;
             }
-            
         }
     }
 }
