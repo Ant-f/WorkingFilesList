@@ -16,12 +16,12 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
-using WorkingFilesList.ToolWindow.Model;
 
 namespace WorkingFilesList.ToolWindow.View.Controls
 {
@@ -58,37 +58,38 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             set => SetValue(PinnedMetadataManagerProperty, value);
         }
 
-        /// <summary>
-        /// Used to ensure that a drag operation is not triggered as part of an
-        /// unrelated drag-and-drop operation that moves across this button
-        /// </summary>
-        private bool _isDragSource = false;
+        private static Point? _mouseDownPoint;
+        private static DragDropButton _mouseDownOrigin;
+        private static bool _dragDropStaged = false;
 
-        private void SetDragDropMoveEffect(DragEventArgs e)
+        protected override void OnMouseEnter(MouseEventArgs e)
         {
-            if (AllowDragAndDrop)
+            base.OnMouseEnter(e);
+
+            if (AllowDragAndDrop &&
+                e.LeftButton == MouseButtonState.Released)
             {
-                e.Effects = DragDropEffects.Move;
-                e.Handled = true;
+                _mouseDownPoint = null;
+                _dragDropStaged = false;
             }
         }
 
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
             base.OnPreviewDragEnter(e);
-            SetDragDropMoveEffect(e);
+            SetDragDropMoveEffectAndHandled(e);
         }
 
         protected override void OnPreviewDragLeave(DragEventArgs e)
         {
-            base.OnPreviewDragEnter(e);
-            SetDragDropMoveEffect(e);
+            base.OnPreviewDragLeave(e);
+            SetDragDropMoveEffectAndHandled(e);
         }
 
         protected override void OnPreviewDragOver(DragEventArgs e)
         {
             base.OnPreviewDragOver(e);
-            SetDragDropMoveEffect(e);
+            SetDragDropMoveEffectAndHandled(e);
         }
 
         protected override void OnPreviewDrop(DragEventArgs e)
@@ -107,9 +108,13 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         {
             base.OnPreviewMouseDown(e);
 
-            if (AllowDragAndDrop)
+            if (AllowDragAndDrop &&
+                e.ChangedButton == MouseButton.Left)
             {
-                _isDragSource = true;
+                _mouseDownOrigin = this;
+                _mouseDownPoint = e.GetPosition(_mouseDownOrigin);
+                _dragDropStaged = true;
+                e.Handled = true;
             }
         }
 
@@ -117,26 +122,75 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         {
             base.OnPreviewMouseMove(e);
 
-            if (AllowDragAndDrop &&
-                _isDragSource &&
-                e.LeftButton == MouseButtonState.Pressed)
+            var canDragDrop =
+                AllowDragAndDrop &&
+                _dragDropStaged &&
+                e.LeftButton == MouseButtonState.Pressed &&
+                _mouseDownPoint.HasValue;
+
+            if (!canDragDrop)
             {
-                var metadata = (DocumentMetadata) DataContext;
+                return;
+            }
+
+            // Begin drag-and-drop if dragging over another object
+            var beginDragDrop = this != _mouseDownOrigin;
+
+            // ... or after dragging a certain distance
+            if (!beginDragDrop)
+            {
+                const int distanceToBeginDragDrop = 5;
+                
+                var delta = _mouseDownPoint.Value - e.GetPosition(_mouseDownOrigin);
+                var absoluteLength = Math.Abs(delta.Length);
+                beginDragDrop = absoluteLength > distanceToBeginDragDrop;
+            }
+
+            if (beginDragDrop)
+            {
+                var metadata = (DocumentMetadata) _mouseDownOrigin.DataContext;
 
                 if (metadata.IsPinned)
                 {
-                    DragDrop.DoDragDrop(this, metadata, DragDropEffects.Move);
+                    _dragDropStaged = false;
+
+                    DragDrop.DoDragDrop(
+                        _mouseDownOrigin,
+                        metadata,
+                        DragDropEffects.Move);
+
                     e.Handled = true;
                 }
             }
-
-            _isDragSource = false;
         }
 
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseUp(e);
-            _isDragSource = false;
+
+            _mouseDownPoint = null;
+            _dragDropStaged = false;
+
+            if (AllowDragAndDrop &&
+                e.ChangedButton == MouseButton.Left &&
+                this == _mouseDownOrigin)
+            {
+                var mouseBinding = InputBindings
+                    .Cast<MouseBinding>()
+                    .Single(b => b.MouseAction == MouseAction.LeftClick);
+
+                mouseBinding.Command.Execute(
+                    mouseBinding.CommandParameter);
+            }
+        }
+
+        private void SetDragDropMoveEffectAndHandled(DragEventArgs e)
+        {
+            if (AllowDragAndDrop)
+            {
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
         }
     }
 }
