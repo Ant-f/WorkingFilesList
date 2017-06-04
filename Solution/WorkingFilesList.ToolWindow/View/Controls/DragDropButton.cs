@@ -42,7 +42,7 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         /// </summary>
         public bool AllowDragAndDrop
         {
-            get => (bool)GetValue(AllowDragAndDropProperty);
+            get => (bool) GetValue(AllowDragAndDropProperty);
             set => SetValue(AllowDragAndDropProperty, value);
         }
 
@@ -54,23 +54,30 @@ namespace WorkingFilesList.ToolWindow.View.Controls
 
         public IPinnedMetadataManager PinnedMetadataManager
         {
-            get => (IPinnedMetadataManager)GetValue(PinnedMetadataManagerProperty);
+            get => (IPinnedMetadataManager) GetValue(PinnedMetadataManagerProperty);
             set => SetValue(PinnedMetadataManagerProperty, value);
         }
 
         private static Point? _mouseDownPoint;
         private static DragDropButton _mouseDownOrigin;
-        private static bool _dragDropStaged = false;
+        private static bool _dragDropInProgress = false;
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
 
+            // An item needs to be dragged a certain distance before a drag-and-drop
+            // operation is started (see OnPreviewMouseMove). The following helps to
+            // prevent unexpected drag-and-drop operations where: a drag is started
+            // at the edge of an item, and the distance dragged is insufficient to
+            // initiate a drag-and-drop; the drag ends outside of the item-set where
+            // drag-and-drop is allowed; and the mouse re-enters the drag-and-drop
+            // item set.
+
             if (AllowDragAndDrop &&
                 e.LeftButton == MouseButtonState.Released)
             {
-                _mouseDownPoint = null;
-                _dragDropStaged = false;
+                ResetMouseDownData();
             }
         }
 
@@ -113,7 +120,6 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             {
                 _mouseDownOrigin = this;
                 _mouseDownPoint = e.GetPosition(_mouseDownOrigin);
-                _dragDropStaged = true;
                 e.Handled = true;
             }
         }
@@ -122,13 +128,14 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         {
             base.OnPreviewMouseMove(e);
 
-            var canDragDrop =
+            var canBeginDragDrop =
                 AllowDragAndDrop &&
-                _dragDropStaged &&
+                !_dragDropInProgress &&
                 e.LeftButton == MouseButtonState.Pressed &&
+                _mouseDownOrigin != null &&
                 _mouseDownPoint.HasValue;
 
-            if (!canDragDrop)
+            if (!canBeginDragDrop)
             {
                 return;
             }
@@ -140,7 +147,7 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             if (!beginDragDrop)
             {
                 const int distanceToBeginDragDrop = 5;
-                
+
                 var delta = _mouseDownPoint.Value - e.GetPosition(_mouseDownOrigin);
                 var absoluteLength = Math.Abs(delta.Length);
                 beginDragDrop = absoluteLength > distanceToBeginDragDrop;
@@ -152,13 +159,15 @@ namespace WorkingFilesList.ToolWindow.View.Controls
 
                 if (metadata.IsPinned)
                 {
-                    _dragDropStaged = false;
+                    _dragDropInProgress = true;
 
                     DragDrop.DoDragDrop(
                         _mouseDownOrigin,
                         metadata,
                         DragDropEffects.Move);
 
+                    _dragDropInProgress = false;
+                    ResetMouseDownData();
                     e.Handled = true;
                 }
             }
@@ -167,9 +176,6 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseUp(e);
-
-            _mouseDownPoint = null;
-            _dragDropStaged = false;
 
             if (AllowDragAndDrop &&
                 e.ChangedButton == MouseButton.Left &&
@@ -182,6 +188,14 @@ namespace WorkingFilesList.ToolWindow.View.Controls
                 mouseBinding.Command.Execute(
                     mouseBinding.CommandParameter);
             }
+
+            ResetMouseDownData();
+        }
+
+        private static void ResetMouseDownData()
+        {
+            _mouseDownOrigin = null;
+            _mouseDownPoint = null;
         }
 
         private void SetDragDropMoveEffectAndHandled(DragEventArgs e)
