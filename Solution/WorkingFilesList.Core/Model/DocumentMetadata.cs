@@ -33,7 +33,9 @@ namespace WorkingFilesList.Core.Model
         private bool _hasWindow;
         private bool _isActive;
         private bool _isPinned;
+        private bool _isReordering;
         private Brush _projectBrush;
+        private Direction _reorderingDirection;
         private double _usageOrder;
         private int _pinOrder;
         private string _displayNameHighlight;
@@ -76,6 +78,27 @@ namespace WorkingFilesList.Core.Model
         /// Full path and name of document file, used for display purposes
         /// </summary>
         public string CorrectedFullName { get; }
+        
+        /// <summary>
+        /// Shows the direction that an item will be placed when re-ordering
+        /// items via drag-and-drop
+        /// </summary>
+        public Direction ReorderingDirection
+        {
+            get
+            {
+                return _reorderingDirection;
+            }
+
+            set
+            {
+                if (_reorderingDirection != value)
+                {
+                    _reorderingDirection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Substring of <see cref="CorrectedFullName"/> that is actually displayed
@@ -196,6 +219,27 @@ namespace WorkingFilesList.Core.Model
                 if (_isActive != value)
                 {
                     _isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Indicates whether this item is having its <see cref="PinOrder"/>
+        /// updated via drag-and-drop
+        /// </summary>
+        public bool IsReordering
+        {
+            get
+            {
+                return _isReordering;
+            }
+
+            set
+            {
+                if (_isReordering != value)
+                {
+                    _isReordering = value;
                     OnPropertyChanged();
                 }
             }

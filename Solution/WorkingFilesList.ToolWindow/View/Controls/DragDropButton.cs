@@ -85,12 +85,35 @@ namespace WorkingFilesList.ToolWindow.View.Controls
         {
             base.OnPreviewDragEnter(e);
             SetDragDropMoveEffectAndHandled(e);
+
+            var dragSource = (DocumentMetadata) e.Data.GetData(typeof(DocumentMetadata));
+
+            if (dragSource == null)
+            {
+                return;
+            }
+
+            var metadata = (DocumentMetadata) DataContext;
+
+            if (dragSource.PinOrder == metadata.PinOrder)
+            {
+                metadata.ReorderingDirection = Direction.None;
+            }
+            else
+            {
+                metadata.ReorderingDirection = dragSource.PinOrder > metadata.PinOrder
+                    ? Direction.Up
+                    : Direction.Down;
+            }
         }
 
         protected override void OnPreviewDragLeave(DragEventArgs e)
         {
             base.OnPreviewDragLeave(e);
             SetDragDropMoveEffectAndHandled(e);
+
+            var metadata = (DocumentMetadata) DataContext;
+            metadata.ReorderingDirection = Direction.None;
         }
 
         protected override void OnPreviewDragOver(DragEventArgs e)
@@ -104,10 +127,13 @@ namespace WorkingFilesList.ToolWindow.View.Controls
             base.OnPreviewDrop(e);
             var dragSource = e.Data.GetData(typeof(DocumentMetadata));
 
+            var metadata = (DocumentMetadata) DataContext;
+
             PinnedMetadataManager?.MovePinnedItem(
                 (DocumentMetadata) dragSource,
-                (DocumentMetadata) DataContext);
+                metadata);
 
+            metadata.ReorderingDirection = Direction.None;
             e.Handled = true;
         }
 
@@ -160,6 +186,7 @@ namespace WorkingFilesList.ToolWindow.View.Controls
                 if (metadata.IsPinned)
                 {
                     _dragDropInProgress = true;
+                    metadata.IsReordering = true;
 
                     DragDrop.DoDragDrop(
                         _mouseDownOrigin,
@@ -167,6 +194,7 @@ namespace WorkingFilesList.ToolWindow.View.Controls
                         DragDropEffects.Move);
 
                     _dragDropInProgress = false;
+                    metadata.IsReordering = false;
                     ResetMouseDownData();
                     e.Handled = true;
                 }

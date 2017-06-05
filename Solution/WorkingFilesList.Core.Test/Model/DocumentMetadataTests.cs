@@ -567,5 +567,127 @@ namespace WorkingFilesList.Core.Test.Model
 
             Assert.That(propertyChangedRaised, Is.EqualTo(shouldRaisePropertyChanged));
         }
+
+        [Test]
+        public void SettingReorderingDirectionToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const Direction reorderingDirection = Direction.Up;
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                ReorderingDirection = reorderingDirection
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.ReorderingDirection = reorderingDirection;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingReorderingDirectionToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                ReorderingDirection = Direction.None
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.ReorderingDirection = Direction.Up;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingIsReorderingToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool isReordering = true;
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsReordering = isReordering
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.IsReordering = isReordering;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingIsReorderingToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var propertyChangedRaised = false;
+
+            var info = new DocumentMetadataInfo();
+            var metadata = new DocumentMetadata(info, string.Empty, null)
+            {
+                IsReordering = false
+            };
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            metadata.PropertyChanged += handler;
+
+            // Act
+
+            metadata.IsReordering = true;
+            metadata.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }
