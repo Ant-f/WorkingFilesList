@@ -60,8 +60,8 @@
 
             <DataTemplate x:Key="DocumentMetadataItem" DataType="{x:Type model:DocumentMetadata}">
                 <DataTemplate.Resources>
-                    <Duration x:Key="AnimationDuration">0:0:0.15</Duration>
-                    <KeyTime x:Key="AnimationDurationKeyTime">0:0:0.15</KeyTime>
+                    <Duration x:Key="AnimationDuration">0:0:0.11</Duration>
+                    <KeyTime x:Key="AnimationDurationKeyTime">0:0:0.11</KeyTime>
                     <QuadraticEase x:Key="TriggerEnterEasingFunction" EasingMode="EaseOut"/>
                     <QuadraticEase x:Key="TriggerExitEasingFunction" EasingMode="EaseIn"/>
                     
