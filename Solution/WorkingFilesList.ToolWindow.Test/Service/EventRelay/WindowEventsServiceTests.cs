@@ -406,5 +406,39 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 It.IsAny<bool>()),
                 Times.Never);
         }
+
+        [Test]
+        public void CreatingWindowWithNullDocumentDoesNotThrowException()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
+
+            var created = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument);
+
+            // Act, Assert
+
+            Assert.DoesNotThrow(() => service.WindowCreated(created));
+        }
+
+        [Test]
+        public void ActivateWithNullDocumentDoesNotThrowException()
+        {
+            // Arrange
+
+            var metadataManagerMock = new Mock<IDocumentMetadataManager>();
+            var service = new WindowEventsService(metadataManagerMock.Object);
+
+            var gotFocus = Mock.Of<Window>(w =>
+                w.Type == vsWindowType.vsWindowTypeDocument);
+
+            // Act, Assert
+
+            Assert.DoesNotThrow(() => service.WindowActivated(
+                gotFocus,
+                Mock.Of<Window>()));
+        }
     }
 }

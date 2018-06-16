@@ -39,7 +39,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         public void WindowActivated(Window gotFocus, Window lostFocus)
         {
             if (gotFocus.Type == vsWindowType.vsWindowTypeDocument &&
-                gotFocus.Document.ActiveWindow != null)
+                gotFocus.Document?.ActiveWindow != null)
             {
                 _documentMetadataManager.Activate(
                     gotFocus.Document.FullName);
@@ -57,7 +57,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         public void WindowCreated(Window window)
         {
             if (window.Type == vsWindowType.vsWindowTypeDocument &&
-                window.Document.ActiveWindow != null)
+                window.Document?.ActiveWindow != null)
             {
                 if (_documentMetadataManager.ActiveDocumentMetadata.IsEmpty)
                 {
