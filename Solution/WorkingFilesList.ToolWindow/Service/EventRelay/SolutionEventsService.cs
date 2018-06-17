@@ -19,6 +19,8 @@ using EnvDTE;
 using EnvDTE80;
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
@@ -54,6 +56,24 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         {
             var name = Path.GetFileNameWithoutExtension(_dte2.Solution.FullName);
             RaiseSolutionNameChanged(name);
+        }
+
+        public async Task ProjectAdded(Project project)
+        {
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(project.FullName);
+            var nodes = xmlDocument.GetElementsByTagName("ProjectTypeGuids");
+            var guids = nodes[0]?.InnerText;
+
+            var isUnityProject =
+                guids != null &&
+                guids.Contains("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}");
+
+            if (isUnityProject)
+            {
+                await Task.Delay(50);
+                _documentMetadataManager.Synchronize(project.DTE.Documents, true);
+            }
         }
 
         public void ProjectRenamed(Project project, string oldName)

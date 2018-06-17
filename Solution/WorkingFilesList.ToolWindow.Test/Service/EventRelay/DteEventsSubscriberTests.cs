@@ -234,6 +234,31 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void SubscribesToProjectAdded()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            var project = Mock.Of<Project>();
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.ProjectAdded += null,
+                project);
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(s =>
+                s.ProjectAdded(project));
+        }
+
+        [Test]
         public void SubscribesToProjectRenamed()
         {
             // Arrange

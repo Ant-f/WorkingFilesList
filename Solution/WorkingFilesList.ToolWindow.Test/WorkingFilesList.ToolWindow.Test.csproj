@@ -121,6 +121,12 @@
     <Content Include="TestingData\PathCasingRestorerTestFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestingData\NonUnityProjectFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestingData\UnityProjectFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WorkingFilesList.Core.Test\WorkingFilesList.Core.Test.csproj">

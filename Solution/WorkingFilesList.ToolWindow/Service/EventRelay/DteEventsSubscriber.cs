@@ -70,6 +70,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
             _solutionEvents.AfterClosing += SolutionEventsAfterClosing;
             _solutionEvents.Opened += SolutionEventsOpened;
+            _solutionEvents.ProjectAdded += SolutionEventsProjectAdded;
             _solutionEvents.ProjectRenamed += SolutionEventsProjectRenamed;
         }
 
@@ -106,6 +107,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private void SolutionEventsOpened()
         {
             _solutionEventsService.Opened();
+        }
+
+        private void SolutionEventsProjectAdded(Project project)
+        {
+            _solutionEventsService.ProjectAdded(project);
         }
 
         private void SolutionEventsProjectRenamed(Project project, string oldName)

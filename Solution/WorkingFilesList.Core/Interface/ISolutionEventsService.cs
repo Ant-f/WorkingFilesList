@@ -17,6 +17,7 @@
 
 using EnvDTE;
 using System;
+using System.Threading.Tasks;
 using WorkingFilesList.Core.Model;
 
 namespace WorkingFilesList.Core.Interface
@@ -27,6 +28,7 @@ namespace WorkingFilesList.Core.Interface
 
         void AfterClosing();
         void Opened();
+        Task ProjectAdded(Project project);
         void ProjectRenamed(Project project, string oldName);
     }
 }

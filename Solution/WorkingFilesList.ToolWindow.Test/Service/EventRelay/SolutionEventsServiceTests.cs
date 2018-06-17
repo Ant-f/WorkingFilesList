@@ -14,11 +14,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 using EnvDTE;
 using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
@@ -231,6 +234,79 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             Assert.That(eventArgsNewName, Is.EqualTo(string.Empty));
+        }
+
+        [Test]
+        public async Task AddingUnityProjectSynchronisesMetadata()
+        {
+            // Arrange
+
+            var documents = Mock.Of<Documents>();
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                metadataManager,
+                Mock.Of<IProjectBrushService>());
+
+            var fullName = GetTestDataPath("UnityProjectFile");
+
+            var project = Mock.Of<Project>(p =>
+                p.FullName == fullName &&
+                p.DTE == Mock.Of<DTE>(d =>
+                    d.Documents == documents));
+
+            // Act
+
+            await service.ProjectAdded(project);
+
+            // Assert
+
+            Mock.Get(metadataManager).Verify(m =>
+                m.Synchronize(documents, true));
+        }
+
+        [Test]
+        public async Task AddingNonUnityProjectDoesNotSynchroniseMetadata()
+        {
+            // Arrange
+
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                metadataManager,
+                Mock.Of<IProjectBrushService>());
+
+            var fullName = GetTestDataPath("NonUnityProjectFile");
+
+            var project = Mock.Of<Project>(p =>
+                p.FullName == fullName &&
+                p.DTE == Mock.Of<DTE>());
+
+            // Act
+
+            await service.ProjectAdded(project);
+
+            // Assert
+
+            Mock.Get(metadataManager).Verify(m =>
+                m.Synchronize(
+                    It.IsAny<Documents>(),
+                    It.IsAny<bool>()),
+                Times.Never);
+        }
+
+        private static string GetTestDataPath(string fileName)
+        {
+            var runningDir = AppDomain.CurrentDomain.BaseDirectory;
+
+            var relativePath = Path.Combine(
+                "TestingData",
+                $"{fileName}.txt");
+
+            var fullName = Path.Combine(runningDir, relativePath);
+            return fullName;
         }
     }
 }
