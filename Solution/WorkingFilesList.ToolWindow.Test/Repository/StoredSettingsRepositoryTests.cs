@@ -161,6 +161,59 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         }
 
         [Test]
+        public void GetUnityRefreshDelayReturnsDefaultValueIfNoStoredValueExists()
+        {
+            // Arrange
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
+
+            // Act
+
+            var value = repository.GetUnityRefreshDelay();
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
+
+            Assert.That(value, Is.EqualTo(100));
+        }
+
+        [Test]
+        public void UnityRefreshDelayCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const int unityRefreshDelay = 120;
+
+            InMemorySettingsStore settingsStore;
+            ISettingsStoreService settingsStoreService;
+
+            var repository = CreateStoredSettingsRepository(
+                out settingsStore,
+                out settingsStoreService);
+
+            // Act
+
+            repository.SetUnityRefreshDelay(unityRefreshDelay);
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
+
+            var storedValue = repository.GetUnityRefreshDelay();
+            Assert.That(storedValue, Is.EqualTo(unityRefreshDelay));
+        }
+
+        [Test]
         public void GetDocumentSortOptionNameReturnsDefaultValueIfNoStoredValueExists()
         {
             // Arrange

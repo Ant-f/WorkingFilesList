@@ -22,6 +22,9 @@ namespace WorkingFilesList.Core.Interface
         int GetPathSegmentCount();
         void SetPathSegmentCount(int count);
 
+        int GetUnityRefreshDelay();
+        void SetUnityRefreshDelay(int delayInMilliseconds);
+
         string GetDocumentSortOptionName();
         void SetDocumentSortOptionName(string name);
 

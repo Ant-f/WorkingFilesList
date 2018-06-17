@@ -63,6 +63,13 @@ namespace WorkingFilesList.Core.Interface
         int PathSegmentCount { get; set; }
 
         /// <summary>
+        /// Delay in milliseconds between a Unity project being added to the
+        /// solution, and a re-synchronisation of the
+        /// <see cref="DocumentMetadata"/> list
+        /// </summary>
+        int UnityRefreshDelay { get; set; }
+
+        /// <summary>
         /// Name of selected sorting option that should be applied to entries
         /// on the <see cref="DocumentMetadata"/> list, with respect to each
         /// entry's displayed file path. This sort should be secondary to

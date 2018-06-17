@@ -58,6 +58,9 @@ namespace WorkingFilesList.ToolWindow.Repository
             model.PathSegmentCount = _storedSettingsRepository
                 .GetPathSegmentCount();
 
+            model.UnityRefreshDelay = _storedSettingsRepository
+                .GetUnityRefreshDelay();
+
             model.DocumentSortOptionName = _storedSettingsRepository
                 .GetDocumentSortOptionName();
 
@@ -80,6 +83,7 @@ namespace WorkingFilesList.ToolWindow.Repository
             _storedSettingsRepository.SetShowFileTypeIcons(model.ShowFileTypeIcons);
             _storedSettingsRepository.SetShowRecentUsage(model.ShowRecentUsage);
             _storedSettingsRepository.SetPathSegmentCount(model.PathSegmentCount);
+            _storedSettingsRepository.SetUnityRefreshDelay(model.UnityRefreshDelay);
             _storedSettingsRepository.SetDocumentSortOptionName(model.DocumentSortOptionName);
             _storedSettingsRepository.SetProjectSortOptionName(model.ProjectSortOptionName);
         }

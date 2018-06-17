@@ -127,6 +127,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             _storedSettingsRepository.SetPathSegmentCount(PathSegmentCount);
         }
 
+        protected override void OnUnityRefreshDelayUpdate()
+        {
+            if (_initializing)
+            {
+                return;
+            }
+
+            _storedSettingsRepository.SetUnityRefreshDelay(UnityRefreshDelay);
+        }
+
         protected override void OnDocumentSortOptionNameUpdate()
         {
             DocumentSortOption = _sortOptions.FirstOrDefault(s =>

@@ -18,7 +18,6 @@
 using NUnit.Framework;
 using System.ComponentModel;
 using WorkingFilesList.Core.Model;
-using WorkingFilesList.Core.Model.SortOption;
 
 namespace WorkingFilesList.Core.Test.Model
 {
@@ -436,6 +435,58 @@ namespace WorkingFilesList.Core.Test.Model
             // Act
 
             preferences.HighlightFileName = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingUnityRefreshDelayToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const int unityRefreshDelay = 100;
+            var preferences = new UserPreferencesModel();
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.UnityRefreshDelay = unityRefreshDelay;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.UnityRefreshDelay = unityRefreshDelay;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingUnityRefreshDelayToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var preferences = new UserPreferencesModel();
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.PathSegmentCount = 100;
             preferences.PropertyChanged -= handler;
 
             // Assert

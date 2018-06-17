@@ -27,6 +27,7 @@ namespace WorkingFilesList.Core.Model
         private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
+        private int _unityRefreshDelay;
         private string _documentSortOptionName;
         private string _projectSortOptionName;
 
@@ -138,6 +139,24 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
+        public int UnityRefreshDelay
+        {
+            get
+            {
+                return _unityRefreshDelay;
+            }
+
+            set
+            {
+                if (_unityRefreshDelay != value)
+                {
+                    _unityRefreshDelay = value;
+                    OnPropertyChanged();
+                    OnUnityRefreshDelayUpdate();
+                }
+            }
+        }
+
         public string DocumentSortOptionName
         {
             get
@@ -195,6 +214,10 @@ namespace WorkingFilesList.Core.Model
         }
 
         protected virtual void OnPathSegmentCountUpdate()
+        {
+        }
+
+        protected virtual void OnUnityRefreshDelayUpdate()
         {
         }
 

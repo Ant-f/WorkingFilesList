@@ -15,10 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Moq;
+using NUnit.Framework;
+using System.ComponentModel;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.Core.Test.TestingInfrastructure;
@@ -537,6 +536,60 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     Times.Never);
 
             Assert.That(preferences.HighlightFileName, Is.EqualTo(highlightFileName));
+        }
+
+        [Test]
+        public void SettingUnityRefreshDelayStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const int value = 50;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+
+            // Act
+
+            preferences.UnityRefreshDelay = value;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetUnityRefreshDelay(value));
+        }
+
+        [Test]
+        public void UnityRefreshDelayValueIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const int value = 100;
+
+            var builder = new UserPreferencesBuilder();
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.UnityRefreshDelay = value;
+                });
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetUnityRefreshDelay(
+                    It.IsAny<int>()),
+                    Times.Never);
+
+            Assert.That(preferences.UnityRefreshDelay, Is.EqualTo(value));
         }
     }
 }

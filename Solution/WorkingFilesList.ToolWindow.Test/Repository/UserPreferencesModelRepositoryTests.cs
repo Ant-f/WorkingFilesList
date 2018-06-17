@@ -19,7 +19,6 @@ using Moq;
 using NUnit.Framework;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
-using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Repository;
 
 namespace WorkingFilesList.ToolWindow.Test.Repository
@@ -325,6 +324,56 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             Mock.Get(settingsRepository).Verify(s =>
                 s.SetPathSegmentCount(pathSegmentCount));
+        }
+
+        [Test]
+        public void UnityRefreshDelayIsRestoredWhenLoadingUserPreferencesModel()
+        {
+            // Arrange
+
+            const int unityRefreshDelay = 100;
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
+                s.GetUnityRefreshDelay() == unityRefreshDelay);
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            var preferences = new UserPreferencesModel();
+
+            // Act
+
+            preferencesModelRepository.LoadInto(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s => s.GetUnityRefreshDelay());
+            Assert.That(preferences.UnityRefreshDelay, Is.EqualTo(unityRefreshDelay));
+        }
+
+        [Test]
+        public void UnityRefreshDelayIsStoredWhenSavingUserPreferencesModel()
+        {
+            // Arrange
+
+            const int unityRefreshDelay = 125;
+
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
+                p.UnityRefreshDelay == unityRefreshDelay);
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>();
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            // Act
+
+            preferencesModelRepository.SaveModel(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s =>
+                s.SetUnityRefreshDelay(unityRefreshDelay));
         }
 
         [Test]

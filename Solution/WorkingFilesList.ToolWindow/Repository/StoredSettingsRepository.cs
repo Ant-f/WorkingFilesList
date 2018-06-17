@@ -24,6 +24,7 @@ namespace WorkingFilesList.ToolWindow.Repository
     public class StoredSettingsRepository : IStoredSettingsRepository
     {
         private const int DefaultPathSegmentCount = 1;
+        private const int DefaultUnityRefreshDelay = 100;
         private const string DefaultDocumentSortOptionName = "A-Z";
         private const string DefaultProjectSortOptionName = "None";
         private const bool DefaultGroupByProject = true;
@@ -256,6 +257,33 @@ namespace WorkingFilesList.ToolWindow.Repository
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ShowFileTypeIcons),
                     value);
+            }
+        }
+
+        public int GetUnityRefreshDelay()
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(true))
+            {
+                var delayInMilliseconds = service.SettingsStore.GetInt32(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.UnityRefreshDelay),
+                    DefaultUnityRefreshDelay);
+
+                return delayInMilliseconds;
+            }
+        }
+
+        public void SetUnityRefreshDelay(int delayInMilliseconds)
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(false))
+            {
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetInt32(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.UnityRefreshDelay),
+                    delayInMilliseconds);
             }
         }
 
