@@ -42,7 +42,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
-                projectBrushServiceMock.Object);
+                projectBrushServiceMock.Object,
+                Mock.Of<IUserPreferences>());
 
             // Act
 
@@ -64,7 +65,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 documentMetadataManager,
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             // Act
 
@@ -89,7 +91,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
-                projectBrushServiceMock.Object);
+                projectBrushServiceMock.Object,
+                Mock.Of<IUserPreferences>());
 
             var project = Mock.Of<Project>(p =>
                 p.FullName == newName &&
@@ -118,7 +121,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             var renamedProject = Mock.Of<Project>(p =>
                 p.DTE == Mock.Of<DTE>(d =>
@@ -159,7 +163,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
-                projectBrushServiceMock.Object);
+                projectBrushServiceMock.Object,
+                Mock.Of<IUserPreferences>());
 
             var renamedProject = Mock.Of<Project>(p =>
                 p.DTE == Mock.Of<DTE>(d =>
@@ -188,7 +193,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 dte2,
                 Mock.Of<IDocumentMetadataManager>(),
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             var handler = new EventHandler<SolutionNameChangedEventArgs>((s, e) =>
             {
@@ -217,7 +223,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             var handler = new EventHandler<SolutionNameChangedEventArgs>((s, e) =>
             {
@@ -247,7 +254,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManager,
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             var fullName = GetTestDataPath("UnityProjectFile");
 
@@ -276,7 +284,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManager,
-                Mock.Of<IProjectBrushService>());
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
 
             var fullName = GetTestDataPath("NonUnityProjectFile");
 
@@ -295,6 +304,44 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                     It.IsAny<Documents>(),
                     It.IsAny<bool>()),
                 Times.Never);
+        }
+
+        [Test]
+        public async Task UserPreferencesUnityRefreshDelayIsUsed()
+        {
+            // Arrange
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>(u =>
+                    u.UnityRefreshDelay == -2));
+
+            var fullName = GetTestDataPath("UnityProjectFile");
+
+            var project = Mock.Of<Project>(p =>
+                p.FullName == fullName &&
+                p.DTE == Mock.Of<DTE>());
+
+            ArgumentOutOfRangeException exception = null;
+
+            // Act
+
+            try
+            {
+                await service.ProjectAdded(project);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                exception = e;
+            }
+
+            // Assert
+
+            Assert.AreEqual(
+                "The value needs to be either -1 (signifying an infinite timeout), 0 or a positive integer.\r\nParameter name: millisecondsDelay",
+                exception.Message);
         }
 
         private static string GetTestDataPath(string fileName)

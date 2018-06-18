@@ -32,17 +32,20 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         private readonly DTE2 _dte2;
         private readonly IDocumentMetadataManager _documentMetadataManager;
         private readonly IProjectBrushService _projectBrushService;
+        private readonly IUserPreferences _userPreferences;
 
         public event EventHandler<SolutionNameChangedEventArgs> SolutionNameChanged;
 
         public SolutionEventsService(
             DTE2 dte2,
             IDocumentMetadataManager documentMetadataManager,
-            IProjectBrushService projectBrushService)
+            IProjectBrushService projectBrushService,
+            IUserPreferences userPreferences)
         {
             _dte2 = dte2;
             _documentMetadataManager = documentMetadataManager;
             _projectBrushService = projectBrushService;
+            _userPreferences = userPreferences;
         }
 
         public void AfterClosing()
@@ -71,7 +74,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
             if (isUnityProject)
             {
-                await Task.Delay(50);
+                await Task.Delay(_userPreferences.UnityRefreshDelay);
                 _documentMetadataManager.Synchronize(project.DTE.Documents, true);
             }
         }
