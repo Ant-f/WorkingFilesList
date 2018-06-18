@@ -55,3 +55,15 @@ Set `/rootsuffix Exp` as the start options **Command line arguments**
 
 Select [**Tools**] -> [**Extensions and Updates...**] on the menu bar. There
 should be an option to uninstall the extension.
+
+## Known Issues
+
+### Automatic project reloading (Visual Studio Tools for Unity)
+
+Working Files List relies on certain internal event notifications from Visual
+Studio to maintain synchronisation between itself and any open document editors
+within Visual Studio. When _Visual Studio Tools for Unity_ is installed and
+_Automatic project reloading_ is enabled, it does not seem possible to precisely
+track open files within a Unity generated project when the project is
+updated/overwritten by an external source. See
+[here](https://github.com/Ant-f/WorkingFilesList/issues/14) for more information.
