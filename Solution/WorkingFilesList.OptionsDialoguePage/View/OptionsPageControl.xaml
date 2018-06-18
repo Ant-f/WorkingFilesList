@@ -23,7 +23,7 @@
              xmlns:locator="clr-namespace:WorkingFilesList.Core.Service.Locator;assembly=WorkingFilesList.Core"
              xmlns:coreControls="clr-namespace:WorkingFilesList.Core.Controls;assembly=WorkingFilesList.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="400">
+             d:DesignHeight="400" d:DesignWidth="420">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -181,7 +181,15 @@
                                                     Width="50">
                         </coreControls:NumericUpDown>
 
-                        <TextBlock Text=" ms after adding/updating a Unity project"/>
+                        <TextBlock Text=" ms after adding/updating a Unity project "/>
+
+                        <TextBlock IsHitTestVisible="True">
+                            <Hyperlink Command="{Binding DialoguePageCommands.Navigate, Source={StaticResource ViewModel}}"
+                                       CommandParameter="{Binding NavigateUri, RelativeSource={RelativeSource Self}}"
+                                       NavigateUri="https://github.com/Ant-f/WorkingFilesList#automatic-project-reloading-visual-studio-tools-for-unity">
+                                more info
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                 </GroupBox>
 
