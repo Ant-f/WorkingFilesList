@@ -63,137 +63,147 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <GroupBox Header="List item appearance"
-                  d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
-            
-            <StackPanel>
-                <CheckBox IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}">Show icon for file type</CheckBox>
-                <CheckBox IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}">Show most recently used order</CheckBox>
-                <CheckBox IsChecked="{Binding AssignProjectColours, Mode=TwoWay}">Set background colour according to parent project</CheckBox>
-                <CheckBox IsChecked="{Binding HighlightFileName, Mode=TwoWay}">Highlight file name</CheckBox>
-                
-                <StackPanel Background="Transparent"
-                            HorizontalAlignment="Left"
-                            Margin="0,2"
-                            Orientation="Horizontal"
-                            ToolTip="A path segment is either a file name, directory, or drive designation">
-                    
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="IsHitTestVisible" Value="False"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    
-                    <TextBlock Text="Show "/>
-                    
-                    <coreControls:NumericUpDown Focusable="False"
-                                                Minimum="1"
-                                                Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                Width="40">
-                    </coreControls:NumericUpDown>
-                    
-                    <TextBlock Text=" path segments for each file"/>
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-
-        <GroupBox Grid.Row="1"
-                  Header="Grouping and ordering"
-                  Margin="0,10,0,0"
-                  d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.ColumnSpan="2" IsChecked="{Binding GroupByProject, Mode=TwoWay}">
-                    Group by project
-                </CheckBox>
+                <GroupBox Header="List item appearance"
+                          d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
+                    
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding ShowFileTypeIcons, Mode=TwoWay}">Show icon for file type</CheckBox>
+                        <CheckBox IsChecked="{Binding ShowRecentUsage, Mode=TwoWay}">Show most recently used order</CheckBox>
+                        <CheckBox IsChecked="{Binding AssignProjectColours, Mode=TwoWay}">Set background colour according to parent project</CheckBox>
+                        <CheckBox IsChecked="{Binding HighlightFileName, Mode=TwoWay}">Highlight file name</CheckBox>
+                        
+                        <StackPanel Background="Transparent"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,2"
+                                    Orientation="Horizontal"
+                                    ToolTip="A path segment is either a file name, directory, or drive designation">
+                            
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            
+                            <TextBlock Text="Show "/>
+                            
+                            <coreControls:NumericUpDown Focusable="False"
+                                                        Minimum="1"
+                                                        Value="{Binding PathSegmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="40">
+                            </coreControls:NumericUpDown>
+                            
+                            <TextBlock Text=" path segments for each file"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
 
-                <TextBlock Grid.Column="0" Grid.Row="1"
-                           Text="Project display order"
-                           VerticalAlignment="Center">
-                </TextBlock>
+                <GroupBox Grid.Row="1"
+                          Header="Grouping and ordering"
+                          Margin="0,10,0,0"
+                          d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                <ComboBox Grid.Column="1"
-                          Grid.Row="1"
-                          ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
-                          SelectedValue="{Binding ProjectSortOptionName}"
-                          SelectedValuePath="DisplayName">
-                </ComboBox>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="2"
-                           Text="Document display order"
-                           VerticalAlignment="Center">
-                </TextBlock>
+                        <CheckBox Grid.ColumnSpan="2" IsChecked="{Binding GroupByProject, Mode=TwoWay}">
+                            Group by project
+                        </CheckBox>
 
-                <ComboBox Grid.Column="1"
-                          Grid.Row="2"
-                          ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"
-                          SelectedValue="{Binding DocumentSortOptionName}"
-                          SelectedValuePath="DisplayName">
-                </ComboBox>
+                        <TextBlock Grid.Column="0" Grid.Row="1"
+                                   Text="Project display order"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+
+                        <ComboBox Grid.Column="1"
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
+                                  SelectedValue="{Binding ProjectSortOptionName}"
+                                  SelectedValuePath="DisplayName">
+                        </ComboBox>
+
+                        <TextBlock Grid.Column="0" Grid.Row="2"
+                                   Text="Document display order"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+
+                        <ComboBox Grid.Column="1"
+                                  Grid.Row="2"
+                                  ItemsSource="{Binding OptionsLists.DocumentSortOptions, Source={StaticResource ViewModel}}"
+                                  SelectedValue="{Binding DocumentSortOptionName}"
+                                  SelectedValuePath="DisplayName">
+                        </ComboBox>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2"
+                          Header="Tools for Unity"
+                          Margin="0,10,0,0"
+                          d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
+                    <StackPanel Background="Transparent"
+                                HorizontalAlignment="Left"
+                                Margin="0,2"
+                                Orientation="Horizontal">
+
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <TextBlock Text="Refresh file list "/>
+
+                        <coreControls:NumericUpDown Focusable="False"
+                                                    Minimum="0"
+                                                    Value="{Binding UnityRefreshDelay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="50">
+                        </coreControls:NumericUpDown>
+
+                        <TextBlock Text=" ms after adding/updating a Unity project"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <StackPanel d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}"
+                            Grid.Row="3">
+                    <TextBlock Margin="0,10,0,4"
+                               Text="Resetting all settings to their default values cannot be undone"
+                               TextWrapping="Wrap">
+                    </TextBlock>
+
+                    <Button Command="{Binding DialoguePageCommands.ResetSettings, Source={StaticResource ViewModel}}"
+                            CommandParameter="{Binding}"
+                            HorizontalAlignment="Left">
+                        <TextBlock Margin="10,2" Text="Reset To Default"/>
+                    </Button>
+                </StackPanel>
             </Grid>
-        </GroupBox>
+        </ScrollViewer>
 
-        <GroupBox Grid.Row="2"
-                  Header="Tools for Unity"
-                  Margin="0,10,0,0"
-                  d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}">
-            <StackPanel Background="Transparent"
-                        HorizontalAlignment="Left"
-                        Margin="0,2"
-                        Orientation="Horizontal">
-
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="IsHitTestVisible" Value="False"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                </StackPanel.Resources>
-
-                <TextBlock Text="Refresh file list "/>
-
-                <coreControls:NumericUpDown Focusable="False"
-                                            Minimum="0"
-                                            Value="{Binding UnityRefreshDelay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="50">
-                </coreControls:NumericUpDown>
-
-                <TextBlock Text=" ms after adding/updating a Unity project"/>
-            </StackPanel>
-        </GroupBox>
-
-        <StackPanel d:DataContext="{Binding UserPreferences, Source={StaticResource ViewModel}}"
-                    Grid.Row="3">
-            <TextBlock Margin="0,10,0,4"
-                       Text="Resetting all settings to their default values cannot be undone"
-                       TextWrapping="Wrap">
-            </TextBlock>
-
-            <Button Command="{Binding DialoguePageCommands.ResetSettings, Source={StaticResource ViewModel}}"
-                    CommandParameter="{Binding}"
-                    HorizontalAlignment="Left">
-                <TextBlock Margin="10,2" Text="Reset To Default"/>
-            </Button>
-        </StackPanel>
-
-        <TextBlock Grid.Row="4" VerticalAlignment="Bottom">
+        <TextBlock Grid.Row="1"
+                   Margin="0,10,0,0"
+                   VerticalAlignment="Bottom">
             <Run>Learn more about</Run>
                 
             <Hyperlink Command="{Binding DialoguePageCommands.Navigate, Source={StaticResource ViewModel}}"
