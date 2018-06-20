@@ -72,7 +72,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
                 guids != null &&
                 guids.Contains("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}");
 
-            if (isUnityProject)
+            if (isUnityProject && _userPreferences.UnityRefreshDelay != 0)
             {
                 await Task.Delay(_userPreferences.UnityRefreshDelay);
                 _documentMetadataManager.Synchronize(project.DTE.Documents, true);

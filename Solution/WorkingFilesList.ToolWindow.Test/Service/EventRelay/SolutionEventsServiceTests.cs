@@ -255,7 +255,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 Mock.Of<DTE2>(),
                 metadataManager,
                 Mock.Of<IProjectBrushService>(),
-                Mock.Of<IUserPreferences>());
+                Mock.Of<IUserPreferences>(u =>
+                    u.UnityRefreshDelay == 100));
 
             var fullName = GetTestDataPath("UnityProjectFile");
 
@@ -285,7 +286,8 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                 Mock.Of<DTE2>(),
                 metadataManager,
                 Mock.Of<IProjectBrushService>(),
-                Mock.Of<IUserPreferences>());
+                Mock.Of<IUserPreferences>(u =>
+                    u.UnityRefreshDelay == 100));
 
             var fullName = GetTestDataPath("NonUnityProjectFile");
 
@@ -342,6 +344,39 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             Assert.AreEqual(
                 "The value needs to be either -1 (signifying an infinite timeout), 0 or a positive integer.\r\nParameter name: millisecondsDelay",
                 exception.Message);
+        }
+
+        [Test]
+        public async Task SettingUnityRefreshDelayToZeroDoesNotSynchroniseMetadata()
+        {
+            // Arrange
+
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(),
+                metadataManager,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>(u =>
+                    u.UnityRefreshDelay == 0));
+
+            var fullName = GetTestDataPath("UnityProjectFile");
+
+            var project = Mock.Of<Project>(p =>
+                p.FullName == fullName &&
+                p.DTE == Mock.Of<DTE>());
+
+            // Act
+
+            await service.ProjectAdded(project);
+
+            // Assert
+
+            Mock.Get(metadataManager).Verify(m =>
+                m.Synchronize(
+                    It.IsAny<Documents>(),
+                    It.IsAny<bool>()),
+                Times.Never);
         }
 
         private static string GetTestDataPath(string fileName)
