@@ -112,12 +112,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -138,12 +135,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const int pathSegmentCount = 7;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -165,12 +159,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -191,12 +182,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const int unityRefreshDelay = 120;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -218,12 +206,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -244,12 +229,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const string name = "Name";
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -271,12 +253,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -297,12 +276,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const string name = "Name";
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -324,12 +300,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -350,12 +323,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool groupByProject = true;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -377,12 +347,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -403,12 +370,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool highlightFileName = false;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -430,12 +394,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -456,12 +417,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool showRecentUsage = true;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -483,12 +441,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -509,12 +464,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool assignProjectColours = true;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
@@ -536,12 +488,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
         {
             // Arrange
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out _,
+                out var settingsStoreService);
 
             // Act
 
@@ -562,12 +511,9 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             const bool showFileTypeIcons = false;
 
-            InMemorySettingsStore settingsStore;
-            ISettingsStoreService settingsStoreService;
-
             var repository = CreateStoredSettingsRepository(
-                out settingsStore,
-                out settingsStoreService);
+                out var settingsStore,
+                out var settingsStoreService);
 
             // Act
 
