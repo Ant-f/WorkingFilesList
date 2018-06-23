@@ -27,6 +27,7 @@ namespace WorkingFilesList.Core.Interface
         event EventHandler<SolutionNameChangedEventArgs> SolutionNameChanged;
 
         void AfterClosing();
+        void BeforeClosing();
         void Opened();
         Task ProjectAdded(Project project);
         void ProjectRenamed(Project project, string oldName);

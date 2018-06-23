@@ -55,6 +55,11 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             RaiseSolutionNameChanged(string.Empty);
         }
 
+        public void BeforeClosing()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Opened()
         {
             var name = Path.GetFileNameWithoutExtension(_dte2.Solution.FullName);

@@ -212,6 +212,28 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void SubscribesToBeforeClosing()
+        {
+            // Arrange
+
+            var mocks = new TestingMocks();
+            var builder = new DteEventsSubscriberBuilder();
+
+            var subscriber = builder.CreateDteEventsSubscriber();
+            subscriber.SubscribeTo(mocks.Events2Mock.Object);
+
+            // Act
+
+            mocks.SolutionEventsMock.Raise(s =>
+                s.BeforeClosing += null);
+
+            // Assert
+
+            builder.SolutionEventsServiceMock.Verify(s =>
+                s.BeforeClosing());
+        }
+
+        [Test]
         public void SubscribesToOpened()
         {
             // Arrange
