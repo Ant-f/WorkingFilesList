@@ -104,6 +104,9 @@
     <Reference Include="Microsoft.VisualStudio.Validation, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero" />
@@ -126,7 +129,9 @@
     <Compile Include="Interface\IFileExistenceChecker.cs" />
     <Compile Include="Interface\IFilePathService.cs" />
     <Compile Include="Interface\INormalizedUsageOrderService.cs" />
+    <Compile Include="Interface\IIOService.cs" />
     <Compile Include="Interface\IPathCasingRestorer.cs" />
+    <Compile Include="Interface\IPinnedItemStorageService.cs" />
     <Compile Include="Interface\IProjectBrushes.cs" />
     <Compile Include="Interface\IProjectBrushService.cs" />
     <Compile Include="Interface\IProjectItemService.cs" />
@@ -147,6 +152,8 @@
     <Compile Include="Service\EventRelay\SolutionEventsService.cs" />
     <Compile Include="Service\DisplayNameHighlightEvaluator.cs" />
     <Compile Include="Service\FileExistenceChecker.cs" />
+    <Compile Include="Service\IOService.cs" />
+    <Compile Include="Service\PinnedItemStorageService.cs" />
     <Compile Include="Service\ProjectBrushService.cs" />
     <Compile Include="Service\ProjectItemService.cs" />
     <Compile Include="Service\SettingsStoreService.cs" />

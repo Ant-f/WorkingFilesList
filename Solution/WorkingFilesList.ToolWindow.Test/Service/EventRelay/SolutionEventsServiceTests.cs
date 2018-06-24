@@ -22,6 +22,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
@@ -42,6 +43,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IPinnedItemStorageService>(),
                 projectBrushServiceMock.Object,
                 Mock.Of<IUserPreferences>());
 
@@ -65,6 +67,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 documentMetadataManager,
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>());
 
@@ -91,6 +94,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IPinnedItemStorageService>(),
                 projectBrushServiceMock.Object,
                 Mock.Of<IUserPreferences>());
 
@@ -121,6 +125,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>());
 
@@ -163,6 +168,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManagerMock.Object,
+                Mock.Of<IPinnedItemStorageService>(),
                 projectBrushServiceMock.Object,
                 Mock.Of<IUserPreferences>());
 
@@ -193,6 +199,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 dte2,
                 Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>());
 
@@ -223,6 +230,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>());
 
@@ -254,6 +262,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManager,
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>(u =>
                     u.UnityRefreshDelay == 100));
@@ -285,6 +294,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManager,
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>(u =>
                     u.UnityRefreshDelay == 100));
@@ -316,6 +326,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataManager>(),
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>(u =>
                     u.UnityRefreshDelay == -2));
@@ -356,6 +367,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(),
                 metadataManager,
+                Mock.Of<IPinnedItemStorageService>(),
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>(u =>
                     u.UnityRefreshDelay == 0));
@@ -377,6 +389,36 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
                     It.IsAny<Documents>(),
                     It.IsAny<bool>()),
                 Times.Never);
+        }
+
+        [Test]
+        public void MetadataIsWrittenBeforeClosingSolution()
+        {
+            // Arrange
+
+            const string fullName = "FullName";
+
+            var metadata = new DocumentMetadata[0];
+            var metadataView = new ListCollectionView(metadata);
+            var storageService = Mock.Of<IPinnedItemStorageService>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(d =>
+                    d.Solution.FullName == fullName),
+                Mock.Of<IDocumentMetadataManager>(m =>
+                    m.PinnedDocumentMetadata == metadataView),
+                storageService,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
+
+            // Act
+
+            service.BeforeClosing();
+
+            // Assert
+
+            Mock.Get(storageService).Verify(s =>
+                s.Write(metadata, fullName));
         }
 
         private static string GetTestDataPath(string fileName)

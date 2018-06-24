@@ -86,8 +86,10 @@
     <Compile Include="Service\EventRelay\SolutionEventsServiceTests.cs" />
     <Compile Include="Service\EventRelay\WindowEventsServiceTests.cs" />
     <Compile Include="Service\FilePathServiceTests.cs" />
+    <Compile Include="Service\IOServiceTests.cs" />
     <Compile Include="Service\NormalizedUsageOrderServiceTests.cs" />
     <Compile Include="Service\PathCasingRestorerTests.cs" />
+    <Compile Include="Service\PinnedItemStorageServiceTests.cs" />
     <Compile Include="Service\ProjectBrushServiceTests.cs" />
     <Compile Include="Service\ProjectItemServiceTests.cs" />
     <Compile Include="Service\SortOptionsServiceTests.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
     <Compile Include="TestingInfrastructure\InMemorySettingsStore.cs" />
     <Compile Include="TestingInfrastructure\OptionsListsBuilder.cs" />
+    <Compile Include="TestingInfrastructure\TestingTextWriter.cs" />
     <Compile Include="TestingInfrastructure\TestingUpdateReactionMapping.cs" />
     <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />
     <Compile Include="ViewModel\Command\ToggleIsPinnedTests.cs" />
@@ -118,6 +121,9 @@
     <Compile Include="ViewModel\UserPreference\UpdateReactionMappingTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestingData\IOServiceTestFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestingData\PathCasingRestorerTestFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

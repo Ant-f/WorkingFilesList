@@ -37,8 +37,10 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
             Kernel.Bind<IFileExistenceChecker>().To<FileExistenceChecker>().InSingletonScope();
             Kernel.Bind<IFilePathService>().To<FilePathService>().InSingletonScope();
+            Kernel.Bind<IIOService>().To<IOService>().InSingletonScope();
             Kernel.Bind<INormalizedUsageOrderService>().To<NormalizedUsageOrderService>().InSingletonScope();
             Kernel.Bind<IPathCasingRestorer>().To<PathCasingRestorer>().InSingletonScope();
+            Kernel.Bind<IPinnedItemStorageService>().To<PinnedItemStorageService>().InSingletonScope();
             Kernel.Bind<IProcessStarter>().To<ProcessStarter>().InSingletonScope();
             Kernel.Bind<IProjectBrushService>().To<ProjectBrushService>().InSingletonScope();
             Kernel.Bind<IProjectItemService>().To<ProjectItemService>().InSingletonScope();

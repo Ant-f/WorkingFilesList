@@ -19,6 +19,7 @@ using EnvDTE;
 using EnvDTE80;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using WorkingFilesList.Core.Interface;
@@ -31,6 +32,7 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
     {
         private readonly DTE2 _dte2;
         private readonly IDocumentMetadataManager _documentMetadataManager;
+        private readonly IPinnedItemStorageService _pinnedItemStorageService;
         private readonly IProjectBrushService _projectBrushService;
         private readonly IUserPreferences _userPreferences;
 
@@ -39,11 +41,13 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         public SolutionEventsService(
             DTE2 dte2,
             IDocumentMetadataManager documentMetadataManager,
+            IPinnedItemStorageService pinnedItemStorageService,
             IProjectBrushService projectBrushService,
             IUserPreferences userPreferences)
         {
             _dte2 = dte2;
             _documentMetadataManager = documentMetadataManager;
+            _pinnedItemStorageService = pinnedItemStorageService;
             _projectBrushService = projectBrushService;
             _userPreferences = userPreferences;
         }
@@ -57,7 +61,9 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
         public void BeforeClosing()
         {
-            throw new NotImplementedException();
+            _pinnedItemStorageService.Write(
+                _documentMetadataManager.PinnedDocumentMetadata.Cast<DocumentMetadata>(),
+                _dte2.Solution.FullName);
         }
 
         public void Opened()
