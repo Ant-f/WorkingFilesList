@@ -221,6 +221,33 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
+        public void SavedPinnedMetadataInfoIsReadWhenSolutionIsOpened()
+        {
+            // Arrange
+
+            const string fullName = "FullName";
+
+            var pinnedItemService = Mock.Of<IPinnedItemStorageService>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(d =>
+                    d.Solution.FullName == fullName),
+                Mock.Of<IDocumentMetadataManager>(),
+                pinnedItemService,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
+
+            // Act
+
+            service.Opened();
+
+            // Assert
+
+            Mock.Get(pinnedItemService).Verify(s =>
+                s.Read(fullName));
+        }
+
+        [Test]
         public void SolutionNameChangedIsRaisedWithEmptyStringWhenSolutionIsClosed()
         {
             // Arrange

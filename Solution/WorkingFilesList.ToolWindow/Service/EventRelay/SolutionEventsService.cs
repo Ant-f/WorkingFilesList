@@ -70,6 +70,8 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
         {
             var name = Path.GetFileNameWithoutExtension(_dte2.Solution.FullName);
             RaiseSolutionNameChanged(name);
+
+            _pinnedItemStorageService.Read(_dte2.Solution.FullName);
         }
 
         public async Task ProjectAdded(Project project)

@@ -19,6 +19,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Linq;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.Service;
@@ -29,6 +30,118 @@ namespace WorkingFilesList.ToolWindow.Test.Service
     [TestFixture]
     public class PinnedItemStorageServiceTests
     {
+        [Test]
+        public void ReaderIsDisposed()
+        {
+            // Arrange
+
+            using (var reader = new TestingTextReader())
+            {
+                var ioService = Mock.Of<IIOService>(s =>
+                    s.GetReader(It.IsAny<string>()) == reader);
+
+                var service = new PinnedItemStorageService(ioService);
+
+                // Act
+
+                service.Read("FullName");
+
+                // Assert
+
+                Assert.IsTrue(reader.DisposeInvoked);
+            }
+        }
+
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void ExceptionIsThrownWhenFullNameIsEmptyWhenGettingReader(string fullName)
+        {
+            // Arrange
+
+            var service = new PinnedItemStorageService(
+                Mock.Of<IIOService>());
+
+            // Act, Assert
+
+            Assert.Throws<ArgumentException>(() =>
+                service.Read(fullName));
+        }
+
+        [Test]
+        public void ReadReturnsExistingMetadataInfo()
+        {
+            // Arrange
+
+            const string savedData =
+                "[{\"FullName\":\"ItemFullName\",\"ProjectDisplayName\":\"ItemProjectDisplayName\",\"ProjectFullName\":\"ItemProjectFullName\"}]\r\n";
+
+            var ioService = Mock.Of<IIOService>(s =>
+                s.GetReader(It.IsAny<string>()) == Mock.Of<TextReader>(r =>
+                    r.ReadToEnd() == savedData));
+
+            var service = new PinnedItemStorageService(ioService);
+
+            // Act
+
+            var info = service.Read("FullName");
+
+            // Assert
+
+            var item = info.Single();
+
+            Assert.AreEqual("ItemFullName", item.FullName);
+            Assert.AreEqual("ItemProjectDisplayName", item.ProjectDisplayName);
+            Assert.AreEqual("ItemProjectFullName", item.ProjectFullName);
+        }
+
+        [Test]
+        public void ReadReturnsEmptyMetadataInfoListIfFileDoesNotExist()
+        {
+            // Arrange
+
+            var service = new PinnedItemStorageService(
+                Mock.Of<IIOService>());
+
+            // Act
+
+            var info = service.Read("FullName");
+
+            // Assert
+
+            Assert.IsEmpty(info);
+        }
+
+        [Test]
+        public void FullNameIsHashedWhenRequestingReader()
+        {
+            // Arrange
+
+            using (var reader = new TestingTextReader())
+            {
+                var ioService = Mock.Of<IIOService>(s =>
+                    s.GetReader(It.IsAny<string>()) == reader);
+
+                var service = new PinnedItemStorageService(ioService);
+
+                // Act
+
+                service.Read("FullName");
+
+                // Assert
+
+                // 90C4E69DCE7A11BFCB705B1A6540A847AAC993FA is SHA1 of FullName
+
+                var expectedPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                    "WorkingFilesList",
+                    "1.3_90C4E69DCE7A11BFCB705B1A6540A847AAC993FA.json");
+
+                Mock.Get(ioService).Verify(s =>
+                    s.GetReader(expectedPath));
+            }
+        }
+
         [Test]
         public void WriterIsDisposed()
         {
@@ -111,22 +224,17 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         [TestCase("")]
         [TestCase(" ")]
         [TestCase(null)]
-        public void ExceptionIsThrownWhenFullNameIsEmpty(string fullName)
+        public void ExceptionIsThrownWhenFullNameIsEmptyWhenGettingWriter(string fullName)
         {
             // Arrange
 
-            using (var writer = new TestingTextWriter())
-            {
-                var ioService = Mock.Of<IIOService>(s =>
-                    s.GetWriter(It.IsAny<string>()) == writer);
+            var service = new PinnedItemStorageService(
+                Mock.Of<IIOService>());
 
-                var service = new PinnedItemStorageService(ioService);
+            // Act, Assert
 
-                // Act, Assert
-
-                Assert.Throws<ArgumentException>(() =>
-                    service.Write(new DocumentMetadata[0], fullName));
-            }
+            Assert.Throws<ArgumentException>(() =>
+                service.Write(new DocumentMetadata[0], fullName));
         }
 
         [Test]

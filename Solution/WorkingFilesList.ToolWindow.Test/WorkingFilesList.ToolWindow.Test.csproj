@@ -101,6 +101,7 @@
     <Compile Include="TestingInfrastructure\InMemorySettingsStore.cs" />
     <Compile Include="TestingInfrastructure\OptionsListsBuilder.cs" />
     <Compile Include="TestingInfrastructure\TestingTextWriter.cs" />
+    <Compile Include="TestingInfrastructure\TestingTextReader.cs" />
     <Compile Include="TestingInfrastructure\TestingUpdateReactionMapping.cs" />
     <Compile Include="TestingInfrastructure\UserPreferencesBuilder.cs" />
     <Compile Include="ViewModel\Command\ToggleIsPinnedTests.cs" />

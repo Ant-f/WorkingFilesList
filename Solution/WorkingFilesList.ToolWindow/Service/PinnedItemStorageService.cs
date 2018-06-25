@@ -40,6 +40,35 @@ namespace WorkingFilesList.ToolWindow.Service
             _ioService = ioService;
         }
 
+        public IList<DocumentMetadataInfo> Read(string fullName)
+        {
+            var invalid = string.IsNullOrWhiteSpace(fullName);
+
+            if (invalid)
+            {
+                throw new ArgumentException($"'{fullName}' is not valid");
+            }
+
+            var path = GetDerivedPath(fullName);
+
+            using (var reader = _ioService.GetReader(path))
+            {
+                DocumentMetadataInfo[] data;
+
+                if (reader == null)
+                {
+                    data = new DocumentMetadataInfo[0];
+                }
+                else
+                {
+                    var savedJson = reader.ReadToEnd();
+                    data = JsonConvert.DeserializeObject<DocumentMetadataInfo[]>(savedJson);
+                }
+
+                return data;
+            }
+        }
+
         public void Write(IEnumerable<DocumentMetadata> metadata, string fullName)
         {
             var invalid = string.IsNullOrWhiteSpace(fullName);

@@ -16,30 +16,17 @@
 // limitations under the License.
 
 using System.IO;
-using WorkingFilesList.ToolWindow.Interface;
 
-namespace WorkingFilesList.ToolWindow.Service
+namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 {
-    public class IOService : IIOService
+    internal class TestingTextReader : TextReader
     {
-        public TextReader GetReader(string path)
-        {
-            var reader = File.Exists(path)
-                ? new StreamReader(path)
-                : null;
+        public bool DisposeInvoked { get; private set; }
 
-            return reader;
-        }
-
-        public TextWriter GetWriter(string path)
+        protected override void Dispose(bool disposing)
         {
-            var writer = new StreamWriter(path);
-            return writer;
-        }
-
-        public void CreateDirectory(string path)
-        {
-            Directory.CreateDirectory(path);
+            DisposeInvoked = true;
+            base.Dispose(disposing);
         }
     }
 }

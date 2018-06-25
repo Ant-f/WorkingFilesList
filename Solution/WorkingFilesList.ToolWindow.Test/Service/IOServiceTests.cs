@@ -55,7 +55,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
         }
 
         [Test]
-        public void GetReaderReturnStreamReader()
+        public void GetReaderReturnStreamReaderForExistingFile()
         {
             // Arrange
 
@@ -64,12 +64,29 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Act
 
-            using (var writer = service.GetReader(path))
+            using (var reader = service.GetReader(path))
             {
                 // Assert
 
-                Assert.IsInstanceOf<StreamReader>(writer);
+                Assert.IsInstanceOf<StreamReader>(reader);
             }
+        }
+
+        [Test]
+        public void GetReaderReturnNullForNonExistentFile()
+        {
+            // Arrange
+
+            var service = new IOService();
+            var path = GetTestDataPath("NonExistent.txt");
+
+            // Act
+
+            var reader = service.GetReader(path);
+
+            // Assert
+
+            Assert.IsNull(reader);
         }
 
         [Test, Explicit]

@@ -22,6 +22,7 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IPinnedItemStorageService
     {
+        IList<DocumentMetadataInfo> Read(string fullName);
         void Write(IEnumerable<DocumentMetadata> metadata, string fullName);
     }
 }
