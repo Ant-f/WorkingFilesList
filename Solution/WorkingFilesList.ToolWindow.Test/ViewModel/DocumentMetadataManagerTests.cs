@@ -168,6 +168,249 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         }
 
         [Test]
+        public void AddRefreshesActiveDocumentMetadata()
+        {
+            // Arrange
+
+            var generator = new Mock<ICollectionViewGenerator>();
+
+            generator
+                .Setup(g => g.CreateView(It.IsAny<IList>()))
+                .Returns<IList>(l => new Mock<ICollectionView>
+                {
+                    DefaultValue = DefaultValue.Mock
+                }.Object);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = generator.Object,
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.Add(new DocumentMetadataInfo());
+
+            // Assert
+
+            Mock.Get(manager.ActiveDocumentMetadata).Verify(a => a.Refresh());
+
+            Mock.Get(manager.PinnedDocumentMetadata).Verify(p =>
+                p.Refresh(),
+                Times.Never);
+        }
+
+        [Test]
+        public void AddPinnedSetsIsPinnedTrue()
+        {
+            // Arrange
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.AddPinned(new DocumentMetadataInfo());
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.AreEqual(1, collection.Count);
+            Assert.AreNotEqual(DocumentMetadata.UnpinnedOrderValue, collection[0].PinOrder);
+            Assert.IsTrue(collection[0].IsPinned);
+        }
+
+        [Test]
+        public void AddPinnedAppendsDocumentMetadataToListIfFullPathDoesNotExist()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.AddPinned(info);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.AreEqual(1, collection.Count);
+            Assert.AreEqual(info.FullName, collection[0].FullName);
+        }
+
+        [Test]
+        public void AddPinnedSetsHasWindowFalseWhenAppendingDocumentMetadataToList()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.AddPinned(info);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.AreEqual(1, collection.Count);
+            Assert.IsFalse(collection[0].HasWindow);
+        }
+
+        [Test]
+        public void AddPinnedDoesNotAppendDocumentMetadataToListIfFullPathAlreadyExist()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.AddPinned(info);
+            manager.AddPinned(info);
+
+            // Assert
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            Assert.AreEqual(1, collection.Count);
+            Assert.That(collection[0].FullName, Is.EqualTo(info.FullName));
+        }
+
+        [Test]
+        public void AddPinnedSetsHasWindowTrueWhenInvokedWithExistingDocumentMetadata()
+        {
+            // Arrange
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            var builder = new DocumentMetadataManagerBuilder();
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Add(info);
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            var metadata = collection.Single();
+            metadata.HasWindow = false;
+
+            // Act
+
+            manager.AddPinned(info);
+
+            // Assert
+
+            Assert.AreEqual(metadata, collection.Single());
+            Assert.IsTrue(metadata.HasWindow);
+        }
+
+        [Test]
+        public void AddPinnedRefreshesDocumentMetadataViewsWhenAppendingMetadata()
+        {
+            // Arrange
+
+            var generator = new Mock<ICollectionViewGenerator>();
+
+            generator
+                .Setup(g => g.CreateView(It.IsAny<IList>()))
+                .Returns<IList>(l => new Mock<ICollectionView>
+                {
+                    DefaultValue = DefaultValue.Mock
+                }.Object);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = generator.Object,
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            // Act
+
+            manager.AddPinned(new DocumentMetadataInfo());
+
+            // Assert
+
+            Mock.Get(manager.ActiveDocumentMetadata).Verify(a => a.Refresh());
+            Mock.Get(manager.PinnedDocumentMetadata).Verify(p => p.Refresh());
+        }
+
+        [Test]
+        public void AddPinnedRefreshesOnlyPinnedDocumentMetadataWhenPinningExistingMetadata()
+        {
+            // Arrange
+
+            var generator = new Mock<ICollectionViewGenerator>();
+
+            generator
+                .Setup(g => g.CreateView(It.IsAny<IList>()))
+                .Returns<IList>(l => new Mock<ICollectionView>
+                {
+                    DefaultValue = DefaultValue.Mock
+                }.Object);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                CollectionViewGenerator = generator.Object,
+                UpdateReactionManager = Mock.Of<IUpdateReactionManager>()
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+
+            var info = new DocumentMetadataInfo
+            {
+                FullName = "FullName"
+            };
+
+            // Act
+
+            manager.Add(info);
+
+            Mock.Get(manager.ActiveDocumentMetadata).ResetCalls();
+            Mock.Get(manager.PinnedDocumentMetadata).ResetCalls();
+
+            manager.AddPinned(info);
+
+            // Assert
+
+            Mock.Get(manager.ActiveDocumentMetadata).Verify(a =>
+                a.Refresh(),
+                Times.Never);
+
+            Mock.Get(manager.PinnedDocumentMetadata).Verify(p => p.Refresh());
+        }
+
+        [Test]
         public void SynchronizeAddsDocumentsMissingInTarget()
         {
             // Arrange

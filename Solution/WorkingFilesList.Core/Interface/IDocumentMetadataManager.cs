@@ -27,6 +27,7 @@ namespace WorkingFilesList.Core.Interface
 
         void Activate(string fullName);
         void Add(DocumentMetadataInfo info);
+        void AddPinned(DocumentMetadataInfo info);
         void Clear();
         bool UpdateFullName(string newName, string oldName);
         void Synchronize(Documents documents, bool setUsageOrder);

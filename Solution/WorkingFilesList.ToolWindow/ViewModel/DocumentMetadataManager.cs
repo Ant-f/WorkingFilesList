@@ -112,8 +112,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         }
 
         /// <summary>
-        /// Adds the provided name to <see cref="ActiveDocumentMetadata"/> if
-        /// not already present. Sets <see cref="DocumentMetadata.HasWindow"/>
+        /// Adds the provided metadata info to <see cref="ActiveDocumentMetadata"/>
+        /// if not already present. Sets <see cref="DocumentMetadata.HasWindow"/>
         /// to true
         /// </summary>
         /// <param name="info">
@@ -121,17 +121,45 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </param>
         public void Add(DocumentMetadataInfo info)
         {
+            Add(info, false);
+        }
+
+        /// <summary>
+        /// Adds the provided metadata info to <see cref="PinnedDocumentMetadata"/>
+        /// if not already present.
+        /// </summary>
+        /// <param name="info">
+        /// Information about the document's full name and containing project
+        /// </param>
+        public void AddPinned(DocumentMetadataInfo info)
+        {
+            Add(info, true);
+        }
+
+        private void Add(DocumentMetadataInfo info, bool isPinned)
+        {
             var metadata = _activeDocumentMetadata.FirstOrDefault(m =>
                 _metadataEqualityService.Compare(info, m));
 
-            if (metadata == null)
+            var exists = metadata != null;
+
+            if (!exists)
             {
                 metadata = _documentMetadataFactory.Create(info);
                 _activeDocumentMetadata.Add(metadata);
             }
 
-            metadata.HasWindow = true;
-            ActiveDocumentMetadata.Refresh();
+            metadata.HasWindow = !isPinned || exists;
+
+            if (isPinned)
+            {
+                TogglePinnedStatus(metadata);
+            }
+
+            if (!isPinned || !exists)
+            {
+                ActiveDocumentMetadata.Refresh();
+            }
         }
 
         /// <summary>
