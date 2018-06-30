@@ -25,5 +25,6 @@ namespace WorkingFilesList.ToolWindow.Interface
         TextReader GetReader(string path);
         TextWriter GetWriter(string path);
         void CreateDirectory(string path);
+        void Delete(string path);
     }
 }

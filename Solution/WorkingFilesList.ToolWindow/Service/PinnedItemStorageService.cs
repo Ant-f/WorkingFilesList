@@ -69,6 +69,24 @@ namespace WorkingFilesList.ToolWindow.Service
             }
         }
 
+        public void Remove(string fullName)
+        {
+            var invalid = string.IsNullOrWhiteSpace(fullName);
+
+            if (invalid)
+            {
+                throw new ArgumentException($"'{fullName}' is not valid");
+            }
+
+            var path = GetDerivedPath(fullName);
+            var exists = _ioService.FileExists(path);
+
+            if (exists)
+            {
+                _ioService.Delete(path);
+            }
+        }
+
         public void Write(IEnumerable<DocumentMetadata> metadata, string fullName)
         {
             var invalid = string.IsNullOrWhiteSpace(fullName);

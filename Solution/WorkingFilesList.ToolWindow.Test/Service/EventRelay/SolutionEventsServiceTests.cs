@@ -501,13 +501,19 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             Mock.Get(storageService).Verify(s =>
+                s.Remove(It.IsAny<string>()),
+                Times.Never);
+
+            Mock.Get(storageService).Verify(s =>
                 s.Write(metadata, fullName));
         }
 
         [Test]
-        public void PinnedMetadataIsNotWrittenBeforeClosingSolutionIfNoMetadataIsPinned()
+        public void PinnedMetadataIsRemovedBeforeClosingSolutionIfNoMetadataIsPinned()
         {
             // Arrange
+
+            const string solutionFullName = "SolutionFullName";
 
             var metadata = new DocumentMetadata[0];
             var metadataView = new ListCollectionView(metadata);
@@ -515,7 +521,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(d =>
-                    d.Solution.FullName == "FullName"),
+                    d.Solution.FullName == solutionFullName),
                 Mock.Of<IDocumentMetadataManager>(m =>
                     m.PinnedDocumentMetadata == metadataView),
                 storageService,
@@ -527,6 +533,9 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             service.BeforeClosing();
 
             // Assert
+
+            Mock.Get(storageService).Verify(s =>
+                s.Remove(solutionFullName));
 
             Mock.Get(storageService).Verify(s =>
                 s.Write(
@@ -558,6 +567,10 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             service.BeforeClosing();
 
             // Assert
+
+            Mock.Get(storageService).Verify(s =>
+                s.Remove(It.IsAny<string>()),
+                Times.Never);
 
             Mock.Get(storageService).Verify(s =>
                 s.Write(

@@ -73,10 +73,12 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
             if (data.Length == 0)
             {
-                return;
+                _pinnedItemStorageService.Remove(_dte2.Solution.FullName);
             }
-
-            _pinnedItemStorageService.Write(data, _dte2.Solution.FullName);
+            else
+            {
+                _pinnedItemStorageService.Write(data, _dte2.Solution.FullName);
+            }
         }
 
         public void Opened()

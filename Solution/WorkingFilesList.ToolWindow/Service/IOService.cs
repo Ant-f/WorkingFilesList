@@ -47,5 +47,10 @@ namespace WorkingFilesList.ToolWindow.Service
             var exists = File.Exists(path);
             return exists;
         }
+
+        public void Delete(string path)
+        {
+            File.Delete(path);
+        }
     }
 }

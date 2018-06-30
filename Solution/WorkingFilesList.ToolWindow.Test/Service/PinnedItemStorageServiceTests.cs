@@ -30,6 +30,15 @@ namespace WorkingFilesList.ToolWindow.Test.Service
     [TestFixture]
     public class PinnedItemStorageServiceTests
     {
+        private const string FullName = "FullName";
+
+        // 90C4E69DCE7A11BFCB705B1A6540A847AAC993FA is SHA1 of FullName
+
+        private readonly string _hashedPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+            "WorkingFilesList",
+            "1.3_90C4E69DCE7A11BFCB705B1A6540A847AAC993FA.json");
+
         [Test]
         public void ReaderIsDisposed()
         {
@@ -126,19 +135,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
                 // Act
 
-                service.Read("FullName");
+                service.Read(FullName);
 
                 // Assert
 
-                // 90C4E69DCE7A11BFCB705B1A6540A847AAC993FA is SHA1 of FullName
-
-                var expectedPath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    "WorkingFilesList",
-                    "1.3_90C4E69DCE7A11BFCB705B1A6540A847AAC993FA.json");
-
                 Mock.Get(ioService).Verify(s =>
-                    s.GetReader(expectedPath));
+                    s.GetReader(_hashedPath));
             }
         }
 
@@ -205,19 +207,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
                 // Act
 
-                service.Write(new DocumentMetadata[0], "FullName");
+                service.Write(new DocumentMetadata[0], FullName);
 
                 // Assert
 
-                // 90C4E69DCE7A11BFCB705B1A6540A847AAC993FA is SHA1 of FullName
-
-                var expectedPath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    "WorkingFilesList",
-                    "1.3_90C4E69DCE7A11BFCB705B1A6540A847AAC993FA.json");
-
                 Mock.Get(ioService).Verify(s =>
-                    s.GetWriter(expectedPath));
+                    s.GetWriter(_hashedPath));
             }
         }
 
@@ -303,6 +298,64 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
                 Assert.IsTrue(directoryCreatedBeforeWrite);
             }
+        }
+
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void ExceptionIsThrownWhenFullNameIsEmptyWhenRemovingSavedMetadata(
+            string fullName)
+        {
+            // Arrange
+
+            var service = new PinnedItemStorageService(
+                Mock.Of<IIOService>());
+
+            // Act, Assert
+
+            Assert.Throws<ArgumentException>(() =>
+                service.Remove(fullName));
+        }
+
+        [Test]
+        public void FullNameIsHashedWhenRemovingSavedMetadata()
+        {
+            // Arrange
+
+            var ioService = Mock.Of<IIOService>(s =>
+                s.FileExists(_hashedPath) == true);
+
+            var service = new PinnedItemStorageService(ioService);
+
+            // Act
+
+            service.Remove(FullName);
+
+            // Assert
+
+            Mock.Get(ioService).Verify(s =>
+                s.Delete(_hashedPath));
+        }
+
+        [Test]
+        public void SavedMetadataIsNotRemovedIfFullNamePathDoesNotExist()
+        {
+            // Arrange
+
+            var ioService = Mock.Of<IIOService>(s =>
+                s.FileExists(It.IsAny<string>()) == false);
+
+            var service = new PinnedItemStorageService(ioService);
+
+            // Act
+
+            service.Remove(FullName);
+
+            // Assert
+
+            Mock.Get(ioService).Verify(s =>
+                s.Delete(It.IsAny<string>()),
+                Times.Never);
         }
     }
 }
