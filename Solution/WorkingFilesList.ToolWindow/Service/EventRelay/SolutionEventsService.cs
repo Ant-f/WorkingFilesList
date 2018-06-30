@@ -71,7 +71,22 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
             var name = Path.GetFileNameWithoutExtension(_dte2.Solution.FullName);
             RaiseSolutionNameChanged(name);
 
-            _pinnedItemStorageService.Read(_dte2.Solution.FullName);
+            if (string.IsNullOrWhiteSpace(_dte2.Solution.FullName))
+            {
+                return;
+            }
+
+            var metadata = _pinnedItemStorageService.Read(_dte2.Solution.FullName);
+
+            if (metadata == null)
+            {
+                return;
+            }
+
+            foreach (var info in metadata)
+            {
+                _documentMetadataManager.AddPinned(info);
+            }
         }
 
         public async Task ProjectAdded(Project project)

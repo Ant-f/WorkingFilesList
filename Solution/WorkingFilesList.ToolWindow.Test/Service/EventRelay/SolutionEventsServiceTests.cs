@@ -221,18 +221,63 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
-        public void SavedPinnedMetadataInfoIsReadWhenSolutionIsOpened()
+        public void SavedPinnedMetadataInfoIsRestoredWhenSolutionIsOpened()
         {
             // Arrange
 
-            const string fullName = "FullName";
+            const string solutionFullName = "SolutionFullName";
 
-            var pinnedItemService = Mock.Of<IPinnedItemStorageService>();
+            var info1 = new DocumentMetadataInfo
+            {
+                FullName = "FullName1"
+            };
+
+            var info2 = new DocumentMetadataInfo
+            {
+                FullName = "FullName2"
+            };
+
+            var pinnedItemService = Mock.Of<IPinnedItemStorageService>(s =>
+                s.Read(solutionFullName) == new[] {info1, info2});
+
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
 
             var service = new SolutionEventsService(
                 Mock.Of<DTE2>(d =>
-                    d.Solution.FullName == fullName),
-                Mock.Of<IDocumentMetadataManager>(),
+                    d.Solution.FullName == solutionFullName),
+                metadataManager,
+                pinnedItemService,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
+
+            // Act
+
+            service.Opened();
+
+            // Assert
+
+            Mock.Get(metadataManager).Verify(s =>
+                s.AddPinned(info1));
+
+            Mock.Get(metadataManager).Verify(s =>
+                s.AddPinned(info2));
+        }
+
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void SavedPinnedMetadataInfoIsNotRestoredWhenSolutionNameIsEmpty(
+            string solutionName)
+        {
+            // Arrange
+
+            var pinnedItemService = Mock.Of<IPinnedItemStorageService>();
+            var metadataManager = Mock.Of<IDocumentMetadataManager>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(d =>
+                    d.Solution.FullName == solutionName),
+                metadataManager,
                 pinnedItemService,
                 Mock.Of<IProjectBrushService>(),
                 Mock.Of<IUserPreferences>());
@@ -244,7 +289,12 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
             // Assert
 
             Mock.Get(pinnedItemService).Verify(s =>
-                s.Read(fullName));
+                s.Read(It.IsAny<string>()),
+                Times.Never);
+
+            Mock.Get(metadataManager).Verify(s =>
+                s.AddPinned(It.IsAny<DocumentMetadataInfo>()),
+                Times.Never);
         }
 
         [Test]
