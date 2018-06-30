@@ -41,5 +41,11 @@ namespace WorkingFilesList.ToolWindow.Service
         {
             Directory.CreateDirectory(path);
         }
+
+        public bool FileExists(string path)
+        {
+            var exists = File.Exists(path);
+            return exists;
+        }
     }
 }

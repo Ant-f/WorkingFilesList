@@ -35,7 +35,6 @@ namespace WorkingFilesList.Ioc.Modules
             Kernel.Bind<IDocumentIconService>().To<DocumentIconService>().InSingletonScope();
             Kernel.Bind<IDocumentMetadataEqualityService>().To<DocumentMetadataEqualityService>().InSingletonScope();
             Kernel.Bind<IDteEventsSubscriber>().To<DteEventsSubscriber>().InSingletonScope();
-            Kernel.Bind<IFileExistenceChecker>().To<FileExistenceChecker>().InSingletonScope();
             Kernel.Bind<IFilePathService>().To<FilePathService>().InSingletonScope();
             Kernel.Bind<IIOService>().To<IOService>().InSingletonScope();
             Kernel.Bind<INormalizedUsageOrderService>().To<NormalizedUsageOrderService>().InSingletonScope();

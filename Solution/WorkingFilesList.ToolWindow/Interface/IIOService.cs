@@ -21,6 +21,7 @@ namespace WorkingFilesList.ToolWindow.Interface
 {
     public interface IIOService
     {
+        bool FileExists(string path);
         TextReader GetReader(string path);
         TextWriter GetWriter(string path);
         void CreateDirectory(string path);

@@ -35,7 +35,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             const string itemName = "ItemName";
             const string fullName = "FullName";
 
-            var fileExistenceChecker = Mock.Of<IFileExistenceChecker>(f =>
+            var ioService = Mock.Of<IIOService>(f =>
                 f.FileExists(fullName) == true);
 
             var projectItem = Mock.Of<ProjectItem>(p =>
@@ -45,7 +45,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 d.Solution == Mock.Of<Solution>(s =>
                     s.FindProjectItem(itemName) == projectItem));
 
-            var service = new ProjectItemService(dte, fileExistenceChecker);
+            var service = new ProjectItemService(dte, ioService);
 
             // Act
 
@@ -53,7 +53,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Assert
 
-            Mock.Get(fileExistenceChecker).Verify(f => f.FileExists(fullName));
+            Mock.Get(ioService).Verify(f => f.FileExists(fullName));
             Assert.AreEqual(projectItem, item);
         }
 
@@ -65,7 +65,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
             const string itemName = "ItemName";
             const string fullName = "FullName";
 
-            var fileExistenceChecker = Mock.Of<IFileExistenceChecker>(f =>
+            var ioService = Mock.Of<IIOService>(f =>
                 f.FileExists(It.IsAny<string>()) == false);
 
             var dte = Mock.Of<DTE2>(d =>
@@ -73,7 +73,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                     s.FindProjectItem(itemName) == Mock.Of<ProjectItem>(p =>
                         p.get_FileNames(1) == fullName)));
 
-            var service = new ProjectItemService(dte, fileExistenceChecker);
+            var service = new ProjectItemService(dte, ioService);
 
             // Act
 
@@ -81,7 +81,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Assert
 
-            Mock.Get(fileExistenceChecker).Verify(f => f.FileExists(It.IsAny<string>()));
+            Mock.Get(ioService).Verify(f => f.FileExists(It.IsAny<string>()));
             Assert.IsNull(item);
         }
 
@@ -98,9 +98,9 @@ namespace WorkingFilesList.ToolWindow.Test.Service
                 .Setup(s => s.FindProjectItem(It.IsAny<string>()))
                 .Returns<ProjectItem>(null);
 
-            var fileExistenceChecker = Mock.Of<IFileExistenceChecker>();
+            var ioService = Mock.Of<IIOService>();
             var dte = Mock.Of<DTE2>(d => d.Solution == solutionMock.Object);
-            var service = new ProjectItemService(dte, fileExistenceChecker);
+            var service = new ProjectItemService(dte, ioService);
 
             // Act
 
@@ -108,7 +108,7 @@ namespace WorkingFilesList.ToolWindow.Test.Service
 
             // Assert
 
-            Mock.Get(fileExistenceChecker)
+            Mock.Get(ioService)
                 .Verify(f => f.FileExists(It.IsAny<string>()),
                     Times.Never);
 

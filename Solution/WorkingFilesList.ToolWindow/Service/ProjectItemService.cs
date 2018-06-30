@@ -24,14 +24,12 @@ namespace WorkingFilesList.ToolWindow.Service
     public class ProjectItemService : IProjectItemService
     {
         private readonly DTE2 _dte2;
-        private readonly IFileExistenceChecker _fileExistenceChecker;
+        private readonly IIOService _ioService;
 
-        public ProjectItemService(
-            DTE2 dte2,
-            IFileExistenceChecker fileExistenceChecker)
+        public ProjectItemService(DTE2 dte2, IIOService ioService)
         {
             _dte2 = dte2;
-            _fileExistenceChecker = fileExistenceChecker;
+            _ioService = ioService;
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace WorkingFilesList.ToolWindow.Service
             if (projectItem != null)
             {
                 var fullName = projectItem.FileNames[1];
-                var exists = _fileExistenceChecker.FileExists(fullName);
+                var exists = _ioService.FileExists(fullName);
 
                 if (exists)
                 {
