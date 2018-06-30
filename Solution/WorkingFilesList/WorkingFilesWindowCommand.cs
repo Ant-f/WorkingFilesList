@@ -19,6 +19,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
+using Task = System.Threading.Tasks.Task;
 
 namespace WorkingFilesList
 {
@@ -40,29 +41,22 @@ namespace WorkingFilesList
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
-        private readonly Package package;
+        private readonly AsyncPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkingFilesWindowCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private WorkingFilesWindowCommand(Package package)
+        /// <param name="commandService">Command service to add command to, not null.</param>
+        private WorkingFilesWindowCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
-            if (package == null)
-            {
-                throw new ArgumentNullException("package");
-            }
+            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
-            this.package = package;
-
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
-            {
-                var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.ShowToolWindow, menuCommandID);
-                commandService.AddCommand(menuItem);
-            }
+            var menuCommandID = new CommandID(CommandSet, CommandId);
+            var menuItem = new MenuCommand(this.ShowToolWindow, menuCommandID);
+            commandService.AddCommand(menuItem);
         }
 
         /// <summary>
@@ -77,7 +71,7 @@ namespace WorkingFilesList
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
-        private IServiceProvider ServiceProvider
+        private Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider
         {
             get
             {
@@ -89,9 +83,16 @@ namespace WorkingFilesList
         /// Initializes the singleton instance of the command.
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        public static void Initialize(Package package)
+        public static async Task InitializeAsync(AsyncPackage package)
         {
-            Instance = new WorkingFilesWindowCommand(package);
+            // Verify the current thread is the UI thread - the call to AddCommand
+            // in WorkingFilesWindowCommand's constructor requires the UI thread.
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var commandService = await package.GetServiceAsync(
+                typeof(IMenuCommandService)) as OleMenuCommandService;
+
+            Instance = new WorkingFilesWindowCommand(package, commandService);
         }
 
         /// <summary>
@@ -101,6 +102,8 @@ namespace WorkingFilesList
         /// <param name="e">The event args.</param>
         private void ShowToolWindow(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.

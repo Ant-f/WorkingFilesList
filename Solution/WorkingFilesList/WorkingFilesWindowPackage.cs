@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Input;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Service.Locator;
@@ -31,6 +32,7 @@ using WorkingFilesList.Ioc;
 using WorkingFilesList.OptionsDialoguePage;
 using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel.Command;
+using Task = System.Threading.Tasks.Task;
 
 namespace WorkingFilesList
 {
@@ -51,7 +53,7 @@ namespace WorkingFilesList
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionsPage), "Working Files List", "General", 1000, 1001, true)]
@@ -59,7 +61,7 @@ namespace WorkingFilesList
     [ProvideToolWindow(typeof(WorkingFilesWindow))]
     [Guid(WorkingFilesWindowPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class WorkingFilesWindowPackage : Package, IOptionsPageService
+    public sealed class WorkingFilesWindowPackage : AsyncPackage, IOptionsPageService
     {
         private IKernel _kernel;
 
@@ -88,16 +90,32 @@ namespace WorkingFilesList
         /// package is sited, so this is the place where you can put all the
         /// initialization code that rely on services provided by VisualStudio.
         /// </summary>
-        protected override void Initialize()
+        /// <param name="cancellationToken">
+        /// A cancellation token to monitor for initialization cancellation,
+        /// which can occur when VS is shutting down.
+        /// </param>
+        /// <param name="progress">A provider for progress updates.</param>
+        /// <returns>
+        /// A task representing the async work of package initialization, or an
+        /// already completed task if there is none. Do not return null from
+        /// this method.
+        /// </returns>
+        protected override async Task InitializeAsync(
+            CancellationToken cancellationToken,
+            IProgress<ServiceProgressData> progress)
         {
-            WorkingFilesWindowCommand.Initialize(this);
-            base.Initialize();
-
-            var dte2 = (DTE2) GetService(typeof(DTE));
+            var dte2 = await GetServiceAsync(typeof(DTE)) as DTE2;
             var kernelFactory = new NinjectKernelFactory();
             _kernel = kernelFactory.CreateKernel(dte2);
 
             InitializeServices(_kernel, this);
+
+            // When initialized asynchronously, the current thread may be a
+            // background thread at this point. Do any initialization that
+            // requires the UI thread after switching to the UI thread.
+
+            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            await WorkingFilesWindowCommand.InitializeAsync(this);
         }
 
         #endregion
