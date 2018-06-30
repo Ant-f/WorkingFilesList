@@ -61,9 +61,22 @@ namespace WorkingFilesList.ToolWindow.Service.EventRelay
 
         public void BeforeClosing()
         {
-            _pinnedItemStorageService.Write(
-                _documentMetadataManager.PinnedDocumentMetadata.Cast<DocumentMetadata>(),
-                _dte2.Solution.FullName);
+            if (string.IsNullOrWhiteSpace(_dte2.Solution.FullName))
+            {
+                return;
+            }
+
+            var data = _documentMetadataManager
+                .PinnedDocumentMetadata
+                .Cast<DocumentMetadata>()
+                .ToArray();
+
+            if (data.Length == 0)
+            {
+                return;
+            }
+
+            _pinnedItemStorageService.Write(data, _dte2.Solution.FullName);
         }
 
         public void Opened()

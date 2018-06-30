@@ -20,6 +20,7 @@ using EnvDTE80;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -469,13 +470,18 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
         }
 
         [Test]
-        public void MetadataIsWrittenBeforeClosingSolution()
+        public void PinnedMetadataIsWrittenBeforeClosingSolution()
         {
             // Arrange
 
             const string fullName = "FullName";
 
-            var metadata = new DocumentMetadata[0];
+            var metadataItem = new DocumentMetadata(
+                new DocumentMetadataInfo(),
+                string.Empty,
+                null);
+
+            var metadata = new[] {metadataItem};
             var metadataView = new ListCollectionView(metadata);
             var storageService = Mock.Of<IPinnedItemStorageService>();
 
@@ -496,6 +502,68 @@ namespace WorkingFilesList.ToolWindow.Test.Service.EventRelay
 
             Mock.Get(storageService).Verify(s =>
                 s.Write(metadata, fullName));
+        }
+
+        [Test]
+        public void PinnedMetadataIsNotWrittenBeforeClosingSolutionIfNoMetadataIsPinned()
+        {
+            // Arrange
+
+            var metadata = new DocumentMetadata[0];
+            var metadataView = new ListCollectionView(metadata);
+            var storageService = Mock.Of<IPinnedItemStorageService>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(d =>
+                    d.Solution.FullName == "FullName"),
+                Mock.Of<IDocumentMetadataManager>(m =>
+                    m.PinnedDocumentMetadata == metadataView),
+                storageService,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
+
+            // Act
+
+            service.BeforeClosing();
+
+            // Assert
+
+            Mock.Get(storageService).Verify(s =>
+                s.Write(
+                    It.IsAny<IEnumerable<DocumentMetadata>>(),
+                    It.IsAny<string>()),
+                Times.Never);
+        }
+
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void PinnedMetadataIsNotWrittenBeforeClosingSolutionIfSolutionNameIsEmpty(
+            string solutionName)
+        {
+            // Arrange
+
+            var storageService = Mock.Of<IPinnedItemStorageService>();
+
+            var service = new SolutionEventsService(
+                Mock.Of<DTE2>(d =>
+                    d.Solution.FullName == solutionName),
+                Mock.Of<IDocumentMetadataManager>(),
+                storageService,
+                Mock.Of<IProjectBrushService>(),
+                Mock.Of<IUserPreferences>());
+
+            // Act
+
+            service.BeforeClosing();
+
+            // Assert
+
+            Mock.Get(storageService).Verify(s =>
+                s.Write(
+                    It.IsAny<IEnumerable<DocumentMetadata>>(),
+                    It.IsAny<string>()),
+                Times.Never);
         }
 
         private static string GetTestDataPath(string fileName)
