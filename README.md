@@ -51,10 +51,27 @@ external program** as the start action and enter the path to Visual Studio, e.g.
 
 Set `/rootsuffix Exp` as the start options **Command line arguments**
 
+## Pinned Files
+
+When closing a solution or exiting Visual Studio with items pinned in Working
+Files List, information about the pinned items will be written to disk so that
+they can be restored when the solution is next opened. JSON files are written to
+the `WorkingFilesList` folder, located within the logged in user’s Documents
+folder. The names of the written files include a hash of the corresponding
+solution’s path, meaning that if a solution is moved to another location, any
+previously pinned items for that solution will not be restored the next time
+that it is opened.
+
+The JSON files created by Working Files List can be safely deleted if the pinned
+status of files is no longer required.
+
 ## Uninstallation
 
-Select [**Tools**] -> [**Extensions and Updates...**] on the menu bar. There
+* Select [**Tools**] -> [**Extensions and Updates...**] on the menu bar. There
 should be an option to uninstall the extension.
+
+* The `WorkingFilesList` folder and its contents, located in the logged in
+user's Documents folder can safely be deleted.
 
 ## Known Issues
 
