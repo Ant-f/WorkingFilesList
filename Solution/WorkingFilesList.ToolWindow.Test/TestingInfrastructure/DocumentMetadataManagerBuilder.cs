@@ -136,7 +136,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
             // counted in the tests that the created DocumentMetadataManager
             // will be used in.
 
-            NormalizedUsageOrderServiceMock.ResetCalls();
+            NormalizedUsageOrderServiceMock.Invocations.Clear();
 
             return manager;
         }

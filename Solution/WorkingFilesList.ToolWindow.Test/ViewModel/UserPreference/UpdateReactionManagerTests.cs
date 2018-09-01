@@ -58,7 +58,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Reset calls so that it is possible to verify the number of times
             // it is called as a result of raising PropertyChanged
 
-            updateReactionMock.ResetCalls();
+            updateReactionMock.Invocations.Clear();
 
             // Act
 
@@ -109,8 +109,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Reset calls so that it is possible to verify the number of times
             // it is called as a result of raising PropertyChanged
 
-            updateReactionMock1.ResetCalls();
-            updateReactionMock2.ResetCalls();
+            updateReactionMock1.Invocations.Clear();
+            updateReactionMock2.Invocations.Clear();
 
             // Act
 
@@ -170,8 +170,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Reset calls so that it is possible to verify the number of times
             // it is called as a result of raising PropertyChanged
 
-            updateReactionMock1.ResetCalls();
-            updateReactionMock2.ResetCalls();
+            updateReactionMock1.Invocations.Clear();
+            updateReactionMock2.Invocations.Clear();
 
             // Act
 
@@ -219,7 +219,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Reset calls so that it is possible to verify the number of times
             // it is called as a result of raising PropertyChanged
 
-            updateReactionMock.ResetCalls();
+            updateReactionMock.Invocations.Clear();
 
             // Act
 
@@ -262,7 +262,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel.UserPreference
             // Reset calls so that it is possible to verify the number of times
             // it is called as a result of raising PropertyChanged
 
-            updateReactionMock.ResetCalls();
+            updateReactionMock.Invocations.Clear();
 
             // Act
 

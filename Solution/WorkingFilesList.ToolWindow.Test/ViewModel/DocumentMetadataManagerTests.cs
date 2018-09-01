@@ -396,8 +396,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             manager.Add(info);
 
-            Mock.Get(manager.ActiveDocumentMetadata).ResetCalls();
-            Mock.Get(manager.PinnedDocumentMetadata).ResetCalls();
+            Mock.Get(manager.ActiveDocumentMetadata).Invocations.Clear();
+            Mock.Get(manager.PinnedDocumentMetadata).Invocations.Clear();
 
             manager.AddPinned(info);
 
@@ -1352,7 +1352,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // add item again
             manager.Add(info);
-            builder.NormalizedUsageOrderServiceMock.ResetCalls();
+            builder.NormalizedUsageOrderServiceMock.Invocations.Clear();
 
             // Act
 
