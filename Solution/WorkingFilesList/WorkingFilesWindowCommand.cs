@@ -52,7 +52,11 @@ namespace WorkingFilesList
         private WorkingFilesWindowCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
-            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
+
+            if (commandService == null)
+            {
+                throw new ArgumentNullException(nameof(commandService));
+            }
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.ShowToolWindow, menuCommandID);
@@ -87,7 +91,7 @@ namespace WorkingFilesList
         {
             // Verify the current thread is the UI thread - the call to AddCommand
             // in WorkingFilesWindowCommand's constructor requires the UI thread.
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             var commandService = await package.GetServiceAsync(
                 typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -100,15 +104,15 @@ namespace WorkingFilesList
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event args.</param>
-        private void ShowToolWindow(object sender, EventArgs e)
+        private async void ShowToolWindow(object sender, EventArgs e)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
             ToolWindowPane window = this.package.FindToolWindow(typeof(WorkingFilesWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
+            if (window?.Frame == null)
             {
                 throw new NotSupportedException("Cannot create tool window");
             }
