@@ -38,8 +38,32 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
+        private string _filterString;
+
+
+
         public ICollectionView ActiveDocumentMetadata { get; }
         public ICollectionView PinnedDocumentMetadata { get; }
+
+        /// <summary>
+        /// string for filename filter
+        /// </summary>
+        /// <value>
+        /// The filter string.
+        /// </value>
+        public string FilterString
+        {
+            get
+            {
+                return _filterString;
+            }
+
+            set
+            {
+                _filterString = value;
+                UpdateFilter();
+            }
+        }
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
@@ -427,5 +451,21 @@ namespace WorkingFilesList.ToolWindow.ViewModel
                 index++;
             }
         }
+
+        /// <summary>
+        /// Updates the DocumentMetadata filter match information.
+        /// </summary>
+        private void UpdateFilter()
+        {
+            foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
+            {
+                metadata.IsFilterMatch = metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+            foreach (var metadata in _activeDocumentMetadata.Cast<DocumentMetadata>())
+            {
+                metadata.IsFilterMatch = metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+        }
+
     }
 }

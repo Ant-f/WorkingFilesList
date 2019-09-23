@@ -34,6 +34,7 @@ namespace WorkingFilesList.Core.Model
         private bool _isActive;
         private bool _isPinned;
         private bool _isReordering;
+        private bool _isFilterMatch;
         private Brush _projectBrush;
         private Direction _reorderingDirection;
         private double _usageOrder;
@@ -245,6 +246,28 @@ namespace WorkingFilesList.Core.Model
             }
         }
 
+        /// <summary>
+        /// Indicates whether the current instance matches the current filename filter
+        /// </summary>
+        /// <value>
+        /// "true" if this instance is filter match; otherwise, "false".
+        /// </value>
+        public bool IsFilterMatch
+        {
+            get
+            {
+                return _isFilterMatch;
+            }
+            set
+            {
+                if (_isFilterMatch != value)
+                {
+                    _isFilterMatch = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool IsPinned
         {
             get
@@ -320,6 +343,7 @@ namespace WorkingFilesList.Core.Model
             FullName = info.FullName;
             Icon = icon;
             PinOrder = UnpinnedOrderValue;
+            IsFilterMatch = true;
 
             ProjectNames = new ProjectNameData(
                 info.ProjectDisplayName,

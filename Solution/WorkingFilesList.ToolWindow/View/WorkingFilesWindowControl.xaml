@@ -52,6 +52,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -499,6 +500,9 @@
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding IsFilterMatch}" Value="False">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
 
@@ -587,10 +591,22 @@
             </ToolBar>
         </ToolBarTray>
 
+        <TextBox DataContext="{Binding DocumentMetadataManager}" Grid.Row="1" x:Name="FilterBox" Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="Yellow" />
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Background" Value="White"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <!--Pinned Documents-->
         <Grid DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
               d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
-              Grid.Row="1"
+              Grid.Row="2"
               Margin="{StaticResource DocumentMetadataGroupMargin}">
             
             <Grid.Resources>
@@ -626,7 +642,7 @@
         <!--Active Documents-->
         <Grid DataContext="{Binding DocumentMetadataManager.ActiveDocumentMetadata}"
               d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
-              Grid.Row="2">
+              Grid.Row="3">
             
             <Grid.Resources>
                 <Style TargetType="controls:DragDropButton">
