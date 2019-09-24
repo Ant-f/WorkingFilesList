@@ -591,18 +591,32 @@
             </ToolBar>
         </ToolBarTray>
 
-        <TextBox DataContext="{Binding DocumentMetadataManager}" Grid.Row="1" x:Name="FilterBox" Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="Yellow" />
-                    <Style.Triggers>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Background" Value="White"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+        <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" >
+            <TextBox DataContext="{Binding DocumentMetadataManager}" x:Name="FilterBox" Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,2,0,5">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Background" Value="Yellow" />
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="White"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBlock IsHitTestVisible="False" Text="Enter filter term here" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,2,0,5" Foreground="DarkGray">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
         <!--Pinned Documents-->
         <Grid DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
               d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"
