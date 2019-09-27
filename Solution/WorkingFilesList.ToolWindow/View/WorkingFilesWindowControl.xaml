@@ -500,9 +500,6 @@
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding IsFilterMatch}" Value="False">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
 

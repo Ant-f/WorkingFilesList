@@ -38,7 +38,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private readonly IUserPreferences _userPreferences;
         private readonly ObservableCollection<DocumentMetadata> _activeDocumentMetadata;
 
-        private string _filterString;
+        private string _filterString = string.Empty;
 
 
 
@@ -102,7 +102,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 var include =
                     metadata != null &&
-                    metadata.HasWindow;
+                    metadata.HasWindow &&
+                    metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
 
                 return include;
             };
@@ -127,7 +128,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
                 var include =
                     metadata != null &&
-                    metadata.IsPinned;
+                    metadata.IsPinned &&
+                    metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
 
                 return include;
             };
@@ -457,14 +459,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </summary>
         private void UpdateFilter()
         {
-            foreach (var metadata in PinnedDocumentMetadata.Cast<DocumentMetadata>())
-            {
-                metadata.IsFilterMatch = metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
-            }
-            foreach (var metadata in _activeDocumentMetadata.Cast<DocumentMetadata>())
-            {
-                metadata.IsFilterMatch = metadata.DisplayName.IndexOf(FilterString, System.StringComparison.OrdinalIgnoreCase) >= 0;
-            }
+            PinnedDocumentMetadata.Refresh();
+            ActiveDocumentMetadata.Refresh();
         }
 
     }
