@@ -2294,5 +2294,236 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.IsEmpty(manager.PinnedDocumentMetadata);
             Assert.IsEmpty(collection);
         }
+
+        public IDocumentMetadataManager PrepareDocumentsForFilterTest(params string[] docNames)
+        {
+            var documentMockList = docNames.Select(d => CreateDocumentWithInfo(new DocumentMetadataInfo
+            {
+                FullName = d,
+                ProjectDisplayName = d
+            })).ToList();
+
+            var documents = CreateDocuments(documentMockList);
+
+            var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+            metadataFactoryBuilder.FilePathServiceMock
+                .Setup(f => f.ReducePath(
+                    It.IsAny<string>(),
+                    It.IsAny<int>()))
+                .Returns<string, int>((str, i) => str);
+
+            metadataFactoryBuilder.DisplayNameHighlightEvaluatorMock
+                .Setup(d => d.GetHighlight(
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
+                .Returns<string, bool>((str, b) => str);
+
+            var factory = metadataFactoryBuilder.CreateDocumentMetadataFactory(true);
+
+            var builder = new DocumentMetadataManagerBuilder
+            {
+                DocumentMetadataFactory = factory
+            };
+
+            var manager = builder.CreateDocumentMetadataManager();
+            manager.Synchronize(documents, false);
+
+            foreach (var d in (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection)
+            {
+                manager.TogglePinnedStatus(d);
+            }
+            manager.ActiveDocumentMetadata.Refresh();
+
+            return manager;
+        }
+
+        [Test]
+        public void FilterMatchesTwoDocuments()
+        {
+            // Arrange
+            const string document1Name = "AAADocument1";
+            const string document2Name = "BBBDocument2";
+            const string document3Name = "AABDocument3";
+
+            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+
+            // Act
+
+            manager.FilterString = "BDoc";
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            // Assert
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+        }
+
+        [Test]
+        public void FilterMatchesNoDocuments()
+        {
+            // Arrange
+            const string document1Name = "AAADocument1";
+            const string document2Name = "BBBDocument2";
+            const string document3Name = "AABDocument3";
+
+            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+
+            // Act
+
+            manager.FilterString = "XXX";
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            // Assert
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document2));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document2));
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document3));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document3));
+        }
+
+
+        [Test]
+        public void FilterIsEmpytShowingAllDocuments()
+        {
+            // Arrange
+            const string document1Name = "AAADocument1";
+            const string document2Name = "BBBDocument2";
+            const string document3Name = "AABDocument3";
+
+            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+
+            // Act
+
+            manager.FilterString = string.Empty;
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            // Assert
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document1));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document1));
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+        }
+
+        [Test]
+        public void FilterMatchesAddedDocuments()
+        {
+            // Arrange
+            const string document1Name = "AAADocument1";
+            const string document2Name = "BBBDocument2";
+            const string document3Name = "AABDocument3";
+            const string document4Name = "XXBDocument4";
+
+            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+
+            // Act
+
+            manager.FilterString = "BDoc";
+
+            var newDoc = new DocumentMetadataInfo
+            {
+                FullName = document4Name,
+                ProjectDisplayName = document4Name
+            };
+
+            manager.Add(newDoc);
+            manager.TogglePinnedStatus(((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == document4Name));
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            // Assert
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+
+            var document4 = collection.Single(m => m.FullName == document4Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document4));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document4));
+        }
+
+        [Test]
+        public void FilterNotMatchesAddedDocuments()
+        {
+            // Arrange
+            const string document1Name = "AAADocument1";
+            const string document2Name = "BBBDocument2";
+            const string document3Name = "AABDocument3";
+            const string document4Name = "XXXDocument4";
+
+            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+
+            // Act
+
+            manager.FilterString = "BDoc";
+            
+            var newDoc = new DocumentMetadataInfo
+            {
+                FullName = document4Name,
+                ProjectDisplayName = document4Name
+            };
+
+            manager.Add(newDoc);
+            manager.TogglePinnedStatus(((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == document4Name));
+
+            var collection =
+                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+
+            // Assert
+
+            var document1 = collection.Single(m => m.FullName == document1Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+
+            var document2 = collection.Single(m => m.FullName == document2Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+
+            var document3 = collection.Single(m => m.FullName == document3Name);
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+
+            var document4 = collection.Single(m => m.FullName == document4Name);
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document4));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document4));
+        }
     }
 }
