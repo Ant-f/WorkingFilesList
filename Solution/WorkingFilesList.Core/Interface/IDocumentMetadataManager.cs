@@ -24,6 +24,7 @@ namespace WorkingFilesList.Core.Interface
     public interface IDocumentMetadataManager : IPinnedMetadataManager
     {
         ICollectionView ActiveDocumentMetadata { get; }
+        string FilterString { get; set; }
 
         void Activate(string fullName);
         void Add(DocumentMetadataInfo info);
