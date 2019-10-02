@@ -2414,12 +2414,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             // Act
 
-            manager.FilterString = string.Empty;
-
             var collection =
                 (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
 
             // Assert
+
+            Assert.IsTrue(manager.FilterString == string.Empty);
 
             var document1 = collection.Single(m => m.FullName == document1Name);
             Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document1));
