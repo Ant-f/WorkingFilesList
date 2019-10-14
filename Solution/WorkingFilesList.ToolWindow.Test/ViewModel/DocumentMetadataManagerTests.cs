@@ -2295,7 +2295,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.IsEmpty(collection);
         }
 
-        public IDocumentMetadataManager PrepareDocumentsForFilterTest(params string[] docNames)
+        private const string AaaDocument1 = "AAADocument1";
+        private const string BbbDocument2 = "BBBDocument2";
+        private const string AabDocument3 = "AABDocument3";
+
+        private static IDictionary<string, DocumentMetadata> PrepareDocumentsForFilterTest(
+            out IDocumentMetadataManager manager,
+            params string[] docNames)
         {
             var documentMockList = docNames.Select(d => CreateDocumentWithInfo(new DocumentMetadataInfo
             {
@@ -2325,125 +2331,100 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 DocumentMetadataFactory = factory
             };
 
-            var manager = builder.CreateDocumentMetadataManager();
+            manager = builder.CreateDocumentMetadataManager();
             manager.Synchronize(documents, false);
 
+            var metadata = new Dictionary<string, DocumentMetadata>();
             foreach (var d in (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection)
             {
+                metadata.Add(d.FullName, d);
                 manager.TogglePinnedStatus(d);
             }
             manager.ActiveDocumentMetadata.Refresh();
 
-            return manager;
+            return metadata;
+        }
+
+        private static DocumentMetadata GetMetadata(IDocumentMetadataManager manager, string documentName)
+        {
+            return ((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == documentName);
         }
 
         [Test]
         public void FilterMatchesTwoDocuments()
         {
             // Arrange
-            const string document1Name = "AAADocument1";
-            const string document2Name = "BBBDocument2";
-            const string document3Name = "AABDocument3";
 
-            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+            var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act
 
             manager.FilterString = "BDoc";
 
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
-
             // Assert
 
-            var document1 = collection.Single(m => m.FullName == document1Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
 
-            var document2 = collection.Single(m => m.FullName == document2Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
 
-            var document3 = collection.Single(m => m.FullName == document3Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
         }
 
         [Test]
         public void FilterMatchesNoDocuments()
         {
             // Arrange
-            const string document1Name = "AAADocument1";
-            const string document2Name = "BBBDocument2";
-            const string document3Name = "AABDocument3";
 
-            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+            var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act
 
             manager.FilterString = "XXX";
 
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
-
             // Assert
 
-            var document1 = collection.Single(m => m.FullName == document1Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
 
-            var document2 = collection.Single(m => m.FullName == document2Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document2));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document2));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
 
-            var document3 = collection.Single(m => m.FullName == document3Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document3));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document3));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
         }
-
 
         [Test]
         public void FilterIsEmpytShowingAllDocuments()
         {
             // Arrange
-            const string document1Name = "AAADocument1";
-            const string document2Name = "BBBDocument2";
-            const string document3Name = "AABDocument3";
 
-            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+            var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
-            // Act
-
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
-
-            // Assert
+            // Act, Assert
 
             Assert.IsTrue(manager.FilterString == string.Empty);
 
-            var document1 = collection.Single(m => m.FullName == document1Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document1));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document1));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
 
-            var document2 = collection.Single(m => m.FullName == document2Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
 
-            var document3 = collection.Single(m => m.FullName == document3Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
         }
 
         [Test]
         public void FilterMatchesAddedDocuments()
         {
             // Arrange
-            const string document1Name = "AAADocument1";
-            const string document2Name = "BBBDocument2";
-            const string document3Name = "AABDocument3";
+
             const string document4Name = "XXBDocument4";
 
-            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+            var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act
 
@@ -2456,26 +2437,20 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             manager.Add(newDoc);
-            manager.TogglePinnedStatus(((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == document4Name));
-
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+            var document4 = GetMetadata(manager, document4Name);
+            manager.TogglePinnedStatus(document4);
 
             // Assert
 
-            var document1 = collection.Single(m => m.FullName == document1Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
 
-            var document2 = collection.Single(m => m.FullName == document2Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
 
-            var document3 = collection.Single(m => m.FullName == document3Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
 
-            var document4 = collection.Single(m => m.FullName == document4Name);
             Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document4));
             Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document4));
         }
@@ -2484,17 +2459,15 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         public void FilterNotMatchesAddedDocuments()
         {
             // Arrange
-            const string document1Name = "AAADocument1";
-            const string document2Name = "BBBDocument2";
-            const string document3Name = "AABDocument3";
+
             const string document4Name = "XXXDocument4";
 
-            var manager = PrepareDocumentsForFilterTest(document1Name, document2Name, document3Name);
+            var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act
 
             manager.FilterString = "BDoc";
-            
+
             var newDoc = new DocumentMetadataInfo
             {
                 FullName = document4Name,
@@ -2502,26 +2475,20 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             };
 
             manager.Add(newDoc);
-            manager.TogglePinnedStatus(((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == document4Name));
-
-            var collection =
-                (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection;
+            var document4 = GetMetadata(manager, document4Name);
+            manager.TogglePinnedStatus(document4);
 
             // Assert
 
-            var document1 = collection.Single(m => m.FullName == document1Name);
-            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document1));
-            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document1));
+            Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
+            Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
 
-            var document2 = collection.Single(m => m.FullName == document2Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document2));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document2));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
 
-            var document3 = collection.Single(m => m.FullName == document3Name);
-            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document3));
-            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document3));
+            Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
+            Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
 
-            var document4 = collection.Single(m => m.FullName == document4Name);
             Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document4));
             Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document4));
         }
