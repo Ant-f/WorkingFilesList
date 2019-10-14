@@ -60,7 +60,8 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             set
             {
-                _filterString = value;
+                // if null, assign empty string. Otherwise, trim leading and trailing whitespace
+                _filterString = value?.Trim() ?? string.Empty;
                 UpdateFilter();
             }
         }
