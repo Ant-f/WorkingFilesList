@@ -2349,17 +2349,17 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
         {
             return ((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == documentName);
         }
-
-        [Test]
-        public void FilterMatchesTwoDocuments()
-        {
-            // Arrange
+            [TestCase("BDoc")]
+            [TestCase("bdoc")]
+            public void FilterMatchesTwoDocuments(string filterString)
+            {
+                // Arrange
 
             var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act
 
-            manager.FilterString = "BDoc";
+                manager.FilterString = filterString;
 
             // Assert
 
@@ -2396,16 +2396,19 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
         }
 
-        [Test]
-        public void FilterIsEmpytShowingAllDocuments()
-        {
+            [TestCase(null)]
+            [TestCase("")]
+            [TestCase(" ")]
+            public void FilterIsEmptyShowingAllDocuments(string filterString)
+            {
             // Arrange
 
             var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
 
             // Act, Assert
 
-            Assert.IsTrue(manager.FilterString == string.Empty);
+
+                manager.FilterString = filterString;
 
             Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
             Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
