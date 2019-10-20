@@ -1,6 +1,7 @@
 # Working Files List
 
-Copyright © 2016 Anthony Fung
+Copyright © 2016 - 2019 Anthony Fung and The Working Files List Project
+contributors
 
 Working Files List is a Visual Studio 2015/2017 extension. It adds a tool window
 that shows a vertically stacked list of documents that have been opened in the
