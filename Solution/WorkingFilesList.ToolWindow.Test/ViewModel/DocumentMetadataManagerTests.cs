@@ -2315,6 +2315,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 var documents = CreateDocuments(documentMockList);
 
                 var metadataFactoryBuilder = new DocumentMetadataFactoryBuilder();
+
                 metadataFactoryBuilder.FilePathServiceMock
                     .Setup(f => f.ReducePath(
                         It.IsAny<string>(),
@@ -2333,6 +2334,10 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 {
                     DocumentMetadataFactory = factory
                 };
+
+                builder.ProjectItemServiceMock
+                    .Setup(p => p.FindProjectItem(It.IsAny<string>()))
+                    .Returns(Mock.Of<ProjectItem>());
 
                 manager = builder.CreateDocumentMetadataManager();
                 manager.Synchronize(documents, false);
@@ -2353,6 +2358,99 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 return ((IList<DocumentMetadata>)manager
                     .ActiveDocumentMetadata.SourceCollection)
                     .Single(d => d.FullName == documentName);
+            }
+
+            [TestCase("BDoc", new[] { BbbDocument2, AabDocument3 })]
+            [TestCase("bdoc", new[] { BbbDocument2, AabDocument3 })]
+            [TestCase("XXX", new string[0])]
+            [TestCase(null, new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            [TestCase("", new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            [TestCase(" ", new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            public void FilterMatchesExpectedDocumentsWhenOnlyActive(
+                string filterString,
+                string[] expectedMatches)
+            {
+                // Arrange
+
+                var documents = PrepareDocumentsForFilterTest(
+                    out var manager,
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3);
+
+                // Act
+
+                manager.FilterString = filterString;
+
+                // Assert
+
+                var toTest = new[]
+                {
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3
+                };
+
+                foreach (var document in toTest)
+                {
+                    var expectedMatch = expectedMatches.Contains(document);
+
+                    Assert.AreEqual(
+                        expectedMatch,
+                        manager.ActiveDocumentMetadata.Contains(documents[document]));
+
+                    Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[document]));
+                }
+            }
+
+            [TestCase("BDoc", new[] { BbbDocument2, AabDocument3 })]
+            [TestCase("bdoc", new[] { BbbDocument2, AabDocument3 })]
+            [TestCase("XXX", new string[0])]
+            [TestCase(null, new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            [TestCase("", new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            [TestCase(" ", new[] { AaaDocument1, BbbDocument2, AabDocument3 })]
+            public void FilterMatchesExpectedDocumentsWhenOnlyPinned(
+                string filterString,
+                string[] expectedMatches)
+            {
+                // Arrange
+
+                var documents = PrepareDocumentsForFilterTest(
+                    out var manager,
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3);
+
+                manager.TogglePinnedStatus(documents[AaaDocument1]);
+                manager.TogglePinnedStatus(documents[BbbDocument2]);
+                manager.TogglePinnedStatus(documents[AabDocument3]);
+
+                var emptyDocuments = CreateDocuments(new List<Document>());
+                manager.Synchronize(emptyDocuments, false);
+
+                // Act
+
+                manager.FilterString = filterString;
+
+                // Assert
+
+                var toTest = new[]
+                {
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3
+                };
+
+                foreach (var document in toTest)
+                {
+                    var expectedMatch = expectedMatches.Contains(document);
+
+                    Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[document]));
+
+                    Assert.AreEqual(
+                        expectedMatch,
+                        manager.PinnedDocumentMetadata.Contains(documents[document]));
+                }
             }
 
             [TestCase("BDoc", new[] {BbbDocument2, AabDocument3})]
