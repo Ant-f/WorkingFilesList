@@ -2372,24 +2372,20 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 // Arrange
 
-                var documents = PrepareDocumentsForFilterTest(
-                    out var manager,
-                    AaaDocument1,
-                    BbbDocument2,
-                    AabDocument3);
-
-                // Act
-
-                manager.FilterString = filterString;
-
-                // Assert
-
                 var toTest = new[]
                 {
                     AaaDocument1,
                     BbbDocument2,
                     AabDocument3
                 };
+
+                var documents = PrepareDocumentsForFilterTest(out var manager, toTest);
+
+                // Act
+
+                manager.FilterString = filterString;
+
+                // Assert
 
                 foreach (var document in toTest)
                 {
@@ -2415,11 +2411,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 // Arrange
 
-                var documents = PrepareDocumentsForFilterTest(
-                    out var manager,
+                var toTest = new[]
+                {
                     AaaDocument1,
                     BbbDocument2,
-                    AabDocument3);
+                    AabDocument3
+                };
+
+                var documents = PrepareDocumentsForFilterTest(out var manager, toTest);
 
                 manager.TogglePinnedStatus(documents[AaaDocument1]);
                 manager.TogglePinnedStatus(documents[BbbDocument2]);
@@ -2433,13 +2432,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 manager.FilterString = filterString;
 
                 // Assert
-
-                var toTest = new[]
-                {
-                    AaaDocument1,
-                    BbbDocument2,
-                    AabDocument3
-                };
 
                 foreach (var document in toTest)
                 {
@@ -2465,11 +2457,14 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             {
                 // Arrange
 
-                var documents = PrepareDocumentsForFilterTest(
-                    out var manager,
+                var toTest = new[]
+                {
                     AaaDocument1,
                     BbbDocument2,
-                    AabDocument3);
+                    AabDocument3
+                };
+
+                var documents = PrepareDocumentsForFilterTest(out var manager, toTest);
 
                 manager.TogglePinnedStatus(documents[AaaDocument1]);
                 manager.TogglePinnedStatus(documents[BbbDocument2]);
@@ -2480,13 +2475,6 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 manager.FilterString = filterString;
 
                 // Assert
-
-                var toTest = new[]
-                {
-                    AaaDocument1,
-                    BbbDocument2,
-                    AabDocument3
-                };
 
                 foreach (var document in toTest)
                 {
