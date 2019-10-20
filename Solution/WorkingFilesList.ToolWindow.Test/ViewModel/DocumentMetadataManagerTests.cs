@@ -2305,11 +2305,12 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 out IDocumentMetadataManager manager,
                 params string[] docNames)
             {
-                var documentMockList = docNames.Select(d => CreateDocumentWithInfo(new DocumentMetadataInfo
-                {
-                    FullName = d,
-                    ProjectDisplayName = d
-                })).ToList();
+                var documentMockList = docNames.Select(d => CreateDocumentWithInfo(
+                    new DocumentMetadataInfo
+                    {
+                        FullName = d,
+                        ProjectDisplayName = d
+                    })).ToList();
 
                 var documents = CreateDocuments(documentMockList);
 
@@ -2340,25 +2341,41 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 foreach (var d in (IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection)
                 {
                     metadata.Add(d.FullName, d);
-                    manager.TogglePinnedStatus(d);
                 }
-                manager.ActiveDocumentMetadata.Refresh();
 
                 return metadata;
             }
 
-            private static DocumentMetadata GetMetadata(IDocumentMetadataManager manager, string documentName)
+            private static DocumentMetadata GetMetadata(
+                IDocumentMetadataManager manager,
+                string documentName)
             {
-                return ((IList<DocumentMetadata>)manager.ActiveDocumentMetadata.SourceCollection).Single(d => d.FullName == documentName);
+                return ((IList<DocumentMetadata>)manager
+                    .ActiveDocumentMetadata.SourceCollection)
+                    .Single(d => d.FullName == documentName);
             }
 
-            [TestCase("BDoc")]
-            [TestCase("bdoc")]
-            public void FilterMatchesTwoDocuments(string filterString)
+            [TestCase("BDoc", new[] {BbbDocument2, AabDocument3})]
+            [TestCase("bdoc", new[] {BbbDocument2, AabDocument3})]
+            [TestCase("XXX", new string[0])]
+            [TestCase(null, new[] {AaaDocument1, BbbDocument2, AabDocument3})]
+            [TestCase("", new[] {AaaDocument1, BbbDocument2, AabDocument3})]
+            [TestCase(" ", new[] {AaaDocument1, BbbDocument2, AabDocument3})]
+            public void FilterMatchesExpectedDocumentsWhenActiveAndPinned(
+                string filterString,
+                string[] expectedMatches)
             {
                 // Arrange
 
-                var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
+                var documents = PrepareDocumentsForFilterTest(
+                    out var manager,
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3);
+
+                manager.TogglePinnedStatus(documents[AaaDocument1]);
+                manager.TogglePinnedStatus(documents[BbbDocument2]);
+                manager.TogglePinnedStatus(documents[AabDocument3]);
 
                 // Act
 
@@ -2366,71 +2383,44 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
                 // Assert
 
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
+                var toTest = new[]
+                {
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3
+                };
 
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
+                foreach (var document in toTest)
+                {
+                    var expectedMatch = expectedMatches.Contains(document);
 
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
+                    Assert.AreEqual(
+                        expectedMatch,
+                        manager.ActiveDocumentMetadata.Contains(documents[document]));
+
+                    Assert.AreEqual(
+                        expectedMatch,
+                        manager.PinnedDocumentMetadata.Contains(documents[document]));
+                }
             }
 
-            [Test]
-            public void FilterMatchesNoDocuments()
+            [TestCase("XXBDocument4", true)]
+            [TestCase("XXXDocument4", false)]
+            public void FilterMatchesExpectedDocumentsWhenActiveAndPinnedAfterAddingDocument(
+                string newDocumentName,
+                bool expectedMatch)
             {
                 // Arrange
 
-                var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
+                var documents = PrepareDocumentsForFilterTest(
+                    out var manager,
+                    AaaDocument1,
+                    BbbDocument2,
+                    AabDocument3);
 
-                // Act
-
-                manager.FilterString = "XXX";
-
-                // Assert
-
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
-
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
-
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
-            }
-
-            [TestCase(null)]
-            [TestCase("")]
-            [TestCase(" ")]
-            public void FilterIsEmptyShowingAllDocuments(string filterString)
-            {
-                // Arrange
-
-                var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
-
-                // Act, Assert
-
-
-                manager.FilterString = filterString;
-
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
-
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
-
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
-            }
-
-            [Test]
-            public void FilterMatchesAddedDocuments()
-            {
-                // Arrange
-
-                const string document4Name = "XXBDocument4";
-
-                var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
+                manager.TogglePinnedStatus(documents[AaaDocument1]);
+                manager.TogglePinnedStatus(documents[BbbDocument2]);
+                manager.TogglePinnedStatus(documents[AabDocument3]);
 
                 // Act
 
@@ -2438,13 +2428,13 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
                 var newDoc = new DocumentMetadataInfo
                 {
-                    FullName = document4Name,
-                    ProjectDisplayName = document4Name
+                    FullName = newDocumentName,
+                    ProjectDisplayName = newDocumentName
                 };
 
                 manager.Add(newDoc);
-                var document4 = GetMetadata(manager, document4Name);
-                manager.TogglePinnedStatus(document4);
+                var newDocument = GetMetadata(manager, newDocumentName);
+                manager.TogglePinnedStatus(newDocument);
 
                 // Assert
 
@@ -2457,46 +2447,8 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
                 Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
 
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(document4));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(document4));
-            }
-
-            [Test]
-            public void FilterNotMatchesAddedDocuments()
-            {
-                // Arrange
-
-                const string document4Name = "XXXDocument4";
-
-                var documents = PrepareDocumentsForFilterTest(out var manager, AaaDocument1, BbbDocument2, AabDocument3);
-
-                // Act
-
-                manager.FilterString = "BDoc";
-
-                var newDoc = new DocumentMetadataInfo
-                {
-                    FullName = document4Name,
-                    ProjectDisplayName = document4Name
-                };
-
-                manager.Add(newDoc);
-                var document4 = GetMetadata(manager, document4Name);
-                manager.TogglePinnedStatus(document4);
-
-                // Assert
-
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(documents[AaaDocument1]));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(documents[AaaDocument1]));
-
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[BbbDocument2]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[BbbDocument2]));
-
-                Assert.IsTrue(manager.ActiveDocumentMetadata.Contains(documents[AabDocument3]));
-                Assert.IsTrue(manager.PinnedDocumentMetadata.Contains(documents[AabDocument3]));
-
-                Assert.IsFalse(manager.ActiveDocumentMetadata.Contains(document4));
-                Assert.IsFalse(manager.PinnedDocumentMetadata.Contains(document4));
+                Assert.AreEqual(expectedMatch, manager.ActiveDocumentMetadata.Contains(newDocument));
+                Assert.AreEqual(expectedMatch, manager.PinnedDocumentMetadata.Contains(newDocument));
             }
         }
     }
