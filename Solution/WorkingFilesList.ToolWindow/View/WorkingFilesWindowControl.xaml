@@ -588,26 +588,32 @@
             </ToolBar>
         </ToolBarTray>
 
-        <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" >
-            <TextBox DataContext="{Binding DocumentMetadataManager}" x:Name="FilterBox" Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,2,0,5">
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Background" Value="Yellow" />
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="">
-                                <Setter Property="Background" Value="White"></Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
+        <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" Margin="0,0,0,2">
+            <TextBox x:Name="FilterBox"
+                     DataContext="{Binding DocumentMetadataManager}"
+                     Padding="2"
+                     Style="{StaticResource ToolWindowTextBox}"
+                     Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
-            <TextBlock IsHitTestVisible="False" Text="Enter filter term here" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,2,0,5" Foreground="DarkGray">
+
+            <TextBlock Foreground="{DynamicResource VsBrush.ToolWindowText}"
+                       HorizontalAlignment="Left"
+                       IsHitTestVisible="False"
+                       Margin="5,0"
+                       Opacity="0.3"
+                       Text="Search Working Files List"
+                       VerticalAlignment="Center">
+
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
                                 <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=FilterBox}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
