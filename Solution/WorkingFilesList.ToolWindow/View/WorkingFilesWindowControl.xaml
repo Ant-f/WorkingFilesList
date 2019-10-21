@@ -591,7 +591,7 @@
         <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" Margin="0,0,0,2">
             <TextBox x:Name="FilterBox"
                      DataContext="{Binding DocumentMetadataManager}"
-                     Padding="2"
+                     Padding="3,3,26,3"
                      Style="{StaticResource ToolWindowTextBox}"
                      Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
@@ -619,7 +619,15 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
+
+            <Button Command="{Binding ToolWindowCommands.ClearFilterString, Source={StaticResource ViewModel}}"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    ToolTip="Clear Search">
+                <Image Source="Icon/Close_8x_16x.png" Height="16" />
+            </Button>
         </Grid>
+
         <!--Pinned Documents-->
         <Grid DataContext="{Binding DocumentMetadataManager.PinnedDocumentMetadata}"
               d:DataContext="{d:DesignData Source=/DesignTimeData/DesignDocumentMetadata.xaml}"

@@ -36,6 +36,7 @@ namespace WorkingFilesList.Ioc.Modules
             // Tool window commands
 
             Kernel.Bind<ICommand>().To<ActivateWindow>().InSingletonScope();
+            Kernel.Bind<ICommand>().To<ClearFilterString>().InSingletonScope();
             Kernel.Bind<ICommand>().To<CloseDocument>().InSingletonScope();
             Kernel.Bind<ICommand>().To<OpenOptionsPage>().InSingletonScope();
             Kernel.Bind<ICommand>().To<OpenTestFile>().InSingletonScope();

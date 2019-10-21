@@ -22,6 +22,7 @@ namespace WorkingFilesList.Core.Interface
     public interface IToolWindowCommands
     {
         ICommand ActivateWindow { get; }
+        ICommand ClearFilterString { get; }
         ICommand CloseDocument { get; }
         ICommand OpenOptionsPage { get; }
         ICommand OpenTestFile { get; }

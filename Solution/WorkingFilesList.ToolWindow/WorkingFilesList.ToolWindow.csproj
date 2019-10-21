@@ -159,6 +159,7 @@
     <Compile Include="ViewModel\Command\ToggleIsPinned.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\Command\OpenOptionsPage.cs" />
+    <Compile Include="ViewModel\Command\ClearFilterString.cs" />
     <Compile Include="ViewModel\DisplayOrderContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\StoredSettingsRepository.cs" />

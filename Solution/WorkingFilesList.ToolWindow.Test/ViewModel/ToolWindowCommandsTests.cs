@@ -41,6 +41,9 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 Mock.Of<IDocumentMetadataManager>(),
                 Mock.Of<IProjectItemService>());
 
+            var clearFilterString = new ClearFilterString(
+                Mock.Of<IDocumentMetadataManager>());
+
             var closeDocument = new CloseDocument(
                 Mock.Of<DTE2>(),
                 Mock.Of<IDocumentMetadataEqualityService>());
@@ -55,6 +58,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             var commandList = new List<ICommand>
             {
                 activateWindow,
+                clearFilterString,
                 closeDocument,
                 openTestFile,
                 openOptionsPage,
@@ -68,6 +72,7 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
             // Assert
 
             Assert.That(commands.ActivateWindow, Is.EqualTo(activateWindow));
+            Assert.That(commands.ClearFilterString, Is.EqualTo(clearFilterString));
             Assert.That(commands.CloseDocument, Is.EqualTo(closeDocument));
             Assert.That(commands.OpenOptionsPage, Is.EqualTo(openOptionsPage));
             Assert.That(commands.OpenTestFile, Is.EqualTo(openTestFile));

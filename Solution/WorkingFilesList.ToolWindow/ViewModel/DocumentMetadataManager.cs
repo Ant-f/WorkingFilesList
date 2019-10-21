@@ -22,13 +22,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using WorkingFilesList.Core;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.ToolWindow.Interface;
 
 namespace WorkingFilesList.ToolWindow.ViewModel
 {
-    public class DocumentMetadataManager : IDocumentMetadataManager
+    public class DocumentMetadataManager : PropertyChangedNotifier, IDocumentMetadataManager
     {
         private readonly ICollectionViewGenerator _collectionViewGenerator;
         private readonly ICountdownTimer _countdownTimer;
@@ -53,16 +54,16 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         /// </summary>
         public string FilterString
         {
-            get
-            {
-                return _filterString;
-            }
+            get => _filterString;
 
             set
             {
-                // if null, assign empty string. Otherwise, trim leading and trailing whitespace
-                _filterString = value?.Trim() ?? string.Empty;
+                _filterString = value == null
+                    ? string.Empty
+                    : value.Trim();
+
                 _countdownTimer.Restart();
+                OnPropertyChanged();
             }
         }
 
