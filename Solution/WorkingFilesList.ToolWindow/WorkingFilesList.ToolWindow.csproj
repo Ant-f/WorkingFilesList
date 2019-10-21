@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Factory\DocumentMetadataFactory.cs" />
     <Compile Include="Interface\ICollectionViewGenerator.cs" />
+    <Compile Include="Interface\ICountdownTimer.cs" />
     <Compile Include="Interface\IDisplayNameHighlightEvaluator.cs" />
     <Compile Include="Interface\IDisplayOrderContainer.cs" />
     <Compile Include="Interface\IDocumentIconService.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Service\ProjectItemService.cs" />
     <Compile Include="Service\SettingsStoreService.cs" />
     <Compile Include="Service\TestFileNameEvaluator.cs" />
+    <Compile Include="Service\CountdownTimer.cs" />
     <Compile Include="ViewModel\Command\ToggleIsPinned.cs" />
     <Compile Include="ViewModel\Command\OpenTestFile.cs" />
     <Compile Include="ViewModel\Command\OpenOptionsPage.cs" />

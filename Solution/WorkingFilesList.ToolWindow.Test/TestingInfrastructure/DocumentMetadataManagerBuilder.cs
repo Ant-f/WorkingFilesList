@@ -36,6 +36,14 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
         public ICollectionViewGenerator CollectionViewGenerator { get; set; }
 
         /// <summary>
+        /// Timer to pass as constructor parameter when creating new
+        /// <see cref="DocumentMetadataManager"/> instances. A
+        /// <see cref="TestingCountdownTimer"/> instance will be created if
+        /// this property is left null.
+        /// </summary>
+        public ICountdownTimer CountdownTimer { get; set; }
+
+        /// <summary>
         /// Service to test whether metadata structures refer to the same
         /// document, to pass as constructor parameter when creating new
         /// <see cref="DocumentMetadataManager"/> instances. A
@@ -122,6 +130,7 @@ namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure
 
             var manager = new DocumentMetadataManager(
                 CollectionViewGenerator ?? new CollectionViewGenerator(),
+                CountdownTimer ?? new TestingCountdownTimer(),
                 DocumentMetadataEqualityService ?? new DocumentMetadataEqualityService(),
                 DocumentMetadataFactory,
                 NormalizedUsageOrderServiceMock.Object,

@@ -15,6 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using EnvDTE;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
     public class DocumentMetadataManager : IDocumentMetadataManager
     {
         private readonly ICollectionViewGenerator _collectionViewGenerator;
+        private readonly ICountdownTimer _countdownTimer;
         private readonly IDocumentMetadataEqualityService _metadataEqualityService;
         private readonly IDocumentMetadataFactory _documentMetadataFactory;
         private readonly INormalizedUsageOrderService _normalizedUsageOrderService;
@@ -40,17 +42,15 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         private string _filterString = string.Empty;
 
-
-
         public ICollectionView ActiveDocumentMetadata { get; }
         public ICollectionView PinnedDocumentMetadata { get; }
 
         /// <summary>
-        /// string for filename filter
+        /// Only <see cref="DocumentMetadata" /> with a
+        /// <see cref="DocumentMetadata.DisplayName"/> value containing this
+        /// string will be included in <see cref="ActiveDocumentMetadata"/>
+        /// and <see cref="PinnedDocumentMetadata"/>
         /// </summary>
-        /// <value>
-        /// The filter string.
-        /// </value>
         public string FilterString
         {
             get
@@ -62,12 +62,13 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             {
                 // if null, assign empty string. Otherwise, trim leading and trailing whitespace
                 _filterString = value?.Trim() ?? string.Empty;
-                UpdateFilter();
+                _countdownTimer.Restart();
             }
         }
 
         public DocumentMetadataManager(
             ICollectionViewGenerator collectionViewGenerator,
+            ICountdownTimer countdownTimer,
             IDocumentMetadataEqualityService metadataEqualityService,
             IDocumentMetadataFactory documentMetadataFactory,
             INormalizedUsageOrderService normalizedUsageOrderService,
@@ -81,6 +82,10 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
             ActiveDocumentMetadata = InitializeActiveDocumentMetadata();
             PinnedDocumentMetadata = InitializePinnedDocumentMetadata();
+
+            _countdownTimer = countdownTimer;
+            _countdownTimer.Callback = UpdateFilter;
+            _countdownTimer.Interval = TimeSpan.FromMilliseconds(300);
 
             _metadataEqualityService = metadataEqualityService;
             _documentMetadataFactory = documentMetadataFactory;

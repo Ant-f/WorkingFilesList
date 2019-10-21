@@ -2536,6 +2536,49 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                 Assert.AreEqual(expectedMatch, manager.ActiveDocumentMetadata.Contains(newDocument));
                 Assert.AreEqual(expectedMatch, manager.PinnedDocumentMetadata.Contains(newDocument));
             }
+
+            [Test]
+            public void CountdownTimerIsInitialized()
+            {
+                // Arrange
+
+                var timer = new TestingCountdownTimer();
+                var builder = new DocumentMetadataManagerBuilder
+                {
+                    CountdownTimer = timer
+                };
+
+                // Act
+
+                builder.CreateDocumentMetadataManager();
+
+                // Assert
+
+                Assert.That(timer.Callback, Is.Not.Null);
+                Assert.That(timer.Interval, Is.GreaterThan(TimeSpan.Zero));
+            }
+
+            [Test]
+            public void CountdownTimerIsRestartedOnFilterStringChange()
+            {
+                // Arrange
+
+                var timer = Mock.Of<ICountdownTimer>();
+                var builder = new DocumentMetadataManagerBuilder
+                {
+                    CountdownTimer = timer
+                };
+                
+                var manager = builder.CreateDocumentMetadataManager();
+
+                // Act
+
+                manager.FilterString = "New Filter String";
+
+                // Assert
+
+                Mock.Get(timer).Verify(t => t.Restart());
+            }
         }
     }
 }

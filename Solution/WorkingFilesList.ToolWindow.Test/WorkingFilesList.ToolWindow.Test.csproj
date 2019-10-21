@@ -114,6 +114,7 @@
     <Compile Include="TestingInfrastructure\DteEventsSubscriberBuilder.cs" />
     <Compile Include="TestingInfrastructure\InMemorySettingsStore.cs" />
     <Compile Include="TestingInfrastructure\OptionsListsBuilder.cs" />
+    <Compile Include="TestingInfrastructure\TestingCountdownTimer.cs" />
     <Compile Include="TestingInfrastructure\TestingTextWriter.cs" />
     <Compile Include="TestingInfrastructure\TestingTextReader.cs" />
     <Compile Include="TestingInfrastructure\TestingUpdateReactionMapping.cs" />
