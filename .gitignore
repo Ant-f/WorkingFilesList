@@ -30,3 +30,4 @@ _ReSharper*/
 packages/
 **/Server/sqlite3
 *.dtbcache
+**/v16/TestStore
