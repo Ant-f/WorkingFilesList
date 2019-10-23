@@ -588,6 +588,7 @@
             </ToolBar>
         </ToolBarTray>
 
+        <!--Search Bar-->
         <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" Margin="0,0,0,2">
             <TextBox x:Name="FilterBox"
                      DataContext="{Binding DocumentMetadataManager}"
@@ -622,9 +623,47 @@
 
             <Button Command="{Binding ToolWindowCommands.ClearFilterString, Source={StaticResource ViewModel}}"
                     HorizontalAlignment="Right"
-                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    ToolTip="Clear Search">
-                <Image Source="Icon/Close_8x_16x.png" Height="16" />
+                    Margin="1"
+                    ToolTip="Clear Search"
+                    VerticalAlignment="Center">
+                <Grid Height="16">
+                    <Image Source="Icon/Close_8x_16x.png">
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+
+                    <Image IsHitTestVisible="False" Source="Icon/QuickFind_16x.png">
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Grid>
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <Setter Property="IsHitTestVisible" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
         </Grid>
 
