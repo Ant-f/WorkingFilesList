@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -486,7 +486,7 @@ namespace WorkingFilesList.Core.Test.Model
 
             // Act
 
-            preferences.PathSegmentCount = 100;
+            preferences.UnityRefreshDelay = 100;
             preferences.PropertyChanged -= handler;
 
             // Assert
