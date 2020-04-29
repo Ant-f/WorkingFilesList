@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 using Moq;
 using NUnit.Framework;
 using System.ComponentModel;
+using System.Windows;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model.SortOption;
 using WorkingFilesList.Core.Test.TestingInfrastructure;
@@ -590,6 +591,80 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
                     Times.Never);
 
             Assert.That(preferences.UnityRefreshDelay, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void SettingShowConfigurationBarStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.ShowConfigurationBar = false;
+
+            // Act
+
+            preferences.ShowConfigurationBar = showConfigurationBar;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetShowConfigurationBar(showConfigurationBar));
+        }
+
+        [TestCase(true, Visibility.Visible)]
+        [TestCase(false, Visibility.Collapsed)]
+        public void SettingShowConfigurationBarSetsVisibility(bool value, Visibility expected)
+        {
+            // Arrange
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.ShowConfigurationBar = !value;
+
+            // Act
+
+            preferences.ShowConfigurationBar = value;
+
+            // Verify
+
+            Assert.That(preferences.ConfigurationBarVisibility, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void ShowConfigurationBarIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+
+            var builder = new UserPreferencesBuilder();
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.ShowConfigurationBar = showConfigurationBar;
+                });
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetShowConfigurationBar(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
+            Assert.That(preferences.ShowConfigurationBar, Is.EqualTo(showConfigurationBar));
         }
     }
 }

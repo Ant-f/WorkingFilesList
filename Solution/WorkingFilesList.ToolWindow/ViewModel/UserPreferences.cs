@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using WorkingFilesList.Core.Interface;
 using WorkingFilesList.Core.Model;
 using WorkingFilesList.Core.Model.SortOption;
@@ -31,6 +32,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
 
         private ISortOption _documentSortOption;
         private ISortOption _projectSortOption;
+        private Visibility _configurationBarVisibility;
 
         public ISortOption DocumentSortOption
         {
@@ -66,6 +68,23 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             }
         }
 
+        public Visibility ConfigurationBarVisibility
+        {
+            get
+            {
+                return _configurationBarVisibility;
+            }
+
+            private set
+            {
+                if (_configurationBarVisibility != value)
+                {
+                    _configurationBarVisibility = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         protected override void OnAssignProjectColoursUpdate()
         {
             if (_initializing)
@@ -95,6 +114,20 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             }
 
             _storedSettingsRepository.SetHighlightFileName(HighlightFileName);
+        }
+
+        protected override void OnShowConfigurationBarUpdate()
+        {
+            ConfigurationBarVisibility = ShowConfigurationBar
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            if (_initializing)
+            {
+                return;
+            }
+
+            _storedSettingsRepository.SetShowConfigurationBar(ShowConfigurationBar);
         }
 
         protected override void OnShowRecentUsageUpdate()

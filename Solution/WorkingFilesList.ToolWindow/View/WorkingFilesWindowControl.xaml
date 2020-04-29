@@ -1,7 +1,7 @@
 ﻿<!--  Working Files List
       Visual Studio extension tool window that shows a selectable list of files
       that are open in the editor
-      Copyright © 2016 - 2019 Anthony Fung and The Working Files List Project contributors
+      Copyright © 2016 - 2020 Anthony Fung and The Working Files List Project contributors
       
       Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License.
@@ -525,7 +525,8 @@
 
         <!--User Preferences-->
         <ToolBarTray Background="{DynamicResource VsBrush.CommandBarGradient}"
-                     DataContext="{Binding UserPreferences}">
+                     DataContext="{Binding UserPreferences}"
+                     Visibility="{Binding ConfigurationBarVisibility}">
             <ToolBar Background="Transparent">
                 <ComboBox ItemsSource="{Binding OptionsLists.ProjectSortOptions, Source={StaticResource ViewModel}}"
                           SelectedValue="{Binding ProjectSortOptionName}"

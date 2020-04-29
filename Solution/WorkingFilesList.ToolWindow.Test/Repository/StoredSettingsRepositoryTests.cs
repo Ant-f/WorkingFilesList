@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -528,6 +528,53 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             var storedValue = repository.GetShowFileTypeIcons();
             Assert.That(storedValue, Is.EqualTo(showFileTypeIcons));
+        }
+
+        [Test]
+        public void GetShowConfigurationBarReturnsDefaultValueIfNoStoredValueExists()
+        {
+            // Arrange
+
+            var repository = CreateStoredSettingsRepository(
+                out _,
+                out var settingsStoreService);
+
+            // Act
+
+            var value = repository.GetShowConfigurationBar();
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
+
+            Assert.IsTrue(value);
+        }
+
+        [Test]
+        public void ShowConfigurationBarCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+
+            var repository = CreateStoredSettingsRepository(
+                out var settingsStore,
+                out var settingsStoreService);
+
+            // Act
+
+            repository.SetShowConfigurationBar(showConfigurationBar);
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
+
+            var storedValue = repository.GetShowRecentUsage();
+            Assert.That(storedValue, Is.EqualTo(showConfigurationBar));
         }
     }
 }

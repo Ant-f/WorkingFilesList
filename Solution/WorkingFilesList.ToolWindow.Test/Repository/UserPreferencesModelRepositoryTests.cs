@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -474,6 +474,56 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
 
             Mock.Get(settingsRepository).Verify(s =>
                 s.SetProjectSortOptionName(projectSortName));
+        }
+
+        [Test]
+        public void ShowConfigurationBarIsStoredWhenSavingUserPreferencesModel()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
+                p.ShowConfigurationBar == showConfigurationBar);
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>();
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            // Act
+
+            preferencesModelRepository.SaveModel(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s =>
+                s.SetShowConfigurationBar(showConfigurationBar));
+        }
+
+        [Test]
+        public void ShowConfigurationBarIsRestoredWhenLoadingUserPreferencesModel()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
+                s.GetShowConfigurationBar() == showConfigurationBar);
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            var preferences = new UserPreferencesModel();
+
+            // Act
+
+            preferencesModelRepository.LoadInto(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s => s.GetShowConfigurationBar());
+            Assert.That(preferences.ShowConfigurationBar, Is.EqualTo(showConfigurationBar));
         }
     }
 }

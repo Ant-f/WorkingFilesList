@@ -493,5 +493,73 @@ namespace WorkingFilesList.Core.Test.Model
 
             Assert.IsTrue(propertyChangedRaised);
         }
+
+        [Test]
+        public void ShowConfigurationBarDefaultsToTrue()
+        {
+            // Arrange, Act
+
+            var preferences = new UserPreferencesModel();
+
+            // Assert
+
+            Assert.IsTrue(preferences.ShowConfigurationBar);
+        }
+
+        [Test]
+        public void SettingShowConfigurationBarToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool showConfigurationBar = true;
+            var preferences = new UserPreferencesModel();
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.ShowConfigurationBar = showConfigurationBar;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowConfigurationBar = showConfigurationBar;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingShowConfigurationBarToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var preferences = new UserPreferencesModel
+            {
+                ShowConfigurationBar = false
+            };
+
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowConfigurationBar = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }

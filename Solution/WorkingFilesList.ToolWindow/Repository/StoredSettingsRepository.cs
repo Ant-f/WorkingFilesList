@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ namespace WorkingFilesList.ToolWindow.Repository
         private const bool DefaultShowRecentUsage = true;
         private const bool DefaultAssignProjectColours = true;
         private const bool DefaultShowFileTypeIcons = true;
+        private const bool DefaultShowConfigurationBar = true;
         private const bool DefaultHighlightFileName = true;
 
         private readonly ISettingsStoreService _settingsStoreService;
@@ -256,6 +257,33 @@ namespace WorkingFilesList.ToolWindow.Repository
                 store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ShowFileTypeIcons),
+                    value);
+            }
+        }
+
+        public bool GetShowConfigurationBar()
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(true))
+            {
+                var showConfigurationBar = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowConfigurationBar),
+                    DefaultShowConfigurationBar);
+
+                return showConfigurationBar;
+            }
+        }
+
+        public void SetShowConfigurationBar(bool value)
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(false))
+            {
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowConfigurationBar),
                     value);
             }
         }

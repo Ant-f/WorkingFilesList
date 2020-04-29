@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,6 +66,9 @@ namespace WorkingFilesList.ToolWindow.Repository
 
             model.ProjectSortOptionName = _storedSettingsRepository
                 .GetProjectSortOptionName();
+
+            model.ShowConfigurationBar = _storedSettingsRepository
+                .GetShowConfigurationBar();
         }
 
         /// <summary>
@@ -86,6 +89,7 @@ namespace WorkingFilesList.ToolWindow.Repository
             _storedSettingsRepository.SetUnityRefreshDelay(model.UnityRefreshDelay);
             _storedSettingsRepository.SetDocumentSortOptionName(model.DocumentSortOptionName);
             _storedSettingsRepository.SetProjectSortOptionName(model.ProjectSortOptionName);
+            _storedSettingsRepository.SetShowConfigurationBar(model.ShowConfigurationBar);
         }
     }
 }

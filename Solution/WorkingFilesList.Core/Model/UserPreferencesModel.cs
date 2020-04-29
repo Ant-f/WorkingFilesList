@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2020 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ namespace WorkingFilesList.Core.Model
         private bool _assignProjectColours;
         private bool _groupByProject;
         private bool _highlightFileName;
+        private bool _showConfigurationBar = true;
         private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
@@ -81,6 +82,24 @@ namespace WorkingFilesList.Core.Model
                     _highlightFileName = value;
                     OnPropertyChanged();
                     OnHighlightFileNameUpdate();
+                }
+            }
+        }
+
+        public bool ShowConfigurationBar
+        {
+            get
+            {
+                return _showConfigurationBar;
+            }
+
+            set
+            {
+                if (_showConfigurationBar != value)
+                {
+                    _showConfigurationBar = value;
+                    OnPropertyChanged();
+                    OnShowConfigurationBarUpdate();
                 }
             }
         }
@@ -202,6 +221,10 @@ namespace WorkingFilesList.Core.Model
         }
 
         protected virtual void OnHighlightFileNameUpdate()
+        {
+        }
+
+        protected virtual void OnShowConfigurationBarUpdate()
         {
         }
 
