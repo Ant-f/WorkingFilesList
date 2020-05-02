@@ -25,6 +25,7 @@ namespace WorkingFilesList.Core.Model
         private bool _groupByProject;
         private bool _highlightFileName;
         private bool _showConfigurationBar = true;
+        private bool _showSearchBar = true;
         private bool _showFileTypeIcons;
         private bool _showRecentUsage;
         private int _pathSegmentCount;
@@ -100,6 +101,24 @@ namespace WorkingFilesList.Core.Model
                     _showConfigurationBar = value;
                     OnPropertyChanged();
                     OnShowConfigurationBarUpdate();
+                }
+            }
+        }
+
+        public bool ShowSearchBar
+        {
+            get
+            {
+                return _showSearchBar;
+            }
+
+            set
+            {
+                if (_showSearchBar != value)
+                {
+                    _showSearchBar = value;
+                    OnPropertyChanged();
+                    OnShowSearchBarUpdate();
                 }
             }
         }
@@ -225,6 +244,10 @@ namespace WorkingFilesList.Core.Model
         }
 
         protected virtual void OnShowConfigurationBarUpdate()
+        {
+        }
+
+        protected virtual void OnShowSearchBarUpdate()
         {
         }
 

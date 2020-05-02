@@ -69,6 +69,9 @@ namespace WorkingFilesList.ToolWindow.Repository
 
             model.ShowConfigurationBar = _storedSettingsRepository
                 .GetShowConfigurationBar();
+
+            model.ShowSearchBar = _storedSettingsRepository
+                .GetShowSearchBar();
         }
 
         /// <summary>
@@ -90,6 +93,7 @@ namespace WorkingFilesList.ToolWindow.Repository
             _storedSettingsRepository.SetDocumentSortOptionName(model.DocumentSortOptionName);
             _storedSettingsRepository.SetProjectSortOptionName(model.ProjectSortOptionName);
             _storedSettingsRepository.SetShowConfigurationBar(model.ShowConfigurationBar);
+            _storedSettingsRepository.SetShowSearchBar(model.ShowSearchBar);
         }
     }
 }

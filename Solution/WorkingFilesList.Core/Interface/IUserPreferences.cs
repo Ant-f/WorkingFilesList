@@ -39,5 +39,6 @@ namespace WorkingFilesList.Core.Interface
         ISortOption ProjectSortOption { get; }
 
         Visibility ConfigurationBarVisibility { get; }
+        Visibility SearchBarVisibility { get; }
     }
 }

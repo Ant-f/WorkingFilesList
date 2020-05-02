@@ -83,6 +83,7 @@
 
                     <StackPanel>
                         <CheckBox IsChecked="{Binding ShowConfigurationBar, Mode=TwoWay}">Show configuration bar</CheckBox>
+                        <CheckBox IsChecked="{Binding ShowSearchBar, Mode=TwoWay}">Show search bar</CheckBox>
                     </StackPanel>
                 </GroupBox>
 

@@ -576,5 +576,52 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             var storedValue = repository.GetShowRecentUsage();
             Assert.That(storedValue, Is.EqualTo(showConfigurationBar));
         }
+
+        [Test]
+        public void GetShowSearchBarReturnsDefaultValueIfNoStoredValueExists()
+        {
+            // Arrange
+
+            var repository = CreateStoredSettingsRepository(
+                out _,
+                out var settingsStoreService);
+
+            // Act
+
+            var value = repository.GetShowSearchBar();
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(true));
+
+            Assert.IsTrue(value);
+        }
+
+        [Test]
+        public void ShowSearchBarCanBeStoredAndRead()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+
+            var repository = CreateStoredSettingsRepository(
+                out var settingsStore,
+                out var settingsStoreService);
+
+            // Act
+
+            repository.SetShowSearchBar(showSearchBar);
+
+            // Assert
+
+            Mock.Get(settingsStoreService).Verify(s =>
+                s.GetSettingsStore(false));
+
+            Assert.Contains(CollectionName, settingsStore.SettingsStore.Keys);
+
+            var storedValue = repository.GetShowSearchBar();
+            Assert.That(storedValue, Is.EqualTo(showSearchBar));
+        }
     }
 }

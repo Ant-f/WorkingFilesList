@@ -32,6 +32,7 @@ namespace WorkingFilesList.ToolWindow.Repository
         private const bool DefaultAssignProjectColours = true;
         private const bool DefaultShowFileTypeIcons = true;
         private const bool DefaultShowConfigurationBar = true;
+        private const bool DefaultShowSearchBar = true;
         private const bool DefaultHighlightFileName = true;
 
         private readonly ISettingsStoreService _settingsStoreService;
@@ -284,6 +285,33 @@ namespace WorkingFilesList.ToolWindow.Repository
                 store.SetBoolean(
                     _settingsCollectionName,
                     nameof(IUserPreferencesModel.ShowConfigurationBar),
+                    value);
+            }
+        }
+
+        public bool GetShowSearchBar()
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(true))
+            {
+                var showSearchBar = service.SettingsStore.GetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowSearchBar),
+                    DefaultShowSearchBar);
+
+                return showSearchBar;
+            }
+        }
+
+        public void SetShowSearchBar(bool value)
+        {
+            using (var service = _settingsStoreService.GetSettingsStore(false))
+            {
+                var store = (WritableSettingsStore)service.SettingsStore;
+                store.CreateCollection(_settingsCollectionName);
+
+                store.SetBoolean(
+                    _settingsCollectionName,
+                    nameof(IUserPreferencesModel.ShowSearchBar),
                     value);
             }
         }

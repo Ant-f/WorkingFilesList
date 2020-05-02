@@ -525,5 +525,55 @@ namespace WorkingFilesList.ToolWindow.Test.Repository
             Mock.Get(settingsRepository).Verify(s => s.GetShowConfigurationBar());
             Assert.That(preferences.ShowConfigurationBar, Is.EqualTo(showConfigurationBar));
         }
+
+        [Test]
+        public void ShowSearchBarIsStoredWhenSavingUserPreferencesModel()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+
+            var preferences = Mock.Of<IUserPreferencesModel>(p =>
+                p.ShowSearchBar == showSearchBar);
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>();
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            // Act
+
+            preferencesModelRepository.SaveModel(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s =>
+                s.SetShowSearchBar(showSearchBar));
+        }
+
+        [Test]
+        public void ShowSearchBarIsRestoredWhenLoadingUserPreferencesModel()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+
+            var settingsRepository = Mock.Of<IStoredSettingsRepository>(s =>
+                s.GetShowSearchBar() == showSearchBar);
+
+            var preferencesModelRepository = new UserPreferencesModelRepository(
+                settingsRepository);
+
+            var preferences = new UserPreferencesModel();
+
+            // Act
+
+            preferencesModelRepository.LoadInto(preferences);
+
+            // Assert
+
+            Mock.Get(settingsRepository).Verify(s => s.GetShowSearchBar());
+            Assert.That(preferences.ShowSearchBar, Is.EqualTo(showSearchBar));
+        }
     }
 }

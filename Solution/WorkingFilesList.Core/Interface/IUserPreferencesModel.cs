@@ -63,6 +63,12 @@ namespace WorkingFilesList.Core.Interface
         bool ShowConfigurationBar { get; set; }
 
         /// <summary>
+        /// Indicates whether to show the search bar at the top of the Working
+        /// Files List tool window
+        /// </summary>
+        bool ShowSearchBar { get; set; }
+
+        /// <summary>
         /// The number of path segments to display, a path segment being either
         /// a single file or directory name that makes up the full name of a file
         /// </summary>

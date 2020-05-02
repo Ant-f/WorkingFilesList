@@ -590,7 +590,10 @@
         </ToolBarTray>
 
         <!--Search Bar-->
-        <Grid Grid.Row="1" Background="{DynamicResource VsBrush.CommandBarGradient}" Margin="0,0,0,2">
+        <Grid Background="{DynamicResource VsBrush.CommandBarGradient}"
+              Grid.Row="1"
+              Margin="0,0,0,2"
+              Visibility="{Binding UserPreferences.SearchBarVisibility}">
             <TextBox x:Name="FilterBox"
                      DataContext="{Binding DocumentMetadataManager}"
                      Padding="3,3,26,3"

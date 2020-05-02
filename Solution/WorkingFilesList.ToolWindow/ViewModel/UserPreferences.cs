@@ -33,6 +33,7 @@ namespace WorkingFilesList.ToolWindow.ViewModel
         private ISortOption _documentSortOption;
         private ISortOption _projectSortOption;
         private Visibility _configurationBarVisibility;
+        private Visibility _searchBarVisibility;
 
         public ISortOption DocumentSortOption
         {
@@ -85,6 +86,23 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             }
         }
 
+        public Visibility SearchBarVisibility
+        {
+            get
+            {
+                return _searchBarVisibility;
+            }
+
+            private set
+            {
+                if (_searchBarVisibility != value)
+                {
+                    _searchBarVisibility = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         protected override void OnAssignProjectColoursUpdate()
         {
             if (_initializing)
@@ -128,6 +146,20 @@ namespace WorkingFilesList.ToolWindow.ViewModel
             }
 
             _storedSettingsRepository.SetShowConfigurationBar(ShowConfigurationBar);
+        }
+
+        protected override void OnShowSearchBarUpdate()
+        {
+            SearchBarVisibility = ShowSearchBar
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            if (_initializing)
+            {
+                return;
+            }
+
+            _storedSettingsRepository.SetShowSearchBar(ShowSearchBar);
         }
 
         protected override void OnShowRecentUsageUpdate()

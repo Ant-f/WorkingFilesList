@@ -18,7 +18,6 @@
 using Moq;
 using System.Collections.Generic;
 using WorkingFilesList.Core.Interface;
-using WorkingFilesList.ToolWindow.Interface;
 using WorkingFilesList.ToolWindow.ViewModel;
 
 namespace WorkingFilesList.ToolWindow.Test.TestingInfrastructure

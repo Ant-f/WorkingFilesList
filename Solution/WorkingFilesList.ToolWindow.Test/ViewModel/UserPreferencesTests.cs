@@ -666,5 +666,79 @@ namespace WorkingFilesList.ToolWindow.Test.ViewModel
 
             Assert.That(preferences.ShowConfigurationBar, Is.EqualTo(showConfigurationBar));
         }
+
+        [Test]
+        public void SettingShowSearchBarStoresNewValueInRepository()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.ShowSearchBar = false;
+
+            // Act
+
+            preferences.ShowSearchBar = showSearchBar;
+
+            // Verify
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(r => r.SetShowSearchBar(showSearchBar));
+        }
+
+        [TestCase(true, Visibility.Visible)]
+        [TestCase(false, Visibility.Collapsed)]
+        public void SettingShowSearchBarSetsVisibility(bool value, Visibility expected)
+        {
+            // Arrange
+
+            var builder = new UserPreferencesBuilder();
+            var preferences = builder.CreateUserPreferences();
+            preferences.ShowSearchBar = !value;
+
+            // Act
+
+            preferences.ShowSearchBar = value;
+
+            // Verify
+
+            Assert.That(preferences.SearchBarVisibility, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void ShowSearchBarIsRestoredOnInstanceCreation()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+
+            var builder = new UserPreferencesBuilder();
+
+            builder.UserPreferencesModelRepositoryMock
+                .Setup(u => u.LoadInto(It.IsAny<IUserPreferencesModel>()))
+                .Callback<IUserPreferencesModel>(u =>
+                {
+                    u.ShowSearchBar = showSearchBar;
+                });
+
+            // Act
+
+            var preferences = builder.CreateUserPreferences();
+
+            // Assert
+
+            builder.UserPreferencesModelRepositoryMock
+                .Verify(u => u.LoadInto(preferences),
+                    Times.Once());
+
+            builder.StoredSettingsRepositoryMock
+                .Verify(s => s.SetShowSearchBar(
+                    It.IsAny<bool>()),
+                    Times.Never);
+
+            Assert.That(preferences.ShowSearchBar, Is.EqualTo(showSearchBar));
+        }
     }
 }

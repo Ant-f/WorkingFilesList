@@ -561,5 +561,73 @@ namespace WorkingFilesList.Core.Test.Model
 
             Assert.IsTrue(propertyChangedRaised);
         }
+
+        [Test]
+        public void ShowSearchBarDefaultsToTrue()
+        {
+            // Arrange, Act
+
+            var preferences = new UserPreferencesModel();
+
+            // Assert
+
+            Assert.IsTrue(preferences.ShowSearchBar);
+        }
+
+        [Test]
+        public void SettingShowSearchBarToSameValueDoesNotRaisePropertyChanged()
+        {
+            // Arrange
+
+            const bool showSearchBar = true;
+            var preferences = new UserPreferencesModel();
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.ShowSearchBar = showSearchBar;
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowSearchBar = showSearchBar;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsFalse(propertyChangedRaised);
+        }
+
+        [Test]
+        public void SettingShowSearchBarToDifferentValueRaisesPropertyChanged()
+        {
+            // Arrange
+
+            var preferences = new UserPreferencesModel
+            {
+                ShowSearchBar = false
+            };
+
+            var propertyChangedRaised = false;
+
+            var handler = new PropertyChangedEventHandler((s, e) =>
+            {
+                propertyChangedRaised = true;
+            });
+
+            preferences.PropertyChanged += handler;
+
+            // Act
+
+            preferences.ShowSearchBar = true;
+            preferences.PropertyChanged -= handler;
+
+            // Assert
+
+            Assert.IsTrue(propertyChangedRaised);
+        }
     }
 }

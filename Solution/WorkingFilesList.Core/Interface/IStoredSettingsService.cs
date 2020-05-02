@@ -49,6 +49,9 @@ namespace WorkingFilesList.Core.Interface
         bool GetShowConfigurationBar();
         void SetShowConfigurationBar(bool value);
 
+        bool GetShowSearchBar();
+        void SetShowSearchBar(bool value);
+
         void Reset();
     }
 }
