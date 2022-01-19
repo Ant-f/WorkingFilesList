@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="WorkingFilesList.AnthonyFung.7eaac650-4fb8-4977-a31e-873b5a852614" Version="1.6.0" Language="en-US" Publisher="Anthony Fung" />
-        <DisplayName>Working Files List</DisplayName>
+        <Identity Id="WorkingFilesList.2022.AnthonyFung.bceaa983-63af-43ff-864a-1418940aeddb" Version="1.7.0" Language="en-US" Publisher="Anthony Fung" />
+        <DisplayName>Working Files List 2022</DisplayName>
         <Description xml:space="preserve">Visual Studio extension tool window that shows a selectable list of files that are open in the editor</Description>
         <MoreInfo>https://visualstudiogallery.msdn.microsoft.com/b2dfa9d7-4277-47a0-881c-0b6a9a105e51</MoreInfo>
         <License>LICENSE.txt</License>
@@ -12,16 +12,17 @@
         <PreviewImage>Resources\WorkingFilesListPreview.png</PreviewImage>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-        <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0]" />
     </Dependencies>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
 </PackageManifest>
