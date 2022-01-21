@@ -1,7 +1,7 @@
 ﻿// Working Files List
 // Visual Studio extension tool window that shows a selectable list of files
 // that are open in the editor
-// Copyright © 2016 Anthony Fung
+// Copyright © 2016 - 2022 Anthony Fung
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Moq;
 using NUnit.Framework;
 using System.Threading;
 using WorkingFilesList.Core.Controls;
 using WorkingFilesList.Core.Controls.Command;
-using WorkingFilesList.Core.Interface;
+using WorkingFilesList.Core.Test.TestingInfrastructure;
 
 namespace WorkingFilesList.Core.Test.Controls.Command
 {
@@ -78,23 +77,30 @@ namespace WorkingFilesList.Core.Test.Controls.Command
             Assert.DoesNotThrow(() => command.Execute(new object()));
         }
 
-        [Test]
-        public void NumericUpDownValueIsNotDecrementedBeyondMinimum()
+        [TestCase(1, 2, 1)]
+        [TestCase(1, 1, 1)]
+        public void NumericUpDownValueIsNotDecrementedBeyondMinimum(
+            int minimum,
+            int value,
+            int expected)
         {
             // Arrange
 
-            var controlMock = new Mock<IIntValueControl>();
-            controlMock.Setup(c => c.Minimum).Returns(1);
+            var control = new TestingValueControl
+            {
+                Minimum = minimum,
+                Value = value
+            };
 
             var command = new DecrementNumericUpDownValue();
 
             // Act
 
-            command.Execute(controlMock.Object);
+            command.Execute(control);
 
             // Assert
 
-            controlMock.VerifySet(c => c.Value--, Times.Never);
+            Assert.AreEqual(expected, control.Value);
         }
     }
 }
