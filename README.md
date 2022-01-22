@@ -1,15 +1,17 @@
 # Working Files List
 
-Copyright © 2016 - 2020 Anthony Fung and The Working Files List Project
+Copyright © 2016 - 2022 Anthony Fung and The Working Files List Project
 contributors
 
-Working Files List is a Visual Studio 2015/2017/2019 extension. It adds a tool
-window that shows a vertically stacked list of documents that have been opened
-in the editor, with the ability to group and sort entries.
+Working Files List is a Visual Studio extension. Versions up to and including
+1.6.x are compatible with Visual Studio 2015/2017/2019. Version 1.7.0 and up are
+compatible with Visual Studio 2022. It adds a tool window that shows a
+vertically stacked list of documents that have been opened in the editor, with
+the ability to group and sort entries.
 
 ## Installation
 
-Pre-built binaries can be downloaded from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList);
+Pre-built binaries can be downloaded from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList2022) (click [here](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList) for version 1.6.0);
 from within Visual Studio by searching for `working files list` in
 [**Tools**] -> [**Extensions and Updates**]; or the [releases](https://github.com/Ant-f/WorkingFilesList/releases)
 page.
@@ -27,7 +29,7 @@ the menu bar from within Visual Studio.
 
 [Wiki](https://github.com/Ant-f/WorkingFilesList/wiki)
 
-[Visual Studio Marketplace Page](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList)
+[Visual Studio Marketplace Page](https://marketplace.visualstudio.com/items?itemName=Ant-f.WorkingFilesList2022)
 
 ## License
 
