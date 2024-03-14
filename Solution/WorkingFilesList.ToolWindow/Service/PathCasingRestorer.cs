@@ -46,7 +46,12 @@ namespace WorkingFilesList.ToolWindow.Service
 
             var fileInfo = new FileInfo(fullName);
             var parentDirInfo = fileInfo.Directory;
-            var fileName = parentDirInfo.GetFiles(fileInfo.Name)[0].Name;
+            var fileName = fileInfo.Name;
+
+            if (fileInfo.Exists)
+            {
+                fileName = parentDirInfo.GetFiles(fileInfo.Name)[0].Name;
+            }
 
             var returnValue = fileName;
 
