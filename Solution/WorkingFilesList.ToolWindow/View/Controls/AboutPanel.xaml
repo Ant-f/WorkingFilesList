@@ -48,7 +48,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,5" VerticalAlignment="Center">
             <TextBlock FontWeight="Bold" Text="Working Files List" />
-            <TextBlock FontWeight="Bold" Text="Copyright © 2016 - 2022 Anthony Fung and" />
+            <TextBlock FontWeight="Bold" Text="Copyright © 2016 - 2024 Anthony Fung and" />
             <TextBlock FontWeight="Bold" Text="The Working Files List Project contributors" />
         </StackPanel>
 
