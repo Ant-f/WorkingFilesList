@@ -104,17 +104,17 @@ namespace WorkingFilesList
             CancellationToken cancellationToken,
             IProgress<ServiceProgressData> progress)
         {
-            var dte2 = await GetServiceAsync(typeof(DTE)) as DTE2;
-            var kernelFactory = new NinjectKernelFactory();
-            _kernel = kernelFactory.CreateKernel(dte2);
-
-            InitializeServices(_kernel, this);
-
             // When initialized asynchronously, the current thread may be a
             // background thread at this point. Do any initialization that
             // requires the UI thread after switching to the UI thread.
 
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            var dte2 = await GetServiceAsync(typeof(DTE)) as DTE2;
+            var kernelFactory = new NinjectKernelFactory();
+            _kernel = kernelFactory.CreateKernel(dte2);
+
+            InitializeServices(_kernel, this);
             await WorkingFilesWindowCommand.InitializeAsync(this);
         }
 
